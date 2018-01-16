@@ -1,0 +1,68 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+			 xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+			 x:Class="Veganko.Views.ProfilePage"
+			 xmlns:vm="clr-namespace:Veganko.ViewModels;"
+			 xmlns:converters="clr-namespace:Veganko.Converters"
+			 xmlns:controls="clr-namespace:ImageCircle.Forms.Plugin.Abstractions;assembly=ImageCircle.Forms.Plugin.Abstractions">
+    <ContentPage.BindingContext>
+        <vm:ProfileViewModel />
+    </ContentPage.BindingContext>
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <converters:IntToStarConverter x:Key="intToStarConverter"/>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+    <ContentPage.Content>
+        <StackLayout>
+            <AbsoluteLayout VerticalOptions="Fill" HeightRequest="250">
+                <Image Source="coniferous_forest.jpg" Aspect="Fill"/>
+                <StackLayout AbsoluteLayout.LayoutBounds="0.5, 0.5, 0.45, 1.0" AbsoluteLayout.LayoutFlags="All" Spacing="0">
+                    <StackLayout VerticalOptions="CenterAndExpand">
+                        <controls:CircleImage 
+							HeightRequest="145"
+							WidthRequest="145"
+							HorizontalOptions="CenterAndExpand"
+							BorderColor="LightBlue"
+							BorderThickness="1"
+							Aspect="AspectFill"
+							Source="bostjan_kamnik.png"/>
+                        <Label Text="ZALA PAŽEK" FontSize="25" TextColor="White" FontAttributes="Bold" HorizontalTextAlignment="Center"/>
+                        <Label Text="Long time cheese hater" TextColor="White" FontSize="16" Margin="0, 5.0, 0, 0" HorizontalTextAlignment="Center"/>
+                        <Label Text="VEGAN" FontSize="16" TextColor="White" FontAttributes="Bold" HorizontalTextAlignment="Center"/>
+                    </StackLayout>
+                </StackLayout>
+            </AbsoluteLayout>
+            <ListView ItemsSource="{x:Static vm:ProfileViewModel.Data}" HasUnevenRows="True" VerticalOptions="FillAndExpand">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <Grid Padding="10" RowSpacing="10" ColumnSpacing="10">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="*"/>
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <Image
+								HeightRequest="66"
+								WidthRequest="66"
+								HorizontalOptions="Center"
+								VerticalOptions="Fill"
+								Aspect="AspectFill"
+								Source="{Binding ImageSrc}"
+								Grid.RowSpan="3"/>
+                                <Label Grid.Column="1" Text="{Binding ProductName}" VerticalOptions="EndAndExpand"/>
+                                <Label Grid.Column="1" Grid.Row="1" Text="{Binding Rating, Converter = {StaticResource intToStarConverter}}" VerticalOptions="Start"/>
+                                <Label Grid.Column="1" Grid.Row="2" Text="{Binding Text}" VerticalOptions="Start"/>
+                            </Grid>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

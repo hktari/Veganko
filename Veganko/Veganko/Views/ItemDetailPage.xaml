@@ -1,0 +1,43 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Veganko.Views.ItemDetailPage"
+             Title="{Binding Title}">
+    <StackLayout Spacing="20" Padding="15">
+        <Label Text="Text:" FontSize="Medium" />
+        <Label Text="{Binding Item.Text}" FontSize="Small"/>
+        <Label Text="Description:" FontSize="Medium" />
+        <Label Text="{Binding Item.Description}" FontSize="Small"/>
+    </StackLayout>
+    <!--<ListView ItemsSource="{x:Static vm:ProfileViewModel.Data}" HasUnevenRows="True">
+        <ListView.ItemTemplate>
+            <DataTemplate>
+                <ViewCell>
+                    <Grid Padding="10" RowSpacing="10" ColumnSpacing="10">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <controls:CircleImage 
+									HeightRequest="66"
+									WidthRequest="66"
+									HorizontalOptions="CenterAndExpand"
+									BorderColor="LightBlue"
+									BorderThickness="1"
+									VerticalOptions="CenterAndExpand"
+									Aspect="AspectFill"
+									Source="{Binding ImageSrc}"
+									Grid.RowSpan="2"/>
+                        <Label Grid.Column="1" Text="{Binding ProductName}" VerticalOptions="EndAndExpand" BackgroundColor="Chocolate"/>
+                        <Label Grid.Column="1" Grid.Row="1" Text="{Binding Text}" VerticalOptions="Start" BackgroundColor="Beige"/>
+                    </Grid>
+                </ViewCell>
+            </DataTemplate>
+        </ListView.ItemTemplate>
+    </ListView>-->
+</ContentPage>
