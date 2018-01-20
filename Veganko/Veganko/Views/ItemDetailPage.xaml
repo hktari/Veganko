@@ -9,35 +9,4 @@
         <Label Text="Description:" FontSize="Medium" />
         <Label Text="{Binding Item.Description}" FontSize="Small"/>
     </StackLayout>
-    <!--<ListView ItemsSource="{x:Static vm:ProfileViewModel.Data}" HasUnevenRows="True">
-        <ListView.ItemTemplate>
-            <DataTemplate>
-                <ViewCell>
-                    <Grid Padding="10" RowSpacing="10" ColumnSpacing="10">
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto"/>
-                            <RowDefinition Height="*"/>
-                        </Grid.RowDefinitions>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto"/>
-                            <ColumnDefinition Width="*"/>
-                        </Grid.ColumnDefinitions>
-
-                        <controls:CircleImage 
-									HeightRequest="66"
-									WidthRequest="66"
-									HorizontalOptions="CenterAndExpand"
-									BorderColor="LightBlue"
-									BorderThickness="1"
-									VerticalOptions="CenterAndExpand"
-									Aspect="AspectFill"
-									Source="{Binding ImageSrc}"
-									Grid.RowSpan="2"/>
-                        <Label Grid.Column="1" Text="{Binding ProductName}" VerticalOptions="EndAndExpand" BackgroundColor="Chocolate"/>
-                        <Label Grid.Column="1" Grid.Row="1" Text="{Binding Text}" VerticalOptions="Start" BackgroundColor="Beige"/>
-                    </Grid>
-                </ViewCell>
-            </DataTemplate>
-        </ListView.ItemTemplate>
-    </ListView>-->
 </ContentPage>

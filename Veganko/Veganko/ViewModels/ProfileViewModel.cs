@@ -5,15 +5,18 @@ using System.Text;
 
 namespace Veganko.ViewModels
 {
-    public struct Comment
-    {
-        public string ProductName { get; set; }
-        public int Rating { get; set; }
-        public string ImageSrc { get; set; }
-        public string Text { get; set; }
-    }
     public class ProfileViewModel : BaseViewModel
     {
+        // TODO: use Comments property from Product class ? 
+        // Or filter the products and comments on the server
+        // coz there is a database...
+        public struct Comment
+        {
+            public string ProductName { get; set; }
+            public int Rating { get; set; }
+            public string ImageSrc { get; set; }
+            public string Text { get; set; }
+        }
         public static ObservableCollection<Comment> Data = new ObservableCollection<Comment>
         {
             new Comment { ProductName = "Vegan Pizza No.2", Rating = 3, ImageSrc = "raspeberry_meringue.jpg", Text = "Well, it's not cheese..." },

@@ -1,0 +1,85 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+			 xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+			 xmlns:vm="clr-namespace:Veganko.ViewModels"
+			 xmlns:converter="clr-namespace:Veganko.Converters"
+             xmlns:controls="clr-namespace:ImageCircle.Forms.Plugin.Abstractions;assembly=ImageCircle.Forms.Plugin.Abstractions"
+			 x:Class="Veganko.Views.ProductDetailPage"
+			 Padding="10"
+			 BindingContext="{x:Static vm:ProductDetailViewModel.Product}">
+    <!--<ContentPage.BindingContext>
+		<vm:ProductDetailViewModel/>
+	</ContentPage.BindingContext>-->
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <converter:IntToStarConverter x:Key="IntToStarConverter"/>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+    <ContentPage.Content>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <Label Grid.Column="0" Grid.Row="0" Text="{Binding Name}" FontSize="Large" FontAttributes="Bold"/>
+            <Label Grid.Column="1" Grid.Row="0" Text="{Binding Rating, Converter = {StaticResource IntToStarConverter}}" FontSize="Large"/>
+            <Image Grid.Column="1" Grid.Row="1" Source="raspeberry_meringue.jpg"/>
+            <Label Grid.Column="0" Grid.Row="1" Text="{Binding Description}" FontSize="Small"/>
+            <StackLayout Grid.Column="1" Grid.Row="2" Orientation="Horizontal">
+                <StackLayout.Children>
+                    <!--TODO-->
+                    <Image
+										HeightRequest="22"
+										WidthRequest="22"
+										HorizontalOptions="Center"
+										VerticalOptions="Fill"
+										Aspect="AspectFit"
+										Source="circle_icon.png"/>
+                    <Image
+										HeightRequest="22"
+										WidthRequest="22"
+										HorizontalOptions="Center"
+										VerticalOptions="Fill"
+										Aspect="AspectFit"
+										Source="circle_icon.png"/>
+                </StackLayout.Children>
+            </StackLayout>
+            <ListView Grid.ColumnSpan="2" Grid.Row="3" ItemsSource="{Binding Comments}" HasUnevenRows="True">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <Grid Padding="10" RowSpacing="10" ColumnSpacing="10">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="*"/>
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+
+                                <controls:CircleImage 
+									HeightRequest="66"
+									WidthRequest="66"
+									HorizontalOptions="CenterAndExpand"
+									BorderColor="LightBlue"
+									BorderThickness="1"
+									VerticalOptions="CenterAndExpand"
+									Aspect="AspectFill"
+									Source="circle_icon.png"
+									Grid.RowSpan="2"/>
+                                <Label Grid.Column="1" Text="{Binding Username}" VerticalOptions="EndAndExpand"/>
+                                <Label Grid.Column="2" Grid.Row="0" Text="{Binding Rating, Converter = {StaticResource IntToStarConverter}}" HorizontalOptions="End"/>
+                                <Label Grid.Column="1" Grid.Row="1" Text="{Binding Text}" VerticalOptions="Start"/>
+                            </Grid>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>
