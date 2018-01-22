@@ -20,6 +20,7 @@ namespace Veganko.Models
 
     public class Product
     {
+        public string Id { get; set; }
         public string Name { get; set; }
         public ImageSource Image { get; set; }
         public string Description { get; set; }

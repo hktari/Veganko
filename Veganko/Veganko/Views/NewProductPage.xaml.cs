@@ -9,18 +9,18 @@ using Veganko.Models;
 namespace Veganko.Views
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class NewItemPage : ContentPage
+    public partial class NewProductPage : ContentPage
     {
-        public Item Item { get; set; }
+        public Product Product { get; set; }
 
-        public NewItemPage()
+        public NewProductPage()
         {
             InitializeComponent();
 
-            Item = new Item
+            Product = new Product
             {
-                Text = "Item name",
-                Description = "This is an item description."
+                Name = "Product name",
+                Description = "This is a description of the product."
             };
 
             BindingContext = this;
@@ -28,7 +28,7 @@ namespace Veganko.Views
 
         async void Save_Clicked(object sender, EventArgs e)
         {
-            MessagingCenter.Send(this, "AddItem", Item);
+            MessagingCenter.Send(this, "AddItem", Product);
             await Navigation.PopModalAsync();
         }
     }

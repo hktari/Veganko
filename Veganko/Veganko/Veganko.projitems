@@ -17,14 +17,11 @@
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Converters\IntToStarConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\Comment.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Models\Item.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\Product.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\IDataStore.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\MockDataStore.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\AboutViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\BaseViewModel.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)ViewModels\ItemDetailViewModel.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)ViewModels\ItemsViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\ProductDetailViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\ProductViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\ProfileViewModel.cs" />
@@ -35,14 +32,8 @@
     <Compile Include="$(MSBuildThisFileDirectory)Views\AboutPage.xaml.cs">
       <DependentUpon>AboutPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="$(MSBuildThisFileDirectory)Views\ItemDetailPage.xaml.cs">
-      <DependentUpon>ItemDetailPage.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="$(MSBuildThisFileDirectory)Views\ItemsPage.xaml.cs">
-      <DependentUpon>ItemsPage.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="$(MSBuildThisFileDirectory)Views\NewItemPage.xaml.cs">
-      <DependentUpon>NewItemPage.xaml</DependentUpon>
+    <Compile Include="$(MSBuildThisFileDirectory)Views\NewProductPage.xaml.cs">
+      <DependentUpon>NewProductPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Views\ProductDetailPage.xaml.cs">
       <DependentUpon>ProductDetailPage.xaml</DependentUpon>
@@ -65,13 +56,7 @@
     <EmbeddedResource Include="$(MSBuildThisFileDirectory)Views\AboutPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Views\ItemDetailPage.xaml">
-      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
-    </EmbeddedResource>
-    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Views\ItemsPage.xaml">
-      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
-    </EmbeddedResource>
-    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Views\NewItemPage.xaml">
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Views\NewProductPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
   </ItemGroup>
