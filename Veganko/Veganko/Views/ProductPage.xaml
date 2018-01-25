@@ -1,6 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+<views:BaseContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:views="clr-namespace:Veganko.Views"
              xmlns:vm="clr-namespace:Veganko.ViewModels"
              x:Class="Veganko.Views.ProductPage">
     <ContentPage.ToolbarItems>
@@ -65,4 +66,4 @@
             </ListView.ItemTemplate>
         </ListView>
     </ContentPage.Content>
-</ContentPage>
+</views:BaseContentPage>

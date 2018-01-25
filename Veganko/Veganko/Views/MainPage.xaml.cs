@@ -12,5 +12,12 @@ namespace Veganko.Views
 		{
 			InitializeComponent ();
 		}
-	}
+
+        protected override void OnCurrentPageChanged()
+        {
+            base.OnCurrentPageChanged();
+
+            Title = CurrentPage?.Title;
+        }
+    }
 }

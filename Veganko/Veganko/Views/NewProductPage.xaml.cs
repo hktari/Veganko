@@ -11,7 +11,7 @@ using Veganko.Extensions;
 namespace Veganko.Views
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class NewProductPage : ContentPage
+    public partial class NewProductPage : BaseContentPage
     {
         public Product Product { get; set; }
 

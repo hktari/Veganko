@@ -10,7 +10,7 @@ using Xamarin.Forms.Xaml;
 namespace Veganko.Views
 {
 	[XamlCompilation(XamlCompilationOptions.Compile)]
-	public partial class ProfilePage : ContentPage
+	public partial class ProfilePage : BaseContentPage
 	{
 		public ProfilePage ()
 		{

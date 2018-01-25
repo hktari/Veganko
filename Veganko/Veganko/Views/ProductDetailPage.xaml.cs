@@ -10,7 +10,7 @@ using Xamarin.Forms.Xaml;
 namespace Veganko.Views
 {
 	[XamlCompilation(XamlCompilationOptions.Compile)]
-	public partial class ProductDetailPage : ContentPage
+	public partial class ProductDetailPage : BaseContentPage
 	{
         ProductDetailViewModel vm;
 		public ProductDetailPage (ProductDetailViewModel vm)
