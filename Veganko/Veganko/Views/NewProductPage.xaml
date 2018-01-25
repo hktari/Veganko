@@ -1,17 +1,48 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms" 
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
+			 xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
+			 xmlns:converters="clr-namespace:Veganko.Converters"
+             xmlns:controls="clr-namespace:Veganko.Controls"
              x:Class="Veganko.Views.NewProductPage"
-		     Title="New Product">
-    <ContentPage.ToolbarItems>
-        <ToolbarItem Text="Save" Clicked="Save_Clicked" />
-    </ContentPage.ToolbarItems>
-    <ContentPage.Content>
-        <StackLayout Spacing="20" Padding="15">
-            <Label Text="Text" FontSize="Medium" />
-            <Entry Text="{Binding Product.Name}" FontSize="Small" />
-            <Label Text="Description" FontSize="Medium" />
-            <Editor Text="{Binding Product.Description}" FontSize="Small" Margin="0" />
-        </StackLayout>
-    </ContentPage.Content>
+			 Title="Dodajanje"
+			 Padding="10">
+	<ContentPage.ToolbarItems>
+		<ToolbarItem Text="Save" Clicked="Save_Clicked" />
+	</ContentPage.ToolbarItems>
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <converters:IntToEnumConverter x:Key="IntToEnumConverter"/>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+	<ContentPage.Content>
+		<ScrollView>
+			<Grid>
+				<Grid.RowDefinitions>
+					<RowDefinition Height="Auto"/>
+					<RowDefinition Height="Auto"/>
+					<RowDefinition Height="Auto"/>
+					<RowDefinition Height="Auto"/>
+					<RowDefinition Height="Auto"/>
+					<RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="0.5*"/>
+					<RowDefinition Height="3*"/>
+				</Grid.RowDefinitions>
+				<Label Grid.Column="0" Grid.Row="0" Text="Ime izdelka:" FontSize="Medium" />
+				<Entry Grid.Column="0" Grid.Row="1" Text="{Binding Product.Name}" FontSize="Medium" Margin="0" />
+				<Label Grid.Column="0" Grid.Row="2" Text="Vrsta izdelka:" FontSize="Medium" />
+                <Picker x:Name="TypePicker" Grid.Column="0" Grid.Row="3" SelectedItem="{Binding Product.Type, Converter={StaticResource IntToEnumConverter}}"/>
+                <Label Grid.Column="0" Grid.Row="4" Text="Znamka:" FontSize="Medium" />
+				<Entry Grid.Column="0" Grid.Row="5" Text="{Binding Product.Brand}" FontSize="Small" />
+				<Label Grid.Column="0" Grid.Row="6" Grid.ColumnSpan="2" Text="Opis:" FontSize="Medium" />
+				<Editor Grid.Column="0" Grid.Row="7" Grid.ColumnSpan="2" Text="{Binding Product.Description}" FontSize="Small" Margin="0"/>
+				<Button Grid.Column="1" Grid.Row="0" Grid.RowSpan="4" Image="qr.jpg" BackgroundColor="Transparent" HorizontalOptions="Center" VerticalOptions="Center"/>
+				<StackLayout Grid.Column="0" Grid.Row="8" Grid.ColumnSpan="2" Spacing="12">
+                    <controls:ProductClassifierView x:Name="ProductClassifierView">
+                    </controls:ProductClassifierView>
+                    <Image Source="raspeberry_meringue.jpg" Aspect="AspectFill" WidthRequest="250" HeightRequest="200" HorizontalOptions="CenterAndExpand" VerticalOptions="Center"/>
+				</StackLayout>
+			</Grid>
+		</ScrollView>
+	</ContentPage.Content>
 </ContentPage>
