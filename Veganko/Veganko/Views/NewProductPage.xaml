@@ -39,7 +39,7 @@
 				<Label Grid.Column="0" Grid.Row="6" Grid.ColumnSpan="2" Text="Opis:" FontSize="Medium" />
 				<Editor Grid.Column="0" Grid.Row="7" Grid.ColumnSpan="2" Text="{Binding Product.Description}" FontSize="Small" Margin="0"/>
 				<Button Grid.Column="1" Grid.Row="0" Grid.RowSpan="4" Image="qr.jpg" Clicked="Scan_Clicked" BackgroundColor="Transparent" HorizontalOptions="Center" VerticalOptions="Center"/>
-				<StackLayout Grid.Column="0" Grid.Row="8" Grid.ColumnSpan="2" Spacing="12">
+                <StackLayout Grid.Column="0" Grid.Row="8" Grid.ColumnSpan="2" Spacing="12">
                     <controls:SelectableProductClassifierView x:Name="SelectableProductClassifierView" Selected="{Binding Product.ProductClassifiers}"/>
                     <Image Source="{Binding Product.Image}" Aspect="AspectFill" WidthRequest="250" HeightRequest="200" HorizontalOptions="CenterAndExpand" VerticalOptions="Center"/>
 				</StackLayout>

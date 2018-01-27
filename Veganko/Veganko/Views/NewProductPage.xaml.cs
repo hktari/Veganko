@@ -79,6 +79,11 @@ namespace Veganko.Views
             if (result != null)
             {
                 vm.Product.Barcode = result.Text;
+                await DisplayAlert("Obvestilo", "Skeniranje končano !", "OK");
+            }
+            else
+            {
+                await DisplayAlert("Obvestilo", "Napaka pri skeniranju !", "OK");
             }
         }
     }

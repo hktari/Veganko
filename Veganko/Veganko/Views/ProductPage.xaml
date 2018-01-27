@@ -42,7 +42,7 @@
 								Grid.RowSpan="3"/>
                             <Label Grid.Column="1" Text="{Binding Name}" VerticalOptions="EndAndExpand"/>
                             <Label Grid.Column="1" Grid.Row="1" Text="{Binding Description}" VerticalOptions="Start"/>
-                            <!--<controls:ProductClassifierView Grid.Column="1" Grid.Row="2" Source="{Binding ProductClassifiers}" HorizontalAlignment="Start"/>-->
+                            <controls:ProductClassifierView Grid.Column="1" Grid.Row="2" Source="{Binding ProductClassifiers}" HorizontalAlignment="Start"/>
                         </Grid>
                     </ViewCell>
                 </DataTemplate>

@@ -10,6 +10,21 @@ namespace Veganko.ViewModels
     {
         public Product Product { get; set; }
         
+        public string Barcode
+        {
+            get
+            {
+                return Product.Barcode;
+            }
+            set
+            {
+                if (Product.Barcode == value)
+                    return;
+                Product.Barcode = value;
+                OnPropertyChanged(nameof(Barcode));
+            }
+        }
+
         public NewProductViewModel()
         {
             Product = new Product
