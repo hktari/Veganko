@@ -56,6 +56,7 @@ namespace Veganko.UWP
                 Xamarin.Forms.Forms.Init(e);
 
                 ImageCircleRenderer.Init();
+                ZXing.Net.Mobile.Forms.WindowsUniversal.ZXingScannerViewRenderer.Init();
 
                 if (e.PreviousExecutionState == ApplicationExecutionState.Terminated)
                 {

@@ -69,20 +69,17 @@ namespace Veganko.Views
             MessagingCenter.Send(this, "AddItem", vm.Product);
             await Navigation.PopModalAsync();
         }
+
         async void Scan_Clicked(object sender, EventArgs e)
         {
+            var scanner = new ZXing.Mobile.MobileBarcodeScanner();
 
-//#if __ANDROID__
-//            // Initialize the scanner first so it can track the current context
-//            MobileBarcodeScanner.Initialize(Application);
-//#endif
+            var result = await scanner.Scan();
 
-            //var scanner = new ZXing.Mobile.MobileBarcodeScanner();
-
-            //var result = await scanner.Scan();
-
-            //if (result != null)
-            //    Console.WriteLine("Scanned Barcode: " + result.Text);
+            if (result != null)
+            {
+                vm.Product.Barcode = result.Text;
+            }
         }
     }
 }
