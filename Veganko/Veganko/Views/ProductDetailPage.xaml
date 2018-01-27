@@ -3,8 +3,9 @@
 			 xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:views="clr-namespace:Veganko.Views"
 			 xmlns:converter="clr-namespace:Veganko.Converters"
-             xmlns:controls="clr-namespace:ImageCircle.Forms.Plugin.Abstractions;assembly=ImageCircle.Forms.Plugin.Abstractions"
-			 x:Class="Veganko.Views.ProductDetailPage"
+             xmlns:circleImageControl="clr-namespace:ImageCircle.Forms.Plugin.Abstractions;assembly=ImageCircle.Forms.Plugin.Abstractions"
+			 xmlns:controls="clr-namespace:Veganko.Controls" 
+             x:Class="Veganko.Views.ProductDetailPage"
 			 Padding="10">
     <ContentPage.Resources>
         <ResourceDictionary>
@@ -24,25 +25,7 @@
                 <Label Grid.Column="1" Grid.Row="0" Text="{Binding Product.Rating, Converter = {StaticResource IntToStarConverter}}" FontSize="Large"/>
                 <Image Grid.Column="1" Grid.Row="1" Source="{Binding Product.Image}"/>
                 <Label Grid.Column="0" Grid.Row="1" Text="{Binding Product.Description}" FontSize="Small"/>
-                <StackLayout Grid.Column="1" Grid.Row="2" Orientation="Horizontal">
-                    <StackLayout.Children>
-                        <!--TODO-->
-                        <Image
-										HeightRequest="22"
-										WidthRequest="22"
-										HorizontalOptions="Center"
-										VerticalOptions="Fill"
-										Aspect="AspectFit"
-										Source="circle_icon.png"/>
-                        <Image
-										HeightRequest="22"
-										WidthRequest="22"
-										HorizontalOptions="Center"
-										VerticalOptions="Fill"
-										Aspect="AspectFit"
-										Source="circle_icon.png"/>
-                    </StackLayout.Children>
-                </StackLayout>
+                <controls:ProductClassifierView Grid.Column="1" Grid.Row="2" Source="{Binding Product.ProductClassifiers}" HorizontalAlignment="Start"/>
                 <ListView Grid.ColumnSpan="2" Grid.Row="3" ItemsSource="{Binding Product.Comments}" HasUnevenRows="True">
                     <ListView.ItemTemplate>
                         <DataTemplate>
@@ -58,7 +41,7 @@
                                         <ColumnDefinition Width="*"/>
                                     </Grid.ColumnDefinitions>
 
-                                    <controls:CircleImage 
+                                    <circleImageControl:CircleImage 
 									HeightRequest="66"
 									WidthRequest="66"
 									HorizontalOptions="CenterAndExpand"

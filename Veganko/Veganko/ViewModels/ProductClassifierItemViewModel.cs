@@ -70,5 +70,10 @@ namespace Veganko.ViewModels
 
             opacity = InactiveOpacity;
         }
+        public ProductClassifierItemViewModel(ProductClassifier classifier, FileImageSource image)
+        {
+            Classifier = classifier;
+            Image = image;
+        }
     }
 }

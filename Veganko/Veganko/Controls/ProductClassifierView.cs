@@ -15,75 +15,98 @@ namespace Veganko.Controls
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class ProductClassifierView : ContentView
     {
-        private double buttonSize = 22.0d;
-        public double ButtonSize
+        protected virtual Dictionary<ProductClassifier, string> ImageSource => new Dictionary<ProductClassifier, string>
         {
-            get { return buttonSize; }
-            set { buttonSize = value; }
+            { ProductClassifier.Vegeterijansko, "ico_vegetarian.png" },
+            { ProductClassifier.Vegansko, "ico_vegan.png" },
+            { ProductClassifier.Pesketarijansko, "ico_pescetarian.png" },
+            { ProductClassifier.GlutenFree, "ico_gluten_free.png" },
+            { ProductClassifier.RawVegan, "ico_raw_vegan.png" },
+            { ProductClassifier.CrueltyFree, "ico_cruelty_free.png" },
+        };
+
+        public static readonly BindableProperty SourceProperty =
+            BindableProperty.Create(nameof(Source), typeof(List<ProductClassifier>), typeof(ProductClassifierView), null, propertyChanged: OnSourceChanged);
+
+        protected double viewSize = 22.0d;
+        public double ViewSize
+        {
+            get { return viewSize; }
+            set { viewSize = value; }
         }
 
-        private StackOrientation orientation = StackOrientation.Horizontal;
+        private LayoutOptions horizontalAlignment = LayoutOptions.Center;
+        public LayoutOptions HorizontalAlignment
+        {
+            get { return horizontalAlignment; }
+            set { horizontalAlignment = value; }
+        } 
+        
+        protected StackOrientation orientation = StackOrientation.Horizontal;
         public StackOrientation Orientation
         {
             get { return orientation; }
             set { orientation = value; }
         }
 
-        private List<ProductClassifier> selected = new List<ProductClassifier>();
-        public IEnumerable<ProductClassifier> Selected
-        {
-            get { return selected; }
-        }
-
-        private Dictionary<ProductClassifier, string> source = new Dictionary<ProductClassifier, string>();
-        public Dictionary<ProductClassifier, string> Source
+        protected List<ProductClassifier> source = new List<ProductClassifier>();
+        public virtual List<ProductClassifier> Source
         {
             get
             {
-                return source;
+                return (List<ProductClassifier>)GetValue(SourceProperty);
             }
             set
             {
-                source = value;
-                // re-initialize the buttons and state of the viewmodel
-                selected.Clear();
-                var stackLayout = new StackLayout { Orientation = orientation, HorizontalOptions = LayoutOptions.Center };
-                foreach (var item in source)
-                {
-                    var image = new Image();
-                    ProductClassifierItemViewModel vm;
-                    image.BindingContext = vm = new ProductClassifierItemViewModel(item.Key, item.Value, HandleButtonClickCommand);
-                    image.SetBinding(Image.SourceProperty, nameof(ProductClassifierItemViewModel.Image));
-                    image.SetBinding(Image.OpacityProperty, nameof(ProductClassifierItemViewModel.Opacity));
-                    image.WidthRequest = image.HeightRequest = ButtonSize;
-                    image.HorizontalOptions = LayoutOptions.Center;
-                    image.Aspect = Aspect.AspectFill;
-                    TapGestureRecognizer gestureRecognizer = new TapGestureRecognizer() { BindingContext = vm };
-                    gestureRecognizer.SetBinding(TapGestureRecognizer.CommandProperty, nameof(ProductClassifierItemViewModel.ClickedCommand));
-                    image.GestureRecognizers.Add(gestureRecognizer);
-                    stackLayout.Children.Add(image);
-                }
-                Content = stackLayout;
+                SetValue(SourceProperty, value);
+                HandleSourceChanged(value);
             }
         }
 
-        Command HandleButtonClickCommand => new Command(
-            (param) =>
+        private static void OnSourceChanged(BindableObject bindable, object oldValue, object newValue)
+        {
+            var view = bindable as ProductClassifierView;
+            view.HandleSourceChanged(newValue as List<ProductClassifier>);
+        }
+
+        public virtual void HandleSourceChanged(List<ProductClassifier> newSource)
+        {
+            if (newSource == null)
+                return;
+            SetViewContent(CreateView(newSource));
+        }
+
+        protected void SetViewContent(IEnumerable<View> views)
+        {
+            var stackLayout = new StackLayout { Orientation = orientation, HorizontalOptions = horizontalAlignment};
+            foreach (var item in views)
             {
-                var vm = param as ProductClassifierItemViewModel;
-                if (vm.IsSelected)
-                {
-                    Debug.Assert(!Selected.Contains(vm.Classifier));
-                    selected.Add(vm.Classifier);
-                }
-                else
-                {
-                    Debug.Assert(Selected.Contains(vm.Classifier));
-                    selected.Remove(vm.Classifier);
-                }
-                string tmp = "";
-                selected.ForEach(item => tmp += $"{item}, ");
-                Console.WriteLine(tmp);
-            });
+                stackLayout.Children.Add(item);
+            }
+            Content = stackLayout;
+        }
+        
+        protected string GetImageForClassifer(ProductClassifier classifier)
+        {
+            return ImageSource.Single((kv) => kv.Key == classifier).Value;
+        }
+
+        private List<View> CreateView(List<ProductClassifier> source)
+        {
+            List<View> views = new List<View>();
+            foreach (var classifier in source)
+            {
+                var image = new Image();
+                ProductClassifierItemViewModel vm;
+                image.BindingContext = vm = new ProductClassifierItemViewModel(classifier, GetImageForClassifer(classifier));
+                image.SetBinding(Image.SourceProperty, nameof(ProductClassifierItemViewModel.Image));
+                image.WidthRequest = image.HeightRequest = ViewSize;
+                image.HorizontalOptions = LayoutOptions.Center;
+                image.Aspect = Aspect.AspectFill;
+                views.Add(image);
+            }
+            return views;
+        }
+
     }
 }

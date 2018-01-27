@@ -23,10 +23,10 @@ namespace Veganko.Services
                     Id = Guid.NewGuid().ToString(),
                     Name = "Vegan Cheese", Description = "100% VEGAN",
                     Image = "raspeberry_meringue.jpg", Rating = 5,
-                    ProductClassifiers = new ObservableCollection<ProductClassifier>
+                    ProductClassifiers = new List<ProductClassifier>
                     {
-                        ProductClassifier.VEGAN,
-                        ProductClassifier.GLUTENFREE
+                        ProductClassifier.Vegansko,
+                        ProductClassifier.GlutenFree
                     },
                     Comments = new ObservableCollection<Comment>
                     {
@@ -76,21 +76,21 @@ namespace Veganko.Services
                 {
                     Id = Guid.NewGuid().ToString(),
                     Name = "Lepotna krema", Description = "Za fajn namazane roke", Image = "raspeberry_meringue.jpg",
-                    ProductClassifiers = new ObservableCollection<ProductClassifier>
+                    ProductClassifiers = new List<ProductClassifier>
                     {
-                        ProductClassifier.VEGAN,
-                        ProductClassifier.GLUTENFREE,
-                        ProductClassifier.CRUELTYFREE
+                        ProductClassifier.Vegansko,
+                        ProductClassifier.GlutenFree,
+                        ProductClassifier.CrueltyFree
                     }
                 },
                 new Product
                 {
                     Id = Guid.NewGuid().ToString(),
                     Name = "Čokoladni namaz", Description = "Kdo pa nima rad nutelle... Še posebej, če je vegan.", Image = "raspeberry_meringue.jpg",
-                    ProductClassifiers = new ObservableCollection<ProductClassifier>
+                    ProductClassifiers = new List<ProductClassifier>
                     {
-                        ProductClassifier.VEGAN,
-                        ProductClassifier.GLUTENFREE
+                        ProductClassifier.Vegansko,
+                        ProductClassifier.GlutenFree
                     }
                 }
             };

@@ -7,40 +7,82 @@ using Xamarin.Forms.Xaml;
 using Veganko.Models;
 using System.Linq;
 using Veganko.Extensions;
+using System.Collections.ObjectModel;
+using Veganko.ViewModels;
 
 namespace Veganko.Views
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class NewProductPage : BaseContentPage
     {
-        public Product Product { get; set; }
+        public Dictionary<ProductType, List<ProductClassifier>> ClassifierDictionary => new Dictionary<ProductType, List<ProductClassifier>>
+        {
+            {
+                ProductType.Hrana, new List<ProductClassifier> 
+                {
+                    ProductClassifier.Vegeterijansko,
+                    ProductClassifier.Vegansko,
+                    ProductClassifier.GlutenFree,
+                    ProductClassifier.RawVegan,
+                    ProductClassifier.Pesketarijansko}
+            },
+            {
+                ProductType.Pijaca, new List<ProductClassifier>
+                {
+                    ProductClassifier.Vegeterijansko,
+                    ProductClassifier.Vegansko,
+                    ProductClassifier.GlutenFree,
+                    ProductClassifier.RawVegan,
+                    ProductClassifier.Pesketarijansko
+                }
+            },
+            {
+                ProductType.Kozmetika, new List<ProductClassifier>
+                {
+                    ProductClassifier.Vegeterijansko,
+                    ProductClassifier.Vegansko,
+                    ProductClassifier.CrueltyFree
+                }
+            }
+        };
+
+        NewProductViewModel vm;
 
         public NewProductPage()
         {
             InitializeComponent();
 
-            Product = new Product
-            {
-                Name = "Product name",
-                Description = "This is a description of the product."
-            };
+            BindingContext = vm = new NewProductViewModel();
+            TypePicker.ItemsSource = Enum.GetNames(typeof(ProductType));
+            TypePicker.SelectedIndexChanged += TypePickerSelectedIndexChanged;
+        }
 
-            BindingContext = this;
-            TypePicker.ItemsSource = Enum.GetNames(typeof(ProductType)).Select(b => b.SplitCamelCase()).ToList();
-            ProductClassifierView.Source = new Dictionary<ProductClassifier, string>
-            {
-                { ProductClassifier.VEGETARIAN, "ico_vegetarian.png" },
-                { ProductClassifier.VEGAN, "ico_vegan.png" },
-                { ProductClassifier.PESCETARIAN, "ico_pescetarian.png" },
-                { ProductClassifier.GLUTENFREE, "ico_gluten_free.png" },
-                { ProductClassifier.RAW_VEGAN, "ico_raw_vegan.png" }
-            };
+        private void TypePickerSelectedIndexChanged(object sender, EventArgs e)
+        {
+            var picker = sender as Picker;
+            var type = (ProductType)Enum.Parse(typeof(ProductType), picker.SelectedItem as string, true);
+            SelectableProductClassifierView.Source = ClassifierDictionary[type] ?? new List<ProductClassifier>();
         }
 
         async void Save_Clicked(object sender, EventArgs e)
         {
-            MessagingCenter.Send(this, "AddItem", Product);
+            MessagingCenter.Send(this, "AddItem", vm.Product);
             await Navigation.PopModalAsync();
+        }
+        async void Scan_Clicked(object sender, EventArgs e)
+        {
+
+//#if __ANDROID__
+//            // Initialize the scanner first so it can track the current context
+//            MobileBarcodeScanner.Initialize(Application);
+//#endif
+
+            //var scanner = new ZXing.Mobile.MobileBarcodeScanner();
+
+            //var result = await scanner.Scan();
+
+            //if (result != null)
+            //    Console.WriteLine("Scanned Barcode: " + result.Text);
         }
     }
 }
