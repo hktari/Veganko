@@ -18,7 +18,10 @@ namespace Veganko.Views
         public Dictionary<ProductType, List<ProductClassifier>> ClassifierDictionary => new Dictionary<ProductType, List<ProductClassifier>>
         {
             {
-                ProductType.Hrana, new List<ProductClassifier> 
+                ProductType.NOT_SET, new List<ProductClassifier>()
+            },
+            {
+                ProductType.Hrana, new List<ProductClassifier>
                 {
                     ProductClassifier.Vegeterijansko,
                     ProductClassifier.Vegansko,
@@ -86,6 +89,12 @@ namespace Veganko.Views
             {
                 await DisplayAlert("Obvestilo", "Napaka pri skeniranju !", "OK");
             }
+        }
+
+        protected override void OnAppearing()
+        {
+            base.OnAppearing();
+            vm.PageAppeared.Execute(null);
         }
     }
 }

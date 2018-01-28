@@ -8,8 +8,20 @@ namespace Veganko.ViewModels
 {
     public class NewProductViewModel : BaseViewModel
     {
-        public Product Product { get; set; }
-        
+        private Product product = new Product { Image = "raspeberry_meringue.jpg" };
+        public Product Product
+        {
+            get
+            {
+                return product;
+            }
+            set
+            {
+                SetProperty(ref product, value);
+            }
+        }
+        public Command PageAppeared => new Command(OnPageAppeared);
+
         public string Barcode
         {
             get
@@ -24,8 +36,8 @@ namespace Veganko.ViewModels
                 OnPropertyChanged(nameof(Barcode));
             }
         }
-
-        public NewProductViewModel()
+        
+        private void OnPageAppeared(object parameter)
         {
             Product = new Product
             {
