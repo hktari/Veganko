@@ -4,23 +4,19 @@
             xmlns:views="clr-namespace:Veganko.Views"
             x:Class="Veganko.Views.MainPage">
     <TabbedPage.Children>
-        <NavigationPage Title="Browse">
-            <NavigationPage.Icon>
-                <OnPlatform x:TypeArguments="FileImageSource">
-                    <On Platform="iOS" Value="icon.png"/>
-                </OnPlatform>
-            </NavigationPage.Icon>
+        <NavigationPage Icon="home_icon.png">
             <x:Arguments>
                 <views:ProductPage />
             </x:Arguments>
         </NavigationPage>
-        
-        <NavigationPage Title="About">
-            <NavigationPage.Icon>
-                <OnPlatform x:TypeArguments="FileImageSource">
-                    <On Platform="iOS" Value="icon.png"/>
-                </OnPlatform>
-            </NavigationPage.Icon>
+        <views:NewProductPage />
+        <views:ProfilePage />
+        <NavigationPage Icon="icon.png">
+            <x:Arguments>
+                <views:ProfilePage />
+            </x:Arguments>
+        </NavigationPage>
+        <NavigationPage Icon="icon.png">
             <x:Arguments>
                 <views:ProfilePage />
             </x:Arguments>

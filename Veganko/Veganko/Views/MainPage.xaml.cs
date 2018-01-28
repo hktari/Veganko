@@ -1,5 +1,6 @@
 ﻿using System;
-
+using System.Linq;
+using Veganko.Models;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -11,7 +12,7 @@ namespace Veganko.Views
 		public MainPage ()
 		{
 			InitializeComponent ();
-		}
+        }
 
         protected override void OnCurrentPageChanged()
         {

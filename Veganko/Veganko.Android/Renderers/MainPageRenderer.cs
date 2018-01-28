@@ -36,6 +36,16 @@ namespace Veganko.Droid.Renderers
         {
         }
 
+        /// <summary>
+        /// When The CurrentPage property changes programatically
+        /// </summary>
+        private void OnCurentPageChanged(object sender, System.EventArgs e)
+        {
+            int idx = Element.Children.IndexOf(Element.CurrentPage);
+            LoadPageContent(idx);
+            _bottomBar.SelectTabAtPosition(idx, true);
+        }
+
         protected override void OnElementChanged(ElementChangedEventArgs<MainPage> e)
         {
             base.OnElementChanged(e);
@@ -104,6 +114,7 @@ namespace Veganko.Droid.Renderers
         private void InitializeElement(MainPage element)
         {
             PopulateChildren(element);
+            element.CurrentPageChanged += OnCurentPageChanged;
         }
 
         private void PopulateChildren(MainPage element)

@@ -64,10 +64,11 @@ namespace Veganko.Views
             SelectableProductClassifierView.Source = ClassifierDictionary[type] ?? new List<ProductClassifier>();
         }
 
-        async void Save_Clicked(object sender, EventArgs e)
+        void Save_Clicked(object sender, EventArgs e)
         {
             MessagingCenter.Send(this, "AddItem", vm.Product);
-            await Navigation.PopModalAsync();
+            var mainPage = App.Current.MainPage as TabbedPage;
+            mainPage.CurrentPage = mainPage.Children[0];
         }
 
         async void Scan_Clicked(object sender, EventArgs e)

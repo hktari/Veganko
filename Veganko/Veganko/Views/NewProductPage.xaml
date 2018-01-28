@@ -8,9 +8,10 @@
              x:Class="Veganko.Views.NewProductPage"
 			 Title="Dodajanje"
 			 Padding="10">
-	<ContentPage.ToolbarItems>
+	<!--<ContentPage.ToolbarItems>
 		<ToolbarItem Text="Save" Clicked="Save_Clicked" />
-	</ContentPage.ToolbarItems>
+	</ContentPage.ToolbarItems>-->
+    
     <ContentPage.Resources>
         <ResourceDictionary>
             <converters:StringToEnumConverter x:Key="StringToEnumConverter"/>
@@ -29,7 +30,8 @@
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="0.5*"/>
 					<RowDefinition Height="3*"/>
-				</Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
 				<Label Grid.Column="0" Grid.Row="0" Text="Ime izdelka:" FontSize="Medium" />
 				<Entry Grid.Column="0" Grid.Row="1" Text="{Binding Product.Name}" FontSize="Medium" Margin="0" />
 				<Label Grid.Column="0" Grid.Row="2" Text="Vrsta izdelka:" FontSize="Medium" />
@@ -42,8 +44,9 @@
                 <StackLayout Grid.Column="0" Grid.Row="8" Grid.ColumnSpan="2" Spacing="12">
                     <controls:SelectableProductClassifierView x:Name="SelectableProductClassifierView" Selected="{Binding Product.ProductClassifiers}"/>
                     <Image Source="{Binding Product.Image}" Aspect="AspectFill" WidthRequest="250" HeightRequest="200" HorizontalOptions="CenterAndExpand" VerticalOptions="Center"/>
-				</StackLayout>
-			</Grid>
+                </StackLayout>
+                <Button Grid.Column="0" Grid.Row="9" Grid.ColumnSpan="2" Clicked="Save_Clicked" Text="Shrani"/>
+            </Grid>
 		</ScrollView>
 	</ContentPage.Content>
 </views:BaseContentPage>

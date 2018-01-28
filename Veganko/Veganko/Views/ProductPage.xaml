@@ -5,9 +5,10 @@
              xmlns:controls="clr-namespace:Veganko.Controls"
              xmlns:vm="clr-namespace:Veganko.ViewModels"
              x:Class="Veganko.Views.ProductPage">
-    <ContentPage.ToolbarItems>
+    <!--<ContentPage.ToolbarItems>
         <ToolbarItem Text="Add" Clicked="AddItem_Clicked" />
-    </ContentPage.ToolbarItems>
+    </ContentPage.ToolbarItems>-->
+    
     <ContentPage.Content>
         <ListView 
             x:Name="ProductsListView"
