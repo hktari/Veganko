@@ -38,5 +38,10 @@ namespace Veganko.Models
         public ProductType Type { get; set; }
         public int Rating { get; set; }
         public ObservableCollection<Comment> Comments { get; set; }
+        
+        public Product()
+        {
+            Id = Name = Brand = Barcode = Description = "";
+        }
     }
 }

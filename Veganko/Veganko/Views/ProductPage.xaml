@@ -5,14 +5,19 @@
              xmlns:controls="clr-namespace:Veganko.Controls"
              xmlns:vm="clr-namespace:Veganko.ViewModels"
              x:Class="Veganko.Views.ProductPage">
-    <!--<ContentPage.ToolbarItems>
-        <ToolbarItem Text="Add" Clicked="AddItem_Clicked" />
-    </ContentPage.ToolbarItems>-->
-    
     <ContentPage.Content>
-        <ListView 
+        <StackLayout Padding="10, 0, 10, 10">
+            <StackLayout Orientation="Horizontal" Margin="0, 0, 0, 5">
+                <Button Command="{Binding SearchBarcodeCommand}" Image="ico_gluten_free.png" HorizontalOptions="End" VerticalOptions="Center" HeightRequest="30" WidthRequest="30"/>
+                <StackLayout Padding="5, 0" Orientation="Horizontal" HorizontalOptions="FillAndExpand" BackgroundColor="DarkKhaki">
+                    <Entry Text="{Binding SearchText}" TextColor="LightGray" HorizontalOptions="FillAndExpand"/>
+                    <Button Command="{Binding SearchClickedCommand}" Image="ico_vegan.png" HorizontalOptions="End" VerticalOptions="Center" HeightRequest="30" WidthRequest="30"/>
+                </StackLayout>
+            </StackLayout>
+            
+            <ListView 
             x:Name="ProductsListView"
-            ItemsSource="{Binding Products}" 
+            ItemsSource="{Binding SearchResult}" 
             HasUnevenRows="True" 
             VerticalOptions="FillAndExpand"
             ItemSelected="OnProductSelected"
@@ -20,20 +25,20 @@
             IsPullToRefreshEnabled="true"
             IsRefreshing="{Binding IsBusy, Mode=OneWay}"
             CachingStrategy="RecycleElement">
-            <ListView.ItemTemplate>
-                <DataTemplate>
-                    <ViewCell>
-                        <Grid Padding="10" RowSpacing="10" ColumnSpacing="10">
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="Auto"/>
-                                <RowDefinition Height="Auto"/>
-                                <RowDefinition Height="Auto"/>
-                            </Grid.RowDefinitions>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="Auto"/>
-                                <ColumnDefinition Width="*"/>
-                            </Grid.ColumnDefinitions>
-                            <Image
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <Grid RowSpacing="10" ColumnSpacing="10">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <Image
 								HeightRequest="66"
 								WidthRequest="66"
 								HorizontalOptions="Center"
@@ -41,13 +46,14 @@
 								Aspect="AspectFill"
 								Source="{Binding Image}"
 								Grid.RowSpan="3"/>
-                            <Label Grid.Column="1" Text="{Binding Name}" VerticalOptions="EndAndExpand"/>
-                            <Label Grid.Column="1" Grid.Row="1" Text="{Binding Description}" VerticalOptions="Start"/>
-                            <controls:ProductClassifierView Grid.Column="1" Grid.Row="2" Source="{Binding ProductClassifiers}" HorizontalAlignment="Start"/>
-                        </Grid>
-                    </ViewCell>
-                </DataTemplate>
-            </ListView.ItemTemplate>
-        </ListView>
+                                <Label Grid.Column="1" Text="{Binding Name}" VerticalOptions="EndAndExpand"/>
+                                <Label Grid.Column="1" Grid.Row="1" Text="{Binding Description}" VerticalOptions="Start"/>
+                                <controls:ProductClassifierView Grid.Column="1" Grid.Row="2" Source="{Binding ProductClassifiers}" HorizontalAlignment="Start"/>
+                            </Grid>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </StackLayout>
     </ContentPage.Content>
 </views:BaseContentPage>
