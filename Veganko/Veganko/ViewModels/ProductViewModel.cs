@@ -6,6 +6,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Veganko.Controls;
 using Veganko.Models;
 using Veganko.Views;
 using Xamarin.Forms;
@@ -17,6 +18,7 @@ namespace Veganko.ViewModels
         public Command LoadItemsCommand { get; set; }
         public Command SearchClickedCommand => new Command(OnSearchClicked);
         public Command SearchBarcodeCommand => new Command(OnBarcodeSearch);
+        public Command SwitchFilteringOptions => new Command(OnSwitchFilteringOptions);
 
         string searchText = "";
         public string SearchText
@@ -43,13 +45,74 @@ namespace Veganko.ViewModels
             }
         }
 
+        private bool showProductClassifiers = false;
+        public bool ShowProductClassifiers
+        {
+            get
+            {
+                return showProductClassifiers;
+            }
+            set
+            {
+                SetProperty(ref showProductClassifiers, value);
+            }
+        }
+
+        ObservableCollection<ProductClassifier> selectedProductClassifiers;
+        public ObservableCollection<ProductClassifier> SelectedProductClassifiers
+        {
+            get
+            {
+                return selectedProductClassifiers;
+            }
+            set
+            {
+                SetProperty(ref selectedProductClassifiers, value);
+            }
+        }
+
+        ObservableCollection<ProductType> selectedProductTypes;
+        public ObservableCollection<ProductType> SelectedProductTypes
+        {
+            get
+            {
+                return selectedProductTypes;
+            }
+            set
+            {
+                SetProperty(ref selectedProductTypes, value);
+            }
+        }
+
         public ObservableCollection<Product> Products { get; private set; }
+
+        public List<ProductClassifier> ProductClassifiers => new List<ProductClassifier>
+        {
+            ProductClassifier.Vegeterijansko,
+            ProductClassifier.Vegansko,
+            ProductClassifier.Pesketarijansko,
+            ProductClassifier.GlutenFree,
+            ProductClassifier.RawVegan,
+            ProductClassifier.CrueltyFree
+        };
+
+        public List<ProductType> ProductTypes => new List<ProductType>
+        {
+            ProductType.Hrana,
+            ProductType.Pijaca,
+            ProductType.Kozmetika
+        };
 
         public ProductViewModel()
         {
-            Title = "Browse";
+            Title = "Iskanje";
             Products = new ObservableCollection<Product>();
             SearchResult = new ObservableCollection<Product>();
+            SelectedProductClassifiers = new ObservableCollection<ProductClassifier>();
+            SelectedProductClassifiers.CollectionChanged += OnSelectedProductClassifierChanged;
+            SelectedProductTypes = new ObservableCollection<ProductType>();
+            SelectedProductTypes.CollectionChanged += OnSelectedProductTypeChanged;
+
             LoadItemsCommand = new Command(async () => await ExecuteLoadItemsCommand());
 
             MessagingCenter.Subscribe<NewProductPage, Product>(this, "AddItem", async (obj, item) =>
@@ -60,6 +123,74 @@ namespace Veganko.ViewModels
             });
 
             Products.CollectionChanged += OnProductsCollectionChanged;
+        }
+
+        private void OnSelectedProductClassifierChanged(object sender, NotifyCollectionChangedEventArgs e)
+        {
+            var view = sender as SelectableEnumImageView<ProductClassifier>;
+
+            IEnumerable<Product> matches;
+            switch (e.Action)
+            {
+                case NotifyCollectionChangedAction.Add:
+                    foreach (ProductClassifier classifier in e.NewItems)
+                    {
+                        matches = Products.Where(p => p.ProductClassifiers.Contains(classifier));
+                        foreach(var product in matches)
+                        {
+                            if (!SearchResult.Contains(product))
+                            {
+                                SearchResult.Add(product);
+
+                            }
+                        }
+                    }
+                    break;
+                case NotifyCollectionChangedAction.Remove:
+                    foreach (ProductClassifier classifier in e.OldItems)
+                    {
+                        matches = SearchResult.Where(p => p.ProductClassifiers.Contains(classifier));
+                        foreach (var product in matches)
+                            SearchResult.Remove(product);
+                    }
+                    break;
+                default:
+                    throw new NotImplementedException("Unhandled collection changed action !");
+            }
+        }
+
+        private void OnSelectedProductTypeChanged(object sender, NotifyCollectionChangedEventArgs e)
+        {
+            var view = sender as SelectableEnumImageView<ProductClassifier>;
+
+            IEnumerable<Product> matches;
+            switch (e.Action)
+            {
+                case NotifyCollectionChangedAction.Add:
+                    foreach (ProductType type in e.NewItems)
+                    {
+                        matches = Products.Where(p => p.Type == type);
+                        foreach (var product in matches)
+                        {
+                            if (!SearchResult.Contains(product))
+                            {
+                                SearchResult.Add(product);
+
+                            }
+                        }
+                    }
+                    break;
+                case NotifyCollectionChangedAction.Remove:
+                    foreach (ProductType type in e.OldItems)
+                    {
+                        matches = SearchResult.Where(p => p.Type == type);
+                        foreach (var product in matches)
+                            SearchResult.Remove(product);
+                    }
+                    break;
+                default:
+                    throw new NotImplementedException("Unhandled collection changed action !");
+            }
         }
 
         private void OnProductsCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
@@ -82,6 +213,20 @@ namespace Veganko.ViewModels
             }
         }
 
+        private void AddRemoveToSearchResult(NotifyCollectionChangedAction action, Product item)
+        {
+            switch (action)
+            {
+                case NotifyCollectionChangedAction.Add:
+                    
+                    break;
+                case NotifyCollectionChangedAction.Remove:
+                    SearchResult.Add(item);
+                        
+                    break;
+            }
+        }
+
         void OnSearchClicked()
         {
             FilterProducts();
@@ -95,6 +240,11 @@ namespace Veganko.ViewModels
 
             var query = Products.Where(p => p.Barcode == result.Text);
             ClearAndAddToSearchResult(query);
+        }
+
+        private void OnSwitchFilteringOptions()
+        {
+            ShowProductClassifiers = !ShowProductClassifiers;
         }
 
         async Task ExecuteLoadItemsCommand()

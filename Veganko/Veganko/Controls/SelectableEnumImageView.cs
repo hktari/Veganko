@@ -10,28 +10,27 @@ using Xamarin.Forms;
 
 namespace Veganko.Controls
 {
-	public class SelectableProductClassifierView : ProductClassifierView, INotifyPropertyChanged
+	public class SelectableEnumImageView<T> : EnumImageView<T>, INotifyPropertyChanged
 	{
         public static readonly BindableProperty SelectedProperty =
-            BindableProperty.Create(nameof(Selected), typeof(List<ProductClassifier>), typeof(SelectableProductClassifierView), new List<ProductClassifier>(), BindingMode.OneWayToSource);
+            BindableProperty.Create(nameof(Selected), typeof(List<T>), typeof(SelectableEnumImageView<T>), new List<T>(), BindingMode.OneWayToSource);
 
-        public List<ProductClassifier> Selected
+        public List<T> Selected
 		{
 			get
             {
-                return (List<ProductClassifier>)GetValue(SelectedProperty);
+                return (List<T>)GetValue(SelectedProperty);
             }
             set
             {
                 SetValue(SelectedProperty, value);
-                //OnPropertyChanged(nameof(Selected));
             }
 		}
         
 		Command HandleButtonClickCommand => new Command(
 			(param) =>
 			{
-				var vm = param as ProductClassifierItemViewModel;
+				var vm = param as EnumImageItemViewModel<T>;
 				if (vm.IsSelected)
 				{
 					Debug.Assert(!Selected.Contains(vm.Classifier));
@@ -47,7 +46,7 @@ namespace Veganko.Controls
 				Console.WriteLine(tmp);
 			});
 	    
-        public override void HandleSourceChanged(List<ProductClassifier> newSource)
+        public override void HandleSourceChanged(List<T> newSource)
         {
             // re-initialize the buttons and state of the viewmodel
             Selected.Clear();
@@ -56,21 +55,21 @@ namespace Veganko.Controls
             SetViewContent(CreateView(newSource));
         }
 
-        List<View> CreateView(List<ProductClassifier> source)
+        List<View> CreateView(List<T> source)
         {
             List<View> views = new List<View>();
             foreach (var classifier in source)
             {
                 var image = new Image();
-                ProductClassifierItemViewModel vm;
-                image.BindingContext = vm = new ProductClassifierItemViewModel(classifier, GetImageForClassifer(classifier), HandleButtonClickCommand);
-                image.SetBinding(Image.SourceProperty, nameof(ProductClassifierItemViewModel.Image));
-                image.SetBinding(Image.OpacityProperty, nameof(ProductClassifierItemViewModel.Opacity));
+                EnumImageItemViewModel<T> vm;
+                image.BindingContext = vm = new EnumImageItemViewModel<T>(classifier, GetImageForClassifer(classifier), HandleButtonClickCommand);
+                image.SetBinding(Image.SourceProperty, nameof(EnumImageItemViewModel<T>.Image));
+                image.SetBinding(Image.OpacityProperty, nameof(EnumImageItemViewModel<T>.Opacity));
                 image.WidthRequest = image.HeightRequest = ViewSize;
                 image.HorizontalOptions = LayoutOptions.Center;
                 image.Aspect = Aspect.AspectFill;
                 TapGestureRecognizer gestureRecognizer = new TapGestureRecognizer() { BindingContext = vm };
-                gestureRecognizer.SetBinding(TapGestureRecognizer.CommandProperty, nameof(ProductClassifierItemViewModel.ClickedCommand));
+                gestureRecognizer.SetBinding(TapGestureRecognizer.CommandProperty, nameof(EnumImageItemViewModel<T>.ClickedCommand));
 
                 image.GestureRecognizers.Add(gestureRecognizer);
                 views.Add(image);

@@ -7,7 +7,7 @@ using Xamarin.Forms;
 
 namespace Veganko.ViewModels
 {
-    class ProductClassifierItemViewModel : INotifyPropertyChanged
+    class EnumImageItemViewModel<T> : INotifyPropertyChanged
     {
         public double ActiveOpacity = 1.0d;
 
@@ -49,7 +49,7 @@ namespace Veganko.ViewModels
 
         public FileImageSource Image { get; set; }
 
-        public ProductClassifier Classifier { get; set; }
+        public T Classifier { get; set; }
 
         public Command ClickedCommand => new Command(
             () =>
@@ -62,7 +62,7 @@ namespace Veganko.ViewModels
 
         Command onButtonClickCallback;
 
-        public ProductClassifierItemViewModel(ProductClassifier classifier, FileImageSource image, Command onButtonClickCallback)
+        public EnumImageItemViewModel(T classifier, FileImageSource image, Command onButtonClickCallback)
         {
             Classifier = classifier;
             Image = image;
@@ -70,7 +70,7 @@ namespace Veganko.ViewModels
 
             opacity = InactiveOpacity;
         }
-        public ProductClassifierItemViewModel(ProductClassifier classifier, FileImageSource image)
+        public EnumImageItemViewModel(T classifier, FileImageSource image)
         {
             Classifier = classifier;
             Image = image;

@@ -64,7 +64,7 @@ namespace Veganko.Views
         {
             var picker = sender as Picker;
             var type = (ProductType)Enum.Parse(typeof(ProductType), picker.SelectedItem as string, true);
-            SelectableProductClassifierView.Source = ClassifierDictionary[type] ?? new List<ProductClassifier>();
+            SelectableEnumImageView.Source = ClassifierDictionary[type] ?? new List<ProductClassifier>();
         }
 
         void Save_Clicked(object sender, EventArgs e)

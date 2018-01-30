@@ -4,7 +4,9 @@
              xmlns:views="clr-namespace:Veganko.Views"
 			 xmlns:converter="clr-namespace:Veganko.Converters"
              xmlns:circleImageControl="clr-namespace:ImageCircle.Forms.Plugin.Abstractions;assembly=ImageCircle.Forms.Plugin.Abstractions"
-			 xmlns:controls="clr-namespace:Veganko.Controls" 
+			 xmlns:controls="clr-namespace:Veganko.Controls"
+             xmlns:models="clr-namespace:Veganko.Models"
+             xmlns:local="clr-namespace:Veganko"
              x:Class="Veganko.Views.ProductDetailPage"
 			 Padding="10">
     <ContentPage.Resources>
@@ -25,7 +27,7 @@
                 <Label Grid.Column="1" Grid.Row="0" Text="{Binding Product.Rating, Converter = {StaticResource IntToStarConverter}}" FontSize="Large"/>
                 <Image Grid.Column="1" Grid.Row="1" Source="{Binding Product.Image}"/>
                 <Label Grid.Column="0" Grid.Row="1" Text="{Binding Product.Description}" FontSize="Small"/>
-                <controls:ProductClassifierView Grid.Column="1" Grid.Row="2" Source="{Binding Product.ProductClassifiers}" HorizontalAlignment="Start"/>
+                <controls:EnumImageView x:TypeArguments="models:ProductClassifier" ImageSource="{x:Static local:EnumImages.ProductClassifierImages}" Grid.Column="1" Grid.Row="2" Source="{Binding Product.ProductClassifiers}" HorizontalAlignment="Start"/>
                 <ListView Grid.ColumnSpan="2" Grid.Row="3" ItemsSource="{Binding Product.Comments}" HasUnevenRows="True">
                     <ListView.ItemTemplate>
                         <DataTemplate>

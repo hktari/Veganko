@@ -13,20 +13,25 @@ using Xamarin.Forms.Xaml;
 namespace Veganko.Controls
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class ProductClassifierView : ContentView
+    public partial class EnumImageView<T> : ContentView
     {
-        protected virtual Dictionary<ProductClassifier, string> ImageSource => new Dictionary<ProductClassifier, string>
-        {
-            { ProductClassifier.Vegeterijansko, "ico_vegetarian.png" },
-            { ProductClassifier.Vegansko, "ico_vegan.png" },
-            { ProductClassifier.Pesketarijansko, "ico_pescetarian.png" },
-            { ProductClassifier.GlutenFree, "ico_gluten_free.png" },
-            { ProductClassifier.RawVegan, "ico_raw_vegan.png" },
-            { ProductClassifier.CrueltyFree, "ico_cruelty_free.png" },
-        };
-
         public static readonly BindableProperty SourceProperty =
-            BindableProperty.Create(nameof(Source), typeof(List<ProductClassifier>), typeof(ProductClassifierView), null, propertyChanged: OnSourceChanged);
+            BindableProperty.Create(nameof(Source), typeof(List<T>), typeof(EnumImageView<T>), null, propertyChanged: OnSourceChanged);
+
+        public static readonly BindableProperty ImageSourceProperty =
+            BindableProperty.Create(nameof(ImageSource), typeof(Dictionary<T, string>), typeof(EnumImageView<T>), new Dictionary<T,string>());
+
+        public Dictionary<T, string> ImageSource
+        {
+            get
+            {
+                return (Dictionary<T, string>)GetValue(ImageSourceProperty);
+            }
+            set
+            {
+                SetValue(ImageSourceProperty, value);
+            }
+        }
 
         protected double viewSize = 22.0d;
         public double ViewSize
@@ -49,12 +54,12 @@ namespace Veganko.Controls
             set { orientation = value; }
         }
 
-        protected List<ProductClassifier> source = new List<ProductClassifier>();
-        public virtual List<ProductClassifier> Source
+        protected List<T> source = new List<T>();
+        public virtual List<T> Source
         {
             get
             {
-                return (List<ProductClassifier>)GetValue(SourceProperty);
+                return (List<T>)GetValue(SourceProperty);
             }
             set
             {
@@ -65,11 +70,11 @@ namespace Veganko.Controls
 
         private static void OnSourceChanged(BindableObject bindable, object oldValue, object newValue)
         {
-            var view = bindable as ProductClassifierView;
-            view.HandleSourceChanged(newValue as List<ProductClassifier>);
+            var view = bindable as EnumImageView<T>;
+            view.HandleSourceChanged(newValue as List<T>);
         }
 
-        public virtual void HandleSourceChanged(List<ProductClassifier> newSource)
+        public virtual void HandleSourceChanged(List<T> newSource)
         {
             if (newSource == null)
                 return;
@@ -86,20 +91,20 @@ namespace Veganko.Controls
             Content = stackLayout;
         }
         
-        protected string GetImageForClassifer(ProductClassifier classifier)
+        protected string GetImageForClassifer(T classifier)
         {
-            return ImageSource.Single((kv) => kv.Key == classifier).Value;
+            return ImageSource.Single((kv) => kv.Key.Equals(classifier)).Value;
         }
 
-        private List<View> CreateView(List<ProductClassifier> source)
+        private List<View> CreateView(List<T> source)
         {
             List<View> views = new List<View>();
             foreach (var classifier in source)
             {
                 var image = new Image();
-                ProductClassifierItemViewModel vm;
-                image.BindingContext = vm = new ProductClassifierItemViewModel(classifier, GetImageForClassifer(classifier));
-                image.SetBinding(Image.SourceProperty, nameof(ProductClassifierItemViewModel.Image));
+                EnumImageItemViewModel<T> vm;
+                image.BindingContext = vm = new EnumImageItemViewModel<T>(classifier, GetImageForClassifer(classifier));
+                image.SetBinding(Image.SourceProperty, nameof(EnumImageItemViewModel<T>.Image));
                 image.WidthRequest = image.HeightRequest = ViewSize;
                 image.HorizontalOptions = LayoutOptions.Center;
                 image.Aspect = Aspect.AspectFill;
@@ -107,6 +112,5 @@ namespace Veganko.Controls
             }
             return views;
         }
-
     }
 }

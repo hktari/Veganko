@@ -5,6 +5,7 @@
              xmlns:converters="clr-namespace:Veganko.Converters"
              xmlns:controls="clr-namespace:Veganko.Controls"
              xmlns:models="clr-namespace:Veganko.Models"
+             xmlns:local="clr-namespace:Veganko"
              x:Class="Veganko.Views.NewProductPage"
 			 Title="Dodajanje"
 			 Padding="10">
@@ -42,7 +43,7 @@
 				<Editor Grid.Column="0" Grid.Row="7" Grid.ColumnSpan="2" Text="{Binding Product.Description}" FontSize="Small" Margin="0"/>
 				<Button Grid.Column="1" Grid.Row="0" Grid.RowSpan="4" Image="qr.jpg" Clicked="Scan_Clicked" BackgroundColor="Transparent" HorizontalOptions="Center" VerticalOptions="Center"/>
                 <StackLayout Grid.Column="0" Grid.Row="8" Grid.ColumnSpan="2" Spacing="12">
-                    <controls:SelectableProductClassifierView x:Name="SelectableProductClassifierView" Selected="{Binding Product.ProductClassifiers}"/>
+                    <controls:SelectableEnumImageView x:TypeArguments="models:ProductClassifier" x:Name="SelectableEnumImageView" Selected="{Binding Product.ProductClassifiers}" ImageSource="{x:Static local:EnumImages.ProductClassifierImages}" />
                     <Image Source="{Binding Product.Image}" Aspect="AspectFill" WidthRequest="250" HeightRequest="200" HorizontalOptions="CenterAndExpand" VerticalOptions="Center"/>
                 </StackLayout>
                 <Button Grid.Column="0" Grid.Row="9" Grid.ColumnSpan="2" Clicked="Save_Clicked" Text="Shrani"/>

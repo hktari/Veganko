@@ -2,16 +2,31 @@
 <views:BaseContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:views="clr-namespace:Veganko.Views"
+             xmlns:converters="clr-namespace:Veganko.Converters"
              xmlns:controls="clr-namespace:Veganko.Controls"
+             xmlns:models="clr-namespace:Veganko.Models"
              xmlns:vm="clr-namespace:Veganko.ViewModels"
+             xmlns:local="clr-namespace:Veganko"
              x:Class="Veganko.Views.ProductPage">
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <converters:BoolInverter x:Key="BoolInverter"/>
+        </ResourceDictionary>
+    </ContentPage.Resources>
     <ContentPage.Content>
         <StackLayout Padding="10, 0, 10, 10">
-            <StackLayout Orientation="Horizontal" Margin="0, 0, 0, 5">
-                <Button Command="{Binding SearchBarcodeCommand}" Image="ico_gluten_free.png" HorizontalOptions="End" VerticalOptions="Center" HeightRequest="30" WidthRequest="30"/>
-                <StackLayout Padding="5, 0" Orientation="Horizontal" HorizontalOptions="FillAndExpand" BackgroundColor="DarkKhaki">
-                    <Entry Text="{Binding SearchText}" TextColor="LightGray" HorizontalOptions="FillAndExpand"/>
-                    <Button Command="{Binding SearchClickedCommand}" Image="ico_vegan.png" HorizontalOptions="End" VerticalOptions="Center" HeightRequest="30" WidthRequest="30"/>
+            <StackLayout>
+                <StackLayout Orientation="Horizontal" Margin="0, 0, 0, 5">
+                    <Button Command="{Binding SearchBarcodeCommand}" Image="ico_gluten_free.png" HorizontalOptions="End" VerticalOptions="Center" HeightRequest="30" WidthRequest="30"/>
+                    <StackLayout Padding="5, 0" Orientation="Horizontal" HorizontalOptions="FillAndExpand" BackgroundColor="DarkKhaki">
+                        <Entry Text="{Binding SearchText}" TextColor="LightGray" HorizontalOptions="FillAndExpand"/>
+                        <Button Command="{Binding SearchClickedCommand}" Image="ico_vegan.png" HorizontalOptions="End" VerticalOptions="Center" HeightRequest="30" WidthRequest="30"/>
+                    </StackLayout>
+                </StackLayout>
+                <StackLayout Orientation="Horizontal">
+                    <Button Image="icon.png" Command="{Binding SwitchFilteringOptions}"/>
+                    <controls:SelectableEnumImageView x:TypeArguments="models:ProductClassifier" IsVisible="{Binding ShowProductClassifiers}" Source="{Binding ProductClassifiers}" ImageSource="{x:Static local:EnumImages.ProductClassifierImages}" Selected="{Binding SelectedProductClassifiers, Mode=TwoWay}" VerticalOptions="Center"/>
+                    <controls:SelectableEnumImageView x:TypeArguments="models:ProductType" IsVisible="{Binding ShowProductClassifiers, Converter={StaticResource BoolInverter}}" Source="{Binding ProductTypes}" ImageSource="{x:Static local:EnumImages.ProductTypeImages}" Selected="{Binding SelectedProductTypes, Mode=TwoWay}" VerticalOptions="Center"/>
                 </StackLayout>
             </StackLayout>
             
@@ -48,7 +63,7 @@
 								Grid.RowSpan="3"/>
                                 <Label Grid.Column="1" Text="{Binding Name}" VerticalOptions="EndAndExpand"/>
                                 <Label Grid.Column="1" Grid.Row="1" Text="{Binding Description}" VerticalOptions="Start"/>
-                                <controls:ProductClassifierView Grid.Column="1" Grid.Row="2" Source="{Binding ProductClassifiers}" HorizontalAlignment="Start"/>
+                                <controls:EnumImageView x:TypeArguments="models:ProductClassifier" Grid.Column="1" Grid.Row="2" Source="{Binding ProductClassifiers}" ImageSource="{x:Static local:EnumImages.ProductClassifierImages}" HorizontalAlignment="Start"/>
                             </Grid>
                         </ViewCell>
                     </DataTemplate>
