@@ -1,7 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Text;
+using Veganko.Controls;
 using Veganko.Models;
 using Xamarin.Forms;
 
@@ -9,6 +12,8 @@ namespace Veganko.ViewModels
 {
     class EnumImageItemViewModel<T> : INotifyPropertyChanged
     {
+        public event PropertyChangedEventHandler PropertyChanged;
+
         public double ActiveOpacity = 1.0d;
 
         public double InactiveOpacity = 0.25d;
@@ -57,8 +62,7 @@ namespace Veganko.ViewModels
                 IsSelected = !IsSelected;
                 onButtonClickCallback?.Execute(this);
             });
-
-    public event PropertyChangedEventHandler PropertyChanged;
+        public Command SelectedCollectionChangedCommand => new Command(OnSelectedCollectionChanged);
 
         Command onButtonClickCallback;
 
@@ -70,10 +74,20 @@ namespace Veganko.ViewModels
 
             opacity = InactiveOpacity;
         }
+
         public EnumImageItemViewModel(T classifier, FileImageSource image)
         {
             Classifier = classifier;
             Image = image;
+        }
+
+        /// <summary>
+        /// Handle when the collection is changed from outside the view
+        private void OnSelectedCollectionChanged(object arg)
+        {
+            var selected = arg as ObservableCollection<T>;
+            if(selected != null)
+                IsSelected = selected.Contains(Classifier);
         }
     }
 }

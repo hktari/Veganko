@@ -23,6 +23,7 @@ namespace Veganko.Services
                     Id = Guid.NewGuid().ToString(),
                     Name = "Vegan Cheese", Description = "100% VEGAN",
                     Image = "raspeberry_meringue.jpg", Rating = 5,
+                    Type = ProductType.Hrana,
                     ProductClassifiers = new List<ProductClassifier>
                     {
                         ProductClassifier.Vegansko,
@@ -75,7 +76,9 @@ namespace Veganko.Services
                 new Product
                 {
                     Id = Guid.NewGuid().ToString(),
-                    Name = "Lepotna krema", Description = "Za fajn namazane roke", Image = "raspeberry_meringue.jpg",
+                    Name = "Lepotna krema", Description = "Za fajn namazane roke",
+                    Image = "raspeberry_meringue.jpg",
+                    Type = ProductType.Kozmetika,
                     ProductClassifiers = new List<ProductClassifier>
                     {
                         ProductClassifier.Vegansko,
@@ -86,7 +89,9 @@ namespace Veganko.Services
                 new Product
                 {
                     Id = Guid.NewGuid().ToString(),
-                    Name = "Čokoladni namaz", Description = "Kdo pa nima rad nutelle... Še posebej, če je vegan.", Image = "raspeberry_meringue.jpg",
+                    Name = "Čokoladni namaz", Description = "Kdo pa nima rad nutelle... Še posebej, če je vegan.",
+                    Image = "raspeberry_meringue.jpg",
+                    Type = ProductType.Hrana,
                     ProductClassifiers = new List<ProductClassifier>
                     {
                         ProductClassifier.Vegansko,

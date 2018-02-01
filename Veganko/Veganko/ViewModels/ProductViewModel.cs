@@ -108,9 +108,25 @@ namespace Veganko.ViewModels
             Title = "Iskanje";
             Products = new ObservableCollection<Product>();
             SearchResult = new ObservableCollection<Product>();
-            SelectedProductClassifiers = new ObservableCollection<ProductClassifier>();
+            SelectedProductClassifiers = new ObservableCollection<ProductClassifier>()
+            {
+                ProductClassifier.NOT_SET,
+                ProductClassifier.CrueltyFree,
+                ProductClassifier.GlutenFree,
+                ProductClassifier.Pesketarijansko,
+                ProductClassifier.RawVegan,
+                ProductClassifier.Vegansko,
+                ProductClassifier.Vegeterijansko
+            };
             SelectedProductClassifiers.CollectionChanged += OnSelectedProductClassifierChanged;
-            SelectedProductTypes = new ObservableCollection<ProductType>();
+
+            SelectedProductTypes = new ObservableCollection<ProductType>()
+            {
+                ProductType.NOT_SET,
+                ProductType.Hrana,
+                ProductType.Pijaca,
+                ProductType.Kozmetika
+            };
             SelectedProductTypes.CollectionChanged += OnSelectedProductTypeChanged;
 
             LoadItemsCommand = new Command(async () => await ExecuteLoadItemsCommand());
@@ -129,13 +145,13 @@ namespace Veganko.ViewModels
         {
             var view = sender as SelectableEnumImageView<ProductClassifier>;
 
-            IEnumerable<Product> matches;
+            List<Product> matches;
             switch (e.Action)
             {
                 case NotifyCollectionChangedAction.Add:
                     foreach (ProductClassifier classifier in e.NewItems)
                     {
-                        matches = Products.Where(p => p.ProductClassifiers.Contains(classifier));
+                        matches = Products.Where(p => p.ProductClassifiers.Contains(classifier)).ToList();
                         foreach(var product in matches)
                         {
                             if (!SearchResult.Contains(product))
@@ -149,7 +165,7 @@ namespace Veganko.ViewModels
                 case NotifyCollectionChangedAction.Remove:
                     foreach (ProductClassifier classifier in e.OldItems)
                     {
-                        matches = SearchResult.Where(p => p.ProductClassifiers.Contains(classifier));
+                        matches = SearchResult.Where(p => p.ProductClassifiers.Contains(classifier)).ToList();
                         foreach (var product in matches)
                             SearchResult.Remove(product);
                     }
@@ -163,13 +179,13 @@ namespace Veganko.ViewModels
         {
             var view = sender as SelectableEnumImageView<ProductClassifier>;
 
-            IEnumerable<Product> matches;
+            List<Product> matches;
             switch (e.Action)
             {
                 case NotifyCollectionChangedAction.Add:
                     foreach (ProductType type in e.NewItems)
                     {
-                        matches = Products.Where(p => p.Type == type);
+                        matches = Products.Where(p => p.Type == type).ToList();
                         foreach (var product in matches)
                         {
                             if (!SearchResult.Contains(product))
@@ -183,7 +199,7 @@ namespace Veganko.ViewModels
                 case NotifyCollectionChangedAction.Remove:
                     foreach (ProductType type in e.OldItems)
                     {
-                        matches = SearchResult.Where(p => p.Type == type);
+                        matches = SearchResult.Where(p => p.Type == type).ToList();
                         foreach (var product in matches)
                             SearchResult.Remove(product);
                     }
