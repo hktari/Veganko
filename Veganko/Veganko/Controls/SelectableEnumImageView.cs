@@ -13,7 +13,7 @@ using Xamarin.Forms.Internals;
 
 namespace Veganko.Controls
 {
-    public class SelectableEnumImageView<T> : EnumImageView<T>, INotifyPropertyChanged
+    public class SelectableEnumImageView<T> : EnumImageView<T>
     {
         public static readonly BindableProperty SelectedProperty =
             BindableProperty.Create(nameof(Selected), typeof(ObservableCollection<T>), typeof(SelectableEnumImageView<T>), new ObservableCollection<T>(), BindingMode.TwoWay, propertyChanged: OnSelectedChanged, coerceValue: selectedCoerceValue);
@@ -110,7 +110,7 @@ namespace Veganko.Controls
                 image.BindingContext = vm = new EnumImageItemViewModel<T>(classifier, GetImageForClassifer(classifier), HandleButtonClickCommand);
                 image.SetBinding(Image.SourceProperty, nameof(EnumImageItemViewModel<T>.Image));
                 image.SetBinding(Image.OpacityProperty, nameof(EnumImageItemViewModel<T>.Opacity));
-                image.WidthRequest = image.HeightRequest = ViewSize;
+                //image.WidthRequest = image.HeightRequest = ViewSize;
                 image.HorizontalOptions = LayoutOptions.Center;
                 image.Aspect = Aspect.AspectFill;
                 TapGestureRecognizer gestureRecognizer = new TapGestureRecognizer() { BindingContext = vm };

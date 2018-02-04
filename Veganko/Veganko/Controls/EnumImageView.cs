@@ -21,6 +21,9 @@ namespace Veganko.Controls
         public static readonly BindableProperty ImageSourceProperty =
             BindableProperty.Create(nameof(ImageSource), typeof(Dictionary<T, string>), typeof(EnumImageView<T>), new Dictionary<T,string>());
 
+        //public static readonly BindableProperty ViewSizeProperty = 
+        //    BindableProperty.Create(nameof(ViewSize), typeof(Double), typeof(EnumImageView<T>), -1);
+
         public Dictionary<T, string> ImageSource
         {
             get
@@ -33,12 +36,17 @@ namespace Veganko.Controls
             }
         }
 
-        protected double viewSize = 22.0d;
-        public double ViewSize
-        {
-            get { return viewSize; }
-            set { viewSize = value; }
-        }
+        //public double ViewSize
+        //{
+        //    get
+        //    {
+        //        return (double)GetValue(ViewSizeProperty);
+        //    }
+        //    set
+        //    {
+        //        SetValue(ViewSizeProperty, value);
+        //    }
+        //}
 
         private LayoutOptions horizontalAlignment = LayoutOptions.Center;
         public LayoutOptions HorizontalAlignment
@@ -105,7 +113,7 @@ namespace Veganko.Controls
                 EnumImageItemViewModel<T> vm;
                 image.BindingContext = vm = new EnumImageItemViewModel<T>(classifier, GetImageForClassifer(classifier));
                 image.SetBinding(Image.SourceProperty, nameof(EnumImageItemViewModel<T>.Image));
-                image.WidthRequest = image.HeightRequest = ViewSize;
+                //image.WidthRequest = image.HeightRequest = ViewSize;
                 image.HorizontalOptions = LayoutOptions.Center;
                 image.Aspect = Aspect.AspectFill;
                 views.Add(image);
