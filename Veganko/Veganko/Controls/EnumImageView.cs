@@ -16,7 +16,7 @@ namespace Veganko.Controls
     public partial class EnumImageView<T> : ContentView
     {
         public static readonly BindableProperty SourceProperty =
-            BindableProperty.Create(nameof(Source), typeof(List<T>), typeof(EnumImageView<T>), null, propertyChanged: OnSourceChanged);
+            BindableProperty.Create(nameof(Source), typeof(ObservableCollection<T>), typeof(EnumImageView<T>), null, propertyChanged: OnSourceChanged);
 
         public static readonly BindableProperty ImageSourceProperty =
             BindableProperty.Create(nameof(ImageSource), typeof(Dictionary<T, string>), typeof(EnumImageView<T>), new Dictionary<T,string>());
@@ -54,12 +54,12 @@ namespace Veganko.Controls
             set { orientation = value; }
         }
 
-        protected List<T> source = new List<T>();
-        public virtual List<T> Source
+        protected ObservableCollection<T> source = new ObservableCollection<T>();
+        public virtual ObservableCollection<T> Source
         {
             get
             {
-                return (List<T>)GetValue(SourceProperty);
+                return (ObservableCollection<T>)GetValue(SourceProperty);
             }
             set
             {
@@ -71,10 +71,10 @@ namespace Veganko.Controls
         private static void OnSourceChanged(BindableObject bindable, object oldValue, object newValue)
         {
             var view = bindable as EnumImageView<T>;
-            view.HandleSourceChanged(newValue as List<T>);
+            view.HandleSourceChanged(newValue as ObservableCollection<T>);
         }
 
-        public virtual void HandleSourceChanged(List<T> newSource)
+        public virtual void HandleSourceChanged(ObservableCollection<T> newSource)
         {
             if (newSource == null)
                 return;
@@ -96,7 +96,7 @@ namespace Veganko.Controls
             return ImageSource.Single((kv) => kv.Key.Equals(classifier)).Value;
         }
 
-        private List<View> CreateView(List<T> source)
+        private List<View> CreateView(ObservableCollection<T> source)
         {
             List<View> views = new List<View>();
             foreach (var classifier in source)

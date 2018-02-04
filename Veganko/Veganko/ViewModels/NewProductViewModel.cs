@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Text;
 using Veganko.Models;
 using Xamarin.Forms;
@@ -20,6 +21,19 @@ namespace Veganko.ViewModels
                 SetProperty(ref product, value);
             }
         }
+
+        //public ObservableCollection<ProductClassifier> Selected
+        //{
+        //    get
+        //    {
+        //        return selected;
+        //    }
+        //    set
+        //    {
+        //        SetProperty(ref selected, value);
+        //    }
+        //}
+
         public Command PageAppeared => new Command(OnPageAppeared);
 
         public string Barcode

@@ -24,7 +24,7 @@ namespace Veganko.Services
                     Name = "Vegan Cheese", Description = "100% VEGAN",
                     Image = "raspeberry_meringue.jpg", Rating = 5,
                     Type = ProductType.Hrana,
-                    ProductClassifiers = new List<ProductClassifier>
+                    ProductClassifiers = new ObservableCollection<ProductClassifier>
                     {
                         ProductClassifier.Vegansko,
                         ProductClassifier.GlutenFree
@@ -79,7 +79,7 @@ namespace Veganko.Services
                     Name = "Lepotna krema", Description = "Za fajn namazane roke",
                     Image = "raspeberry_meringue.jpg",
                     Type = ProductType.Kozmetika,
-                    ProductClassifiers = new List<ProductClassifier>
+                    ProductClassifiers = new ObservableCollection<ProductClassifier>
                     {
                         ProductClassifier.Vegansko,
                         ProductClassifier.GlutenFree,
@@ -92,7 +92,7 @@ namespace Veganko.Services
                     Name = "Čokoladni namaz", Description = "Kdo pa nima rad nutelle... Še posebej, če je vegan.",
                     Image = "raspeberry_meringue.jpg",
                     Type = ProductType.Hrana,
-                    ProductClassifiers = new List<ProductClassifier>
+                    ProductClassifiers = new ObservableCollection<ProductClassifier>
                     {
                         ProductClassifier.Vegansko,
                         ProductClassifier.GlutenFree

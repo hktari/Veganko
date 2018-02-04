@@ -60,7 +60,7 @@ namespace Veganko.Controls
             return selected;
         }
 
-        public override void HandleSourceChanged(List<T> newSource)
+        public override void HandleSourceChanged(ObservableCollection<T> newSource)
         {
             // re-initialize the buttons and state of the viewmodel
             Selected.Clear();
@@ -100,7 +100,7 @@ namespace Veganko.Controls
             itemViewModels.ForEach(vm => vm.SelectedCollectionChangedCommand.Execute(selected));
         }
 
-        List<View> CreateView(List<T> source)
+        List<View> CreateView(ObservableCollection<T> source)
         {
             List<View> views = new List<View>();
             foreach (var classifier in source)

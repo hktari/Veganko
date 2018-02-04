@@ -10,6 +10,7 @@ using Veganko.Controls;
 using Veganko.Models;
 using Veganko.Views;
 using Xamarin.Forms;
+using Xamarin.Forms.Internals;
 
 namespace Veganko.ViewModels
 {
@@ -86,7 +87,7 @@ namespace Veganko.ViewModels
 
         public ObservableCollection<Product> Products { get; private set; }
 
-        public List<ProductClassifier> ProductClassifiers => new List<ProductClassifier>
+        public ObservableCollection<ProductClassifier> ProductClassifiers => new ObservableCollection<ProductClassifier>
         {
             ProductClassifier.Vegeterijansko,
             ProductClassifier.Vegansko,
@@ -96,7 +97,7 @@ namespace Veganko.ViewModels
             ProductClassifier.CrueltyFree
         };
 
-        public List<ProductType> ProductTypes => new List<ProductType>
+        public ObservableCollection<ProductType> ProductTypes => new ObservableCollection<ProductType>
         {
             ProductType.Hrana,
             ProductType.Pijaca,
@@ -143,7 +144,7 @@ namespace Veganko.ViewModels
 
         private void OnSelectedProductClassifierChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
-            var view = sender as SelectableEnumImageView<ProductClassifier>;
+            var collection = sender as ObservableCollection<ProductClassifier>;
 
             List<Product> matches;
             switch (e.Action)
@@ -167,7 +168,13 @@ namespace Veganko.ViewModels
                     {
                         matches = SearchResult.Where(p => p.ProductClassifiers.Contains(classifier)).ToList();
                         foreach (var product in matches)
-                            SearchResult.Remove(product);
+                        {
+                            if (!product.ProductClassifiers.Any(
+                                p => collection.Contains(p)))
+                            {
+                                SearchResult.Remove(product);
+                            }
+                        }
                     }
                     break;
                 default:
@@ -226,20 +233,6 @@ namespace Veganko.ViewModels
                     break;
                 default:
                     throw new NotImplementedException("Unhandled collection changed action !");
-            }
-        }
-
-        private void AddRemoveToSearchResult(NotifyCollectionChangedAction action, Product item)
-        {
-            switch (action)
-            {
-                case NotifyCollectionChangedAction.Add:
-                    
-                    break;
-                case NotifyCollectionChangedAction.Remove:
-                    SearchResult.Add(item);
-                        
-                    break;
             }
         }
 
