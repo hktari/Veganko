@@ -56,7 +56,6 @@ namespace Veganko.Views
             InitializeComponent();
 
             BindingContext = vm = new NewProductViewModel();
-            TypePicker.ItemsSource = Enum.GetNames(typeof(ProductType));
             TypePicker.SelectedIndexChanged += TypePickerSelectedIndexChanged;
         }
 

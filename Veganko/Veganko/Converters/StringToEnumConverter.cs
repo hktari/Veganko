@@ -14,7 +14,7 @@ namespace Veganko.Converters
         {
             if (value is Enum)
             {
-                return Enum.GetName(typeof(ProductClassifier), value);
+                return Enum.GetName(value.GetType(), value);
             }
             return "";
         }
@@ -23,8 +23,7 @@ namespace Veganko.Converters
         {
             if (value is string)
             {
-                if (Enum.TryParse<ProductClassifier>(value as string, out var result))
-                    return result;
+                return Enum.Parse(targetType, value as string);
             }
             return 0;
 

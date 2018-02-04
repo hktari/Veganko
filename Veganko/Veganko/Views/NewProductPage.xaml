@@ -36,7 +36,7 @@
 				<Label Grid.Column="0" Grid.Row="0" Text="Ime izdelka:" FontSize="Medium" />
 				<Entry Grid.Column="0" Grid.Row="1" Text="{Binding Product.Name}" FontSize="Medium" Margin="0" />
 				<Label Grid.Column="0" Grid.Row="2" Text="Vrsta izdelka:" FontSize="Medium" />
-                <Picker x:Name="TypePicker" Grid.Column="0" Grid.Row="3" SelectedItem="{Binding Product.Type, Converter={StaticResource StringToEnumConverter}}"/>
+                <Picker x:Name="TypePicker" Grid.Column="0" Grid.Row="3" ItemsSource="{x:Static local:ViewModels.NewProductViewModel.PickerSource}" SelectedItem="{Binding Product.Type, Converter={StaticResource StringToEnumConverter}}"/>
                 <Label Grid.Column="0" Grid.Row="4" Text="Znamka:" FontSize="Medium" />
 				<Entry Grid.Column="0" Grid.Row="5" Text="{Binding Product.Brand}" FontSize="Small" />
 				<Label Grid.Column="0" Grid.Row="6" Grid.ColumnSpan="2" Text="Opis:" FontSize="Medium" />

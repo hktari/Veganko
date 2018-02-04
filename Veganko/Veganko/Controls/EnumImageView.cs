@@ -16,7 +16,7 @@ namespace Veganko.Controls
     public partial class EnumImageView<T> : ContentView
     {
         public static readonly BindableProperty SourceProperty =
-            BindableProperty.Create(nameof(Source), typeof(ObservableCollection<T>), typeof(EnumImageView<T>), null, propertyChanged: OnSourceChanged);
+            BindableProperty.Create(nameof(Source), typeof(ObservableCollection<T>), typeof(EnumImageView<T>), new ObservableCollection<T>(), propertyChanged: OnSourceChanged, coerceValue: SourceCoerceValue);
 
         public static readonly BindableProperty ImageSourceProperty =
             BindableProperty.Create(nameof(ImageSource), typeof(Dictionary<T, string>), typeof(EnumImageView<T>), new Dictionary<T,string>());
@@ -54,7 +54,6 @@ namespace Veganko.Controls
             set { orientation = value; }
         }
 
-        protected ObservableCollection<T> source = new ObservableCollection<T>();
         public virtual ObservableCollection<T> Source
         {
             get
@@ -64,8 +63,19 @@ namespace Veganko.Controls
             set
             {
                 SetValue(SourceProperty, value);
-                HandleSourceChanged(value);
+                HandleSourceChanged(value); // called twice ?
             }
+        }
+
+
+        private static object SourceCoerceValue(BindableObject bindable, object value)
+        {
+            var selected = value as ObservableCollection<T>;
+            if (selected == null)
+            {
+                return new ObservableCollection<T>();
+            }
+            return selected;
         }
 
         private static void OnSourceChanged(BindableObject bindable, object oldValue, object newValue)

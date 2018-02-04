@@ -9,6 +9,8 @@ namespace Veganko.ViewModels
 {
     public class NewProductViewModel : BaseViewModel
     {
+        public static List<string> PickerSource => new List<string>(Enum.GetNames(typeof(ProductType)));
+
         private Product product = new Product { Image = "raspeberry_meringue.jpg" };
         public Product Product
         {
