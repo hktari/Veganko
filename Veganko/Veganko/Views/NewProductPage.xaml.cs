@@ -9,6 +9,7 @@ using System.Linq;
 using Veganko.Extensions;
 using System.Collections.ObjectModel;
 using Veganko.ViewModels;
+using Plugin.Media;
 
 namespace Veganko.Views
 {
@@ -57,6 +58,31 @@ namespace Veganko.Views
 
             BindingContext = vm = new NewProductViewModel();
             TypePicker.SelectedIndexChanged += TypePickerSelectedIndexChanged;
+            CameraButton.Clicked += async (sender, args) =>
+            {
+                await CrossMedia.Current.Initialize();
+
+                if (!CrossMedia.Current.IsCameraAvailable || !CrossMedia.Current.IsTakePhotoSupported)
+                {
+                    DisplayAlert("No Camera", ":( No camera available.", "OK");
+                    return;
+                }
+
+                var file = await CrossMedia.Current.TakePhotoAsync(new Plugin.Media.Abstractions.StoreCameraMediaOptions
+                {
+                    Directory = "Sample",
+                    Name = "test.jpg"
+                });
+
+                if (file == null)
+                    return;
+
+                ProductImage.Source = ImageSource.FromStream(() =>
+                {
+                    var stream = file.GetStream();
+                    return stream;
+                });
+            };
         }
 
         private void TypePickerSelectedIndexChanged(object sender, EventArgs e)
@@ -65,6 +91,7 @@ namespace Veganko.Views
             var type = (ProductType)Enum.Parse(typeof(ProductType), picker.SelectedItem as string, true);
             SelectableEnumImageView.Source = ClassifierDictionary[type] ?? new ObservableCollection<ProductClassifier>();
         }
+
 
         void Save_Clicked(object sender, EventArgs e)
         {
