@@ -3,5 +3,15 @@
 	<uses-sdk android:minSdkVersion="15" />
 	<uses-permission android:name="android.permission.CAMERA" />
 	<uses-permission android:name="android.permission.FLASHLIGHT" />
-	<application android:label="Veganko.Android"></application>
+	<application android:label="Veganko.Android">
+    <provider android:name="android.support.v4.content.FileProvider"
+            android:authorities="com.honeybunny.Veganko.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+      <meta-data android:name="android.support.FILE_PROVIDER_PATHS"
+				android:resource="@xml/file_paths"></meta-data>
+    </provider>
+
+  </application>
+  
 </manifest>
