@@ -18,7 +18,7 @@ namespace Veganko
         //};
         public static Dictionary<ProductClassifier, string> ProductClassifierImages => new Dictionary<ProductClassifier, string>
         {
-            { ProductClassifier.Vegeterijansko, "ico_vegan.png" },
+            { ProductClassifier.Vegeterijansko, "ico_vegetarian.png" },
             { ProductClassifier.Vegansko, "ico_vegan.png" },
             { ProductClassifier.Pesketarijansko, "ico_vegan.png" },
             { ProductClassifier.GlutenFree, "ico_vegan.png" },
