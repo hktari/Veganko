@@ -9,11 +9,7 @@
              x:Class="Veganko.Views.NewProductPage"
 			 Title="Dodajanje"
 			 Padding="10">
-	<!--<ContentPage.ToolbarItems>
-		<ToolbarItem Text="Save" Clicked="Save_Clicked" />
-	</ContentPage.ToolbarItems>-->
-    
-    <ContentPage.Resources>
+	<ContentPage.Resources>
         <ResourceDictionary>
             <converters:StringToEnumConverter x:Key="StringToEnumConverter"/>
         </ResourceDictionary>
@@ -38,9 +34,9 @@
 				<Label Grid.Column="0" Grid.Row="2" Text="Vrsta izdelka:" FontSize="Medium" />
                 <Picker x:Name="TypePicker" Grid.Column="0" Grid.Row="3" ItemsSource="{x:Static local:ViewModels.NewProductViewModel.PickerSource}" SelectedItem="{Binding Product.Type, Converter={StaticResource StringToEnumConverter}}"/>
                 <Label Grid.Column="0" Grid.Row="4" Text="Znamka:" FontSize="Medium" />
-				<Entry Grid.Column="0" Grid.Row="5" Text="{Binding Product.Brand}" FontSize="Small" />
+				<Entry Grid.Column="0" Grid.Row="5" Text="{Binding Product.Brand}" FontSize="Medium" />
 				<Label Grid.Column="0" Grid.Row="6" Grid.ColumnSpan="2" Text="Opis:" FontSize="Medium" />
-				<Editor Grid.Column="0" Grid.Row="7" Grid.ColumnSpan="2" Text="{Binding Product.Description}" FontSize="Small" Margin="0"/>
+				<Editor Grid.Column="0" Grid.Row="7" Grid.ColumnSpan="2" Text="{Binding Product.Description}" FontSize="Medium" Margin="0"/>
 				<Button Grid.Column="1" Grid.Row="0" Grid.RowSpan="4" Image="qr.jpg" Clicked="Scan_Clicked" BackgroundColor="Transparent" HorizontalOptions="Center" VerticalOptions="Center"/>
                 <StackLayout Grid.Column="0" Grid.Row="8" Grid.ColumnSpan="2" Spacing="12">
                     <controls:SelectableEnumImageView x:TypeArguments="models:ProductClassifier" x:Name="SelectableEnumImageView" Selected="{Binding Product.ProductClassifiers, Mode=TwoWay}" ImageSource="{x:Static local:EnumImages.ProductClassifierImages}"/>

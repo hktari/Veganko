@@ -247,8 +247,11 @@ namespace Veganko.ViewModels
 
             var result = await scanner.Scan();
 
-            var query = Products.Where(p => p.Barcode == result.Text);
-            ClearAndAddToSearchResult(query);
+            if (result != null)
+            {
+                var query = Products.Where(p => p.Barcode == result.Text);
+                ClearAndAddToSearchResult(query);
+            }
         }
 
         private void OnSwitchFilteringOptions()
