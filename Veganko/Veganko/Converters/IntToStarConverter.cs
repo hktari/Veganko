@@ -8,7 +8,7 @@ namespace Veganko.Converters
 {
     public class IntToStarConverter : IValueConverter
     {
-        private const char StarUnicode = '\u2605';
+        public const char StarUnicode = '\u2605';
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             int val = (int)value;

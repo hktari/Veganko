@@ -42,6 +42,7 @@ namespace Veganko.Models
         public Product()
         {
             Id = Name = Brand = Barcode = Description = "";
+            //Comments = new ObservableCollection<Comment>();
         }
     }
 }

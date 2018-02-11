@@ -16,6 +16,7 @@
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Controls\EnumImageView.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\RatingsView.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Controls\SelectableEnumImageView.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Converters\BoolInverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Converters\IntToEnumConverter.cs" />

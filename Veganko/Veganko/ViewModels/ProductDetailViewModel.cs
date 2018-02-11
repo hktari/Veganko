@@ -10,9 +10,23 @@ namespace Veganko.ViewModels
     {
         public Product Product { get; set; }
 
-        public ProductDetailViewModel(Product Product)
+        private Comment newComment;
+        public Comment NewComment
         {
-            this.Product = Product;
+            get
+            {
+                return newComment;
+            }
+            set
+            {
+                SetProperty(ref newComment, value);
+            }
+        }
+
+        public ProductDetailViewModel(Product product)
+        {
+            Product = product;
+            NewComment = new Comment() { Username = "Test user" };    // TODO: add real user data
         }
 
         //public static Product Product => new Product

@@ -21,47 +21,52 @@
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="*"/>
+					<RowDefinition Height="Auto"/>
+					<RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
                 <Label Grid.Column="0" Grid.Row="0" Text="{Binding Product.Name}" FontSize="Large" FontAttributes="Bold"/>
                 <Label Grid.Column="1" Grid.Row="0" Text="{Binding Product.Rating, Converter = {StaticResource IntToStarConverter}}" FontSize="Large"/>
                 <Image Grid.Column="1" Grid.Row="1" Source="{Binding Product.Image}"/>
                 <Label Grid.Column="0" Grid.Row="1" Text="{Binding Product.Description}" FontSize="Small"/>
-                <controls:EnumImageView x:TypeArguments="models:ProductClassifier" ImageSource="{x:Static local:EnumImages.ProductClassifierImages}" Grid.Column="1" Grid.Row="2" Source="{Binding Product.ProductClassifiers}" HorizontalAlignment="Start"/>
-                <ListView Grid.ColumnSpan="2" Grid.Row="3" ItemsSource="{Binding Product.Comments}" HasUnevenRows="True">
-                    <ListView.ItemTemplate>
-                        <DataTemplate>
-                            <ViewCell>
-                                <Grid Padding="10" RowSpacing="10" ColumnSpacing="10">
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition Height="Auto"/>
-                                        <RowDefinition Height="*"/>
-                                    </Grid.RowDefinitions>
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="Auto"/>
-                                        <ColumnDefinition Width="Auto"/>
-                                        <ColumnDefinition Width="*"/>
-                                    </Grid.ColumnDefinitions>
+				<controls:EnumImageView x:TypeArguments="models:ProductClassifier" ImageSource="{x:Static local:EnumImages.ProductClassifierImages}" Grid.Column="1" Grid.Row="2" Source="{Binding Product.ProductClassifiers}" HorizontalAlignment="Start"/>
+				<StackLayout Grid.ColumnSpan="2" Grid.Row="3" >
+					<controls:RatingsView/>
+					<Entry Text="{Binding NewComment.Text}"/>
+					<ListView ItemsSource="{Binding Product.Comments}" HasUnevenRows="True">
+						<ListView.ItemTemplate>
+							<DataTemplate>
+								<ViewCell>
+									<Grid Padding="10" RowSpacing="10" ColumnSpacing="10">
+										<Grid.RowDefinitions>
+											<RowDefinition Height="Auto"/>
+											<RowDefinition Height="*"/>
+										</Grid.RowDefinitions>
+										<Grid.ColumnDefinitions>
+											<ColumnDefinition Width="Auto"/>
+											<ColumnDefinition Width="Auto"/>
+											<ColumnDefinition Width="*"/>
+										</Grid.ColumnDefinitions>
 
-                                    <circleImageControl:CircleImage 
-									HeightRequest="66"
-									WidthRequest="66"
-									HorizontalOptions="CenterAndExpand"
-									BorderColor="LightBlue"
-									BorderThickness="1"
-									VerticalOptions="CenterAndExpand"
-									Aspect="AspectFill"
-									Source="circle_icon.png"
-									Grid.RowSpan="2"/>
-                                    <Label Grid.Column="1" Text="{Binding Username}" VerticalOptions="EndAndExpand"/>
-                                    <Label Grid.Column="2" Grid.Row="0" Text="{Binding Rating, Converter = {StaticResource IntToStarConverter}}" HorizontalOptions="End"/>
-                                    <Label Grid.Column="1" Grid.Row="1" Text="{Binding Text}" VerticalOptions="Start"/>
-                                </Grid>
-                            </ViewCell>
-                        </DataTemplate>
-                    </ListView.ItemTemplate>
-                </ListView>
-            </Grid>
+										<circleImageControl:CircleImage 
+										HeightRequest="66"
+										WidthRequest="66"
+										HorizontalOptions="CenterAndExpand"
+										BorderColor="LightBlue"
+										BorderThickness="1"
+										VerticalOptions="CenterAndExpand"
+										Aspect="AspectFill"
+										Source="circle_icon.png"
+										Grid.RowSpan="2"/>
+										<Label Grid.Column="1" Text="{Binding Username}" VerticalOptions="EndAndExpand"/>
+										<Label Grid.Column="2" Grid.Row="0" Text="{Binding Rating, Converter = {StaticResource IntToStarConverter}}" HorizontalOptions="End"/>
+										<Label Grid.Column="1" Grid.Row="1" Text="{Binding Text}" VerticalOptions="Start"/>
+									</Grid>
+								</ViewCell>
+							</DataTemplate>
+						</ListView.ItemTemplate>
+					</ListView>
+				</StackLayout>
+			</Grid>
         </ScrollView>
     </ContentPage.Content>
 </views:BaseContentPage>
