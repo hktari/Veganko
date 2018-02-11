@@ -3,11 +3,14 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Text;
 using Veganko.Models;
+using Xamarin.Forms;
 
 namespace Veganko.ViewModels
 {
     public class ProductDetailViewModel : BaseViewModel
     {
+        public Command SendCommentCommand => new Command(SendComment);
+
         public Product Product { get; set; }
 
         private Comment newComment;
@@ -26,7 +29,12 @@ namespace Veganko.ViewModels
         public ProductDetailViewModel(Product product)
         {
             Product = product;
-            NewComment = new Comment() { Username = "Test user" };    // TODO: add real user data
+            NewComment = new Comment() { Username = "Test user", Rating = 1 };    // TODO: add real user data
+        }
+
+        private void SendComment(object obj)
+        {
+            Product.Comments.Insert(0, NewComment);
         }
 
         //public static Product Product => new Product

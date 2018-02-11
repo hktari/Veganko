@@ -10,9 +10,8 @@ namespace Veganko.Controls
 	public class RatingsView : ContentView
 	{
         public static readonly BindableProperty RatingProperty = 
-            BindableProperty.Create(nameof(Rating), typeof(int), typeof(RatingsView), 1, propertyChanged: OnRatingPropertyChanged);
+            BindableProperty.Create(nameof(Rating), typeof(int), typeof(RatingsView), 1, propertyChanged: OnRatingPropertyChanged, coerceValue: CoerceRatingPropertyValue);
 
-        // TODO: coerce value 
         public int Rating
         {
             get
@@ -40,6 +39,13 @@ namespace Veganko.Controls
                 stackLayout.Children.Add(star);
 		    UpdateView(Rating);
             Content = stackLayout;
+        }
+
+
+        private static object CoerceRatingPropertyValue(BindableObject bindable, object value)
+        {
+            var val = (int)value;
+            return Math.Max(1, Math.Min(val, 5)); // clamp value
         }
 
         private static void OnRatingPropertyChanged(BindableObject bindable, object oldValue, object newValue)
