@@ -22,7 +22,7 @@ namespace Veganko.Services
                 {
                     Id = 0,
                     Name = "Vegan Cheese", Description = "100% VEGAN",
-                    Image = "raspeberry_meringue.jpg", Rating = 5,
+                    Image = "img_product_tmp_2.jpg", Rating = 5,
                     Type = ProductType.Hrana,
                     ProductClassifiers = new ObservableCollection<ProductClassifier>
                     {
@@ -34,7 +34,7 @@ namespace Veganko.Services
                 {
                     Id = 1,
                     Name = "Lepotna krema", Description = "Za fajn namazane roke",
-                    Image = "raspeberry_meringue.jpg",
+                    Image = "img_product_tmp_2.jpg",
                     Type = ProductType.Kozmetika,
                     ProductClassifiers = new ObservableCollection<ProductClassifier>
                     {
@@ -47,7 +47,7 @@ namespace Veganko.Services
                 {
                     Id = 2,
                     Name = "Čokoladni namaz", Description = "Kdo pa nima rad nutelle... Še posebej, če je vegan.",
-                    Image = "raspeberry_meringue.jpg",
+                    Image = "img_product_tmp_2.jpg",
                     Type = ProductType.Hrana,
                     ProductClassifiers = new ObservableCollection<ProductClassifier>
                     {

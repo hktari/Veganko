@@ -24,16 +24,14 @@ namespace Veganko.Controls
             }
         }
 
-        List<Button> stars;
+        List<Label> stars;
 
 		public RatingsView ()
 		{
             CreateStars();
             var stackLayout = new StackLayout
             {
-                Orientation = StackOrientation.Horizontal, Spacing = 0,
-                HorizontalOptions = LayoutOptions.Center,
-                VerticalOptions = LayoutOptions.Center
+                Orientation = StackOrientation.Horizontal, Spacing = 2.5
             };
             foreach (var star in stars)
                 stackLayout.Children.Add(star);
@@ -56,25 +54,24 @@ namespace Veganko.Controls
         
         private void CreateStars()
         {
-            stars = new List<Button>();
+            stars = new List<Label>();
             int count = 5;
             for (int i = 0; i < count; i++)
             {
-                var button = new Button
+                var label = new Label
                 {
                     Text = "" + IntToStarConverter.StarUnicode,
-                    BackgroundColor = Color.Transparent,
-                    HeightRequest = 42,
-                    WidthRequest = 42,
+                    FontSize = Device.GetNamedSize(NamedSize.Medium, typeof(Label))
                 };
-                button.Clicked += OnButtonClicked;
-                stars.Add(button); 
+                label.GestureRecognizers.Add(
+                    new TapGestureRecognizer((obj) => OnButtonClicked(label, null)));
+                stars.Add(label);
             }
         }
 
         private void OnButtonClicked(object sender, EventArgs e)
         {
-            var idx = stars.IndexOf(sender as Button);
+            var idx = stars.IndexOf(sender as Label);
             Rating = idx + 1;
         }
 

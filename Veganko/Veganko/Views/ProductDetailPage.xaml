@@ -7,37 +7,73 @@
 			 xmlns:controls="clr-namespace:Veganko.Controls"
 			 xmlns:models="clr-namespace:Veganko.Models"
 			 xmlns:local="clr-namespace:Veganko"
-			 x:Class="Veganko.Views.ProductDetailPage"
-			 Padding="10">
+			 x:Class="Veganko.Views.ProductDetailPage">
 	<ContentPage.Resources>
 		<ResourceDictionary>
 			<converter:IntToStarConverter x:Key="IntToStarConverter"/>
 		</ResourceDictionary>
 	</ContentPage.Resources>
 	<ContentPage.Content>
-		<ListView ItemsSource="{Binding Product.Comments}" HasUnevenRows="True">
+		<ListView ItemsSource="{Binding Comments}" HasUnevenRows="True">
 			<ListView.Header>
-				<Grid>
-					<Grid.RowDefinitions>
-						<RowDefinition Height="Auto"/>
-						<RowDefinition Height="Auto"/>
-						<RowDefinition Height="Auto"/>
-						<RowDefinition Height="Auto"/>
-						<RowDefinition Height="Auto"/>
-						<RowDefinition Height="*"/>
-					</Grid.RowDefinitions>
-					<Label Grid.Column="0" Grid.Row="0" Text="{Binding Product.Name}" FontSize="Large" FontAttributes="Bold"/>
-					<Label Grid.Column="1" Grid.Row="0" Text="{Binding Product.Rating, Converter = {StaticResource IntToStarConverter}}" FontSize="Large"/>
-					<Image Grid.Column="1" Grid.Row="1" Source="{Binding Product.Image}"/>
-					<Label Grid.Column="0" Grid.Row="1" Text="{Binding Product.Description}" FontSize="Small"/>
-					<controls:EnumImageView Grid.ColumnSpan="2" Grid.Row="2" x:TypeArguments="models:ProductClassifier" ImageSource="{x:Static local:EnumImages.ProductClassifierImages}" Source="{Binding Product.ProductClassifiers}" HorizontalAlignment="Center"/>
-					<BoxView Grid.ColumnSpan="2" Grid.Row="3" HeightRequest="1" HorizontalOptions="FillAndExpand" BackgroundColor="DarkGray"/>
-					<StackLayout Grid.ColumnSpan="2" Grid.Row="4" BackgroundColor="LightGray">
-						<controls:RatingsView Rating="{Binding NewComment.Rating, Mode=TwoWay}"/>
-						<Entry Text="{Binding NewComment.Text}"/>
-						<Button Text="Send" HorizontalOptions="End" BackgroundColor="Transparent" Command="{Binding SendCommentCommand}"/>
-					</StackLayout>
-				</Grid>
+				<StackLayout>
+					<AbsoluteLayout HorizontalOptions="FillAndExpand">
+						<Grid AbsoluteLayout.LayoutBounds="0, 0, 1, 1" AbsoluteLayout.LayoutFlags="All" 
+								Padding="10" RowSpacing="10" ColumnSpacing="10">
+							<Grid.ColumnDefinitions>
+								<ColumnDefinition Width="Auto"/>
+								<ColumnDefinition Width="*"/>
+							</Grid.ColumnDefinitions>
+							<Grid.RowDefinitions>
+								<RowDefinition Height="Auto"/>
+								<RowDefinition Height="Auto"/>
+								<RowDefinition Height="Auto"/>
+								<RowDefinition Height="Auto"/>
+							</Grid.RowDefinitions>
+							<Image Grid.Column="0" Grid.Row="0" Grid.RowSpan="4" Source="{Binding Product.Image}" HorizontalOptions="Start"/>
+							<Label Grid.Column="1" Grid.Row="0" Text="{Binding Product.Name}" FontSize="Large" FontAttributes="Bold" HorizontalOptions="Start"/>
+							<Label Grid.Column="1" Grid.Row="1" 
+						Text="{Binding Product.Rating, Converter = {StaticResource IntToStarConverter}}" 
+						FontSize="Large" HorizontalOptions="Start"/>
+							<Label Grid.Column="1" Grid.Row="2" Text="{Binding Product.Description}" FontSize="Small"/>
+							<controls:EnumImageView Grid.Column="1" Grid.Row="3" x:TypeArguments="models:ProductClassifier" 
+										ImageSource="{x:Static local:EnumImages.ProductClassifierImages}" 
+										Source="{Binding Product.ProductClassifiers}" HorizontalAlignment="Start"/>
+						</Grid>
+						<Button AbsoluteLayout.LayoutBounds="1, 0" AbsoluteLayout.LayoutFlags="PositionProportional" 
+								Image="ico_food.png" BackgroundColor="Transparent"/>
+						<Button AbsoluteLayout.LayoutBounds="1, 1" AbsoluteLayout.LayoutFlags="PositionProportional" 
+								Image="ico_cosmetics.png" BackgroundColor="Transparent"/>
+					</AbsoluteLayout>
+					<Grid Padding="10" RowSpacing="10" ColumnSpacing="10" Margin="0, 0, 0, 25">
+						<Grid.RowDefinitions>
+							<RowDefinition Height="Auto"/>
+							<RowDefinition Height="*"/>
+						</Grid.RowDefinitions>
+						<Grid.ColumnDefinitions>
+							<ColumnDefinition Width="Auto"/>
+							<ColumnDefinition Width="*"/>
+						</Grid.ColumnDefinitions>
+
+						<circleImageControl:CircleImage 
+										HeightRequest="66"
+										WidthRequest="66"
+										HorizontalOptions="CenterAndExpand"
+										BorderColor="LightBlue"
+										BorderThickness="1"
+										VerticalOptions="CenterAndExpand"
+										Aspect="AspectFill"
+										Source="bostjan_kamnik.jpg"
+										Grid.RowSpan="2"/>
+						<controls:RatingsView Grid.Column="1" Grid.Row="0" Rating="{Binding NewComment.Rating, Mode=TwoWay}" 
+											  HorizontalOptions="Start"/>
+						<StackLayout Grid.Column="1" Grid.Row="1" Orientation="Horizontal" Spacing="0">
+							<Entry Text="{Binding NewComment.Text}" HorizontalOptions="FillAndExpand"/>
+							<Button Text="Send" HorizontalOptions="End" 
+									BackgroundColor="Transparent" Command="{Binding SendCommentCommand}"/>
+						</StackLayout>
+					</Grid>
+				</StackLayout>
 			</ListView.Header>
 			<ListView.ItemTemplate>
 				<DataTemplate>
