@@ -19,5 +19,11 @@ namespace Veganko.Views
             BindingContext = this.vm = vm;
 		}
         public ProductDetailPage() : this(null) { } // Satisfy the Xamarin.Forms previewer
+
+        protected override void OnAppearing()
+        {
+            base.OnAppearing();
+            vm.RefreshComments();
+        }
     }
 }

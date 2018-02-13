@@ -28,7 +28,7 @@ namespace Veganko.Models
     }
     public class Product
     {
-        public string Id { get; set; }
+        public int Id { get; set; }
         public string Name { get; set; }
         public string Brand { get; set; }
         public string Barcode { get; set; }
@@ -37,11 +37,10 @@ namespace Veganko.Models
         public ObservableCollection<ProductClassifier> ProductClassifiers { get; set; }
         public ProductType Type { get; set; }
         public int Rating { get; set; }
-        public ObservableCollection<Comment> Comments { get; set; }
         
         public Product()
         {
-            Id = Name = Brand = Barcode = Description = "";
+            Name = Brand = Barcode = Description = "";
             //Comments = new ObservableCollection<Comment>();
         }
     }

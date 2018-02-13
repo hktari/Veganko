@@ -6,21 +6,21 @@ using System.Threading.Tasks;
 
 using Veganko.Models;
 
-[assembly: Xamarin.Forms.Dependency(typeof(Veganko.Services.MockDataStore))]
+[assembly: Xamarin.Forms.Dependency(typeof(Veganko.Services.MockProductDataStore))]
 namespace Veganko.Services
 {
-    public class MockDataStore : IDataStore<Product>
+    public class MockProductDataStore : IDataStore<Product>
     {
         List<Product> items;
 
-        public MockDataStore()
+        public MockProductDataStore()
         {
             items = new List<Product>();
             var mockItems = new List<Product>
             {
               new Product
                 {
-                    Id = Guid.NewGuid().ToString(),
+                    Id = 0,
                     Name = "Vegan Cheese", Description = "100% VEGAN",
                     Image = "raspeberry_meringue.jpg", Rating = 5,
                     Type = ProductType.Hrana,
@@ -28,54 +28,11 @@ namespace Veganko.Services
                     {
                         ProductClassifier.Vegansko,
                         ProductClassifier.GlutenFree
-                    },
-                    Comments = new ObservableCollection<Comment>
-                    {
-                        new Comment
-                        {
-                            Id = Guid.NewGuid().ToString(),
-                            Username = "BigDick112",
-                            Rating = 4,
-                            DatePosted = DateTime.Now,
-                            Text = "Res ful dobro... Močno priporočam."
-                        },
-                        new Comment
-                        {
-                            Id = Guid.NewGuid().ToString(),
-                            Username = "Magda_likesbigdick113",
-                            Rating = 3,
-                            DatePosted = DateTime.Now,
-                            Text = "Sreča je kot metulj."
-                        },
-                        new Comment
-                        {
-                            Id = Guid.NewGuid().ToString(),
-                            Username = "Janez_iz_portoroža",
-                            Rating = 2,
-                            DatePosted = DateTime.Now,
-                            Text = "Nima točno takšnega okusa kot nutella :/"
-                        },
-                        new Comment
-                        {
-                            Id = Guid.NewGuid().ToString(),
-                            Username = "Ed Sheeran",
-                            Rating = 5,
-                            DatePosted = DateTime.Now,
-                            Text = "Real great stuff ! I should write a song about it..."
-                        },
-                        new Comment
-                        {
-                            Id = Guid.NewGuid().ToString(),
-                            Username = "zalathecat",
-                            Rating = 5,
-                            DatePosted = DateTime.Now,
-                            Text = "Čokolada je life. In seveda mačke..."
-                        }
                     }
                 },
                 new Product
                 {
-                    Id = Guid.NewGuid().ToString(),
+                    Id = 1,
                     Name = "Lepotna krema", Description = "Za fajn namazane roke",
                     Image = "raspeberry_meringue.jpg",
                     Type = ProductType.Kozmetika,
@@ -88,7 +45,7 @@ namespace Veganko.Services
                 },
                 new Product
                 {
-                    Id = Guid.NewGuid().ToString(),
+                    Id = 2,
                     Name = "Čokoladni namaz", Description = "Kdo pa nima rad nutelle... Še posebej, če je vegan.",
                     Image = "raspeberry_meringue.jpg",
                     Type = ProductType.Hrana,
@@ -130,7 +87,7 @@ namespace Veganko.Services
             return await Task.FromResult(true);
         }
 
-        public async Task<Product> GetItemAsync(string id)
+        public async Task<Product> GetItemAsync(int id)
         {
             return await Task.FromResult(items.FirstOrDefault(s => s.Id == id));
         }
