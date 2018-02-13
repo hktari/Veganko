@@ -68,7 +68,7 @@
 						<controls:RatingsView Grid.Column="1" Grid.Row="0" Rating="{Binding NewComment.Rating, Mode=TwoWay}" 
 											  HorizontalOptions="Start"/>
 						<StackLayout Grid.Column="1" Grid.Row="1" Orientation="Horizontal" Spacing="0">
-							<Entry Text="{Binding NewComment.Text}" HorizontalOptions="FillAndExpand"/>
+							<Entry Placeholder="add a comment" Text="{Binding NewComment.Text}" HorizontalOptions="FillAndExpand"/>
 							<Button Text="Send" HorizontalOptions="End" 
 									BackgroundColor="Transparent" Command="{Binding SendCommentCommand}"/>
 						</StackLayout>

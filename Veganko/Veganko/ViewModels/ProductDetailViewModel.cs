@@ -59,7 +59,7 @@ namespace Veganko.ViewModels
         
         private Comment CreateDefaultComment()
         {
-            return new Comment() { Username = "Test user", Rating = 1, Text = "add a comment" };    // TODO: add real user data
+            return new Comment() { Username = "Test user", Rating = 1, Text = "" };    // TODO: add real user data
         }
 
         private class CommentDatePostedComparer : IComparer<Comment>
