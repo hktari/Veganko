@@ -5,6 +5,7 @@ using System.Text;
 using Veganko.Models;
 using Veganko.Services;
 using Xamarin.Forms;
+using System.Linq;
 
 namespace Veganko.ViewModels
 {
@@ -33,7 +34,7 @@ namespace Veganko.ViewModels
         public ProductDetailViewModel(Product product)
         {
             Product = product;
-            NewComment = new Comment() { Username = "Test user", Rating = 1 };    // TODO: add real user data
+            NewComment = CreateDefaultComment();
 
             commentDataStore = DependencyService.Get<IDataStore<Comment>>();
             Comments = new ObservableCollection<Comment>();
@@ -43,13 +44,30 @@ namespace Veganko.ViewModels
         {
             commentDataStore.AddItemAsync(NewComment);
             RefreshComments();
+
+            NewComment = CreateDefaultComment();
         }
 
         public void RefreshComments()
         {
             Comments.Clear();
-            foreach (var item in commentDataStore.GetItemsAsync().Result)
+            var items = commentDataStore.GetItemsAsync().Result.ToList();
+            items.Sort(new CommentDatePostedComparer());
+            foreach (var item in items)
                 Comments.Add(item);
+        }
+        
+        private Comment CreateDefaultComment()
+        {
+            return new Comment() { Username = "Test user", Rating = 1, Text = "add a comment" };    // TODO: add real user data
+        }
+
+        private class CommentDatePostedComparer : IComparer<Comment>
+        {
+            public int Compare(Comment x, Comment y)
+            {
+                return x.DatePosted.CompareTo(y.DatePosted) * -1; // descending order
+            }
         }
     }
 }

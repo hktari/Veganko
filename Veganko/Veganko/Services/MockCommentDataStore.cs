@@ -87,6 +87,7 @@ namespace Veganko.Services
         public Task<bool> AddItemAsync(Comment item)
 		{
             item.Id = idCtr++;
+            item.DatePosted = DateTime.Now;
             comments.Add(item);
             return Task.FromResult(true);
         }
