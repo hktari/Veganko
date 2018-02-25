@@ -20,7 +20,7 @@
                     <Button Command="{Binding SearchBarcodeCommand}" Image="ico_gluten_free.png" HorizontalOptions="End" VerticalOptions="Center" HeightRequest="30" WidthRequest="30"/>
                     <StackLayout Padding="5, 0" Orientation="Horizontal" HorizontalOptions="FillAndExpand" BackgroundColor="DarkKhaki">
                         <Entry Text="{Binding SearchText}" TextColor="LightGray" HorizontalOptions="FillAndExpand"/>
-                        <Button Command="{Binding SearchClickedCommand}" Image="ico_vegan.png" HorizontalOptions="End" VerticalOptions="Center" HeightRequest="30" WidthRequest="30"/>
+						<Button Command="{Binding SearchClickedCommand}" Image="ico_search.png" VerticalOptions="Center" BackgroundColor="Transparent"/>
                     </StackLayout>
                 </StackLayout>
                 <StackLayout Orientation="Horizontal">

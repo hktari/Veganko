@@ -41,7 +41,7 @@
 										Source="{Binding Product.ProductClassifiers}" HorizontalAlignment="Start"/>
 						</Grid>
 						<Button AbsoluteLayout.LayoutBounds="1, 0" AbsoluteLayout.LayoutFlags="PositionProportional" 
-								Image="ico_food.png" BackgroundColor="Transparent"/>
+								Image="ico_favorites.png" BackgroundColor="Transparent"/>
 						<Button AbsoluteLayout.LayoutBounds="1, 1" AbsoluteLayout.LayoutFlags="PositionProportional" 
 								Image="ico_cosmetics.png" BackgroundColor="Transparent"/>
 					</AbsoluteLayout>
