@@ -1752,6 +1752,8 @@ namespace Veganko.Droid
 			global::BottomNavigationBar.Resource.Styleable.ViewStubCompat_android_id = global::Veganko.Droid.Resource.Styleable.ViewStubCompat_android_id;
 			global::BottomNavigationBar.Resource.Styleable.ViewStubCompat_android_inflatedId = global::Veganko.Droid.Resource.Styleable.ViewStubCompat_android_inflatedId;
 			global::BottomNavigationBar.Resource.Styleable.ViewStubCompat_android_layout = global::Veganko.Droid.Resource.Styleable.ViewStubCompat_android_layout;
+			global::PCLCrypto.Resource.String.ApplicationName = global::Veganko.Droid.Resource.String.ApplicationName;
+			global::PCLCrypto.Resource.String.Hello = global::Veganko.Droid.Resource.String.Hello;
 			global::Xamarin.Forms.Platform.Android.Resource.Attribute.actionBarSize = global::Veganko.Droid.Resource.Attribute.actionBarSize;
 			global::ZXing.Net.Mobile.Forms.Android.Resource.Layout.zxingscanneractivitylayout = global::Veganko.Droid.Resource.Layout.zxingscanneractivitylayout;
 			global::ZXing.Net.Mobile.Forms.Android.Resource.Layout.zxingscannerfragmentlayout = global::Veganko.Droid.Resource.Layout.zxingscannerfragmentlayout;
@@ -5510,6 +5512,12 @@ namespace Veganko.Droid
 		public partial class String
 		{
 			
+			// aapt resource value: 0x7f080040
+			public const int ApplicationName = 2131230784;
+			
+			// aapt resource value: 0x7f08003f
+			public const int Hello = 2131230783;
+			
 			// aapt resource value: 0x7f080016
 			public const int abc_action_bar_home_description = 2131230742;
 			
@@ -5603,8 +5611,8 @@ namespace Veganko.Droid
 			// aapt resource value: 0x7f080028
 			public const int abc_toolbar_collapse_description = 2131230760;
 			
-			// aapt resource value: 0x7f08003f
-			public const int app_name = 2131230783;
+			// aapt resource value: 0x7f080041
+			public const int app_name = 2131230785;
 			
 			// aapt resource value: 0x7f080037
 			public const int appbar_scrolling_view_behavior = 2131230775;
