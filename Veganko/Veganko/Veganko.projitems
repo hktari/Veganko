@@ -35,6 +35,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Services\MockProductDataStore.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\AboutViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\BaseViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ViewModels\FavoritesViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\MainPageViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\NewProductViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\EnumImageItemViewModel.cs" />
@@ -46,11 +47,11 @@
       <DependentUpon>FavoritesPage.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-     <Compile Include="$(MSBuildThisFileDirectory)Views\RegisterPage.xaml.cs">
+    <Compile Include="$(MSBuildThisFileDirectory)Views\RegisterPage.xaml.cs">
       <DependentUpon>RegisterPage.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-   <Compile Include="$(MSBuildThisFileDirectory)Views\Loginpage.xaml.cs">
+    <Compile Include="$(MSBuildThisFileDirectory)Views\Loginpage.xaml.cs">
       <DependentUpon>Loginpage.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
@@ -128,7 +129,6 @@
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
   </ItemGroup>
-
   <!--#if (CreateBackendProject)
     <Compile Include="$(MSBuildThisFileDirectory)Services\AzureDataStore.cs" />
   #endif-->
