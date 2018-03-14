@@ -4,10 +4,19 @@
              xmlns:views="clr-namespace:Veganko.Views"
              x:Class="Veganko.Views.FavoritesPage">
     <ContentPage.Content>
-        <StackLayout>
-            <Label Text="Favorites"
-                VerticalOptions="CenterAndExpand" 
-                HorizontalOptions="CenterAndExpand" />
-        </StackLayout>
-    </ContentPage.Content>
+		<ListView ItemsSource="{Binding Items}">
+			<ListView.Header>
+				<StackLayout>
+					<Button Text="Add" Clicked="AddBtnClicked"/>
+				</StackLayout>
+			</ListView.Header>
+			<ListView.ItemTemplate>
+				<DataTemplate>
+					<ViewCell>
+						<Label Text="{Binding Text}"/>
+					</ViewCell>
+				</DataTemplate>
+			</ListView.ItemTemplate>
+		</ListView>
+	</ContentPage.Content>
 </views:BaseContentPage>
