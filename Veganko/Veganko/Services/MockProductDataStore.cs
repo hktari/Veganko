@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 using Veganko.Models;
 
-[assembly: Xamarin.Forms.Dependency(typeof(Veganko.Services.MockProductDataStore))]
+//[assembly: Xamarin.Forms.Dependency(typeof(Veganko.Services.MockProductDataStore))]
 namespace Veganko.Services
 {
     public class MockProductDataStore : IDataStore<Product>
@@ -20,7 +20,7 @@ namespace Veganko.Services
             {
               new Product
                 {
-                    Id = 0,
+                    Id = "0",
                     Name = "Vegan Cheese", Description = "100% VEGAN",
                     Image = "img_product_tmp_2.jpg", Rating = 5,
                     Type = ProductType.Hrana,
@@ -32,7 +32,7 @@ namespace Veganko.Services
                 },
                 new Product
                 {
-                    Id = 1,
+                    Id = "1",
                     Name = "Lepotna krema", Description = "Za fajn namazane roke",
                     Image = "img_product_tmp_2.jpg",
                     Type = ProductType.Kozmetika,
@@ -45,7 +45,7 @@ namespace Veganko.Services
                 },
                 new Product
                 {
-                    Id = 2,
+                    Id = "2",
                     Name = "Čokoladni namaz", Description = "Kdo pa nima rad nutelle... Še posebej, če je vegan.",
                     Image = "img_product_tmp_2.jpg",
                     Type = ProductType.Hrana,
@@ -87,7 +87,7 @@ namespace Veganko.Services
             return await Task.FromResult(true);
         }
 
-        public async Task<Product> GetItemAsync(int id)
+        public async Task<Product> GetItemAsync(string id)
         {
             return await Task.FromResult(items.FirstOrDefault(s => s.Id == id));
         }

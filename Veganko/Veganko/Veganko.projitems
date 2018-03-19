@@ -33,6 +33,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Services\MockAccountService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\MockCommentDataStore.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\MockProductDataStore.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Services\ProductDataStore.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\AboutViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\BaseViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\FavoritesViewModel.cs" />
