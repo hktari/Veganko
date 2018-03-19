@@ -1,4 +1,5 @@
 ﻿using ImageCircle.Forms.Plugin.UWP;
+using Microsoft.WindowsAzure.MobileServices;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -31,6 +32,17 @@ namespace Veganko.UWP
         {
             this.InitializeComponent();
             this.Suspending += OnSuspending;
+        }
+
+        protected override void OnActivated(IActivatedEventArgs args)
+        {
+            base.OnActivated(args);
+
+            if (args.Kind == ActivationKind.Protocol)
+            {
+                ProtocolActivatedEventArgs protocolArgs = args as ProtocolActivatedEventArgs;
+                Veganko.App.MobileService.ResumeWithURL(protocolArgs.Uri);
+            }
         }
 
         /// <summary>

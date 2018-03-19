@@ -6,6 +6,7 @@ using Veganko.Models;
 using Veganko.Services;
 using Xamarin.Forms;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace Veganko.ViewModels
 {
@@ -40,26 +41,30 @@ namespace Veganko.ViewModels
             Comments = new ObservableCollection<Comment>();
         }
 
-        private void SendComment(object obj)
+        private async void SendComment(object obj)
         {
-            commentDataStore.AddItemAsync(NewComment);
-            RefreshComments();
+            await commentDataStore.AddItemAsync(NewComment);
+            await RefreshComments();
 
             NewComment = CreateDefaultComment();
         }
 
-        public void RefreshComments()
+        public async Task RefreshComments()
         {
             Comments.Clear();
-            var items = commentDataStore.GetItemsAsync().Result.ToList();
-            items.Sort(new CommentDatePostedComparer());
-            foreach (var item in items)
-                Comments.Add(item);
+            var result = await commentDataStore.GetItemsAsync();
+            if (result != null)
+            {
+                var items = result.Where(c => c.ProductId == Product.Id).ToList();
+                items.Sort(new CommentDatePostedComparer());
+                foreach (var item in items)
+                    Comments.Add(item);
+            }
         }
         
         private Comment CreateDefaultComment()
         {
-            return new Comment() { Username = "Test user", Rating = 1, Text = "" };    // TODO: add real user data
+            return new Comment() { Username = "Test user", ProductId = Product.Id, Rating = 1, Text = "" };    // TODO: add real user data
         }
 
         private class CommentDatePostedComparer : IComparer<Comment>

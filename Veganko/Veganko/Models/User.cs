@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Veganko.Models
 {
-    class User
+    public class User
     {
         public int Id { get; set; }
         public string ProfileImage { get; set; }

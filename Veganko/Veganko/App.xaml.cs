@@ -3,6 +3,7 @@
 using Veganko.Views;
 using Xamarin.Forms;
 using Microsoft.WindowsAzure.MobileServices;
+using Veganko.Services;
 
 namespace Veganko
 {
@@ -11,20 +12,28 @@ namespace Veganko
         public static MobileServiceClient MobileService =
             new MobileServiceClient("https://veganko.azurewebsites.net"
         );
+        public static IAuthenticate Authenticator { get; private set; }
 
         public App ()
 		{
 			InitializeComponent();
-            
             MainPage = new MainPage();
         }
 
-		protected override void OnStart ()
-		{
-			// Handle when your app starts
-		}
+        public static void Init(IAuthenticate authenticator)
+        {
+            Authenticator = authenticator;
+        }
 
-		protected override void OnSleep ()
+        protected override void OnStart ()
+		{
+            if (MobileService.CurrentUser != null)
+                MainPage = new MainPage();
+            else
+                MainPage = new Loginpage();
+        }
+
+        protected override void OnSleep ()
 		{
 			// Handle when your app sleeps
 		}

@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Veganko.Models;
 
-[assembly: Xamarin.Forms.Dependency(typeof(Veganko.Services.MockCommentDataStore))]
+//[assembly: Xamarin.Forms.Dependency(typeof(Veganko.Services.MockCommentDataStore))]
 namespace Veganko.Services
 {
 	public class MockCommentDataStore : IDataStore<Comment>
@@ -19,28 +19,28 @@ namespace Veganko.Services
             {
                 new Comment
                 {
-                    ProductId = 0,
+                    ProductId = "0",
                     DatePosted = DateTime.Now,
                     Rating = 1, Text = "Very good product !",
                     Username = "Ed Sheeran"
                 },
                 new Comment
                 {
-                    ProductId = 0,
+                    ProductId = "0",
                     DatePosted = DateTime.Now,
                     Rating = 3, Text = "Idd !",
                     Username = "Boštjan"
                 },
                 new Comment
                 {
-                    ProductId = 0,
+                    ProductId = "0",
                     DatePosted = DateTime.Now,
                     Rating = 1, Text = "Boka jedi čaj naret !",
                     Username = "Zala"
                 },
                 new Comment
                 {
-                    ProductId = 1,
+                    ProductId = "1",
                     Username = "BigDick112",
                     Rating = 4,
                     DatePosted = DateTime.Now,
@@ -48,7 +48,7 @@ namespace Veganko.Services
                 },
                 new Comment
                 {
-                    ProductId = 1,
+                    ProductId = "1",
                     Username = "Magda_likesbigdick113",
                     Rating = 3,
                     DatePosted = DateTime.Now,
@@ -56,7 +56,7 @@ namespace Veganko.Services
                 },
                 new Comment
                 {
-                    ProductId = 2,
+                    ProductId = "2",
                     Username = "Janez_iz_portoroža",
                     Rating = 2,
                     DatePosted = DateTime.Now,
@@ -64,7 +64,7 @@ namespace Veganko.Services
                 },
                 new Comment
                 {
-                    ProductId = 2,
+                    ProductId = "2",
                     Username = "Ed Sheeran",
                     Rating = 5,
                     DatePosted = DateTime.Now,
@@ -72,7 +72,7 @@ namespace Veganko.Services
                 },
                 new Comment
                 {
-                    ProductId = 2,
+                    ProductId = "2",
                     Username = "zalathecat",
                     Rating = 5,
                     DatePosted = DateTime.Now,
