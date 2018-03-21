@@ -8,7 +8,17 @@ namespace Veganko.Services
 {
     class AccountService : IAccountService
     {
-        public User User => throw new NotImplementedException();
+        public User User
+        {
+            get
+            {
+                return new User
+                {
+                    Username = App.MobileService.CurrentUser != null ? App.MobileService.CurrentUser.UserId : "",
+                    ProfileImage = "icon.png"
+                };
+            }
+        }
 
         public bool CreateAccount(string username, string password, string profileImage)
         {

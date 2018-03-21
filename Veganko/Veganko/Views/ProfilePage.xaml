@@ -27,14 +27,14 @@
 							BorderColor="LightBlue"
 							BorderThickness="1"
 							Aspect="AspectFill"
-							Source="bostjan_kamnik.png"/>
-                        <Label Text="ZALA PAŽEK" FontSize="25" TextColor="White" FontAttributes="Bold" HorizontalTextAlignment="Center"/>
+							Source="{Binding User.ProfileImage}"/>
+						<Label Text="{Binding User.Username}" FontSize="25" TextColor="White" FontAttributes="Bold" HorizontalTextAlignment="Center"/>
                         <Label Text="Long time cheese hater" TextColor="White" FontSize="16" Margin="0, 5.0, 0, 0" HorizontalTextAlignment="Center"/>
                         <Label Text="VEGAN" FontSize="16" TextColor="White" FontAttributes="Bold" HorizontalTextAlignment="Center"/>
                     </StackLayout>
                 </StackLayout>
             </AbsoluteLayout>
-            <ListView ItemsSource="{x:Static vm:ProfileViewModel.Data}" HasUnevenRows="True" VerticalOptions="FillAndExpand">
+            <ListView ItemsSource="{x:Static vm:ProfileViewModel.Comments}" HasUnevenRows="True" VerticalOptions="FillAndExpand">
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <ViewCell>
@@ -54,11 +54,11 @@
 								HorizontalOptions="Center"
 								VerticalOptions="Fill"
 								Aspect="AspectFill"
-								Source="{Binding ImageSrc}"
+								Source="{Binding Product.Image}"
 								Grid.RowSpan="3"/>
-                                <Label Grid.Column="1" Text="{Binding ProductName}" VerticalOptions="EndAndExpand"/>
-                                <Label Grid.Column="1" Grid.Row="1" Text="{Binding Rating, Converter = {StaticResource intToStarConverter}}" VerticalOptions="Start"/>
-                                <Label Grid.Column="1" Grid.Row="2" Text="{Binding Text}" VerticalOptions="Start"/>
+                                <Label Grid.Column="1" Text="{Binding Product.Name}" VerticalOptions="EndAndExpand"/>
+                                <Label Grid.Column="1" Grid.Row="1" Text="{Binding Comment.Rating, Converter = {StaticResource intToStarConverter}}" VerticalOptions="Start"/>
+                                <Label Grid.Column="1" Grid.Row="2" Text="{Binding Comment.Text}" VerticalOptions="Start"/>
                             </Grid>
                         </ViewCell>
                     </DataTemplate>
