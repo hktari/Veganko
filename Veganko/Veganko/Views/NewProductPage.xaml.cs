@@ -10,6 +10,7 @@ using Veganko.Extensions;
 using System.Collections.ObjectModel;
 using Veganko.ViewModels;
 using Plugin.Media;
+using XamarinImageUploader;
 
 namespace Veganko.Views
 {
@@ -77,6 +78,8 @@ namespace Veganko.Views
                 if (file == null)
                     return;
 
+                vm.Product.ImageName = await ImageManager.UploadImage(file.GetStream());
+                await DisplayAlert("Alert", "Successfully uploaded image", "OK");
                 ProductImage.Source = ImageSource.FromStream(() =>
                 {
                     var stream = file.GetStream();

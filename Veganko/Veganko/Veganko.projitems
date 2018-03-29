@@ -33,6 +33,8 @@
     <Compile Include="$(MSBuildThisFileDirectory)Services\IAccountService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\IAuthenticate.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\IDataStore.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Services\ImageManager\Configuration.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Services\ImageManager\ImageManager.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\MockAccountService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\MockCommentDataStore.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\MockProductDataStore.cs" />

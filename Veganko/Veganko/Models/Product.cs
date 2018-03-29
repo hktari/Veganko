@@ -48,7 +48,9 @@ namespace Veganko.Models
         public string Name { get; set; }
         public string Brand { get; set; }
         public string Barcode { get; set; }
-        public string Image { get; set; }
+        public string ImageName { get; set; }
+        [JsonIgnore]
+        public ImageSource Image { get; set; }
         public string Description { get; set; }
         [JsonIgnore]
         public ObservableCollection<ProductClassifier> ProductClassifiers { get; set; }
