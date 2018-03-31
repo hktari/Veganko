@@ -32,17 +32,15 @@ namespace Veganko.Services
 
         public async Task<IEnumerable<Product>> GetItemsAsync(bool forceRefresh = false)
         {
-            var products = await App.MobileService.GetTable<Product>().ToEnumerableAsync();
+            var products = await App.MobileService.GetTable<Product>().ToListAsync();
             foreach (var product in products)
             {
-                var data = await ImageManager.GetImage(product.ImageName);
-                MemoryStream stream = new MemoryStream();
-                await stream.WriteAsync(data, 0, data.Length);
-                product.Image = ImageSource.FromStream(() => stream);
+                product.ImageData = await ImageManager.GetImage(product.ImageName);
+                product.Image = ImageSource.FromStream(() => new MemoryStream(product.ImageData));
             }
             return products;
         }
-
+        
         public Task<bool> UpdateItemAsync(Product item)
         {
             throw new NotImplementedException();

@@ -51,6 +51,8 @@ namespace Veganko.Models
         public string ImageName { get; set; }
         [JsonIgnore]
         public ImageSource Image { get; set; }
+        [JsonIgnore]
+        public byte[] ImageData { get; set; }
         public string Description { get; set; }
         [JsonIgnore]
         public ObservableCollection<ProductClassifier> ProductClassifiers { get; set; }
