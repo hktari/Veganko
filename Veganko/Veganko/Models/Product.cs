@@ -6,29 +6,22 @@ using Xamarin.Forms;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using System.Runtime.Serialization;
+using Veganko.Models.JsonConverters;
 
 namespace Veganko.Models
 {
     /// <summary>
     /// Classifiers to describe the type of the product, food or cosmetics
     /// </summary>
-    [JsonConverter(typeof(StringEnumConverter))]
     public enum ProductClassifier
     {
-        [EnumMember(Value = "NOT_SET")]
-        NOT_SET,
-        [EnumMember(Value = "VEGAN")]
-        Vegansko,
-        [EnumMember(Value = "VEGETARIAN")]
-        Vegeterijansko,
-        [EnumMember(Value = "GLUTEN_FREE")]
-        GlutenFree,
-        [EnumMember(Value = "RAW_VEGAN")]
-        RawVegan,
-        [EnumMember(Value = "PESCETARIAN")]
-        Pesketarijansko,
-        [EnumMember(Value = "CRUELTY_FREE")]
-        CrueltyFree
+        NOT_SET = 1,
+        Vegansko = 2,
+        Vegeterijansko = 4,
+        GlutenFree = 8,
+        RawVegan = 16,
+        Pesketarijansko = 32,
+        CrueltyFree = 64
     }
     [JsonConverter(typeof(StringEnumConverter))]
     public enum ProductType
@@ -54,7 +47,7 @@ namespace Veganko.Models
         [JsonIgnore]
         public byte[] ImageData { get; set; }
         public string Description { get; set; }
-        [JsonIgnore]
+        [JsonConverter(typeof(DecimalProductClassifierListConverter))]
         public ObservableCollection<ProductClassifier> ProductClassifiers { get; set; }
         public ProductType Type { get; set; }
         public int Rating { get; set; }
