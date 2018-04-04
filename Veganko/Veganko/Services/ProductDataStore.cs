@@ -35,8 +35,15 @@ namespace Veganko.Services
             var products = await App.MobileService.GetTable<Product>().ToListAsync();
             foreach (var product in products)
             {
-                product.ImageData = await ImageManager.GetImage(product.ImageName);
-                product.Image = ImageSource.FromStream(() => new MemoryStream(product.ImageData));
+                if (product.ImageName == null)
+                {
+                    product.Image = ImageSource.FromFile("icon.png");
+                }
+                else
+                {
+                    product.ImageData = await ImageManager.GetImage(product.ImageName);
+                    product.Image = ImageSource.FromStream(() => new MemoryStream(product.ImageData));
+                }
             }
             return products;
         }
