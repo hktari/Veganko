@@ -10,7 +10,11 @@
             </x:Arguments>
         </NavigationPage>
         <views:NewProductPage Icon="icon.png"/>
-        <views:FavoritesPage Icon="ico_favorites.png"/>
-        <views:ProfilePage Icon="icon.png"/>
+		<NavigationPage Icon="home_icon.png">
+			<x:Arguments>
+				<views:FavoritesPage Icon="ico_favorites.png"/>
+			</x:Arguments>
+		</NavigationPage>
+		<views:ProfilePage Icon="icon.png"/>
     </TabbedPage.Children>
 </TabbedPage>

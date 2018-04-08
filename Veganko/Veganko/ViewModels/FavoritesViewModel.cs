@@ -2,19 +2,21 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Text;
+using Veganko.Models;
+using Veganko.Services;
+using Xamarin.Forms;
+using System.Linq;
+using System.Threading.Tasks;
+using System.Diagnostics;
 
 namespace Veganko.ViewModels
 {
-    public class TodoItem
-    {
-        public string Id { get; set; }
-        public string Text { get; set; }
-    }
-
     public class FavoritesViewModel : BaseViewModel
     {
-        private ObservableCollection<TodoItem> items;
-        public ObservableCollection<TodoItem> Items
+        public Command LoadItemsCommand => new Command(async () => await Refresh());
+
+        private ObservableCollection<Product> items;
+        public ObservableCollection<Product> Items
         {
             get { return items; }
             set { SetProperty(ref items, value); }
@@ -23,6 +25,35 @@ namespace Veganko.ViewModels
         public FavoritesViewModel()
         {
             
+        }
+        public async Task Refresh()
+        {
+            if (IsBusy)
+                return;
+
+            IsBusy = true;
+
+            try
+            {
+                Items.Clear();
+                var favorites = await DependencyService.Get<IDataStore<FavoritesEntry>>().GetItemsAsync();
+                var products = await DependencyService.Get<IDataStore<Product>>().GetItemsAsync();
+
+                foreach (FavoritesEntry entry in favorites)
+                {
+                    var product = products.FirstOrDefault(p => p.Id == entry.ProductId);
+                    if (product != null)
+                        Items.Add(product);
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex);
+            }
+            finally
+            {
+                IsBusy = false;
+            }
         }
     }
 }

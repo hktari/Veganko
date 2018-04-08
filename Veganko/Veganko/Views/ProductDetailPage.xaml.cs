@@ -24,6 +24,7 @@ namespace Veganko.Views
         {
             base.OnAppearing();
             vm.RefreshComments();
+            vm.RefreshIsFavorite();
         }
     }
 }

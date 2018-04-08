@@ -41,7 +41,8 @@
 										Source="{Binding Product.ProductClassifiers}" HorizontalAlignment="Start"/>
 						</Grid>
 						<Button AbsoluteLayout.LayoutBounds="1, 0" AbsoluteLayout.LayoutFlags="PositionProportional" 
-								Image="ico_favorites.png" BackgroundColor="Transparent"/>
+								Image="ico_favorites.png" BackgroundColor="Transparent"
+								WidthRequest="30" HeightRequest="30" Command="{Binding AddToFavoritesCommand}"/>
 						<Button AbsoluteLayout.LayoutBounds="1, 1" AbsoluteLayout.LayoutFlags="PositionProportional" 
 								Image="ico_cosmetics.png" BackgroundColor="Transparent"/>
 					</AbsoluteLayout>

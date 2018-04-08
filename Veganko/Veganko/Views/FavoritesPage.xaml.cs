@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Veganko.Models;
 using Veganko.ViewModels;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
@@ -21,16 +22,21 @@ namespace Veganko.Views
 
             BindingContext = this.vm = new FavoritesViewModel();
         }
-        protected async override void OnAppearing()
+        protected override void OnAppearing()
         {
             base.OnAppearing();
-            vm.Items = await App.MobileService.GetTable<TodoItem>().ToCollectionAsync();
+            vm.Refresh();
         }
-        private async void AddBtnClicked(object sender, EventArgs e)
+        async void OnProductSelected(object sender, SelectedItemChangedEventArgs args)
         {
-            TodoItem item = new TodoItem { Text = "Awesome item" };
-            await App.MobileService.GetTable<TodoItem>().InsertAsync(item);
-            vm.Items = await App.MobileService.GetTable<TodoItem>().ToCollectionAsync();
+            var item = args.SelectedItem as Product;
+            if (item == null)
+                return;
+
+            await Navigation.PushAsync(new ProductDetailPage(new ProductDetailViewModel(item)));
+
+            // Manually deselect item.
+            ProductsListView.SelectedItem = null;
         }
     }
 }

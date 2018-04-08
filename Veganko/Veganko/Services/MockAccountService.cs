@@ -22,7 +22,9 @@ namespace Veganko.Services
             if (userDatabase.Exists(u => u.Username == username))
                 return false;
             var hashedPassword = Helper.CalculateBase64Sha256Hash(password);
-            var user = new User { Id = IdCounter++, Username = username, Password = hashedPassword, ProfileImage = profileImage };
+            var curId = IdCounter.ToString();
+            IdCounter++;
+            var user = new User { Id = curId, Username = username, Password = hashedPassword, ProfileImage = profileImage };
             userDatabase.Add(user);
             return true;
         }

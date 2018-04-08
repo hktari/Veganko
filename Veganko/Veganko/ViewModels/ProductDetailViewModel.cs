@@ -7,12 +7,14 @@ using Veganko.Services;
 using Xamarin.Forms;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Diagnostics;
 
 namespace Veganko.ViewModels
 {
     public class ProductDetailViewModel : BaseViewModel
     {
         public Command SendCommentCommand => new Command(SendComment);
+        public Command AddToFavoritesCommand => new Command(AddToFavorites);
 
         public Product Product { get; set; }
         public ObservableCollection<Comment> Comments { get; set; }
@@ -30,6 +32,19 @@ namespace Veganko.ViewModels
             }
         }
 
+        bool isFavorite;
+        public bool IsFavorite
+        {
+            get
+            {
+                return isFavorite;
+            }
+            set
+            {
+                SetProperty(ref isFavorite, value);
+            }
+        }
+
         IDataStore<Comment> commentDataStore;
 
         public ProductDetailViewModel(Product product)
@@ -39,6 +54,12 @@ namespace Veganko.ViewModels
 
             commentDataStore = DependencyService.Get<IDataStore<Comment>>();
             Comments = new ObservableCollection<Comment>();
+        }
+
+        public async Task RefreshIsFavorite()
+        {
+            var favorites = await DependencyService.Get<IDataStore<FavoritesEntry>>().GetItemsAsync();
+            IsFavorite = favorites.Any(fe => fe.ProductId == Product.Id);
         }
 
         private async void SendComment(object obj)
@@ -65,6 +86,34 @@ namespace Veganko.ViewModels
         private Comment CreateDefaultComment()
         {
             return new Comment() { Username = "Test user", ProductId = Product.Id, Rating = 1, Text = "" };    // TODO: add real user data
+        }
+
+        private async void AddToFavorites()
+        {
+            // TODO: handle IsBusy
+            bool success;
+            if (IsFavorite)
+            {
+                success = await DependencyService.Get<IDataStore<FavoritesEntry>>()
+                    .DeleteItemAsync(
+                        new FavoritesEntry
+                        {
+                            UserId = DependencyService.Get<IAccountService>().User.Id,
+                            ProductId = Product.Id
+                        });
+            }
+            else
+            {
+                success = await DependencyService.Get<IDataStore<FavoritesEntry>>()
+                    .AddItemAsync(
+                        new FavoritesEntry
+                        {
+                            UserId = DependencyService.Get<IAccountService>().User.Id,
+                            ProductId = Product.Id
+                        });
+            }
+            if (!success)
+                Debug.WriteLine("Couldn't add to favorites !");
         }
 
         private class CommentDatePostedComparer : IComparer<Comment>

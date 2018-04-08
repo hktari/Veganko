@@ -14,6 +14,7 @@ namespace Veganko.Services
             {
                 return new User
                 {
+                    Id = App.MobileService.CurrentUser?.UserId,
                     Username = App.MobileService.CurrentUser != null ? App.MobileService.CurrentUser.UserId : "",
                     ProfileImage = "icon.png"
                 };

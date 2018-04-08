@@ -2,18 +2,48 @@
 <views:BaseContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:views="clr-namespace:Veganko.Views"
+			 xmlns:converters="clr-namespace:Veganko.Converters"
+             xmlns:controls="clr-namespace:Veganko.Controls"
+             xmlns:models="clr-namespace:Veganko.Models"
+             xmlns:vm="clr-namespace:Veganko.ViewModels"
+             xmlns:local="clr-namespace:Veganko"
              x:Class="Veganko.Views.FavoritesPage">
     <ContentPage.Content>
-		<ListView ItemsSource="{Binding Items}">
-			<ListView.Header>
-				<StackLayout>
-					<Button Text="Add" Clicked="AddBtnClicked"/>
-				</StackLayout>
-			</ListView.Header>
+		<ListView 
+            x:Name="ProductsListView"
+            ItemsSource="{Binding Items}" 
+            HasUnevenRows="True" 
+            VerticalOptions="FillAndExpand"
+            ItemSelected="OnProductSelected"
+            RefreshCommand="{Binding LoadItemsCommand}"
+            IsPullToRefreshEnabled="true"
+            IsRefreshing="{Binding IsBusy, Mode=OneWay}"
+            CachingStrategy="RecycleElement">
 			<ListView.ItemTemplate>
 				<DataTemplate>
 					<ViewCell>
-						<Label Text="{Binding Text}"/>
+						<Grid RowSpacing="10" ColumnSpacing="10">
+							<Grid.RowDefinitions>
+								<RowDefinition Height="Auto"/>
+								<RowDefinition Height="Auto"/>
+								<RowDefinition Height="Auto"/>
+							</Grid.RowDefinitions>
+							<Grid.ColumnDefinitions>
+								<ColumnDefinition Width="Auto"/>
+								<ColumnDefinition Width="Auto"/>
+							</Grid.ColumnDefinitions>
+							<Image
+								HeightRequest="66"
+								WidthRequest="66"
+								HorizontalOptions="Center"
+								VerticalOptions="Fill"
+								Aspect="AspectFill"
+								Source="{Binding Image}"
+								Grid.RowSpan="3"/>
+							<Label Grid.Column="1" Text="{Binding Name}" VerticalOptions="EndAndExpand"/>
+							<Label Grid.Column="1" Grid.Row="1" Text="{Binding Description}" VerticalOptions="Start"/>
+							<controls:EnumImageView x:TypeArguments="models:ProductClassifier" Grid.Column="1" Grid.Row="2" Source="{Binding ProductClassifiers}" ImageSource="{x:Static local:EnumImages.ProductClassifierImages}" HorizontalAlignment="Start"/>
+						</Grid>
 					</ViewCell>
 				</DataTemplate>
 			</ListView.ItemTemplate>
