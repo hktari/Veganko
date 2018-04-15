@@ -4,15 +4,15 @@
             xmlns:views="clr-namespace:Veganko.Views"
             x:Class="Veganko.Views.MainPage">
     <TabbedPage.Children>
-        <NavigationPage Icon="home_icon.png">
+        <NavigationPage Icon="ico_search.png">
             <x:Arguments>
                 <views:ProductPage />
             </x:Arguments>
         </NavigationPage>
         <views:NewProductPage Icon="icon.png"/>
-		<NavigationPage Icon="home_icon.png">
+		<NavigationPage Icon="ico_favorites.png">
 			<x:Arguments>
-				<views:FavoritesPage Icon="ico_favorites.png"/>
+				<views:FavoritesPage />
 			</x:Arguments>
 		</NavigationPage>
 		<views:ProfilePage Icon="icon.png"/>

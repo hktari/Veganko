@@ -43,7 +43,7 @@
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <ViewCell>
-                            <Grid RowSpacing="10" ColumnSpacing="10">
+                            <Grid RowSpacing="10" ColumnSpacing="10" Margin="0, 5">
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height="Auto"/>
                                     <RowDefinition Height="Auto"/>

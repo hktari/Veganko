@@ -7,7 +7,6 @@
              xmlns:models="clr-namespace:Veganko.Models"
              xmlns:local="clr-namespace:Veganko"
              x:Class="Veganko.Views.NewProductPage"
-			 Title="Dodajanje"
 			 Padding="10">
 	<ContentPage.Resources>
         <ResourceDictionary>
