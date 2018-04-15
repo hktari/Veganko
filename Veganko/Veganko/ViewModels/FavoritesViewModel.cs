@@ -15,7 +15,7 @@ namespace Veganko.ViewModels
     {
         public Command LoadItemsCommand => new Command(async () => await Refresh());
 
-        private ObservableCollection<Product> items;
+        private ObservableCollection<Product> items = new ObservableCollection<Product>();
         public ObservableCollection<Product> Items
         {
             get { return items; }
@@ -36,10 +36,10 @@ namespace Veganko.ViewModels
             try
             {
                 Items.Clear();
-                var favorites = await DependencyService.Get<IDataStore<FavoritesEntry>>().GetItemsAsync();
+                var favorites = await DependencyService.Get<IDataStore<Favorite>>().GetItemsAsync();
                 var products = await DependencyService.Get<IDataStore<Product>>().GetItemsAsync();
 
-                foreach (FavoritesEntry entry in favorites)
+                foreach (Favorite entry in favorites)
                 {
                     var product = products.FirstOrDefault(p => p.Id == entry.ProductId);
                     if (product != null)

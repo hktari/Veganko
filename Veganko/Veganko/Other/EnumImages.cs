@@ -20,9 +20,9 @@ namespace Veganko
         {
             { ProductClassifier.Vegeterijansko, "ico_vegetarian.png" },
             { ProductClassifier.Vegansko, "ico_vegan.png" },
-            { ProductClassifier.Pesketarijansko, "ico_vegan.png" },
+            { ProductClassifier.Pesketarijansko, "ico_pescetarian.png" },
             { ProductClassifier.GlutenFree, "ico_gluten_free.png" },
-            { ProductClassifier.RawVegan, "ico_vegan.png" },
+            { ProductClassifier.RawVegan, "ico_raw_vegan.png" },
             { ProductClassifier.CrueltyFree, "ico_vegan.png" },
         };
 

@@ -30,19 +30,31 @@
 								<RowDefinition Height="Auto"/>
 								<RowDefinition Height="Auto"/>
 							</Grid.RowDefinitions>
-							<Image Grid.Column="0" Grid.Row="0" Grid.RowSpan="4" Source="{Binding Product.Image}" HorizontalOptions="Start"/>
-							<Label Grid.Column="1" Grid.Row="0" Text="{Binding Product.Name}" FontSize="Large" FontAttributes="Bold" HorizontalOptions="Start"/>
+							<Image Grid.Column="0" Grid.Row="0" Grid.RowSpan="4" 
+								   Source="{Binding Product.Image}" HorizontalOptions="Start"/>
+							<Label Grid.Column="1" Grid.Row="0" 
+								   Text="{Binding Product.Name}" FontSize="Large" 
+								   FontAttributes="Bold" HorizontalOptions="Start"/>
 							<Label Grid.Column="1" Grid.Row="1" 
-						Text="{Binding Product.Rating, Converter = {StaticResource IntToStarConverter}}" 
-						FontSize="Large" HorizontalOptions="Start"/>
+									Text="{Binding Product.Rating, Converter = {StaticResource IntToStarConverter}}" 
+									FontSize="Large" HorizontalOptions="Start"/>
 							<Label Grid.Column="1" Grid.Row="2" Text="{Binding Product.Description}" FontSize="Small"/>
 							<controls:EnumImageView Grid.Column="1" Grid.Row="3" x:TypeArguments="models:ProductClassifier" 
 										ImageSource="{x:Static local:EnumImages.ProductClassifierImages}" 
 										Source="{Binding Product.ProductClassifiers}" HorizontalAlignment="Start"/>
 						</Grid>
 						<Button AbsoluteLayout.LayoutBounds="1, 0" AbsoluteLayout.LayoutFlags="PositionProportional" 
-								Image="ico_favorites.png" BackgroundColor="Transparent"
-								WidthRequest="30" HeightRequest="30" Command="{Binding AddToFavoritesCommand}"/>
+								Image="ico_food.png" BackgroundColor="Transparent"
+								Command="{Binding AddToFavoritesCommand}" 
+								Opacity="1.0">
+							<Button.Triggers>
+								<DataTrigger TargetType="Button"
+											 Binding="{Binding IsFavorite}" 
+											 Value="False">
+									<Setter Property="Opacity" Value="0.5" />
+								</DataTrigger>
+							</Button.Triggers>
+						</Button>
 						<Button AbsoluteLayout.LayoutBounds="1, 1" AbsoluteLayout.LayoutFlags="PositionProportional" 
 								Image="ico_cosmetics.png" BackgroundColor="Transparent"/>
 					</AbsoluteLayout>

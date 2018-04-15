@@ -5,33 +5,43 @@ using System.Threading.Tasks;
 using Veganko.Models;
 using Xamarin.Forms;
 
+[assembly: Xamarin.Forms.Dependency(typeof(Veganko.Services.FavoritesDataStore))]
 namespace Veganko.Services
 {
-    class FavoritesDataStore : IDataStore<FavoritesEntry>
+    class FavoritesDataStore : IDataStore<Favorite>
     {
-        public async Task<bool> AddItemAsync(FavoritesEntry item)
+        public async Task<bool> AddItemAsync(Favorite item)
         {
-            await App.MobileService.GetTable<FavoritesEntry>().InsertAsync(item);
+            await App.MobileService.GetTable<Favorite>().InsertAsync(item);
             return true;
         }
 
-        public Task<bool> DeleteItemAsync(FavoritesEntry item)
+        public async Task<bool> DeleteItemAsync(Favorite item)
+        {
+            bool success = true;
+            try
+            {
+                await App.MobileService.GetTable<Favorite>().DeleteAsync(item);
+            }
+            catch
+            {
+                success = false;
+            }
+            return await Task.FromResult(success);
+        }
+
+        public Task<Favorite> GetItemAsync(string id)
         {
             throw new NotImplementedException();
         }
 
-        public Task<FavoritesEntry> GetItemAsync(string id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public async Task<IEnumerable<FavoritesEntry>> GetItemsAsync(bool forceRefresh = false)
+        public async Task<IEnumerable<Favorite>> GetItemsAsync(bool forceRefresh = false)
         {
             User user = DependencyService.Get<IAccountService>().User;
-            return await App.MobileService.GetTable<FavoritesEntry>().Where(fe => fe.UserId == user.Id).ToListAsync();
+            return await App.MobileService.GetTable<Favorite>().Where(fe => fe.UserId == user.Id).ToListAsync();
         }
 
-        public Task<bool> UpdateItemAsync(FavoritesEntry item)
+        public Task<bool> UpdateItemAsync(Favorite item)
         {
             throw new NotImplementedException();
         }

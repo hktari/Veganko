@@ -24,7 +24,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Converters\StringToEnumConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\StringExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\Comment.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Models\FavoritesEntry.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\Favorite.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\JsonConverters\DecimalProductClassifierListConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\Product.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\User.cs" />
