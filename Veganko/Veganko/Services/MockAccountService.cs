@@ -11,8 +11,7 @@ namespace Veganko.Services
     class MockAccountService : IAccountService
     {
         private static int IdCounter;
-        
-        public User User => throw new NotImplementedException();
+        public User User { get; private set; }
 
         private List<User> userDatabase = new List<User>();
 
@@ -39,7 +38,7 @@ namespace Veganko.Services
 
         public bool Logout()
         {
-            user = null;
+            User = null;
             return true;
         }
 
