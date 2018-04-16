@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 using Veganko.Models;
 
 //[assembly: Xamarin.Forms.Dependency(typeof(Veganko.Services.MockAccountService))]
@@ -11,7 +12,6 @@ namespace Veganko.Services
     {
         private static int IdCounter;
         
-        private User user;
         public User User => throw new NotImplementedException();
 
         private List<User> userDatabase = new List<User>();
@@ -41,6 +41,11 @@ namespace Veganko.Services
         {
             user = null;
             return true;
+        }
+
+        public Task<bool> LoginWithFacebook()
+        {
+            throw new NotImplementedException();
         }
     }
 }

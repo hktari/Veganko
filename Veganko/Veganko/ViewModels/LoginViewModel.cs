@@ -1,8 +1,11 @@
 ﻿using Microsoft.WindowsAzure.MobileServices;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Net.Http;
 using System.Text;
 using Veganko.Models;
+using Veganko.Services;
 using Veganko.Views;
 using Xamarin.Forms;
 
@@ -22,11 +25,11 @@ namespace Veganko.ViewModels
 
         private async void Login(object obj)
         {
-            if (App.Authenticator != null)
+            var authenticated = await DependencyService.Get<IAccountService>().LoginWithFacebook();
+
+            if (authenticated)
             {
-                authenticated = await App.Authenticator.Authenticate();
-                if (authenticated)
-                    App.Current.MainPage = new MainPage();
+                App.Current.MainPage = new MainPage();
             }
         }
     }
