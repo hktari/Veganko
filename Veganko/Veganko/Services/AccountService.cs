@@ -11,7 +11,7 @@ namespace Veganko.Services
 {
     class AccountService : IAccountService
     {
-        public User User { get; set; }
+        public User User { get; private set; }
 
         public bool CreateAccount(string username, string password, string profileImage)
         {
