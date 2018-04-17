@@ -23,39 +23,67 @@ namespace Veganko.ViewModels
         //    new Comment { ProductName = "Vegan Pizza No.1", Rating = 2, ImageSrc = "raspeberry_meringue.jpg", Text = "Still not cheese..." },
         //    new Comment { ProductName = "Vanilla Soya Yoghurt", Rating = 5, ImageSrc = "raspeberry_meringue.jpg", Text = "SO GOOD, OH MA GOD !" }
         //};
+        public Command LoadItemsCommand => new Command(
+            async () => await Refresh());
+
+        public User User => DependencyService.Get<IAccountService>().User;
+
+        private ObservableCollection<ProfileComment> comments;
+        public ObservableCollection<ProfileComment> Comments
+        {
+            get { return comments; }
+            set { SetProperty(ref comments, value); }
+        }
         
-        public User User { get; set; }
-
-        public ObservableCollection<ProfileComment> Comments = new ObservableCollection<ProfileComment>();
-
         private IDataStore<Comment> commentDataStore;
         private IDataStore<Product> productDataStore;
 
         public ProfileViewModel()
         {
             Title = "Profile";
-            User = DependencyService.Get<IAccountService>().User;
+            Comments = new ObservableCollection<ProfileComment>();
             commentDataStore = DependencyService.Get<IDataStore<Comment>>();
             productDataStore = DependencyService.Get<IDataStore<Product>>();
         }
         public async Task Refresh()
         {
-            var commentData = await commentDataStore.GetItemsAsync();
-            var productData = await productDataStore.GetItemsAsync();
-
-            if (commentData != null && productData != null)
+            if (IsBusy)
+                return;
+            IsBusy = true;
+            try
             {
-                commentData = commentData.Where(c => c.Username == User.Username);
-                foreach (var comment in commentData)
+                var commentData = await commentDataStore.GetItemsAsync();
+                var productData = await productDataStore.GetItemsAsync();
+
+                if (commentData != null && productData != null)
                 {
-                    var product = productData.FirstOrDefault(p => p.Id == comment.ProductId);
-                    var profileComment = new ProfileComment
+                    commentData = commentData.Where(c => c.Username == User.Username);
+                    foreach (var comment in commentData)
                     {
-                        Comment = comment,
-                        Product = product ?? new Product()
-                    };
-                    Comments.Add(profileComment);
+                        var product = productData.FirstOrDefault(p => p.Id == comment.ProductId);
+                        // If for some reason the corresponding product isn't found, just ignore the comment
+                        if (product == null)
+                        {
+                            Console.WriteLine($"Ignoring comment {comment.Id} " +
+                                $"because the corresponding product {product.Id} couldn't be found.");
+                            continue;
+                        }
+                        var profileComment = new ProfileComment
+                        {
+                            Comment = comment,
+                            Product = product
+                        };
+                        Comments.Add(profileComment);
+                    }
                 }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Could not refresh profile comments: " + e.Message + " " + e.StackTrace);
+            }
+            finally
+            {
+                IsBusy = false;
             }
         }
     }
