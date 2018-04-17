@@ -76,7 +76,7 @@
 										BorderThickness="1"
 										VerticalOptions="CenterAndExpand"
 										Aspect="AspectFill"
-										Source="bostjan_kamnik.jpg"
+										Source="{Binding User.ProfileImage}"
 										Grid.RowSpan="2"/>
 						<controls:RatingsView Grid.Column="1" Grid.Row="0" Rating="{Binding NewComment.Rating, Mode=TwoWay}" 
 											  HorizontalOptions="Start"/>

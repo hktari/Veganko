@@ -44,6 +44,8 @@ namespace Veganko.ViewModels
                 SetProperty(ref isFavorite, value);
             }
         }
+                
+        public User User => DependencyService.Get<IAccountService>().User;
 
         private Favorite favoriteEntry;
 
@@ -57,7 +59,7 @@ namespace Veganko.ViewModels
 
             commentDataStore = DependencyService.Get<IDataStore<Comment>>();
             favoriteDataStore = DependencyService.Get<IDataStore<Favorite>>();
-
+            
             Comments = new ObservableCollection<Comment>();
         }
 
@@ -115,8 +117,7 @@ namespace Veganko.ViewModels
         {
             return new Comment()
             {
-                Username = DependencyService.Get<IAccountService>()
-                                            .User.Username,
+                Username = User.Username,
                 ProductId = Product.Id,
                 Rating = 1,
                 Text = ""
