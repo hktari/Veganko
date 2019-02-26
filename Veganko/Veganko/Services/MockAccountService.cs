@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Veganko.Models;
 
-//[assembly: Xamarin.Forms.Dependency(typeof(Veganko.Services.MockAccountService))]
+[assembly: Xamarin.Forms.Dependency(typeof(Veganko.Services.MockAccountService))]
 namespace Veganko.Services
 {
     class MockAccountService : IAccountService

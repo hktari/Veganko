@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using Veganko.Models;
 using Xamarin.Forms;
 
-[assembly: Xamarin.Forms.Dependency(typeof(Veganko.Services.FavoritesDataStore))]
+//[assembly: Xamarin.Forms.Dependency(typeof(Veganko.Services.FavoritesDataStore))]
 namespace Veganko.Services
 {
     class FavoritesDataStore : IDataStore<Favorite>

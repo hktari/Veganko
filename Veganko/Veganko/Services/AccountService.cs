@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Veganko.Models;
 
-[assembly: Xamarin.Forms.Dependency(typeof(Veganko.Services.AccountService))]
+//[assembly: Xamarin.Forms.Dependency(typeof(Veganko.Services.AccountService))]
 namespace Veganko.Services
 {
     class AccountService : IAccountService

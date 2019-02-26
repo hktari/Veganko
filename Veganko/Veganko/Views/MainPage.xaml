@@ -1,20 +1,21 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<TabbedPage xmlns="http://xamarin.com/schemas/2014/forms"
-            xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-            xmlns:views="clr-namespace:Veganko.Views"
-            x:Class="Veganko.Views.MainPage">
+<TabbedPage
+    x:Class="Veganko.Views.MainPage"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:views="clr-namespace:Veganko.Views">
     <TabbedPage.Children>
         <NavigationPage Icon="ico_search.png">
             <x:Arguments>
                 <views:ProductPage />
             </x:Arguments>
         </NavigationPage>
-        <views:NewProductPage Icon="icon.png"/>
-		<NavigationPage Icon="ico_favorites.png">
-			<x:Arguments>
-				<views:FavoritesPage />
-			</x:Arguments>
-		</NavigationPage>
-		<views:ProfilePage Icon="icon.png"/>
+        <views:NewProductPage Icon="icon.png" />
+        <NavigationPage Icon="ico_favorites.png">
+            <x:Arguments>
+                <views:FavoritesPage />
+            </x:Arguments>
+        </NavigationPage>
+        <views:ProfilePage Icon="icon.png" />
     </TabbedPage.Children>
 </TabbedPage>

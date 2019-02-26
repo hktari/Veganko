@@ -27,10 +27,11 @@ namespace Veganko
 
         protected override void OnStart ()
 		{
-            if (MobileService.CurrentUser != null)
-                MainPage = new MainPage();
-            else
-                MainPage = new Loginpage();
+            //if (MobileService.CurrentUser != null)
+            //    MainPage = new MainPage();
+            //else
+            //    MainPage = new Loginpage();
+            MainPage = new MainPage();
         }
 
         protected override void OnSleep ()

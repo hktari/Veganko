@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Veganko.Models;
 
-//[assembly: Xamarin.Forms.Dependency(typeof(Veganko.Services.MockCommentDataStore))]
+[assembly: Xamarin.Forms.Dependency(typeof(Veganko.Services.MockCommentDataStore))]
 namespace Veganko.Services
 {
 	public class MockCommentDataStore : IDataStore<Comment>

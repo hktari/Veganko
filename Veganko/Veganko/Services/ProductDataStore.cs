@@ -7,7 +7,7 @@ using Veganko.Models;
 using Xamarin.Forms;
 using XamarinImageUploader;
 
-[assembly: Xamarin.Forms.Dependency(typeof(Veganko.Services.ProductDataStore))]
+//[assembly: Xamarin.Forms.Dependency(typeof(Veganko.Services.ProductDataStore))]
 namespace Veganko.Services
 {
     class ProductDataStore : IDataStore<Product>
