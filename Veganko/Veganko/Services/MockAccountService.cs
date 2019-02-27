@@ -31,9 +31,12 @@ namespace Veganko.Services
         public bool Login(string username, string password)
         {
             var user = userDatabase.Find(u => u.Username == username);
-            if (user == null)
-                return false;
-            return Helper.CalculateBase64Sha256Hash(password) == user.Password;
+            if (user != null && Helper.CalculateBase64Sha256Hash(password) == user.Password)
+            {
+                User = user;
+                return true;
+            }
+            return false;            
         }
 
         public bool Logout()

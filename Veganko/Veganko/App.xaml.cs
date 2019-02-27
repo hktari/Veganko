@@ -31,6 +31,8 @@ namespace Veganko
             //    MainPage = new MainPage();
             //else
             //    MainPage = new Loginpage();
+            DependencyService.Get<IAccountService>().CreateAccount("admin", "admin", "");
+            DependencyService.Get<IAccountService>().Login("admin", "admin");
             MainPage = new MainPage();
         }
 

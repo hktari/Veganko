@@ -177,6 +177,9 @@ namespace Veganko.ViewModels
                         }
                     }
                     break;
+                case NotifyCollectionChangedAction.Reset:
+                    SearchResult.Clear();
+                    break;
                 default:
                     throw new NotImplementedException("Unhandled collection changed action !");
             }
@@ -210,6 +213,9 @@ namespace Veganko.ViewModels
                         foreach (var product in matches)
                             SearchResult.Remove(product);
                     }
+                    break;
+                case NotifyCollectionChangedAction.Reset:
+                    SearchResult.Clear();
                     break;
                 default:
                     throw new NotImplementedException("Unhandled collection changed action !");
