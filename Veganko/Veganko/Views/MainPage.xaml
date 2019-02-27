@@ -6,16 +6,30 @@
     xmlns:views="clr-namespace:Veganko.Views">
     <TabbedPage.Children>
         <NavigationPage Icon="ico_search.png">
+            <NavigationPage.Title>
+                <OnPlatform UWP="Products" />
+            </NavigationPage.Title>
             <x:Arguments>
                 <views:ProductPage />
             </x:Arguments>
         </NavigationPage>
-        <views:NewProductPage Icon="icon.png" />
+        <views:NewProductPage Icon="icon.png">
+            <Page.Title>
+                <OnPlatform UWP="New" />
+            </Page.Title>
+        </views:NewProductPage>
         <NavigationPage Icon="ico_favorites.png">
+            <NavigationPage.Title>
+                <OnPlatform UWP="Favorites" />
+            </NavigationPage.Title>
             <x:Arguments>
                 <views:FavoritesPage />
             </x:Arguments>
         </NavigationPage>
-        <views:ProfilePage Icon="icon.png" />
+        <views:ProfilePage Icon="icon.png">
+            <Page.Title>
+                <OnPlatform UWP="Profile" />
+            </Page.Title>
+        </views:ProfilePage>
     </TabbedPage.Children>
 </TabbedPage>

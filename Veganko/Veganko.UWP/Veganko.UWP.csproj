@@ -104,6 +104,57 @@
     <None Include="Veganko.UWP_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="bostjan_kamnik.jpg">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="circle_icon.png">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="coniferous_forest.jpg">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="home_icon.png">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="ico_beverages.png">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="ico_cosmetics.png">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="ico_cruelty_free.png">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="ico_favorites.png">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="ico_food.png">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="ico_gluten_free.png">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="ico_pescetarian.png">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="ico_raw_vegan.png">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="ico_search.png">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="ico_vegan.png">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="ico_vegetarian.png">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="icon.png">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="img_product_tmp_2.jpg">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Properties\Default.rd.xml" />
     <Content Include="Assets\LockScreenLogo.scale-100.png" />
     <Content Include="Assets\LockScreenLogo.scale-125.png" />
@@ -136,6 +187,12 @@
     <Content Include="Assets\Wide310x150Logo.scale-150.png" />
     <Content Include="Assets\Wide310x150Logo.scale-200.png" />
     <Content Include="Assets\Wide310x150Logo.scale-400.png" />
+    <Content Include="qr.jpg">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="raspeberry_meringue.jpg">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="xamarin_logo.png" />
   </ItemGroup>
   <ItemGroup>
@@ -164,7 +221,7 @@
     <PackageReference Include="Xam.Plugins.Forms.ImageCircle">
       <Version>2.0.1</Version>
     </PackageReference>
-    <PackageReference Include="Xamarin.Forms" Version="2.5.0.122203" />
+    <PackageReference Include="Xamarin.Forms" Version="3.5.0.169047" />
     <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform" Version="6.0.1" />
     <PackageReference Include="ZXing.Net.Mobile.Forms">
       <Version>2.3.2</Version>
