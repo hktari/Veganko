@@ -22,13 +22,15 @@
     <Compile Include="$(MSBuildThisFileDirectory)Converters\IntToEnumConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Converters\IntToStarConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Converters\StringToEnumConverter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Converters\UACConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\StringExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\Comment.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\FacebookProfile.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\Favorite.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\JsonConverters\DecimalProductClassifierListConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\Product.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Models\User.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\User\User.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\User\UserAccessRights.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Other\EnumImages.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\AccountService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\CommentDataStore.cs" />
@@ -56,6 +58,10 @@
     <Compile Include="$(MSBuildThisFileDirectory)Views\BaseContentPage.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Views\FavoritesPage.xaml.cs">
       <DependentUpon>FavoritesPage.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Views\Product\Partial\ProductView.xaml.cs">
+      <DependentUpon>ProductView.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Views\RegisterPage.xaml.cs">
@@ -138,6 +144,12 @@
     <EmbeddedResource Include="$(MSBuildThisFileDirectory)Views\RegisterPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Views\Product\Partial\ProductView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </EmbeddedResource>
   </ItemGroup>
   <!--#if (CreateBackendProject)

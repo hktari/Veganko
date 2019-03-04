@@ -22,7 +22,7 @@ namespace Veganko.Views
         }
         async void OnProductSelected(object sender, SelectedItemChangedEventArgs args)
         {
-            var item = args.SelectedItem as Product;
+            var item = args.SelectedItem as Veganko.Models.Product;
             if (item == null)
                 return;
 
@@ -34,6 +34,12 @@ namespace Veganko.Views
         async void AddItem_Clicked(object sender, EventArgs e)
         {
             await Navigation.PushModalAsync(new NavigationPage(new NewProductPage()));
+        }
+
+        async void OnDeleteProduct(object sender, EventArgs e)
+        {
+            var mi = ((MenuItem)sender);
+            await DisplayAlert("More Context Action", mi.CommandParameter + " more context action", "OK");
         }
 
         protected override void OnAppearing()

@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Net.Http;
 using System.Text;
 using Veganko.Models;
+using Veganko.Models.User;
 using Veganko.Services;
 using Veganko.Views;
 using Xamarin.Forms;

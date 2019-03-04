@@ -7,11 +7,32 @@
     xmlns:converters="clr-namespace:Veganko.Converters"
     xmlns:local="clr-namespace:Veganko"
     xmlns:models="clr-namespace:Veganko.Models"
+    xmlns:partial="clr-namespace:Veganko.Views.Product.Partial"
+    xmlns:user="clr-namespace:Veganko.Models.User"
     xmlns:views="clr-namespace:Veganko.Views"
     xmlns:vm="clr-namespace:Veganko.ViewModels">
     <ContentPage.Resources>
         <ResourceDictionary>
             <converters:BoolInverter x:Key="BoolInverter" />
+            <converters:UACConverter x:Key="UACConverter" />
+
+            <DataTemplate x:Key="RemovableProductTemplate">
+                <ViewCell>
+                    <ViewCell.ContextActions>
+                        <MenuItem
+                            Clicked="OnDeleteProduct"
+                            CommandParameter="{Binding .}"
+                            IsDestructive="True"
+                            Text="Delete" />
+                    </ViewCell.ContextActions>
+                    <partial:ProductView />
+                </ViewCell>
+            </DataTemplate>
+            <DataTemplate x:Key="DefaultProductTemplate">
+                <ViewCell>
+                    <partial:ProductView />
+                </ViewCell>
+            </DataTemplate>
         </ResourceDictionary>
     </ContentPage.Resources>
     <ContentPage.Content>
@@ -67,53 +88,18 @@
                 IsPullToRefreshEnabled="true"
                 IsRefreshing="{Binding IsBusy, Mode=OneWay}"
                 ItemSelected="OnProductSelected"
+                ItemTemplate="{StaticResource DefaultProductTemplate}"
                 ItemsSource="{Binding SearchResult}"
                 RefreshCommand="{Binding LoadItemsCommand}"
                 VerticalOptions="FillAndExpand">
-                <ListView.ItemTemplate>
-                    <DataTemplate>
-                        <ViewCell>
-                            <Grid
-                                Margin="0,5"
-                                ColumnSpacing="10"
-                                RowSpacing="10">
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="Auto" />
-                                    <RowDefinition Height="Auto" />
-                                    <RowDefinition Height="Auto" />
-                                </Grid.RowDefinitions>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="Auto" />
-                                    <ColumnDefinition Width="Auto" />
-                                </Grid.ColumnDefinitions>
-                                <Image
-                                    Grid.RowSpan="3"
-                                    Aspect="AspectFill"
-                                    HeightRequest="66"
-                                    HorizontalOptions="Center"
-                                    Source="{Binding Image}"
-                                    VerticalOptions="Fill"
-                                    WidthRequest="66" />
-                                <Label
-                                    Grid.Column="1"
-                                    Text="{Binding Name}"
-                                    VerticalOptions="EndAndExpand" />
-                                <Label
-                                    Grid.Row="1"
-                                    Grid.Column="1"
-                                    Text="{Binding Description}"
-                                    VerticalOptions="Start" />
-                                <controls:EnumImageView
-                                    Grid.Row="2"
-                                    Grid.Column="1"
-                                    HorizontalAlignment="Start"
-                                    x:TypeArguments="models:ProductClassifier"
-                                    ImageSource="{x:Static local:EnumImages.ProductClassifierImages}"
-                                    Source="{Binding ProductClassifiers}" />
-                            </Grid>
-                        </ViewCell>
-                    </DataTemplate>
-                </ListView.ItemTemplate>
+                <ListView.Triggers>
+                    <DataTrigger
+                        Binding="{Binding UserAccessRights, Converter={StaticResource UACConverter}, ConverterParameter={x:Static user:UserAccessRights.ProductsDelete}}"
+                        TargetType="ListView"
+                        Value="True">
+                        <Setter Property="ItemTemplate" Value="{StaticResource RemovableProductTemplate}" />
+                    </DataTrigger>
+                </ListView.Triggers>
             </ListView>
         </StackLayout>
     </ContentPage.Content>

@@ -29,7 +29,7 @@ namespace Veganko.Views
         }
         async void OnProductSelected(object sender, SelectedItemChangedEventArgs args)
         {
-            var item = args.SelectedItem as Product;
+            var item = args.SelectedItem as Veganko.Models.Product;
             if (item == null)
                 return;
 

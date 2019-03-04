@@ -8,6 +8,7 @@ using Xamarin.Forms;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Diagnostics;
+using Veganko.Models.User;
 
 namespace Veganko.ViewModels
 {

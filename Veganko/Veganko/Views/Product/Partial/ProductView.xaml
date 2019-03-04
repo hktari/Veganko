@@ -1,0 +1,49 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<ContentView
+    x:Class="Veganko.Views.Product.Partial.ProductView"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:controls="clr-namespace:Veganko.Controls"
+    xmlns:local="clr-namespace:Veganko"
+    xmlns:models="clr-namespace:Veganko.Models">
+    <ContentView.Content>
+        <Grid
+            Margin="0,5"
+            ColumnSpacing="10"
+            RowSpacing="10">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <Image
+                Grid.RowSpan="3"
+                Aspect="AspectFill"
+                HeightRequest="66"
+                HorizontalOptions="Center"
+                Source="{Binding Image}"
+                VerticalOptions="Fill"
+                WidthRequest="66" />
+            <Label
+                Grid.Column="1"
+                Text="{Binding Name}"
+                VerticalOptions="EndAndExpand" />
+            <Label
+                Grid.Row="1"
+                Grid.Column="1"
+                Text="{Binding Description}"
+                VerticalOptions="Start" />
+            <controls:EnumImageView
+                Grid.Row="2"
+                Grid.Column="1"
+                HorizontalAlignment="Start"
+                x:TypeArguments="models:ProductClassifier"
+                ImageSource="{x:Static local:EnumImages.ProductClassifierImages}"
+                Source="{Binding ProductClassifiers}" />
+        </Grid>
+    </ContentView.Content>
+</ContentView>

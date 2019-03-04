@@ -8,6 +8,8 @@ using System.Text;
 using System.Threading.Tasks;
 using Veganko.Controls;
 using Veganko.Models;
+using Veganko.Models.User;
+using Veganko.Services;
 using Veganko.Views;
 using Xamarin.Forms;
 using Xamarin.Forms.Internals;
@@ -20,6 +22,19 @@ namespace Veganko.ViewModels
         public Command SearchClickedCommand => new Command(OnSearchClicked);
         public Command SearchBarcodeCommand => new Command(OnBarcodeSearch);
         public Command SwitchFilteringOptions => new Command(OnSwitchFilteringOptions);
+
+        private UserAccessRights userAccessRights;
+        public UserAccessRights UserAccessRights
+        {
+            get
+            {
+                return userAccessRights;
+            }
+            set
+            {
+                SetProperty(ref userAccessRights, value);
+            }
+        }
 
         string searchText = "";
         public string SearchText
@@ -274,6 +289,8 @@ namespace Veganko.ViewModels
 
             try
             {
+                UserAccessRights = DependencyService.Get<IAccountService>().User.AccessRights;
+
                 Products.Clear();
                 var items = await DataStore.GetItemsAsync(true);
                 foreach (var item in items)
