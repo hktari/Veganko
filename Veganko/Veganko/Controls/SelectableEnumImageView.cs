@@ -42,12 +42,20 @@ namespace Veganko.Controls
         private static void OnSelectedChanged(BindableObject bindable, object oldValue, object newValue)
         {
             var view = bindable as SelectableEnumImageView<T>;
-            var selected = newValue as ObservableCollection<T>;
-            view.NotifyItemViewModels(selected);
-            selected.CollectionChanged += (sender, args) =>
+
+            if (oldValue is ObservableCollection<T> oldSelected)
             {
-                view.NotifyItemViewModels(sender as ObservableCollection<T>);
-            };
+                oldSelected.CollectionChanged -= view.HandleSelectedCollectionChanged;
+            }
+
+            var newSelected = (ObservableCollection<T>)newValue;
+            view.NotifyItemViewModels(newSelected);
+            newSelected.CollectionChanged += view.HandleSelectedCollectionChanged;
+        }
+
+        private void HandleSelectedCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+        {
+            NotifyItemViewModels(sender as ObservableCollection<T>);
         }
 
         private static object selectedCoerceValue(BindableObject bindable, object value)
@@ -68,6 +76,7 @@ namespace Veganko.Controls
             if (newSource == null)
                 return;
             SetViewContent(CreateView(newSource));
+            NotifyItemViewModels(Selected);
         }
 
         /// <summary>

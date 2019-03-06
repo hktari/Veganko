@@ -83,7 +83,17 @@ namespace Veganko.ViewModels
             }
             set
             {
-                SetProperty(ref selectedProductClassifiers, value);
+                if (selectedProductClassifiers != null)
+                {
+                    SelectedProductClassifiers.CollectionChanged -= OnSelectedProductClassifierChanged;
+                }
+
+                if (SetProperty(ref selectedProductClassifiers, value) && value != null)
+                {
+                    OnSelectedProductClassifierChanged(value, 
+                        new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, value));
+                    value.CollectionChanged += OnSelectedProductClassifierChanged;
+                }
             }
         }
 
@@ -96,7 +106,17 @@ namespace Veganko.ViewModels
             }
             set
             {
-                SetProperty(ref selectedProductTypes, value);
+                if (selectedProductTypes != null)
+                {
+                    selectedProductTypes.CollectionChanged -= OnSelectedProductTypeChanged;
+                }
+
+                if (SetProperty(ref selectedProductTypes, value) && value != null)
+                {
+                    OnSelectedProductTypeChanged(value,
+                        new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, value));
+                    value.CollectionChanged += OnSelectedProductTypeChanged;
+                }
             }
         }
 
@@ -124,43 +144,50 @@ namespace Veganko.ViewModels
             Title = "Iskanje";
             Products = new ObservableCollection<Product>();
             SearchResult = new ObservableCollection<Product>();
-            SelectedProductClassifiers = new ObservableCollection<ProductClassifier>()
-            {
-                ProductClassifier.NOT_SET,
-                ProductClassifier.CrueltyFree,
-                ProductClassifier.GlutenFree,
-                ProductClassifier.Pesketarijansko,
-                ProductClassifier.RawVegan,
-                ProductClassifier.Vegansko,
-                ProductClassifier.Vegeterijansko
-            };
-            SelectedProductClassifiers.CollectionChanged += OnSelectedProductClassifierChanged;
-
-            SelectedProductTypes = new ObservableCollection<ProductType>()
-            {
-                ProductType.NOT_SET,
-                ProductType.Hrana,
-                ProductType.Pijaca,
-                ProductType.Kozmetika
-            };
-            SelectedProductTypes.CollectionChanged += OnSelectedProductTypeChanged;
 
             LoadItemsCommand = new Command(async () => await ExecuteLoadItemsCommand());
 
             MessagingCenter.Subscribe<NewProductPage, Product>(this, "AddItem", async (obj, item) =>
             {
                 var _item = item as Product;
-                Products.Add(_item);
-                await DataStore.AddItemAsync(_item);
+                if (await DataStore.AddItemAsync(_item))
+                {
+                    Products.Add(_item);
+                    Reset();
+                }
             });
+        }
 
-            Products.CollectionChanged += OnProductsCollectionChanged;
+        public void Reset()
+        {
+            SearchResult.Clear();
+
+            SelectedProductClassifiers = new ObservableCollection<ProductClassifier>(
+                GetValues<ProductClassifier>().Skip(1));
+
+            SelectedProductTypes = new ObservableCollection<ProductType>(
+                GetValues<ProductType>().Skip(1));
+        }
+
+        public IEnumerable<TEnum> GetValues<TEnum>()
+        {
+            var all = Enum.GetValues(typeof(TEnum));
+            var tmp = new TEnum[all.Length];
+            all.CopyTo(tmp, 0);
+            return tmp;
         }
 
         public async Task DeleteProduct(Product product)
         {
-            await DataStore.DeleteItemAsync(product);
-            await ExecuteLoadItemsCommand();
+            if (await DataStore.DeleteItemAsync(product))
+            {
+                await ExecuteLoadItemsCommand();
+                Reset();
+            }
+            else
+            {
+                // TODO: Notify user
+            }
         }
 
         private void OnSelectedProductClassifierChanged(object sender, NotifyCollectionChangedEventArgs e)
@@ -242,27 +269,7 @@ namespace Veganko.ViewModels
                     throw new NotImplementedException("Unhandled collection changed action !");
             }
         }
-
-        private void OnProductsCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
-        {
-            switch (e.Action)
-            {
-                case NotifyCollectionChangedAction.Add:
-                    foreach(var p in e.NewItems)
-                        SearchResult.Add((Product)p); 
-                    break;
-                case NotifyCollectionChangedAction.Remove:
-                    foreach (var p in e.OldItems)
-                        SearchResult.Remove((Product)p);
-                    break;
-                case NotifyCollectionChangedAction.Reset:
-                    searchResult.Clear();
-                    break;
-                default:
-                    throw new NotImplementedException("Unhandled collection changed action !");
-            }
-        }
-
+        
         void OnSearchClicked()
         {
             FilterProducts();
@@ -326,7 +333,7 @@ namespace Veganko.ViewModels
 
         private void ClearAndAddToSearchResult(IEnumerable<Product> items)
         {
-            SearchResult.Clear();
+            Reset();
             foreach (var item in items)
                 SearchResult.Add(item);
         }
