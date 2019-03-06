@@ -85,7 +85,7 @@ namespace Veganko.ViewModels
             {
                 if (selectedProductClassifiers != null)
                 {
-                    SelectedProductClassifiers.CollectionChanged -= OnSelectedProductClassifierChanged;
+                    selectedProductClassifiers.CollectionChanged -= OnSelectedProductClassifierChanged;
                 }
 
                 if (SetProperty(ref selectedProductClassifiers, value) && value != null)
@@ -206,7 +206,6 @@ namespace Veganko.ViewModels
                             if (!SearchResult.Contains(product))
                             {
                                 SearchResult.Add(product);
-
                             }
                         }
                     }
@@ -249,7 +248,6 @@ namespace Veganko.ViewModels
                             if (!SearchResult.Contains(product))
                             {
                                 SearchResult.Add(product);
-
                             }
                         }
                     }

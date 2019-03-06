@@ -68,14 +68,14 @@
                         x:TypeArguments="models:ProductClassifier"
                         ImageSource="{x:Static local:EnumImages.ProductClassifierImages}"
                         IsVisible="{Binding ShowProductClassifiers}"
-                        Selected="{Binding SelectedProductClassifiers, Mode=TwoWay}"
+                        Selected="{Binding SelectedProductClassifiers}"
                         Source="{Binding ProductClassifiers}"
                         VerticalOptions="Center" />
                     <controls:SelectableEnumImageView
                         x:TypeArguments="models:ProductType"
                         ImageSource="{x:Static local:EnumImages.ProductTypeImages}"
                         IsVisible="{Binding ShowProductClassifiers, Converter={StaticResource BoolInverter}}"
-                        Selected="{Binding SelectedProductTypes, Mode=TwoWay}"
+                        Selected="{Binding SelectedProductTypes}"
                         Source="{Binding ProductTypes}"
                         VerticalOptions="Center" />
                 </StackLayout>

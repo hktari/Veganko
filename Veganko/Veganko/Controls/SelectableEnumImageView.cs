@@ -16,7 +16,7 @@ namespace Veganko.Controls
     public class SelectableEnumImageView<T> : EnumImageView<T>
     {
         public static readonly BindableProperty SelectedProperty =
-            BindableProperty.Create(nameof(Selected), typeof(ObservableCollection<T>), typeof(SelectableEnumImageView<T>), new ObservableCollection<T>(), BindingMode.TwoWay, propertyChanged: OnSelectedChanged, coerceValue: selectedCoerceValue);
+            BindableProperty.Create(nameof(Selected), typeof(ObservableCollection<T>), typeof(SelectableEnumImageView<T>), new ObservableCollection<T>(), propertyChanged: OnSelectedChanged);
 
         public ObservableCollection<T> Selected
         {
@@ -48,35 +48,29 @@ namespace Veganko.Controls
                 oldSelected.CollectionChanged -= view.HandleSelectedCollectionChanged;
             }
 
-            var newSelected = (ObservableCollection<T>)newValue;
-            view.NotifyItemViewModels(newSelected);
-            newSelected.CollectionChanged += view.HandleSelectedCollectionChanged;
+            if (newValue is ObservableCollection<T> newSelected)
+            {
+                view.HandleSelectedCollectionChanged(newSelected, null);
+                newSelected.CollectionChanged += view.HandleSelectedCollectionChanged;
+            }
         }
 
         private void HandleSelectedCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
-            NotifyItemViewModels(sender as ObservableCollection<T>);
+            NotifyChildren(sender as ObservableCollection<T>);
         }
-
-        private static object selectedCoerceValue(BindableObject bindable, object value)
-        {
-            var selected = value as ObservableCollection<T>;
-            if(selected == null)
-            {
-                return new ObservableCollection<T>();
-            }
-            return selected;
-        }
-
+        
         public override void HandleSourceChanged(ObservableCollection<T> newSource)
         {
             // re-initialize the buttons and state of the viewmodel
-            Selected.Clear();
+            Selected?.Clear();
             itemViewModels.Clear();
-            if (newSource == null)
-                return;
-            SetViewContent(CreateView(newSource));
-            NotifyItemViewModels(Selected);
+
+            if (newSource != null)
+                SetViewContent(CreateView(newSource));
+
+            if (Selected != null)
+                NotifyChildren(Selected);
         }
 
         /// <summary>
@@ -104,9 +98,12 @@ namespace Veganko.Controls
         /// <summary>
         /// Notify the ItemViewModels when the Selected collection is changed from outside the view
         /// </summary>
-        public void NotifyItemViewModels(ObservableCollection<T> selected)
+        public void NotifyChildren(ObservableCollection<T> selected)
         {
-            itemViewModels.ForEach(vm => vm.SelectedCollectionChangedCommand.Execute(selected));
+            foreach (var itemVm in itemViewModels)
+            {
+                itemVm.IsSelected = selected.Contains(itemVm.Classifier);
+            }
         }
 
         List<View> CreateView(ObservableCollection<T> source)
@@ -129,7 +126,6 @@ namespace Veganko.Controls
                 views.Add(image);
                 itemViewModels.Add(vm);
             }
-            NotifyItemViewModels(Selected);
             return views;
         }
     }

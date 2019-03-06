@@ -106,7 +106,11 @@ namespace Veganko.Controls
             {
                 stackLayout.Children.Add(item);
             }
-            Content = stackLayout;
+            Content = new ScrollView
+            {
+                Orientation = ScrollOrientation.Horizontal,
+                Content = stackLayout
+            };
         }
         
         protected string GetImageForClassifer(T classifier)

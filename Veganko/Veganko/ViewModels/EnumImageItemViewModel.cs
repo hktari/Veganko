@@ -62,8 +62,7 @@ namespace Veganko.ViewModels
                 IsSelected = !IsSelected;
                 onButtonClickCallback?.Execute(this);
             });
-        public Command SelectedCollectionChangedCommand => new Command(OnSelectedCollectionChanged);
-
+        
         Command onButtonClickCallback;
 
         public EnumImageItemViewModel(T classifier, FileImageSource image, Command onButtonClickCallback)
@@ -79,15 +78,6 @@ namespace Veganko.ViewModels
         {
             Classifier = classifier;
             Image = image;
-        }
-
-        /// <summary>
-        /// Handle when the collection is changed from outside the view
-        private void OnSelectedCollectionChanged(object arg)
-        {
-            var selected = arg as ObservableCollection<T>;
-            if(selected != null)
-                IsSelected = selected.Contains(Classifier);
         }
     }
 }
