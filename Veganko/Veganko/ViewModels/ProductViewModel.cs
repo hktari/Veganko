@@ -157,6 +157,12 @@ namespace Veganko.ViewModels
             Products.CollectionChanged += OnProductsCollectionChanged;
         }
 
+        public async Task DeleteProduct(Product product)
+        {
+            await DataStore.DeleteItemAsync(product);
+            await ExecuteLoadItemsCommand();
+        }
+
         private void OnSelectedProductClassifierChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
             var collection = sender as ObservableCollection<ProductClassifier>;

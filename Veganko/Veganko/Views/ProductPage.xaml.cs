@@ -38,8 +38,12 @@ namespace Veganko.Views
 
         async void OnDeleteProduct(object sender, EventArgs e)
         {
-            var mi = ((MenuItem)sender);
-            await DisplayAlert("More Context Action", mi.CommandParameter + " more context action", "OK");
+            string result = await DisplayActionSheet("Are you sure you wish to delete this product ?", "Cancel", "Yes");
+            if (result == "Yes")
+            {
+                var mi = ((MenuItem)sender);
+                await vm.DeleteProduct((Veganko.Models.Product)mi.CommandParameter);
+            }
         }
 
         protected override void OnAppearing()
