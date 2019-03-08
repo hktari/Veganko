@@ -53,7 +53,7 @@ namespace Veganko.Views
             if (vm.Products.Count == 0)
                 vm.LoadItemsCommand.Execute(null);
 
-            vm.Reset();
+            vm.UnapplyFilters();
         }
     }
 }

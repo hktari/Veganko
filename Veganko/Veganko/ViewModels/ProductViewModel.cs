@@ -45,12 +45,19 @@ namespace Veganko.ViewModels
             }
             set
             {
-                SetProperty(ref searchText, value);
+                if (SetProperty(ref searchText, value))
+                {
+                    if (string.IsNullOrWhiteSpace(value))
+                    {
+                        matchesByText = null;
+                    }
+                }
             }
         }
 
         private ObservableCollection<Product> searchResult;
-        public ObservableCollection<Product> SearchResult {
+        public ObservableCollection<Product> SearchResult
+        {
             get
             {
                 return searchResult;
@@ -97,25 +104,42 @@ namespace Veganko.ViewModels
             }
         }
 
-        ObservableCollection<ProductType> selectedProductTypes;
-        public ObservableCollection<ProductType> SelectedProductTypes
+        //ObservableCollection<ProductType> selectedProductTypes;
+        //public ObservableCollection<ProductType> SelectedProductTypes
+        //{
+        //    get
+        //    {
+        //        return selectedProductTypes;
+        //    }
+        //    set
+        //    {
+        //        if (selectedProductTypes != null)
+        //        {
+        //            selectedProductTypes.CollectionChanged -= OnSelectedProductTypeChanged;
+        //        }
+
+        //        if (SetProperty(ref selectedProductTypes, value) && value != null)
+        //        {
+        //            OnSelectedProductTypeChanged(value,
+        //                new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, value));
+        //            value.CollectionChanged += OnSelectedProductTypeChanged;
+        //        }
+        //    }
+        //}
+        private bool defaultClassifiersUpdated = false;
+
+        private ProductType selectedProductType;
+        public ProductType SelectedProductType
         {
             get
             {
-                return selectedProductTypes;
+                return selectedProductType;
             }
             set
             {
-                if (selectedProductTypes != null)
+                if (SetProperty(ref selectedProductType, value))
                 {
-                    selectedProductTypes.CollectionChanged -= OnSelectedProductTypeChanged;
-                }
-
-                if (SetProperty(ref selectedProductTypes, value) && value != null)
-                {
-                    OnSelectedProductTypeChanged(value,
-                        new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, value));
-                    value.CollectionChanged += OnSelectedProductTypeChanged;
+                    SelectedProductClassifiers.Clear();
                 }
             }
         }
@@ -139,6 +163,9 @@ namespace Veganko.ViewModels
             ProductType.Kozmetika
         };
 
+        private List<Product> matchesByText;
+        private List<Product> matchesByClassifiers;
+
         public ProductViewModel()
         {
             Title = "Iskanje";
@@ -147,26 +174,33 @@ namespace Veganko.ViewModels
 
             LoadItemsCommand = new Command(async () => await ExecuteLoadItemsCommand());
 
+            SelectedProductClassifiers = new ObservableCollection<ProductClassifier>();
+            SelectedProductType = ProductType.NOT_SET;
+
             MessagingCenter.Subscribe<NewProductPage, Product>(this, "AddItem", async (obj, item) =>
             {
                 var _item = item as Product;
                 if (await DataStore.AddItemAsync(_item))
                 {
                     Products.Add(_item);
-                    Reset();
+                    SearchResult.Insert(0, _item);
+                    UnapplyFilters();
                 }
             });
         }
 
-        public void Reset()
+        public void UnapplyFilters(bool notifyUIOnly = true)
         {
-            SearchResult.Clear();
+            this.notifyUIOnly = notifyUIOnly;
 
-            SelectedProductClassifiers = new ObservableCollection<ProductClassifier>(
-                GetValues<ProductClassifier>().Skip(1));
+            SelectedProductType = ProductType.NOT_SET;
+            SelectedProductClassifiers?.Clear();
+            // Do this only if if wasn't already done by setting the property above
+            //if (!defaultClassifiersUpdated)
+            //    SelectDefaultClassifiers();
 
-            SelectedProductTypes = new ObservableCollection<ProductType>(
-                GetValues<ProductType>().Skip(1));
+            // Reset
+            //defaultClassifiersUpdated = false;
         }
 
         public IEnumerable<TEnum> GetValues<TEnum>()
@@ -182,7 +216,7 @@ namespace Veganko.ViewModels
             if (await DataStore.DeleteItemAsync(product))
             {
                 await ExecuteLoadItemsCommand();
-                Reset();
+                UnapplyFilters();
             }
             else
             {
@@ -192,86 +226,94 @@ namespace Veganko.ViewModels
 
         private void OnSelectedProductClassifierChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
-            var collection = sender as ObservableCollection<ProductClassifier>;
+            if (notifyUIOnly)
+            {
+                matchesByClassifiers = null;
+                notifyUIOnly = false;
+                return;
+            }
+
+            var classifiers = sender as ObservableCollection<ProductClassifier>;
+            var newClassifiers = (IList<ProductClassifier>)e.NewItems;
 
             List<Product> matches;
             switch (e.Action)
             {
                 case NotifyCollectionChangedAction.Add:
-                    foreach (ProductClassifier classifier in e.NewItems)
-                    {
-                        matches = Products.Where(p => p.ProductClassifiers.Contains(classifier)).ToList();
-                        foreach(var product in matches)
+                    matches = Products.Where(
+                        p =>
                         {
-                            if (!SearchResult.Contains(product))
-                            {
-                                SearchResult.Add(product);
-                            }
-                        }
+                            if (p.ProductClassifiers == null)
+                                return false;
+
+                            return p.ProductClassifiers.Union(newClassifiers).Count() > 0;
+                        }).ToList();
+                    {
+                        
+                        //foreach(var product in matches)
+                        //{
+                        //    if (!SearchResult.Contains(product))
+                        //    {
+                        //        SearchResult.Add(product);
+                        //    }
+                        //}
                     }
                     break;
                 case NotifyCollectionChangedAction.Remove:
-                    foreach (ProductClassifier classifier in e.OldItems)
-                    {
-                        matches = SearchResult.Where(p => p.ProductClassifiers.Contains(classifier)).ToList();
-                        foreach (var product in matches)
+                    matches = SearchResult.Where(
+                        p =>
                         {
-                            if (!product.ProductClassifiers.Any(
-                                p => collection.Contains(p)))
-                            {
-                                SearchResult.Remove(product);
-                            }
-                        }
-                    }
+                            Debug.Assert(p.ProductClassifiers != null);
+                            return p.ProductClassifiers.Union(classifiers).Count() > 0;
+                        }).ToList();
                     break;
                 case NotifyCollectionChangedAction.Reset:
-                    SearchResult.Clear();
+                    matches = new List<Product>();
                     break;
                 default:
                     throw new NotImplementedException("Unhandled collection changed action !");
             }
+
+            matchesByClassifiers = matches;
+
+            UpdateSearchResults();
         }
 
-        private void OnSelectedProductTypeChanged(object sender, NotifyCollectionChangedEventArgs e)
+        private void UpdateSearchResults()
         {
-            var view = sender as SelectableEnumImageView<ProductClassifier>;
+            // TODO: IF TEXT SEARCH IN TEXT RESULTS BY PRODUCT TYPE / CLASSIFIER
+            //      ELSE SEARCH IN PRODUCTS BY PRODUCT TYPE / CLASSIFIER
+            IEnumerable<Product> finalMatches = null;
 
-            List<Product> matches;
-            switch (e.Action)
+            if (SelectedProductType != ProductType.NOT_SET)
             {
-                case NotifyCollectionChangedAction.Add:
-                    foreach (ProductType type in e.NewItems)
-                    {
-                        matches = Products.Where(p => p.Type == type).ToList();
-                        foreach (var product in matches)
-                        {
-                            if (!SearchResult.Contains(product))
-                            {
-                                SearchResult.Add(product);
-                            }
-                        }
-                    }
-                    break;
-                case NotifyCollectionChangedAction.Remove:
-                    foreach (ProductType type in e.OldItems)
-                    {
-                        matches = SearchResult.Where(p => p.Type == type).ToList();
-                        foreach (var product in matches)
-                            SearchResult.Remove(product);
-                    }
-                    break;
-                case NotifyCollectionChangedAction.Reset:
-                    SearchResult.Clear();
-                    break;
-                default:
-                    throw new NotImplementedException("Unhandled collection changed action !");
+                finalMatches = Products.Where(p => p.Type == SelectedProductType);
+
+                if (matchesByClassifiers != null)
+                {
+                    finalMatches = finalMatches.Union(matchesByClassifiers);
+                }
+
+                if (matchesByText != null)
+                {
+                    finalMatches = finalMatches.Union(matchesByText);
+                }
             }
+
+            SetSearchResults(finalMatches ?? Products);
         }
-        
+
+        private bool notifyUIOnly = false;
+
         void OnSearchClicked()
-        {
-            FilterProducts();
-        }
+		{
+			matchesByText = Products
+				.Where(p => p.Name.ToLower().Contains(SearchText.ToLower()) || p.Description.ToLower().Contains(SearchText.ToLower()))
+                .ToList();
+
+            UnapplyFilters();
+            SetSearchResults(matchesByText);
+		}
 
         async void OnBarcodeSearch()
         {
@@ -282,7 +324,9 @@ namespace Veganko.ViewModels
             if (result != null)
             {
                 var query = Products.Where(p => p.Barcode == result.Text);
-                ClearAndAddToSearchResult(query);
+                // TODO: disable application of filters ?
+                UnapplyFilters();
+                SetSearchResults(query);
             }
         }
 
@@ -304,10 +348,7 @@ namespace Veganko.ViewModels
 
                 Products.Clear();
                 var items = await DataStore.GetItemsAsync(true);
-                foreach (var item in items)
-                {
-                    Products.Add(item);
-                }
+                Products = new ObservableCollection<Product>(items);
             }
             catch (Exception ex)
             {
@@ -319,19 +360,9 @@ namespace Veganko.ViewModels
             }
         }
 
-        private void FilterProducts()
+        private void SetSearchResults(IEnumerable<Product> items)
         {
-            var query = Products
-                .Where(
-                    p => p.Name.ToLower().Contains(SearchText.ToLower()) ||
-                         p.Description.ToLower().Contains(SearchText.ToLower())
-                );
-            ClearAndAddToSearchResult(query);
-        }
-
-        private void ClearAndAddToSearchResult(IEnumerable<Product> items)
-        {
-            Reset();
+            SearchResult.Clear();
             foreach (var item in items)
                 SearchResult.Add(item);
         }
