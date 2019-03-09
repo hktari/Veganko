@@ -21,6 +21,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Converters\BoolInverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Converters\IntToEnumConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Converters\IntToStarConverter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Converters\StringCaseFormatter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Converters\StringToEnumConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Converters\UACConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\StringExtensions.cs" />
