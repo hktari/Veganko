@@ -104,6 +104,7 @@
     <None Include="Veganko.UWP_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="adez_almond.jpg" />
     <Content Include="alverde_after_shave.jpg" />
     <Content Include="arasidovo_maslo.jpg" />
     <Content Include="bostjan_kamnik.jpg">
@@ -160,6 +161,8 @@
       <SubType>Designer</SubType>
     </Content>
     <Content Include="manner.jpg" />
+    <Content Include="maslo_za_telo.jpg" />
+    <Content Include="Olivella_hranilna_krema_r.jpg" />
     <Content Include="Properties\Default.rd.xml" />
     <Content Include="Assets\LockScreenLogo.scale-100.png" />
     <Content Include="Assets\LockScreenLogo.scale-125.png" />
@@ -198,6 +201,8 @@
     <Content Include="raspeberry_meringue.jpg">
       <SubType>Designer</SubType>
     </Content>
+    <Content Include="violife.jpg" />
+    <Content Include="violife_mozarella.png" />
     <Content Include="xamarin_logo.png" />
   </ItemGroup>
   <ItemGroup>

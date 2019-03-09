@@ -21,32 +21,33 @@ namespace Veganko.Services
               new Product
                 {
                     Id = "0",
-                    Name = "Vegan Cheese", Description = "100% VEGAN",
-                    Image = "img_product_tmp_2.jpg", Rating = 5,
+                    Name = "Violife Original Flavor", Description = "With coconut oil and vitamin B12",
+                    Image = "violife.jpg", Rating = 5,
                     Type = ProductType.Hrana,
                     ProductClassifiers = new ObservableCollection<ProductClassifier>
                     {
+                        ProductClassifier.Vegansko,
+                    }
+                },
+              new Product
+                {
+                    Id = "1",
+                    Name = "Olivella hranilna krema", Description = "Lahka naravna nočna hranilna krema se dobro vpija. Kože ne pušča mastne, temveč jo izjemno hrani in neguje, poživi, ter koži daje mehak in zdrav občutek. Primerna tudi za dnevno nego.",
+                    Image = "Olivella_hranilna_krema_r.jpg", Rating = 5,
+                    Type = ProductType.Kozmetika,
+                    ProductClassifiers = new ObservableCollection<ProductClassifier>
+                    {
+                        ProductClassifier.CrueltyFree,
                         ProductClassifier.Vegansko,
                         ProductClassifier.GlutenFree
                     }
                 },
               new Product
                 {
-                    Id = "1",
-                    Name = "Cheese Face Message Cream", Description = "Creamy",
-                    Image = "img_product_tmp_2.jpg", Rating = 5,
-                    Type = ProductType.Kozmetika,
-                    ProductClassifiers = new ObservableCollection<ProductClassifier>
-                    {
-                        ProductClassifier.CrueltyFree,
-                        ProductClassifier.Vegansko
-                    }
-                },
-              new Product
-                {
                     Id = "2",
-                    Name = "Violife Mozarella Cheese", Description = "From soya with love",
-                    Image = "img_product_tmp_2.jpg", Rating = 5,
+                    Name = "Violife Mozzarella flavour Grated", Description = "Try making your own pizza and use our vegan mozzarella flavour grated cheese with fresh tomato puree. For the perfect family meal.",
+                    Brand = "Violife",
+                    Image = "violife_mozarella.png", Rating = 5,
                     Type = ProductType.Hrana,
                     ProductClassifiers = new ObservableCollection<ProductClassifier>
                     {
@@ -56,14 +57,12 @@ namespace Veganko.Services
                 new Product
                 {
                     Id = "3",
-                    Name = "Lepotna krema", Description = "Za fajn namazane roke",
-                    Image = "img_product_tmp_2.jpg",
+                    Name = "Flow kosmetiikka karitejevo maslo in ognjič", Description = "Organsko karitejevo maslo je primerno za zaščito, nego in vlaženje kože celega telesa. Učinkovito tudi pri negi nog – zmehča trdo in popokano kožo pet.",
+                    Image = "Olivella_hranilna_krema_r.jpg",
                     Type = ProductType.Kozmetika,
                     ProductClassifiers = new ObservableCollection<ProductClassifier>
                     {
                         ProductClassifier.Vegansko,
-                        ProductClassifier.GlutenFree,
-                        ProductClassifier.CrueltyFree
                     }
                 },
                 new Product
@@ -140,6 +139,19 @@ namespace Veganko.Services
                         ProductClassifier.GlutenFree,
                         ProductClassifier.RawVegan,
                         ProductClassifier.Pesketarijansko
+                    }
+                },
+                new Product
+                {
+                    Id = "10",
+                    Name = "Adez Almond Drink",
+                    Description = " With its unique proposition of blended plant ingredients AdeZ is bringing great taste to plant-based beverages for the first time and is a nutritious and tasty option for the morning and throughout the day. Enjoy as a drink, with cereals, in a smoothie, in tea or coffee, even for cooking. AdeZ, nourish your potential.",
+                    Brand = "Adez",
+                    Image = "adez_almond.jpg",
+                    Type = ProductType.Pijaca,
+                    ProductClassifiers = new ObservableCollection<ProductClassifier>
+                    {
+                        ProductClassifier.Vegeterijansko,
                     }
                 }
             };

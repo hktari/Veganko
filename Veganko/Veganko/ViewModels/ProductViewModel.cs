@@ -115,7 +115,10 @@ namespace Veganko.ViewModels
             {
                 if (SetProperty(ref selectedProductType, value))
                 {
+                    ShouldNotifyUIOnly = true;
                     SelectedProductClassifiers.Clear();
+                    ShouldNotifyUIOnly = false;
+                    UpdateSearchResults();
                 }
             }
         }
@@ -229,6 +232,11 @@ namespace Veganko.ViewModels
                 return;
             }
 
+            UpdateSearchResults();
+        }
+
+        private void UpdateSearchResults()
+        {
             if (SelectedProductType == ProductType.NOT_SET)
             {
                 if (!string.IsNullOrWhiteSpace(SearchText))
