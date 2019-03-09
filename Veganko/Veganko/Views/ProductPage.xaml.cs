@@ -46,14 +46,14 @@ namespace Veganko.Views
             }
         }
 
-        protected override void OnAppearing()
+        protected async override void OnAppearing()
         {
             base.OnAppearing();
 
-            if (vm.Products.Count == 0)
-                vm.LoadItemsCommand.Execute(null);
+            vm.SetUserRights();
 
-            vm.UnapplyFilters();
+            if (vm.Products == null || vm.Products.Count == 0)
+                await vm.RefreshProducts().ConfigureAwait(false);
         }
     }
 }

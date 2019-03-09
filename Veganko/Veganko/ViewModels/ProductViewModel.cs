@@ -104,30 +104,6 @@ namespace Veganko.ViewModels
             }
         }
 
-        //ObservableCollection<ProductType> selectedProductTypes;
-        //public ObservableCollection<ProductType> SelectedProductTypes
-        //{
-        //    get
-        //    {
-        //        return selectedProductTypes;
-        //    }
-        //    set
-        //    {
-        //        if (selectedProductTypes != null)
-        //        {
-        //            selectedProductTypes.CollectionChanged -= OnSelectedProductTypeChanged;
-        //        }
-
-        //        if (SetProperty(ref selectedProductTypes, value) && value != null)
-        //        {
-        //            OnSelectedProductTypeChanged(value,
-        //                new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, value));
-        //            value.CollectionChanged += OnSelectedProductTypeChanged;
-        //        }
-        //    }
-        //}
-        private bool defaultClassifiersUpdated = false;
-
         private ProductType selectedProductType;
         public ProductType SelectedProductType
         {
@@ -144,8 +120,9 @@ namespace Veganko.ViewModels
             }
         }
 
-        public ObservableCollection<Product> Products { get; private set; }
+        public List<Product> Products { get; private set; }
 
+        #region TODO: make static
         public ObservableCollection<ProductClassifier> ProductClassifiers => new ObservableCollection<ProductClassifier>
         {
             ProductClassifier.Vegeterijansko,
@@ -162,47 +139,32 @@ namespace Veganko.ViewModels
             ProductType.Pijaca,
             ProductType.Kozmetika
         };
+        #endregion
 
         private List<Product> matchesByText;
-        private List<Product> matchesByClassifiers;
+        private bool ShouldNotifyUIOnly { get; set; }
 
         public ProductViewModel()
         {
             Title = "Iskanje";
-            Products = new ObservableCollection<Product>();
             SearchResult = new ObservableCollection<Product>();
-
-            LoadItemsCommand = new Command(async () => await ExecuteLoadItemsCommand());
-
             SelectedProductClassifiers = new ObservableCollection<ProductClassifier>();
             SelectedProductType = ProductType.NOT_SET;
 
+            LoadItemsCommand = new Command(async () => await RefreshProducts());
+            
             MessagingCenter.Subscribe<NewProductPage, Product>(this, "AddItem", async (obj, item) =>
             {
                 var _item = item as Product;
                 if (await DataStore.AddItemAsync(_item))
                 {
                     Products.Add(_item);
-                    SearchResult.Insert(0, _item);
-                    UnapplyFilters();
+                    UnapplyFilters(false);
                 }
             });
         }
 
-        public void UnapplyFilters(bool notifyUIOnly = true)
-        {
-            this.notifyUIOnly = notifyUIOnly;
-
-            SelectedProductType = ProductType.NOT_SET;
-            SelectedProductClassifiers?.Clear();
-            // Do this only if if wasn't already done by setting the property above
-            //if (!defaultClassifiersUpdated)
-            //    SelectDefaultClassifiers();
-
-            // Reset
-            //defaultClassifiersUpdated = false;
-        }
-
+        #region TODO: MOVE TO EXTENSIONS
         public IEnumerable<TEnum> GetValues<TEnum>()
         {
             var all = Enum.GetValues(typeof(TEnum));
@@ -210,132 +172,9 @@ namespace Veganko.ViewModels
             all.CopyTo(tmp, 0);
             return tmp;
         }
+        #endregion
 
-        public async Task DeleteProduct(Product product)
-        {
-            if (await DataStore.DeleteItemAsync(product))
-            {
-                await ExecuteLoadItemsCommand();
-                UnapplyFilters();
-            }
-            else
-            {
-                // TODO: Notify user
-            }
-        }
-
-        private void OnSelectedProductClassifierChanged(object sender, NotifyCollectionChangedEventArgs e)
-        {
-            if (notifyUIOnly)
-            {
-                matchesByClassifiers = null;
-                notifyUIOnly = false;
-                return;
-            }
-
-            var classifiers = sender as ObservableCollection<ProductClassifier>;
-            var newClassifiers = (IList<ProductClassifier>)e.NewItems;
-
-            List<Product> matches;
-            switch (e.Action)
-            {
-                case NotifyCollectionChangedAction.Add:
-                    matches = Products.Where(
-                        p =>
-                        {
-                            if (p.ProductClassifiers == null)
-                                return false;
-
-                            return p.ProductClassifiers.Union(newClassifiers).Count() > 0;
-                        }).ToList();
-                    {
-                        
-                        //foreach(var product in matches)
-                        //{
-                        //    if (!SearchResult.Contains(product))
-                        //    {
-                        //        SearchResult.Add(product);
-                        //    }
-                        //}
-                    }
-                    break;
-                case NotifyCollectionChangedAction.Remove:
-                    matches = SearchResult.Where(
-                        p =>
-                        {
-                            Debug.Assert(p.ProductClassifiers != null);
-                            return p.ProductClassifiers.Union(classifiers).Count() > 0;
-                        }).ToList();
-                    break;
-                case NotifyCollectionChangedAction.Reset:
-                    matches = new List<Product>();
-                    break;
-                default:
-                    throw new NotImplementedException("Unhandled collection changed action !");
-            }
-
-            matchesByClassifiers = matches;
-
-            UpdateSearchResults();
-        }
-
-        private void UpdateSearchResults()
-        {
-            // TODO: IF TEXT SEARCH IN TEXT RESULTS BY PRODUCT TYPE / CLASSIFIER
-            //      ELSE SEARCH IN PRODUCTS BY PRODUCT TYPE / CLASSIFIER
-            IEnumerable<Product> finalMatches = null;
-
-            if (SelectedProductType != ProductType.NOT_SET)
-            {
-                finalMatches = Products.Where(p => p.Type == SelectedProductType);
-
-                if (matchesByClassifiers != null)
-                {
-                    finalMatches = finalMatches.Union(matchesByClassifiers);
-                }
-
-                if (matchesByText != null)
-                {
-                    finalMatches = finalMatches.Union(matchesByText);
-                }
-            }
-
-            SetSearchResults(finalMatches ?? Products);
-        }
-
-        private bool notifyUIOnly = false;
-
-        void OnSearchClicked()
-		{
-			matchesByText = Products
-				.Where(p => p.Name.ToLower().Contains(SearchText.ToLower()) || p.Description.ToLower().Contains(SearchText.ToLower()))
-                .ToList();
-
-            UnapplyFilters();
-            SetSearchResults(matchesByText);
-		}
-
-        async void OnBarcodeSearch()
-        {
-            var scanner = new ZXing.Mobile.MobileBarcodeScanner();
-
-            var result = await scanner.Scan();
-
-            if (result != null)
-            {
-                var query = Products.Where(p => p.Barcode == result.Text);
-                // TODO: disable application of filters ?
-                UnapplyFilters();
-                SetSearchResults(query);
-            }
-        }
-
-        private void OnSwitchFilteringOptions()
-        {
-            ShowProductClassifiers = !ShowProductClassifiers;
-        }
-
-        async Task ExecuteLoadItemsCommand()
+        public async Task RefreshProducts()
         {
             if (IsBusy)
                 return;
@@ -344,11 +183,11 @@ namespace Veganko.ViewModels
 
             try
             {
-                UserAccessRights = DependencyService.Get<IAccountService>().User.AccessRights;
-
-                Products.Clear();
-                var items = await DataStore.GetItemsAsync(true);
-                Products = new ObservableCollection<Product>(items);
+                SearchText = string.Empty;
+                UnapplyFilters();
+                Products = new List<Product>(
+                    await DataStore.GetItemsAsync(true));
+                SetSearchResults(Products);
             }
             catch (Exception ex)
             {
@@ -360,8 +199,114 @@ namespace Veganko.ViewModels
             }
         }
 
+        public async Task DeleteProduct(Product product)
+        {
+            if (await DataStore.DeleteItemAsync(product))
+            {
+                Debug.Assert(Products != null);
+                Products.Remove(product);
+                SearchResult.Remove(product);
+            }
+            else
+            {
+                // TODO: Notify user
+            }
+        }
+
+        private void UnapplyFilters(bool notifyUIOnly = true)
+        {
+            ShouldNotifyUIOnly = notifyUIOnly;
+            SelectedProductType = ProductType.NOT_SET;
+        }
+
+        private void OnSelectedProductClassifierChanged(object sender, NotifyCollectionChangedEventArgs e)
+        {
+            if (ShouldNotifyUIOnly)
+            {
+                ShouldNotifyUIOnly = false;
+                return;
+            }
+
+            if (SelectedProductType == ProductType.NOT_SET)
+            {
+                SetSearchResults(Products);
+            }
+            else
+            {
+                List<Product> matches = null;
+                if (!string.IsNullOrWhiteSpace(SearchText))
+                {
+                    Debug.Assert(matchesByText != null);
+                    matches = matchesByText.Where(
+                        p =>
+                        {
+                            if (p.ProductClassifiers == null)
+                                return false;
+                            else if (p.Type != SelectedProductType)
+                                return false;
+
+                            return p.ProductClassifiers.Union(SelectedProductClassifiers).Count() > 0;
+                        }).ToList();
+                }
+                else
+                {
+                    matches = Products.Where(
+                        p =>
+                        {
+                            if (p.ProductClassifiers == null)
+                                return false;
+                            else if (p.Type != SelectedProductType)
+                                return false;
+
+                            return p.ProductClassifiers.Union(SelectedProductClassifiers).Count() > 0;
+                        }).ToList();
+                }
+
+                SetSearchResults(matches);
+            }
+        }
+
+        private void OnSearchClicked()
+		{
+            UnapplyFilters();
+
+            matchesByText = Products
+				.Where(p => p.Name.ToLower().Contains(SearchText.ToLower()) || p.Description.ToLower().Contains(SearchText.ToLower()))
+                .ToList();
+
+            SetSearchResults(matchesByText);
+		}
+
+        private async void OnBarcodeSearch()
+        {
+            var scanner = new ZXing.Mobile.MobileBarcodeScanner();
+
+            var result = await scanner.Scan();
+
+            if (result != null)
+            {
+                // TODO: disable application of filters ?
+                UnapplyFilters();
+                var query = Products.Where(p => p.Barcode == result.Text);
+                SetSearchResults(query);
+            }
+        }
+
+        private void OnSwitchFilteringOptions()
+        {
+            ShowProductClassifiers = !ShowProductClassifiers;
+        }
+
+        public void SetUserRights()
+        {
+            UserAccessRights = DependencyService.Get<IAccountService>().User.AccessRights;
+        }
+
         private void SetSearchResults(IEnumerable<Product> items)
         {
+            if (SearchResult == null)
+                SearchResult = new ObservableCollection<Product>();
+
             SearchResult.Clear();
             foreach (var item in items)
                 SearchResult.Add(item);
