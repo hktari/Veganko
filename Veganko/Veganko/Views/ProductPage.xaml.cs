@@ -45,7 +45,12 @@ namespace Veganko.Views
                 await vm.DeleteProduct((Veganko.Models.Product)mi.CommandParameter);
             }
         }
-        
+
+        private void OnSearchTextInputCompleted(object sender, EventArgs e)
+        {
+            vm.SearchClickedCommand.Execute(null);
+        }
+
         protected async override void OnAppearing()
         {
             base.OnAppearing();

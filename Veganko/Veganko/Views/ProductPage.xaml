@@ -53,6 +53,7 @@
                         HorizontalOptions="FillAndExpand"
                         Orientation="Horizontal">
                         <Entry
+                            Completed="OnSearchTextInputCompleted"
                             HorizontalOptions="FillAndExpand"
                             Text="{Binding SearchText}"
                             TextColor="LightGray" />
