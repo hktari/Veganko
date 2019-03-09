@@ -147,9 +147,11 @@ namespace Veganko.ViewModels
         public ProductViewModel()
         {
             Title = "Iskanje";
+            Products = new List<Product>();
             SearchResult = new ObservableCollection<Product>();
             SelectedProductClassifiers = new ObservableCollection<ProductClassifier>();
             SelectedProductType = ProductType.NOT_SET;
+            ShowProductClassifiers = true;
 
             LoadItemsCommand = new Command(async () => await RefreshProducts());
             
@@ -229,7 +231,14 @@ namespace Veganko.ViewModels
 
             if (SelectedProductType == ProductType.NOT_SET)
             {
-                SetSearchResults(Products);
+                if (!string.IsNullOrWhiteSpace(SearchText))
+                {
+                    SetSearchResults(matchesByText);
+                }
+                else
+                {
+                    SetSearchResults(Products);
+                }
             }
             else
             {
@@ -245,7 +254,10 @@ namespace Veganko.ViewModels
                             else if (p.Type != SelectedProductType)
                                 return false;
 
-                            return p.ProductClassifiers.Union(SelectedProductClassifiers).Count() > 0;
+                            if (SelectedProductClassifiers.Count > 0)
+                                return p.ProductClassifiers.Intersect(SelectedProductClassifiers).Count() > 0;
+                            else
+                                return true;
                         }).ToList();
                 }
                 else
@@ -258,7 +270,10 @@ namespace Veganko.ViewModels
                             else if (p.Type != SelectedProductType)
                                 return false;
 
-                            return p.ProductClassifiers.Union(SelectedProductClassifiers).Count() > 0;
+                            if (SelectedProductClassifiers.Count > 0)
+                                return p.ProductClassifiers.Intersect(SelectedProductClassifiers).Count() > 0;
+                            else
+                                return true;
                         }).ToList();
                 }
 

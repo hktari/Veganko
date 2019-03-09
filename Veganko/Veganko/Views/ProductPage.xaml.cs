@@ -45,7 +45,7 @@ namespace Veganko.Views
                 await vm.DeleteProduct((Veganko.Models.Product)mi.CommandParameter);
             }
         }
-
+        
         protected async override void OnAppearing()
         {
             base.OnAppearing();

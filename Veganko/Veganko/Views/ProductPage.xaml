@@ -15,6 +15,7 @@
         <ResourceDictionary>
             <converters:BoolInverter x:Key="BoolInverter" />
             <converters:UACConverter x:Key="UACConverter" />
+            <converters:StringToEnumConverter x:Key="StringEnumConverter" />
 
             <DataTemplate x:Key="RemovableProductTemplate">
                 <ViewCell>
@@ -63,20 +64,53 @@
                     </StackLayout>
                 </StackLayout>
                 <StackLayout Orientation="Horizontal">
-                    <Button Command="{Binding SwitchFilteringOptions}" Image="icon.png" />
+                    <!--<Button Command="{Binding SwitchFilteringOptions}" Image="icon.png" />-->
+                    <StackLayout>
+                        <ImageButton IsEnabled="False">
+                            <ImageButton.Triggers>
+                                <DataTrigger
+                                    Binding="{Binding SelectedProductType}"
+                                    TargetType="ImageButton"
+                                    Value="{x:Static models:ProductType.NOT_SET}">
+                                    <Setter Property="Source" Value="icon.png" />
+                                </DataTrigger>
+                                <DataTrigger
+                                    Binding="{Binding SelectedProductType}"
+                                    TargetType="ImageButton"
+                                    Value="{x:Static models:ProductType.Hrana}">
+                                    <Setter Property="Source" Value="ico_food.png" />
+                                </DataTrigger>
+                                <DataTrigger
+                                    Binding="{Binding SelectedProductType}"
+                                    TargetType="ImageButton"
+                                    Value="{x:Static models:ProductType.Pijaca}">
+                                    <Setter Property="Source" Value="ico_beverages.png" />
+                                </DataTrigger>
+                                <DataTrigger
+                                    Binding="{Binding SelectedProductType}"
+                                    TargetType="ImageButton"
+                                    Value="{x:Static models:ProductType.Kozmetika}">
+                                    <Setter Property="Source" Value="ico_cosmetics.png" />
+                                </DataTrigger>
+                            </ImageButton.Triggers>
+                        </ImageButton>
+                        <Picker SelectedItem="{Binding SelectedProductType, Converter={StaticResource StringEnumConverter}, Mode=TwoWay}">
+                            <Picker.ItemsSource>
+                                <x:Array Type="{x:Type x:String}">
+                                    <x:String>NOT_SET</x:String>
+                                    <x:String>Hrana</x:String>
+                                    <x:String>Pijaca</x:String>
+                                    <x:String>Kozmetika</x:String>
+                                </x:Array>
+                            </Picker.ItemsSource>
+                        </Picker>
+                    </StackLayout>
                     <controls:SelectableEnumImageView
                         x:TypeArguments="models:ProductClassifier"
                         ImageSource="{x:Static local:EnumImages.ProductClassifierImages}"
                         IsVisible="{Binding ShowProductClassifiers}"
                         Selected="{Binding SelectedProductClassifiers}"
                         Source="{Binding ProductClassifiers}"
-                        VerticalOptions="Center" />
-                    <controls:SelectableEnumImageView
-                        x:TypeArguments="models:ProductType"
-                        ImageSource="{x:Static local:EnumImages.ProductTypeImages}"
-                        IsVisible="{Binding ShowProductClassifiers, Converter={StaticResource BoolInverter}}"
-                        Selected="{Binding SelectedProductTypes}"
-                        Source="{Binding ProductTypes}"
                         VerticalOptions="Center" />
                 </StackLayout>
             </StackLayout>

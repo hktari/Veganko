@@ -30,9 +30,32 @@ namespace Veganko.Services
                         ProductClassifier.GlutenFree
                     }
                 },
-                new Product
+              new Product
                 {
                     Id = "1",
+                    Name = "Cheese Face Message Cream", Description = "Creamy",
+                    Image = "img_product_tmp_2.jpg", Rating = 5,
+                    Type = ProductType.Kozmetika,
+                    ProductClassifiers = new ObservableCollection<ProductClassifier>
+                    {
+                        ProductClassifier.CrueltyFree,
+                        ProductClassifier.Vegansko
+                    }
+                },
+              new Product
+                {
+                    Id = "2",
+                    Name = "Violife Mozarella Cheese", Description = "From soya with love",
+                    Image = "img_product_tmp_2.jpg", Rating = 5,
+                    Type = ProductType.Hrana,
+                    ProductClassifiers = new ObservableCollection<ProductClassifier>
+                    {
+                        ProductClassifier.Vegansko
+                    }
+                },
+                new Product
+                {
+                    Id = "3",
                     Name = "Lepotna krema", Description = "Za fajn namazane roke",
                     Image = "img_product_tmp_2.jpg",
                     Type = ProductType.Kozmetika,
@@ -45,7 +68,7 @@ namespace Veganko.Services
                 },
                 new Product
                 {
-                    Id = "2",
+                    Id = "4",
                     Name = "Čokoladni namaz", Description = "Kdo pa nima rad nutelle... Še posebej, če je vegan.",
                     Image = "img_product_tmp_2.jpg",
                     Type = ProductType.Hrana,
