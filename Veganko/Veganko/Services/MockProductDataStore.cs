@@ -70,12 +70,76 @@ namespace Veganko.Services
                 {
                     Id = "4",
                     Name = "Čokoladni namaz", Description = "Kdo pa nima rad nutelle... Še posebej, če je vegan.",
-                    Image = "img_product_tmp_2.jpg",
+                    Image = "evrokrem.jpg",
                     Type = ProductType.Hrana,
                     ProductClassifiers = new ObservableCollection<ProductClassifier>
                     {
                         ProductClassifier.Vegansko,
                         ProductClassifier.GlutenFree
+                    }
+                },
+                new Product
+                {
+                    Id = "5",
+                    Name = "Knusprige Vollkornwaffeln", Description = "100% Vollkorn und weniger Zucker !",
+                    Image = "manner.jpg",
+                    Type = ProductType.Hrana,
+                    ProductClassifiers = new ObservableCollection<ProductClassifier>
+                    {
+                        ProductClassifier.Vegansko
+                    }
+                },
+                new Product
+                {
+                    Id = "6",
+                    Name = "Sensitiv After Shave Balsam", Description = "MEN",
+                    Image = "alverde_after_shave.jpg",
+                    Type = ProductType.Kozmetika,
+                    ProductClassifiers = new ObservableCollection<ProductClassifier>
+                    {
+                        ProductClassifier.CrueltyFree,
+                        ProductClassifier.Vegansko
+                    }
+                },
+                new Product
+                {
+                    Id = "7",
+                    Name = "Valsoia la crema", Description = "Kremni namaz z lešniki, kakavom in sojo",
+                    Brand = "VALSOIA",
+                    Image = "evrokrem.jpg",
+                    Type = ProductType.Hrana,
+                    ProductClassifiers = new ObservableCollection<ProductClassifier>
+                    {
+                        ProductClassifier.Vegansko,
+                        ProductClassifier.GlutenFree
+                    }
+                },
+                new Product
+                {
+                    Id = "8",
+                    Name = "Gourmet Arašidov Namaz s koščki",
+                    Brand = "GOURMET",
+                    Image = "arasidovo_maslo.jpg",
+                    Type = ProductType.Hrana,
+                    ProductClassifiers = new ObservableCollection<ProductClassifier>
+                    {
+                        ProductClassifier.Vegansko,
+                        ProductClassifier.GlutenFree
+                    }
+                },
+                new Product
+                {
+                    Id = "9",
+                    Name = "BIO Pomarančni sok",
+                    Brand = "DM",
+                    Image = "dmbio_orangensaft.jpg",
+                    Type = ProductType.Pijaca,
+                    ProductClassifiers = new ObservableCollection<ProductClassifier>
+                    {
+                        ProductClassifier.Vegansko,
+                        ProductClassifier.GlutenFree,
+                        ProductClassifier.RawVegan,
+                        ProductClassifier.Pesketarijansko
                     }
                 }
             };
