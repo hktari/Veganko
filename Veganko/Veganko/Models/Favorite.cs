@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Veganko.Models
 {
-    class Favorite
+    public class Favorite
     {
         public string Id { get; set; }
         public string ProductId { get; set; }
