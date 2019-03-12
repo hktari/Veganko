@@ -119,13 +119,15 @@
             <ListView
                 x:Name="ProductsListView"
                 CachingStrategy="RecycleElement"
-                HasUnevenRows="True"
+                HasUnevenRows="False"
                 IsPullToRefreshEnabled="true"
                 IsRefreshing="{Binding IsBusy, Mode=OneWay}"
                 ItemSelected="OnProductSelected"
                 ItemTemplate="{StaticResource DefaultProductTemplate}"
                 ItemsSource="{Binding SearchResult}"
                 RefreshCommand="{Binding LoadItemsCommand}"
+                RowHeight="166"
+                SeparatorVisibility="None"
                 VerticalOptions="FillAndExpand">
                 <ListView.Triggers>
                     <DataTrigger

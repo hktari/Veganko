@@ -12,11 +12,11 @@
     </ContentView.Resources>
     <ContentView.Content>
         <Grid
-            Margin="0,5"
             ColumnSpacing="10"
-            RowSpacing="10">
+            HeightRequest="100"
+            RowSpacing="0"
+            VerticalOptions="Center">
             <Grid.RowDefinitions>
-                <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
@@ -25,30 +25,30 @@
                 <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
             <Image
-                Grid.RowSpan="3"
+                Grid.RowSpan="2"
                 Aspect="AspectFill"
-                HeightRequest="66"
+                HeightRequest="100"
                 HorizontalOptions="Center"
                 Source="{Binding Image}"
-                VerticalOptions="Fill"
-                WidthRequest="66" />
-            <Label
-                Grid.Column="1"
-                FontAttributes="Bold"
-                Text="{Binding Name, Converter={StaticResource StringCaseConverter}}"
-                VerticalOptions="EndAndExpand" />
-            <Label
-                Grid.Row="1"
-                Grid.Column="1"
-                Text="{Binding Description}"
-                VerticalOptions="Start" />
+                VerticalOptions="Center"
+                WidthRequest="100" />
+            <Label Grid.Column="1">
+                <Label.FormattedText>
+                    <FormattedString>
+                        <Span FontAttributes="Bold" Text="{Binding Name, Converter={StaticResource StringCaseConverter}, Mode=OneWay}" />
+                        <Span Text="&#10;" />
+                        <Span Text="{Binding Description, Mode=OneWay}" />
+                    </FormattedString>
+                </Label.FormattedText>
+            </Label>
             <controls:EnumImageView
-                Grid.Row="2"
+                Grid.Row="1"
                 Grid.Column="1"
                 HorizontalAlignment="Start"
                 x:TypeArguments="models:ProductClassifier"
                 ImageSource="{x:Static local:EnumImages.ProductClassifierImages}"
-                Source="{Binding ProductClassifiers}" />
+                Source="{Binding ProductClassifiers}"
+                VerticalOptions="End" />
         </Grid>
     </ContentView.Content>
 </ContentView>
