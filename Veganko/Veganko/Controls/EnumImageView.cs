@@ -21,8 +21,8 @@ namespace Veganko.Controls
         public static readonly BindableProperty ImageSourceProperty =
             BindableProperty.Create(nameof(ImageSource), typeof(Dictionary<T, string>), typeof(EnumImageView<T>), new Dictionary<T,string>());
 
-        //public static readonly BindableProperty ViewSizeProperty = 
-        //    BindableProperty.Create(nameof(ViewSize), typeof(Double), typeof(EnumImageView<T>), -1);
+        public static readonly BindableProperty ViewSizeProperty =
+            BindableProperty.Create(nameof(ViewSize), typeof(double), typeof(EnumImageView<T>), VisualElement.WidthRequestProperty.DefaultValue);
 
         public Dictionary<T, string> ImageSource
         {
@@ -36,17 +36,17 @@ namespace Veganko.Controls
             }
         }
 
-        //public double ViewSize
-        //{
-        //    get
-        //    {
-        //        return (double)GetValue(ViewSizeProperty);
-        //    }
-        //    set
-        //    {
-        //        SetValue(ViewSizeProperty, value);
-        //    }
-        //}
+        public double ViewSize
+        {
+            get
+            {
+                return (double)GetValue(ViewSizeProperty);
+            }
+            set
+            {
+                SetValue(ViewSizeProperty, value);
+            }
+        }
 
         private LayoutOptions horizontalAlignment = LayoutOptions.Center;
         public LayoutOptions HorizontalAlignment
@@ -130,7 +130,8 @@ namespace Veganko.Controls
                 //image.WidthRequest = image.HeightRequest = ViewSize;
                 image.HorizontalOptions = LayoutOptions.Center;
                 image.VerticalOptions = LayoutOptions.Center;
-                image.WidthRequest = image.HeightRequest = 43;
+                image.SetBinding(VisualElement.WidthRequestProperty, new Binding(nameof(ViewSize), BindingMode.Default, null, null, null, this));
+                image.SetBinding(VisualElement.HeightRequestProperty, new Binding(nameof(ViewSize), BindingMode.Default, null, null, null, this));
                 image.Aspect = Aspect.AspectFit;
                 views.Add(image);
             }

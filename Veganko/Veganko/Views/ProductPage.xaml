@@ -126,7 +126,7 @@
                 ItemTemplate="{StaticResource DefaultProductTemplate}"
                 ItemsSource="{Binding SearchResult}"
                 RefreshCommand="{Binding LoadItemsCommand}"
-                RowHeight="166"
+                RowHeight="173"
                 SeparatorVisibility="None"
                 VerticalOptions="FillAndExpand">
                 <ListView.Triggers>

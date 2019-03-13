@@ -13,7 +13,7 @@
     <ContentView.Content>
         <Grid
             ColumnSpacing="10"
-            HeightRequest="100"
+            HeightRequest="113"
             RowSpacing="0"
             VerticalOptions="Center">
             <Grid.RowDefinitions>
@@ -24,15 +24,23 @@
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
-            <Image
+            <Frame
                 Grid.RowSpan="2"
-                Aspect="AspectFill"
-                HeightRequest="100"
+                Padding="1"
+                BorderColor="Black"
+                CornerRadius="0"
                 HorizontalOptions="Center"
-                Source="{Binding Image}"
-                VerticalOptions="Center"
-                WidthRequest="100" />
-            <Label Grid.Column="1">
+                IsClippedToBounds="True"
+                VerticalOptions="Center">
+                <Image
+                    Aspect="AspectFill"
+                    HeightRequest="113"
+                    HorizontalOptions="Center"
+                    Source="{Binding Image}"
+                    VerticalOptions="Center"
+                    WidthRequest="113" />
+            </Frame>
+            <Label Grid.Column="1" MaxLines="3">
                 <Label.FormattedText>
                     <FormattedString>
                         <Span FontAttributes="Bold" Text="{Binding Name, Converter={StaticResource StringCaseConverter}, Mode=OneWay}" />
@@ -48,7 +56,8 @@
                 x:TypeArguments="models:ProductClassifier"
                 ImageSource="{x:Static local:EnumImages.ProductClassifierImages}"
                 Source="{Binding ProductClassifiers}"
-                VerticalOptions="End" />
+                VerticalOptions="End"
+                ViewSize="50" />
         </Grid>
     </ContentView.Content>
 </ContentView>
