@@ -17,6 +17,9 @@ namespace Veganko
         public App ()
 		{
 			InitializeComponent();
+#if DEBUG && __ANDROID__
+            HotReloader.Current.Start(this);
+#endif
             MainPage = new MainPage();
         }
 
@@ -37,7 +40,8 @@ namespace Veganko
 
             accountService.User.AccessRights = Models.User.UserAccessRights.All;
 
-            MainPage = new MainPage();
+            //MainPage = new MainPage();
+            MainPage = new Loginpage();
         }
 
         protected override void OnSleep ()
