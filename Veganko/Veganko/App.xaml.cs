@@ -35,7 +35,7 @@ namespace Veganko
             //else
             //    MainPage = new Loginpage();
             IAccountService accountService = DependencyService.Get<IAccountService>();
-            accountService.CreateAccount("admin", "admin", "bostjan_kamnik.jpg");
+            accountService.CreateAccount("admin", "admin", "avatar_fox.png");
             accountService.Login("admin", "admin");
 
             accountService.User.AccessRights = Models.User.UserAccessRights.All;

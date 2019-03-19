@@ -26,12 +26,13 @@ namespace Veganko.ViewModels
 
         private async void Login(object obj)
         {
-            var authenticated = await DependencyService.Get<IAccountService>().LoginWithFacebook();
+            App.Current.MainPage = new MainPage();
+            //var authenticated = await DependencyService.Get<IAccountService>().LoginWithFacebook();
 
-            if (authenticated)
-            {
-                App.Current.MainPage = new MainPage();
-            }
+            //if (authenticated)
+            //{
+            //    App.Current.MainPage = new MainPage();
+            //}
         }
     }
 }
