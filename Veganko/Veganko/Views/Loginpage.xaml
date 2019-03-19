@@ -11,8 +11,10 @@
     <ContentPage.Content>
         <Grid BackgroundColor="#e1edd1">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="5*" />
+                <ColumnDefinition Width="2.3*" />
+                <ColumnDefinition Width="85.4*" />
+                <ColumnDefinition Width="7.3*" />
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
                 <RowDefinition Height="19.2*" />
@@ -21,21 +23,60 @@
                 <RowDefinition Height="5.5*" />
                 <RowDefinition Height="19.2*" />
             </Grid.RowDefinitions>
-            <Grid
+            <Image
+                Grid.Row="0"
+                Grid.RowSpan="2"
+                Grid.Column="2"
+                Grid.ColumnSpan="2"
+                HorizontalOptions="End"
+                Source="login_leaf1.png"
+                VerticalOptions="End"
+                WidthRequest="155" />
+
+            <Image
+                Grid.Row="0"
+                Grid.RowSpan="2"
+                Grid.Column="1"
+                Grid.ColumnSpan="2"
+                HorizontalOptions="Start"
+                Source="login_leaf2.png"
+                VerticalOptions="End"
+                WidthRequest="155" />
+
+            <Image
                 Grid.Row="3"
                 Grid.RowSpan="2"
-                WidthRequest="155">
-                <Image Source="icon.png" />
-                <ImageButton
-                    Aspect="AspectFill"
-                    HeightRequest="40"
-                    Source="qr.jpg"
-                    VerticalOptions="Center" />
-            </Grid>
+                Grid.Column="1"
+                Grid.ColumnSpan="2"
+                HorizontalOptions="Start"
+                Rotation="180"
+                Source="login_leaf1.png"
+                VerticalOptions="Start"
+                WidthRequest="155" />
+            <ImageButton
+                Grid.Row="3"
+                Grid.RowSpan="2"
+                Grid.Column="2"
+                HorizontalOptions="Start"
+                Source="login_sign_up.png"
+                VerticalOptions="Center"
+                WidthRequest="120" />
+
+            <Image
+                Grid.Row="3"
+                Grid.RowSpan="2"
+                Grid.Column="2"
+                Grid.ColumnSpan="2"
+                HorizontalOptions="End"
+                Rotation="165"
+                Source="login_leaf2.png"
+                VerticalOptions="Start"
+                WidthRequest="155" />
+
             <Frame
                 Grid.Row="1"
                 Grid.RowSpan="3"
-                Grid.ColumnSpan="2"
+                Grid.Column="2"
                 Padding="1"
                 BorderColor="Black"
                 CornerRadius="0">

@@ -107,6 +107,8 @@
     <Content Include="adez_almond.jpg" />
     <Content Include="alverde_after_shave.jpg" />
     <Content Include="arasidovo_maslo.jpg" />
+    <Content Include="avatar_bear.png" />
+    <Content Include="avatar_fox.png" />
     <Content Include="bostjan_kamnik.jpg">
       <SubType>Designer</SubType>
     </Content>
@@ -160,6 +162,9 @@
     <Content Include="img_product_tmp_2.jpg">
       <SubType>Designer</SubType>
     </Content>
+    <Content Include="login_leaf1.png" />
+    <Content Include="login_leaf2.png" />
+    <Content Include="login_sign_up.png" />
     <Content Include="manner.jpg" />
     <Content Include="maslo_za_telo.jpg" />
     <Content Include="Olivella_hranilna_krema_r.jpg" />
