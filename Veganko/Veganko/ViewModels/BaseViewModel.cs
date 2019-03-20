@@ -12,8 +12,6 @@ namespace Veganko.ViewModels
 {
     public class BaseViewModel : INotifyPropertyChanged
     {
-        public IDataStore<Product> DataStore => DependencyService.Get<IDataStore<Product>>() ?? new MockProductDataStore();
-
         bool isBusy = false;
         public bool IsBusy
         {

@@ -146,9 +146,12 @@ namespace Veganko.ViewModels
 
         private List<Product> matchesByText;
         private bool ShouldNotifyUIOnly { get; set; }
+        private readonly IProductService productService;
 
         public ProductViewModel()
         {
+            productService = DependencyService.Get<IProductService>();
+
             Title = "Iskanje";
             Products = new List<Product>();
             SearchResult = new ObservableCollection<Product>();
@@ -161,7 +164,7 @@ namespace Veganko.ViewModels
             MessagingCenter.Subscribe<NewProductPage, Product>(this, "AddItem", async (obj, item) =>
             {
                 var _item = item as Product;
-                if (await DataStore.AddItemAsync(_item))
+                if (await productService.AddAsync(_item))
                 {
                     Products.Add(_item);
                     UnapplyFilters(false);
@@ -191,7 +194,7 @@ namespace Veganko.ViewModels
                 SearchText = string.Empty;
                 UnapplyFilters();
                 Products = new List<Product>(
-                    await DataStore.GetItemsAsync(true));
+                    await productService.AllAsync(true, true));
                 SetSearchResults(Products);
             }
             catch (Exception ex)
@@ -206,7 +209,7 @@ namespace Veganko.ViewModels
 
         public async Task DeleteProduct(Product product)
         {
-            if (await DataStore.DeleteItemAsync(product))
+            if (await productService.DeleteAsync(product))
             {
                 Debug.Assert(Products != null);
                 Products.Remove(product);

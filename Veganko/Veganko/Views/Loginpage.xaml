@@ -138,6 +138,19 @@
                     </Grid>
                 </StackLayout>
             </Frame>
+
+            <Picker
+                Grid.Column="3"
+                HorizontalOptions="End"
+                SelectedItem="{Binding SelectedUserType}"
+                VerticalOptions="Start">
+                <Picker.ItemsSource>
+                    <x:Array Type="{x:Type x:String}">
+                        <x:String>user</x:String>
+                        <x:String>admin</x:String>
+                    </x:Array>
+                </Picker.ItemsSource>
+            </Picker>
         </Grid>
     </ContentPage.Content>
 </ContentPage>

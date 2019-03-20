@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Text;
 using Veganko.Models;
+using Veganko.Models.User;
+using Veganko.Services;
 using Xamarin.Forms;
 
 namespace Veganko.ViewModels
@@ -55,9 +58,16 @@ namespace Veganko.ViewModels
         
         private void OnPageAppeared(object parameter)
         {
+            var user = DependencyService.Get<IAccountService>().User;
+            var mask = UserAccessRights.ProductsDelete;
+
+            Debug.Assert(user != null);
+            var hasApprovalRights = (user.AccessRights & mask) == mask;
+
             Product = new Product
             {
-                Image = "raspeberry_meringue.jpg"
+                Image = "raspeberry_meringue.jpg",
+                State = hasApprovalRights ? ProductState.Approved : ProductState.PendingApproval 
             };
         }
     }

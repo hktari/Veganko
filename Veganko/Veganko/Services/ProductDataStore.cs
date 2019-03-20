@@ -10,28 +10,31 @@ using XamarinImageUploader;
 //[assembly: Xamarin.Forms.Dependency(typeof(Veganko.Services.ProductDataStore))]
 namespace Veganko.Services
 {
-    class ProductDataStore : IDataStore<Product>
+    class ProductDataStore : IProductService
     {
         List<Product> products;
 
-        public async Task<bool> AddItemAsync(Product item)
+        public async Task<bool> AddAsync(Product item)
         {
             await App.MobileService.GetTable<Product>().InsertAsync(item);
             return true;
         }
 
-        public async Task<bool> DeleteItemAsync(Product item)
+        public async Task<bool> DeleteAsync(Product item)
         {
             throw new NotImplementedException();
         }
 
-        public Task<Product> GetItemAsync(string id)
+        public Task<Product> GetAsync(string id)
         {
             throw new NotImplementedException();
         }
 
-        public async Task<IEnumerable<Product>> GetItemsAsync(bool forceRefresh = false)
+        public async Task<IEnumerable<Product>> AllAsync(bool forceRefresh, bool includeUnapproved)
         {
+            // TODO: account for unapproved
+
+
             var products = await App.MobileService.GetTable<Product>().ToListAsync();
             foreach (var product in products)
             {
@@ -48,7 +51,7 @@ namespace Veganko.Services
             return products;
         }
         
-        public Task<bool> UpdateItemAsync(Product item)
+        public Task<bool> UpdateAsync(Product item)
         {
             throw new NotImplementedException();
         }

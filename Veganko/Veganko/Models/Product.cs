@@ -10,6 +10,11 @@ using Veganko.Models.JsonConverters;
 
 namespace Veganko.Models
 {
+    public enum ProductState
+    {
+        PendingApproval,
+        Approved
+    }
     /// <summary>
     /// Classifiers to describe the type of the product, food or cosmetics
     /// </summary>
@@ -38,6 +43,7 @@ namespace Veganko.Models
     public class Product
     {
         public string Id { get; set; }
+        public ProductState State { get; set; }
         public string Name { get; set; }
         public string Brand { get; set; }
         public string Barcode { get; set; }

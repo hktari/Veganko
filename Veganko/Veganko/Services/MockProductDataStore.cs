@@ -9,7 +9,7 @@ using Veganko.Models;
 [assembly: Xamarin.Forms.Dependency(typeof(Veganko.Services.MockProductDataStore))]
 namespace Veganko.Services
 {
-    public class MockProductDataStore : IDataStore<Product>
+    public class MockProductDataStore : IProductService
     {
         List<Product> items;
 
@@ -162,14 +162,14 @@ namespace Veganko.Services
             }
         }
 
-        public async Task<bool> AddItemAsync(Product item)
+        public async Task<bool> AddAsync(Product item)
         {
             items.Add(item);
 
             return await Task.FromResult(true);
         }
 
-        public async Task<bool> UpdateItemAsync(Product item)
+        public async Task<bool> UpdateAsync(Product item)
         {
             var _item = items.Where((Product arg) => arg.Id == item.Id).FirstOrDefault();
             items.Remove(_item);
@@ -178,7 +178,7 @@ namespace Veganko.Services
             return await Task.FromResult(true);
         }
 
-        public async Task<bool> DeleteItemAsync(Product item)
+        public async Task<bool> DeleteAsync(Product item)
         {
             var _item = items.Where((Product arg) => arg.Id == item.Id).FirstOrDefault();
             items.Remove(_item);
@@ -186,14 +186,15 @@ namespace Veganko.Services
             return await Task.FromResult(true);
         }
 
-        public async Task<Product> GetItemAsync(string id)
+        public async Task<Product> GetAsync(string id)
         {
             return await Task.FromResult(items.FirstOrDefault(s => s.Id == id));
         }
 
-        public async Task<IEnumerable<Product>> GetItemsAsync(bool forceRefresh = false)
+        public Task<IEnumerable<Product>> AllAsync(bool forceRefresh, bool includeUnapproved)
         {
-            return await Task.FromResult(items);
+            IEnumerable<Product> result = includeUnapproved ? items : items.Where(p => p.State == ProductState.Approved);
+            return Task.FromResult(result);
         }
     }
 }

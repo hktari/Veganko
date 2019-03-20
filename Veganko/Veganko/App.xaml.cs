@@ -34,11 +34,6 @@ namespace Veganko
             //    MainPage = new MainPage();
             //else
             //    MainPage = new Loginpage();
-            IAccountService accountService = DependencyService.Get<IAccountService>();
-            accountService.CreateAccount("admin", "admin", "avatar_fox.png");
-            accountService.Login("admin", "admin");
-
-            accountService.User.AccessRights = Models.User.UserAccessRights.All;
 
             //MainPage = new MainPage();
             MainPage = new Loginpage();

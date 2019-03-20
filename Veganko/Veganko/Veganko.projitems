@@ -42,6 +42,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Services\IDataStore.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\ImageManager\Configuration.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\ImageManager\ImageManager.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Services\IProductService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\MockAccountService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\MockCommentDataStore.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\MockFavoriteDataStore.cs" />
