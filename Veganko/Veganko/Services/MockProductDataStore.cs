@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 
 using Veganko.Models;
+using Xamarin.Forms;
 
 [assembly: Xamarin.Forms.Dependency(typeof(Veganko.Services.MockProductDataStore))]
 namespace Veganko.Services
@@ -13,8 +14,12 @@ namespace Veganko.Services
     {
         List<Product> items;
 
+        private readonly IAccountService accountService;
+
         public MockProductDataStore()
         {
+            accountService = DependencyService.Get<IAccountService>();
+
             items = new List<Product>();
             var mockItems = new List<Product>
             {
@@ -27,7 +32,8 @@ namespace Veganko.Services
                     ProductClassifiers = new ObservableCollection<ProductClassifier>
                     {
                         ProductClassifier.Vegansko,
-                    }
+                    },
+                    State = ProductState.Approved
                 },
               new Product
                 {
@@ -40,7 +46,8 @@ namespace Veganko.Services
                         ProductClassifier.CrueltyFree,
                         ProductClassifier.Vegansko,
                         ProductClassifier.GlutenFree
-                    }
+                    },
+                    State = ProductState.Approved
                 },
               new Product
                 {
@@ -52,7 +59,8 @@ namespace Veganko.Services
                     ProductClassifiers = new ObservableCollection<ProductClassifier>
                     {
                         ProductClassifier.Vegansko
-                    }
+                    },
+                    State = ProductState.Approved
                 },
                 new Product
                 {
@@ -63,7 +71,8 @@ namespace Veganko.Services
                     ProductClassifiers = new ObservableCollection<ProductClassifier>
                     {
                         ProductClassifier.Vegansko,
-                    }
+                    },
+                    State = ProductState.Approved
                 },
                 new Product
                 {
@@ -75,7 +84,8 @@ namespace Veganko.Services
                     {
                         ProductClassifier.Vegansko,
                         ProductClassifier.GlutenFree
-                    }
+                    },
+                    State = ProductState.Approved
                 },
                 new Product
                 {
@@ -86,7 +96,8 @@ namespace Veganko.Services
                     ProductClassifiers = new ObservableCollection<ProductClassifier>
                     {
                         ProductClassifier.Vegansko
-                    }
+                    },
+                    State = ProductState.Approved
                 },
                 new Product
                 {
@@ -98,7 +109,8 @@ namespace Veganko.Services
                     {
                         ProductClassifier.CrueltyFree,
                         ProductClassifier.Vegansko
-                    }
+                    },
+                    State = ProductState.Approved
                 },
                 new Product
                 {
@@ -111,7 +123,8 @@ namespace Veganko.Services
                     {
                         ProductClassifier.Vegansko,
                         ProductClassifier.GlutenFree
-                    }
+                    },
+                    State = ProductState.Approved
                 },
                 new Product
                 {
@@ -124,7 +137,8 @@ namespace Veganko.Services
                     {
                         ProductClassifier.Vegansko,
                         ProductClassifier.GlutenFree
-                    }
+                    },
+                    State = ProductState.Approved
                 },
                 new Product
                 {
@@ -139,7 +153,8 @@ namespace Veganko.Services
                         ProductClassifier.GlutenFree,
                         ProductClassifier.RawVegan,
                         ProductClassifier.Pesketarijansko
-                    }
+                    },
+                    State = ProductState.Approved
                 },
                 new Product
                 {
@@ -152,7 +167,8 @@ namespace Veganko.Services
                     ProductClassifiers = new ObservableCollection<ProductClassifier>
                     {
                         ProductClassifier.Vegeterijansko,
-                    }
+                    },
+                    State = ProductState.Approved
                 }
             };
 
@@ -164,6 +180,11 @@ namespace Veganko.Services
 
         public async Task<bool> AddAsync(Product item)
         {
+            if (accountService.User.CanApproveProducts())
+            {
+                item.State = ProductState.Approved;
+            }
+
             items.Add(item);
 
             return await Task.FromResult(true);
@@ -196,5 +217,13 @@ namespace Veganko.Services
             IEnumerable<Product> result = includeUnapproved ? items : items.Where(p => p.State == ProductState.Approved);
             return Task.FromResult(result);
         }
+
+
+        public Task<IEnumerable<Product>> GetUnapprovedAsync(bool forceRefresh)
+        {
+            IEnumerable<Product> result = items.Where(p => p.State == ProductState.PendingApproval);
+            return Task.FromResult(result);
+        }
     }
 }
+

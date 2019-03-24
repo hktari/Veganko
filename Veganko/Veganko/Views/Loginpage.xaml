@@ -140,7 +140,7 @@
             </Frame>
 
             <Picker
-                Grid.Column="3"
+                Grid.ColumnSpan="4"
                 HorizontalOptions="End"
                 SelectedItem="{Binding SelectedUserType}"
                 VerticalOptions="Start">

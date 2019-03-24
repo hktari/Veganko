@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-
+using Veganko.Models;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
-using Veganko.Models;
+using Product = Veganko.Models.Product;
 using System.Linq;
 using Veganko.Extensions;
 using System.Collections.ObjectModel;
@@ -53,9 +53,13 @@ namespace Veganko.Views
 
         NewProductViewModel vm;
 
-        public NewProductPage()
+        private Action<Veganko.Models.Product> itemAddedCallback;
+
+        public NewProductPage(Action<Veganko.Models.Product> itemAddedCallback)
         {
             InitializeComponent();
+
+            this.itemAddedCallback = itemAddedCallback;
 
             BindingContext = vm = new NewProductViewModel();
             TypePicker.SelectedIndexChanged += TypePickerSelectedIndexChanged;
@@ -98,9 +102,9 @@ namespace Veganko.Views
 
         void Save_Clicked(object sender, EventArgs e)
         {
-            MessagingCenter.Send(this, "AddItem", vm.Product);
             var mainPage = App.Current.MainPage as TabbedPage;
             mainPage.CurrentPage = mainPage.Children[0];
+            itemAddedCallback?.Invoke(vm.Product);
         }
 
         async void Scan_Clicked(object sender, EventArgs e)

@@ -55,5 +55,10 @@ namespace Veganko.Services
         {
             throw new NotImplementedException();
         }
+
+        public Task<IEnumerable<Product>> GetUnapprovedAsync(bool forceRefresh = false)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

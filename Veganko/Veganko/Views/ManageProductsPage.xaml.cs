@@ -3,23 +3,28 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Veganko.Models;
 using Veganko.ViewModels;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
 namespace Veganko.Views
 {
-	[XamlCompilation(XamlCompilationOptions.Compile)]
-	public partial class ProductPage : BaseContentPage
-	{
-        ProductViewModel vm;
+    [XamlCompilation(XamlCompilationOptions.Compile)]
+    public partial class ManageProductsPage : BaseContentPage
+    {
+        ManageProductsViewModel vm;
 
-		public ProductPage ()
-		{
-			InitializeComponent ();
-            BindingContext = vm = new ProductViewModel();
+        public ManageProductsPage()
+        {
+            InitializeComponent();
+            BindingContext = vm = new ManageProductsViewModel();
         }
+
+        protected override void OnAppearing()
+        {
+            vm.LoadItemsCommand.Execute(null);
+        }
+
         async void OnProductSelected(object sender, SelectedItemChangedEventArgs args)
         {
             var item = args.SelectedItem as Veganko.Models.Product;
@@ -31,14 +36,10 @@ namespace Veganko.Views
             // Manually deselect item.
             ProductsListView.SelectedItem = null;
         }
+
         async void AddItem_Clicked(object sender, EventArgs e)
         {
-            // TODO: test
-            await Navigation.PushModalAsync(
-                new NavigationPage(
-                    new NewProductPage(
-                        (newProduct) => vm.NewProductAddedCommand.Execute(newProduct)
-                        )));
+            await Navigation.PushModalAsync(new NavigationPage(new NewProductPage()));
         }
 
         async void OnDeleteProduct(object sender, EventArgs e)
@@ -56,12 +57,5 @@ namespace Veganko.Views
             vm.SearchClickedCommand.Execute(null);
         }
 
-        protected async override void OnAppearing()
-        {
-            base.OnAppearing();
-
-            if (vm.Products == null || vm.Products.Count == 0)
-                await vm.RefreshProducts().ConfigureAwait(false);
-        }
     }
 }

@@ -14,7 +14,7 @@ namespace Veganko.ViewModels
 {
     public class LoginViewModel : BaseViewModel
     {
-        public string SelectedUserType { get; set; }
+        public string SelectedUserType { get; set; } = "user";
 
         public Command LoginCommand => new Command(Login);
         public User User { get; set; }
@@ -33,12 +33,13 @@ namespace Veganko.ViewModels
             string username = null;
             string password = null;
             UserAccessRights uac;
-
+            bool adminAccess = false;
 
             if (SelectedUserType == "admin")
             {
                 username = password = "admin";
                 uac = UserAccessRights.All;
+                adminAccess = true;
             }
             else
             {
@@ -50,7 +51,7 @@ namespace Veganko.ViewModels
             accountService.Login(username, password);
             accountService.User.AccessRights = uac;
 
-            App.Current.MainPage = new MainPage();
+            App.Current.MainPage = new MainPage(adminAccess);
             //var authenticated = await DependencyService.Get<IAccountService>().LoginWithFacebook();
 
             //if (authenticated)

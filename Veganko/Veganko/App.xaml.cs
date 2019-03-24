@@ -20,7 +20,10 @@ namespace Veganko
 #if DEBUG && __ANDROID__
             HotReloader.Current.Start(this);
 #endif
-            MainPage = new MainPage();
+
+            MainPage = new Loginpage();
+
+            //MainPage = new MainPage();
         }
 
         public static void Init(IAuthenticate authenticator)
@@ -36,7 +39,6 @@ namespace Veganko
             //    MainPage = new Loginpage();
 
             //MainPage = new MainPage();
-            MainPage = new Loginpage();
         }
 
         protected override void OnSleep ()

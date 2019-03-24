@@ -12,5 +12,11 @@ namespace Veganko.Models.User
         public string Username { get; set; }
         public string Password { get; set; }
         public List<int> Favorites { get; set; }
+
+        public bool CanApproveProducts()
+        {
+            const UserAccessRights mask = UserAccessRights.ProductsDelete;
+            return (AccessRights & mask) == mask;
+        }
     }
 }

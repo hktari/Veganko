@@ -22,6 +22,7 @@ namespace Veganko.ViewModels
         public Command SearchClickedCommand => new Command(OnSearchClicked);
         public Command SearchBarcodeCommand => new Command(OnBarcodeSearch);
         public Command SwitchFilteringOptions => new Command(OnSwitchFilteringOptions);
+        public Command<Product> NewProductAddedCommand => new Command<Product>(OnNewProductAdded);
 
         private UserAccessRights userAccessRights;
         public UserAccessRights UserAccessRights
@@ -123,7 +124,7 @@ namespace Veganko.ViewModels
             }
         }
 
-        public List<Product> Products { get; private set; }
+        public List<Product> Products { get; protected set; }
 
         #region TODO: make static
         public ObservableCollection<ProductClassifier> ProductClassifiers => new ObservableCollection<ProductClassifier>
@@ -146,11 +147,13 @@ namespace Veganko.ViewModels
 
         private List<Product> matchesByText;
         private bool ShouldNotifyUIOnly { get; set; }
-        private readonly IProductService productService;
+        protected readonly IProductService productService;
+        protected readonly IAccountService accountService;
 
         public ProductViewModel()
         {
             productService = DependencyService.Get<IProductService>();
+            accountService = DependencyService.Get<IAccountService>();
 
             Title = "Iskanje";
             Products = new List<Product>();
@@ -158,18 +161,9 @@ namespace Veganko.ViewModels
             SelectedProductClassifiers = new ObservableCollection<ProductClassifier>();
             SelectedProductType = ProductType.NOT_SET;
             ShowProductClassifiers = true;
+            UserAccessRights = accountService.User.AccessRights;
 
             LoadItemsCommand = new Command(async () => await RefreshProducts());
-            
-            MessagingCenter.Subscribe<NewProductPage, Product>(this, "AddItem", async (obj, item) =>
-            {
-                var _item = item as Product;
-                if (await productService.AddAsync(_item))
-                {
-                    Products.Add(_item);
-                    UnapplyFilters(false);
-                }
-            });
         }
 
         #region TODO: MOVE TO EXTENSIONS
@@ -194,7 +188,7 @@ namespace Veganko.ViewModels
                 SearchText = string.Empty;
                 UnapplyFilters();
                 Products = new List<Product>(
-                    await productService.AllAsync(true, true));
+                    await productService.AllAsync(true));
                 SetSearchResults(Products);
             }
             catch (Exception ex)
@@ -221,24 +215,23 @@ namespace Veganko.ViewModels
             }
         }
 
-        private void UnapplyFilters(bool notifyUIOnly = true)
+        protected void SetSearchResults(IEnumerable<Product> items)
+        {
+            if (SearchResult == null)
+                SearchResult = new ObservableCollection<Product>();
+
+            SearchResult.Clear();
+            foreach (var item in items)
+                SearchResult.Add(item);
+        }
+
+        protected void UnapplyFilters(bool notifyUIOnly = true)
         {
             ShouldNotifyUIOnly = notifyUIOnly;
             SelectedProductType = ProductType.NOT_SET;
         }
 
-        private void OnSelectedProductClassifierChanged(object sender, NotifyCollectionChangedEventArgs e)
-        {
-            if (ShouldNotifyUIOnly)
-            {
-                ShouldNotifyUIOnly = false;
-                return;
-            }
-
-            UpdateSearchResults();
-        }
-
-        private void UpdateSearchResults()
+        protected void UpdateSearchResults()
         {
             if (SelectedProductType == ProductType.NOT_SET)
             {
@@ -292,6 +285,17 @@ namespace Veganko.ViewModels
             }
         }
 
+        private void OnSelectedProductClassifierChanged(object sender, NotifyCollectionChangedEventArgs e)
+        {
+            if (ShouldNotifyUIOnly)
+            {
+                ShouldNotifyUIOnly = false;
+                return;
+            }
+
+            UpdateSearchResults();
+        }
+
         private void OnSearchClicked()
 		{
             UnapplyFilters();
@@ -318,24 +322,19 @@ namespace Veganko.ViewModels
             }
         }
 
+
+        private async void OnNewProductAdded(Product product)
+        {
+            if (await productService.AddAsync(product))
+            {
+                Products.Add(product);
+                UnapplyFilters(false);
+            }
+        }
+
         private void OnSwitchFilteringOptions()
         {
             ShowProductClassifiers = !ShowProductClassifiers;
-        }
-
-        public void SetUserRights()
-        {
-            UserAccessRights = DependencyService.Get<IAccountService>().User.AccessRights;
-        }
-
-        private void SetSearchResults(IEnumerable<Product> items)
-        {
-            if (SearchResult == null)
-                SearchResult = new ObservableCollection<Product>();
-
-            SearchResult.Clear();
-            foreach (var item in items)
-                SearchResult.Add(item);
         }
     }
 }

@@ -7,7 +7,7 @@ using Veganko.Models.User;
 
 namespace Veganko.Services
 {
-    interface IAccountService
+    public interface IAccountService
     {
         User User { get; }
         bool CreateAccount(string username, string password, string profileImage);
