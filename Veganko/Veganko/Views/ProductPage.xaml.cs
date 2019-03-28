@@ -51,8 +51,8 @@ namespace Veganko.Views
         {
             base.OnAppearing();
 
-            if (vm.Products == null || vm.Products.Count == 0)
-                await vm.RefreshProducts().ConfigureAwait(false);
+            //if (vm.Products == null || vm.Products.Count == 0)
+            await vm.RefreshProducts().ConfigureAwait(false);
         }
     }
 }

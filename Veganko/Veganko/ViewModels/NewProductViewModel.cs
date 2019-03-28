@@ -67,7 +67,7 @@ namespace Veganko.ViewModels
             Product = new Product
             {
                 Image = "raspeberry_meringue.jpg",
-                State = hasApprovalRights ? ProductState.Approved : ProductState.PendingApproval 
+                //State = hasApprovalRights ? ProductState.Approved : ProductState.PendingApproval  // TODO: uncomment after testing
             };
         }
     }

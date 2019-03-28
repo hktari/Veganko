@@ -112,12 +112,14 @@
     <Content Include="bostjan_kamnik.jpg">
       <SubType>Designer</SubType>
     </Content>
+    <Content Include="checkmark.png" />
     <Content Include="circle_icon.png">
       <SubType>Designer</SubType>
     </Content>
     <Content Include="coniferous_forest.jpg">
       <SubType>Designer</SubType>
     </Content>
+    <Content Include="delete.png" />
     <Content Include="dmbio_orangensaft.jpg" />
     <Content Include="evrokrem.jpg" />
     <Content Include="home_icon.png">

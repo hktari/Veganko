@@ -1,0 +1,195 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<views:BaseContentPage
+    x:Class="Veganko.Views.Product.ApproveProductPage"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:circleImageControl="clr-namespace:ImageCircle.Forms.Plugin.Abstractions;assembly=ImageCircle.Forms.Plugin.Abstractions"
+    xmlns:controls="clr-namespace:Veganko.Controls"
+    xmlns:converter="clr-namespace:Veganko.Converters"
+    xmlns:local="clr-namespace:Veganko"
+    xmlns:models="clr-namespace:Veganko.Models"
+    xmlns:views="clr-namespace:Veganko.Views">
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <converter:IntToStarConverter x:Key="IntToStarConverter" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
+    <ContentPage.Content>
+        <ListView HasUnevenRows="True" ItemsSource="{Binding Comments}">
+            <ListView.Header>
+                <StackLayout>
+                    <Grid
+                        Padding="5"
+                        AbsoluteLayout.LayoutBounds="0, 0, 1, 1"
+                        AbsoluteLayout.LayoutFlags="All"
+                        ColumnSpacing="10"
+                        RowSpacing="10"
+                        VerticalOptions="FillAndExpand">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="50" />
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+                        <ContentView
+                            Grid.Row="0"
+                            Grid.RowSpan="4"
+                            Grid.Column="0">
+                            <Frame
+                                Padding="1"
+                                CornerRadius="0"
+                                HorizontalOptions="Start"
+                                VerticalOptions="Start">
+                                <Image
+                                    Aspect="AspectFit"
+                                    HeightRequest="200"
+                                    HorizontalOptions="Center"
+                                    Source="{Binding Product.Image}"
+                                    VerticalOptions="Center"
+                                    WidthRequest="200" />
+                            </Frame>
+                        </ContentView>
+                        <Label
+                            Grid.Row="0"
+                            Grid.Column="1"
+                            FontAttributes="Bold"
+                            FontSize="Large"
+                            HorizontalOptions="Start"
+                            Text="{Binding Product.Name}" />
+                        <Label
+                            Grid.Row="1"
+                            Grid.Column="1"
+                            FontSize="Large"
+                            HorizontalOptions="Start"
+                            Text="{Binding Product.Rating, Converter={StaticResource IntToStarConverter}}" />
+                        <Label
+                            Grid.Row="2"
+                            Grid.Column="1"
+                            FontSize="Small"
+                            LineBreakMode="WordWrap"
+                            Text="{Binding Product.Description}" />
+                        <controls:EnumImageView
+                            Grid.Row="3"
+                            Grid.Column="1"
+                            HorizontalAlignment="Start"
+                            x:TypeArguments="models:ProductClassifier"
+                            ImageSource="{x:Static local:EnumImages.ProductClassifierImages}"
+                            Source="{Binding Product.ProductClassifiers}"
+                            ViewSize="75" />
+
+                        <ImageButton
+                            Grid.Column="2"
+                            Clicked="OnApproveProductClicked"
+                            HeightRequest="50"
+                            Opacity="1.0"
+                            Source="checkmark.png"
+                            WidthRequest="50" />
+                        <ImageButton
+                            Grid.Row="1"
+                            Grid.Column="2"
+                            Clicked="OnDeleteProductClicked"
+                            HeightRequest="50"
+                            Opacity="1.0"
+                            Source="delete.png"
+                            WidthRequest="50" />
+                    </Grid>
+                    <Grid
+                        Margin="0,0,0,25"
+                        Padding="5"
+                        ColumnSpacing="10"
+                        RowSpacing="10">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="*" />
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+
+                        <circleImageControl:CircleImage
+                            Grid.RowSpan="2"
+                            Aspect="AspectFill"
+                            BorderColor="LightBlue"
+                            BorderThickness="1"
+                            HeightRequest="66"
+                            HorizontalOptions="CenterAndExpand"
+                            Source="{Binding User.ProfileImage}"
+                            VerticalOptions="CenterAndExpand"
+                            WidthRequest="66" />
+                        <controls:RatingsView
+                            Grid.Row="0"
+                            Grid.Column="1"
+                            HorizontalOptions="Start"
+                            Rating="{Binding NewComment.Rating, Mode=TwoWay}" />
+                        <StackLayout
+                            Grid.Row="1"
+                            Grid.Column="1"
+                            Orientation="Horizontal"
+                            Spacing="0">
+                            <Entry
+                                HorizontalOptions="FillAndExpand"
+                                Placeholder="add a comment"
+                                Text="{Binding NewComment.Text}" />
+                            <Button
+                                BackgroundColor="Transparent"
+                                Command="{Binding SendCommentCommand}"
+                                HorizontalOptions="End"
+                                Text="Send" />
+                        </StackLayout>
+                    </Grid>
+                </StackLayout>
+            </ListView.Header>
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <ViewCell>
+                        <Grid
+                            Padding="10"
+                            ColumnSpacing="10"
+                            RowSpacing="10">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="*" />
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+
+                            <circleImageControl:CircleImage
+                                Grid.RowSpan="2"
+                                Aspect="AspectFill"
+                                BorderColor="LightBlue"
+                                BorderThickness="1"
+                                HeightRequest="66"
+                                HorizontalOptions="CenterAndExpand"
+                                Source="circle_icon.png"
+                                VerticalOptions="CenterAndExpand"
+                                WidthRequest="66" />
+                            <Label
+                                Grid.Column="1"
+                                Text="{Binding Username}"
+                                VerticalOptions="EndAndExpand" />
+                            <Label
+                                Grid.Row="0"
+                                Grid.Column="2"
+                                HorizontalOptions="End"
+                                Text="{Binding Rating, Converter={StaticResource IntToStarConverter}}" />
+                            <Label
+                                Grid.Row="1"
+                                Grid.Column="1"
+                                Text="{Binding Text}"
+                                VerticalOptions="Start" />
+                        </Grid>
+                    </ViewCell>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+    </ContentPage.Content>
+</views:BaseContentPage>

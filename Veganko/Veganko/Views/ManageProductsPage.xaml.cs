@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Veganko.ViewModels;
+using Veganko.Views.Product;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -31,7 +32,8 @@ namespace Veganko.Views
             if (item == null)
                 return;
 
-            await Navigation.PushAsync(new ProductDetailPage(new ProductDetailViewModel(item)));
+            await Navigation.PushAsync(
+                new ApproveProductPage(new ApproveProductViewModel(item)));
 
             // Manually deselect item.
             ProductsListView.SelectedItem = null;

@@ -180,10 +180,11 @@ namespace Veganko.Services
 
         public async Task<bool> AddAsync(Product item)
         {
-            if (accountService.User.CanApproveProducts())
-            {
-                item.State = ProductState.Approved;
-            }
+            // TODO: uncomment when done testing
+            //if (accountService.User.CanApproveProducts())
+            //{
+            //    item.State = ProductState.Approved;
+            //}
 
             items.Add(item);
 
