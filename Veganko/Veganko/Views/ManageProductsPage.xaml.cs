@@ -37,11 +37,6 @@ namespace Veganko.Views
             ProductsListView.SelectedItem = null;
         }
 
-        async void AddItem_Clicked(object sender, EventArgs e)
-        {
-            await Navigation.PushModalAsync(new NavigationPage(new NewProductPage()));
-        }
-
         async void OnDeleteProduct(object sender, EventArgs e)
         {
             string result = await DisplayActionSheet("Are you sure you wish to delete this product ?", "Cancel", "Yes");

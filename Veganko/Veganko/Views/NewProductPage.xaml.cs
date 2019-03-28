@@ -52,15 +52,11 @@ namespace Veganko.Views
         };
 
         NewProductViewModel vm;
-
-        private Action<Veganko.Models.Product> itemAddedCallback;
-
-        public NewProductPage(Action<Veganko.Models.Product> itemAddedCallback)
+        
+        public NewProductPage()
         {
             InitializeComponent();
-
-            this.itemAddedCallback = itemAddedCallback;
-
+            
             BindingContext = vm = new NewProductViewModel();
             TypePicker.SelectedIndexChanged += TypePickerSelectedIndexChanged;
             CameraButton.Clicked += async (sender, args) =>
@@ -103,8 +99,12 @@ namespace Veganko.Views
         void Save_Clicked(object sender, EventArgs e)
         {
             var mainPage = App.Current.MainPage as TabbedPage;
-            mainPage.CurrentPage = mainPage.Children[0];
-            itemAddedCallback?.Invoke(vm.Product);
+            var productsNavPage = mainPage.Children[0];
+
+            mainPage.CurrentPage = productsNavPage;
+
+            var productsVM = (ProductViewModel)((ProductPage)((NavigationPage)productsNavPage).CurrentPage).BindingContext;
+            productsVM.NewProductAddedCommand?.Execute(vm.Product);
         }
 
         async void Scan_Clicked(object sender, EventArgs e)

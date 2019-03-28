@@ -35,11 +35,20 @@ namespace Veganko.Views
             App.Current.MainPage = new Loginpage();
         }
 
-        protected override void OnCurrentPageChanged()
+        private NavigationPage lastPage;
+
+        protected async override void OnCurrentPageChanged()
         {
             base.OnCurrentPageChanged();
 
             Title = CurrentPage?.Title;
+
+            if (lastPage != null)
+            {
+                await lastPage.PopToRootAsync();
+            }
+
+            lastPage = CurrentPage as NavigationPage;
         }
     }
 }

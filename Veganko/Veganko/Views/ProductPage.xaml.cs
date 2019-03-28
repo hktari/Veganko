@@ -31,15 +31,6 @@ namespace Veganko.Views
             // Manually deselect item.
             ProductsListView.SelectedItem = null;
         }
-        async void AddItem_Clicked(object sender, EventArgs e)
-        {
-            // TODO: test
-            await Navigation.PushModalAsync(
-                new NavigationPage(
-                    new NewProductPage(
-                        (newProduct) => vm.NewProductAddedCommand.Execute(newProduct)
-                        )));
-        }
 
         async void OnDeleteProduct(object sender, EventArgs e)
         {
