@@ -134,7 +134,8 @@ namespace Veganko.ViewModels
             ProductClassifier.Pesketarijansko,
             ProductClassifier.GlutenFree,
             ProductClassifier.RawVegan,
-            ProductClassifier.CrueltyFree
+            ProductClassifier.CrueltyFree,
+            ProductClassifier.Bio
         };
 
         public ObservableCollection<ProductType> ProductTypes => new ObservableCollection<ProductType>

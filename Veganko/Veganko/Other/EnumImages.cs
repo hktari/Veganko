@@ -23,7 +23,8 @@ namespace Veganko
             { ProductClassifier.Pesketarijansko, "ico_pescetarian.png" },
             { ProductClassifier.GlutenFree, "ico_gluten_free.png" },
             { ProductClassifier.RawVegan, "ico_raw_vegan.png" },
-            { ProductClassifier.CrueltyFree, "ico_vegan.png" },
+            { ProductClassifier.CrueltyFree, "ico_cruelty_free.png" },
+            { ProductClassifier.Bio, "ico_bio.png" },
         };
 
         public static Dictionary<ProductType, string> ProductTypeImages => new Dictionary<ProductType, string>

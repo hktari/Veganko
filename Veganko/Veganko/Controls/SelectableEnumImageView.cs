@@ -118,7 +118,10 @@ namespace Veganko.Controls
                 image.SetBinding(Image.OpacityProperty, nameof(EnumImageItemViewModel<T>.Opacity));
                 //image.WidthRequest = image.HeightRequest = ViewSize;
                 image.HorizontalOptions = LayoutOptions.Center;
-                image.Aspect = Aspect.AspectFill;
+                image.SetBinding(VisualElement.WidthRequestProperty, new Binding(nameof(ViewSize), BindingMode.Default, null, null, null, this));
+                image.SetBinding(VisualElement.HeightRequestProperty, new Binding(nameof(ViewSize), BindingMode.Default, null, null, null, this));
+                image.Aspect = Aspect.AspectFit;
+
                 TapGestureRecognizer gestureRecognizer = new TapGestureRecognizer() { BindingContext = vm };
                 gestureRecognizer.SetBinding(TapGestureRecognizer.CommandProperty, nameof(EnumImageItemViewModel<T>.ClickedCommand));
                 

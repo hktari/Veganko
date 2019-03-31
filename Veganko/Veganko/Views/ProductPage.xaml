@@ -112,7 +112,8 @@
                         IsVisible="{Binding ShowProductClassifiers}"
                         Selected="{Binding SelectedProductClassifiers}"
                         Source="{Binding ProductClassifiers}"
-                        VerticalOptions="Center" />
+                        VerticalOptions="Center"
+                        ViewSize="63" />
                 </StackLayout>
             </StackLayout>
 

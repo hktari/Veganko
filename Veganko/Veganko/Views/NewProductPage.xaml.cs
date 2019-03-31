@@ -29,7 +29,8 @@ namespace Veganko.Views
                     ProductClassifier.Vegansko,
                     ProductClassifier.GlutenFree,
                     ProductClassifier.RawVegan,
-                    ProductClassifier.Pesketarijansko}
+                    ProductClassifier.Pesketarijansko
+                }
             },
             {
                 ProductType.Pijaca, new ObservableCollection<ProductClassifier>
