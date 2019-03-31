@@ -7,6 +7,7 @@
     xmlns:converters="clr-namespace:Veganko.Converters"
     xmlns:local="clr-namespace:Veganko"
     xmlns:models="clr-namespace:Veganko.Models"
+    xmlns:other="clr-namespace:Veganko.Other"
     xmlns:partial="clr-namespace:Veganko.Views.Product.Partial"
     xmlns:user="clr-namespace:Veganko.Models.User"
     xmlns:views="clr-namespace:Veganko.Views"
@@ -95,7 +96,7 @@
                                 </DataTrigger>
                             </ImageButton.Triggers>
                         </ImageButton>
-                        <Picker SelectedItem="{Binding SelectedProductType, Converter={StaticResource StringEnumConverter}, Mode=TwoWay}">
+                        <Picker x:Name="productTypePicker" SelectedItem="{Binding SelectedProductType, Converter={StaticResource StringEnumConverter}, Mode=TwoWay}">
                             <Picker.ItemsSource>
                                 <x:Array Type="{x:Type x:String}">
                                     <x:String>NOT_SET</x:String>

@@ -11,47 +11,13 @@ using System.Collections.ObjectModel;
 using Veganko.ViewModels;
 using Plugin.Media;
 using XamarinImageUploader;
+using Veganko.Other;
 
 namespace Veganko.Views
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class NewProductPage : BaseContentPage
     {
-        public Dictionary<ProductType, ObservableCollection<ProductClassifier>> ClassifierDictionary => new Dictionary<ProductType, ObservableCollection<ProductClassifier>>
-        {
-            {
-                ProductType.NOT_SET, new ObservableCollection<ProductClassifier>()
-            },
-            {
-                ProductType.Hrana, new ObservableCollection<ProductClassifier>
-                {
-                    ProductClassifier.Vegeterijansko,
-                    ProductClassifier.Vegansko,
-                    ProductClassifier.GlutenFree,
-                    ProductClassifier.RawVegan,
-                    ProductClassifier.Pesketarijansko
-                }
-            },
-            {
-                ProductType.Pijaca, new ObservableCollection<ProductClassifier>
-                {
-                    ProductClassifier.Vegeterijansko,
-                    ProductClassifier.Vegansko,
-                    ProductClassifier.GlutenFree,
-                    ProductClassifier.RawVegan,
-                    ProductClassifier.Pesketarijansko
-                }
-            },
-            {
-                ProductType.Kozmetika, new ObservableCollection<ProductClassifier>
-                {
-                    ProductClassifier.Vegeterijansko,
-                    ProductClassifier.Vegansko,
-                    ProductClassifier.CrueltyFree
-                }
-            }
-        };
-
         NewProductViewModel vm;
         
         public NewProductPage()
@@ -93,7 +59,7 @@ namespace Veganko.Views
         {
             var picker = sender as Picker;
             var type = (ProductType)Enum.Parse(typeof(ProductType), picker.SelectedItem as string, true);
-            SelectableEnumImageView.Source = ClassifierDictionary[type] ?? new ObservableCollection<ProductClassifier>();
+            SelectableEnumImageView.Source = new ObservableCollection<ProductClassifier>(EnumConfiguration.ClassifierDictionary[type]) ?? new ObservableCollection<ProductClassifier>();
         }
 
 

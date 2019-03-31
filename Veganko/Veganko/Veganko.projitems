@@ -33,6 +33,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Models\User\User.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\User\UserAccessRights.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Other\EnumImages.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Other\EnumConfiguration.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\AccountService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\CommentDataStore.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\FavoritesDataStore.cs" />
@@ -143,9 +144,6 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="$(MSBuildThisFileDirectory)Other\" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="$(MSBuildThisFileDirectory)Views\Loginpage.xaml">

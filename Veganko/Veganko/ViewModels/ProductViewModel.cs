@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using Veganko.Controls;
 using Veganko.Models;
 using Veganko.Models.User;
+using Veganko.Other;
 using Veganko.Services;
 using Veganko.Views;
 using Xamarin.Forms;
@@ -16,8 +17,8 @@ using Xamarin.Forms.Internals;
 
 namespace Veganko.ViewModels
 {
-	public class ProductViewModel : BaseViewModel
-	{
+    public class ProductViewModel : BaseViewModel
+    {
         public Command LoadItemsCommand { get; set; }
         public Command SearchClickedCommand => new Command(OnSearchClicked);
         public Command SearchBarcodeCommand => new Command(OnBarcodeSearch);
@@ -98,7 +99,7 @@ namespace Veganko.ViewModels
 
                 if (SetProperty(ref selectedProductClassifiers, value) && value != null)
                 {
-                    OnSelectedProductClassifierChanged(value, 
+                    OnSelectedProductClassifierChanged(value,
                         new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, value));
                     value.CollectionChanged += OnSelectedProductClassifierChanged;
                 }
@@ -118,6 +119,7 @@ namespace Veganko.ViewModels
                 {
                     ShouldNotifyUIOnly = true;
                     SelectedProductClassifiers.Clear();
+                    ProductClassifiers = new ObservableCollection<ProductClassifier>(EnumConfiguration.ClassifierDictionary[value]);
                     ShouldNotifyUIOnly = false;
                     UpdateSearchResults();
                 }
@@ -127,16 +129,13 @@ namespace Veganko.ViewModels
         public List<Product> Products { get; protected set; }
 
         #region TODO: make static
-        public ObservableCollection<ProductClassifier> ProductClassifiers => new ObservableCollection<ProductClassifier>
+        private ObservableCollection<ProductClassifier> productClassifiers;
+
+        public ObservableCollection<ProductClassifier> ProductClassifiers
         {
-            ProductClassifier.Vegeterijansko,
-            ProductClassifier.Vegansko,
-            ProductClassifier.Pesketarijansko,
-            ProductClassifier.GlutenFree,
-            ProductClassifier.RawVegan,
-            ProductClassifier.CrueltyFree,
-            ProductClassifier.Bio
-        };
+            get => productClassifiers;
+            set => SetProperty(ref productClassifiers, value);
+        }
 
         public ObservableCollection<ProductType> ProductTypes => new ObservableCollection<ProductType>
         {
