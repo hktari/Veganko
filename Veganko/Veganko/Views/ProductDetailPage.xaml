@@ -17,92 +17,75 @@
     <ContentPage.Content>
         <ListView HasUnevenRows="True" ItemsSource="{Binding Comments}">
             <ListView.Header>
-                <StackLayout>
-                    <Grid
-                        Padding="5"
-                        AbsoluteLayout.LayoutBounds="0, 0, 1, 1"
-                        AbsoluteLayout.LayoutFlags="All"
-                        ColumnSpacing="10"
-                        RowSpacing="10"
+                <StackLayout Spacing="30">
+                    <StackLayout
+                        Padding="5,0"
+                        Spacing="10"
                         VerticalOptions="FillAndExpand">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto" />
-                            <ColumnDefinition Width="*" />
-                            <ColumnDefinition Width="50" />
-                        </Grid.ColumnDefinitions>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto" />
-                            <RowDefinition Height="Auto" />
-                            <RowDefinition Height="Auto" />
-                            <RowDefinition Height="Auto" />
-                        </Grid.RowDefinitions>
                         <ContentView
                             Grid.Row="0"
-                            Grid.RowSpan="4"
-                            Grid.Column="0">
-                            <Frame
-                                Padding="1"
-                                CornerRadius="0"
-                                HorizontalOptions="Start"
-                                VerticalOptions="Start">
+                            Grid.Column="0"
+                            Grid.ColumnSpan="3">
+                            <Frame Padding="1" CornerRadius="0">
                                 <Image
-                                    Aspect="AspectFit"
-                                    HeightRequest="200"
+                                    Aspect="AspectFill"
+                                    HeightRequest="300"
                                     HorizontalOptions="Center"
-                                    Source="{Binding Product.Image}"
-                                    VerticalOptions="Center"
-                                    WidthRequest="200" />
+                                    Source="{Binding Product.Image}" />
                             </Frame>
                         </ContentView>
+                        <StackLayout Orientation="Horizontal">
+                            <Label HorizontalOptions="StartAndExpand">
+                                <Label.FormattedText>
+                                    <FormattedString>
+                                        <Span
+                                            FontAttributes="Bold"
+                                            FontSize="Large"
+                                            Text="{Binding Product.Name, Mode=OneWay}" />
+                                        <Span Text="&#10;" />
+                                        <Span FontSize="Large" Text="{Binding Product.Rating, Converter={StaticResource IntToStarConverter}, Mode=OneWay}" />
+                                    </FormattedString>
+                                </Label.FormattedText>
+                            </Label>
+                            <ImageButton
+                                Grid.Row="1"
+                                Grid.Column="2"
+                                AbsoluteLayout.LayoutBounds="1, 0"
+                                AbsoluteLayout.LayoutFlags="PositionProportional"
+                                BackgroundColor="Transparent"
+                                Command="{Binding AddToFavoritesCommand}"
+                                HeightRequest="50"
+                                Opacity="1.0"
+                                Source="ico_favorites.png"
+                                WidthRequest="50">
+                                <ImageButton.Triggers>
+                                    <DataTrigger
+                                        Binding="{Binding IsFavorite}"
+                                        TargetType="ImageButton"
+                                        Value="False">
+                                        <Setter Property="Opacity" Value="0.5" />
+                                    </DataTrigger>
+                                </ImageButton.Triggers>
+                            </ImageButton>
+                        </StackLayout>
                         <Label
-                            Grid.Row="0"
-                            Grid.Column="1"
-                            FontAttributes="Bold"
-                            FontSize="Large"
-                            HorizontalOptions="Start"
-                            Text="{Binding Product.Name}" />
-                        <Label
-                            Grid.Row="1"
-                            Grid.Column="1"
-                            FontSize="Large"
-                            HorizontalOptions="Start"
-                            Text="{Binding Product.Rating, Converter={StaticResource IntToStarConverter}}" />
-                        <Label
-                            Grid.Row="2"
+                            Grid.Row="3"
                             Grid.Column="1"
                             FontSize="Small"
                             LineBreakMode="WordWrap"
                             Text="{Binding Product.Description}" />
                         <controls:EnumImageView
-                            Grid.Row="3"
+                            Grid.Row="4"
                             Grid.Column="1"
                             HorizontalAlignment="Start"
                             x:TypeArguments="models:ProductClassifier"
                             ImageSource="{x:Static local:EnumImages.ProductClassifierImages}"
                             Source="{Binding Product.ProductClassifiers}"
+                            VerticalOptions="Center"
                             ViewSize="75" />
-
-                        <ImageButton
-                            Grid.Column="2"
-                            AbsoluteLayout.LayoutBounds="1, 0"
-                            AbsoluteLayout.LayoutFlags="PositionProportional"
-                            Command="{Binding AddToFavoritesCommand}"
-                            HeightRequest="50"
-                            Opacity="1.0"
-                            Source="ico_favorites.png"
-                            WidthRequest="50">
-                            <ImageButton.Triggers>
-                                <DataTrigger
-                                    Binding="{Binding IsFavorite}"
-                                    TargetType="ImageButton"
-                                    Value="False">
-                                    <Setter Property="Opacity" Value="0.5" />
-                                </DataTrigger>
-                            </ImageButton.Triggers>
-                        </ImageButton>
-                    </Grid>
+                    </StackLayout>
                     <Grid
-                        Margin="0,0,0,25"
+                        Margin="0,0,0,15"
                         Padding="5"
                         ColumnSpacing="10"
                         RowSpacing="10">
