@@ -60,7 +60,13 @@
                 <StackLayout Orientation="Horizontal">
                     <!--<Button Command="{Binding SwitchFilteringOptions}" Image="icon.png" />-->
                     <StackLayout>
-                        <ImageButton IsEnabled="False">
+                        <ImageButton
+                            BackgroundColor="Transparent"
+                            HeightRequest="63"
+                            HorizontalOptions="Center"
+                            IsEnabled="False"
+                            VerticalOptions="Center"
+                            WidthRequest="63">
                             <ImageButton.Triggers>
                                 <DataTrigger
                                     Binding="{Binding SelectedProductType}"
