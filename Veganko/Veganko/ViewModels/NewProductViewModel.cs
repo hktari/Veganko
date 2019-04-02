@@ -5,6 +5,7 @@ using System.Diagnostics;
 using System.Text;
 using Veganko.Models;
 using Veganko.Models.User;
+using Veganko.Other;
 using Veganko.Services;
 using Xamarin.Forms;
 
@@ -14,7 +15,7 @@ namespace Veganko.ViewModels
     {
         public static List<string> PickerSource => new List<string>(Enum.GetNames(typeof(ProductType)));
 
-        private Product product = new Product { Image = "raspeberry_meringue.jpg" };
+        private Product product;
         public Product Product
         {
             get
@@ -27,17 +28,38 @@ namespace Veganko.ViewModels
             }
         }
 
-        //public ObservableCollection<ProductClassifier> Selected
-        //{
-        //    get
-        //    {
-        //        return selected;
-        //    }
-        //    set
-        //    {
-        //        SetProperty(ref selected, value);
-        //    }
-        //}
+        private ObservableCollection<ProductClassifier> selected;
+        public ObservableCollection<ProductClassifier> Selected
+        {
+            get => selected;
+            set => SetProperty(ref selected, value);
+        }
+
+        private ProductType selectedProductType;
+        public ProductType SelectedProductType
+        {
+            get
+            {
+                return selectedProductType;
+            }
+            set
+            {
+                if (SetProperty(ref selectedProductType, value))
+                {
+                    ProductClassifiers?.Clear();
+                    ProductClassifiers = new ObservableCollection<ProductClassifier>(EnumConfiguration.ClassifierDictionary[value]);
+                    Product.Type = selectedProductType;
+                }
+            }
+        }
+
+        private ObservableCollection<ProductClassifier> productClassifiers;
+
+        public ObservableCollection<ProductClassifier> ProductClassifiers
+        {
+            get => productClassifiers;
+            set => SetProperty(ref productClassifiers, value);
+        }
 
         public Command PageAppeared => new Command(OnPageAppeared);
 
@@ -55,8 +77,8 @@ namespace Veganko.ViewModels
                 OnPropertyChanged(nameof(Barcode));
             }
         }
-        
-        private void OnPageAppeared(object parameter)
+
+        public NewProductViewModel()
         {
             var user = DependencyService.Get<IAccountService>().User;
             var mask = UserAccessRights.ProductsDelete;
@@ -68,7 +90,14 @@ namespace Veganko.ViewModels
             {
                 Image = "raspeberry_meringue.jpg",
                 //State = hasApprovalRights ? ProductState.Approved : ProductState.PendingApproval  // TODO: uncomment after testing
+                ProductClassifiers = new ObservableCollection<ProductClassifier>()
             };
+            SelectedProductType = (ProductType)1;
+        }
+
+        private void OnPageAppeared(object parameter)
+        {
+            
         }
     }
 }

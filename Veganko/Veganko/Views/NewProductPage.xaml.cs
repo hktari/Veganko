@@ -25,7 +25,6 @@ namespace Veganko.Views
             InitializeComponent();
             
             BindingContext = vm = new NewProductViewModel();
-            TypePicker.SelectedIndexChanged += TypePickerSelectedIndexChanged;
             CameraButton.Clicked += async (sender, args) =>
             {
                 var initialized = await CrossMedia.Current.Initialize();
@@ -54,14 +53,6 @@ namespace Veganko.Views
                 });
             };
         }
-
-        private void TypePickerSelectedIndexChanged(object sender, EventArgs e)
-        {
-            var picker = sender as Picker;
-            var type = (ProductType)Enum.Parse(typeof(ProductType), picker.SelectedItem as string, true);
-            SelectableEnumImageView.Source = new ObservableCollection<ProductClassifier>(EnumConfiguration.ClassifierDictionary[type]) ?? new ObservableCollection<ProductClassifier>();
-        }
-
 
         void Save_Clicked(object sender, EventArgs e)
         {

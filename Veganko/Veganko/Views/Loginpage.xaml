@@ -141,8 +141,10 @@
 
             <Picker
                 Grid.ColumnSpan="4"
+                BackgroundColor="DarkGray"
                 HorizontalOptions="End"
                 SelectedItem="{Binding SelectedUserType}"
+                TextColor="White"
                 VerticalOptions="Start">
                 <Picker.ItemsSource>
                     <x:Array Type="{x:Type x:String}">
