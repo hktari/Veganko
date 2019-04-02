@@ -28,9 +28,9 @@ namespace Veganko.Views
             TypePicker.SelectedIndexChanged += TypePickerSelectedIndexChanged;
             CameraButton.Clicked += async (sender, args) =>
             {
-                await CrossMedia.Current.Initialize();
+                var initialized = await CrossMedia.Current.Initialize();
 
-                if (!CrossMedia.Current.IsCameraAvailable || !CrossMedia.Current.IsTakePhotoSupported)
+                if (!initialized || !CrossMedia.Current.IsCameraAvailable || !CrossMedia.Current.IsTakePhotoSupported)
                 {
                     DisplayAlert("No Camera", ":( No camera available.", "OK");
                     return;
