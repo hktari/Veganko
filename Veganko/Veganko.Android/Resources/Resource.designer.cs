@@ -1112,7 +1112,6 @@ namespace Veganko.Droid
 			global::Xamarin.Forms.Platform.Android.Resource.Id.main_tablayout = global::Veganko.Droid.Resource.Id.main_tablayout;
 			global::Xamarin.Forms.Platform.Android.Resource.Id.main_toolbar = global::Veganko.Droid.Resource.Id.main_toolbar;
 			global::Xamarin.Forms.Platform.Android.Resource.Id.masked = global::Veganko.Droid.Resource.Id.masked;
-			global::Xamarin.Forms.Platform.Android.Resource.Id.materialformsedittext = global::Veganko.Droid.Resource.Id.materialformsedittext;
 			global::Xamarin.Forms.Platform.Android.Resource.Id.media_actions = global::Veganko.Droid.Resource.Id.media_actions;
 			global::Xamarin.Forms.Platform.Android.Resource.Id.message = global::Veganko.Droid.Resource.Id.message;
 			global::Xamarin.Forms.Platform.Android.Resource.Id.middle = global::Veganko.Droid.Resource.Id.middle;
@@ -1300,8 +1299,6 @@ namespace Veganko.Droid
 			global::Xamarin.Forms.Platform.Android.Resource.Layout.select_dialog_singlechoice_material = global::Veganko.Droid.Resource.Layout.select_dialog_singlechoice_material;
 			global::Xamarin.Forms.Platform.Android.Resource.Layout.ShellContent = global::Veganko.Droid.Resource.Layout.ShellContent;
 			global::Xamarin.Forms.Platform.Android.Resource.Layout.support_simple_spinner_dropdown_item = global::Veganko.Droid.Resource.Layout.support_simple_spinner_dropdown_item;
-			global::Xamarin.Forms.Platform.Android.Resource.Layout.TextInputLayoutFilledBox = global::Veganko.Droid.Resource.Layout.TextInputLayoutFilledBox;
-			global::Xamarin.Forms.Platform.Android.Resource.Layout.TextInputLayoutOutlinedBox = global::Veganko.Droid.Resource.Layout.TextInputLayoutOutlinedBox;
 			global::Xamarin.Forms.Platform.Android.Resource.String.abc_action_bar_home_description = global::Veganko.Droid.Resource.String.abc_action_bar_home_description;
 			global::Xamarin.Forms.Platform.Android.Resource.String.abc_action_bar_up_description = global::Veganko.Droid.Resource.String.abc_action_bar_up_description;
 			global::Xamarin.Forms.Platform.Android.Resource.String.abc_action_menu_overflow_description = global::Veganko.Droid.Resource.String.abc_action_menu_overflow_description;
@@ -1856,10 +1853,6 @@ namespace Veganko.Droid
 			global::Xamarin.Forms.Platform.Android.Resource.Style.Widget_MaterialComponents_TextInputLayout_OutlinedBox_Dense = global::Veganko.Droid.Resource.Style.Widget_MaterialComponents_TextInputLayout_OutlinedBox_Dense;
 			global::Xamarin.Forms.Platform.Android.Resource.Style.Widget_MaterialComponents_Toolbar = global::Veganko.Droid.Resource.Style.Widget_MaterialComponents_Toolbar;
 			global::Xamarin.Forms.Platform.Android.Resource.Style.Widget_Support_CoordinatorLayout = global::Veganko.Droid.Resource.Style.Widget_Support_CoordinatorLayout;
-			global::Xamarin.Forms.Platform.Android.Resource.Style.XamarinFormsMaterialProgressBarCircular = global::Veganko.Droid.Resource.Style.XamarinFormsMaterialProgressBarCircular;
-			global::Xamarin.Forms.Platform.Android.Resource.Style.XamarinFormsMaterialProgressBarHorizontal = global::Veganko.Droid.Resource.Style.XamarinFormsMaterialProgressBarHorizontal;
-			global::Xamarin.Forms.Platform.Android.Resource.Style.XamarinFormsMaterialTextInputLayoutFilledBox = global::Veganko.Droid.Resource.Style.XamarinFormsMaterialTextInputLayoutFilledBox;
-			global::Xamarin.Forms.Platform.Android.Resource.Style.XamarinFormsMaterialTheme = global::Veganko.Droid.Resource.Style.XamarinFormsMaterialTheme;
 			global::Xamarin.Forms.Platform.Android.Resource.Styleable.ActionBar = global::Veganko.Droid.Resource.Styleable.ActionBar;
 			global::Xamarin.Forms.Platform.Android.Resource.Styleable.ActionBar_background = global::Veganko.Droid.Resource.Styleable.ActionBar_background;
 			global::Xamarin.Forms.Platform.Android.Resource.Styleable.ActionBar_backgroundSplit = global::Veganko.Droid.Resource.Styleable.ActionBar_backgroundSplit;
@@ -5643,26 +5636,26 @@ namespace Veganko.Droid
 			// aapt resource value: 0x7f020059
 			public const int avd_hide_password = 2130837593;
 			
-			// aapt resource value: 0x7f02015c
-			public const int avd_hide_password_1 = 2130837852;
+			// aapt resource value: 0x7f020162
+			public const int avd_hide_password_1 = 2130837858;
 			
-			// aapt resource value: 0x7f02015d
-			public const int avd_hide_password_2 = 2130837853;
+			// aapt resource value: 0x7f020163
+			public const int avd_hide_password_2 = 2130837859;
 			
-			// aapt resource value: 0x7f02015e
-			public const int avd_hide_password_3 = 2130837854;
+			// aapt resource value: 0x7f020164
+			public const int avd_hide_password_3 = 2130837860;
 			
 			// aapt resource value: 0x7f02005a
 			public const int avd_show_password = 2130837594;
 			
-			// aapt resource value: 0x7f02015f
-			public const int avd_show_password_1 = 2130837855;
+			// aapt resource value: 0x7f020165
+			public const int avd_show_password_1 = 2130837861;
 			
-			// aapt resource value: 0x7f020160
-			public const int avd_show_password_2 = 2130837856;
+			// aapt resource value: 0x7f020166
+			public const int avd_show_password_2 = 2130837862;
 			
-			// aapt resource value: 0x7f020161
-			public const int avd_show_password_3 = 2130837857;
+			// aapt resource value: 0x7f020167
+			public const int avd_show_password_3 = 2130837863;
 			
 			// aapt resource value: 0x7f02005b
 			public const int bostjan_kamnik = 2130837595;
@@ -6399,11 +6392,11 @@ namespace Veganko.Droid
 			// aapt resource value: 0x7f02014f
 			public const int notification_icon_background = 2130837839;
 			
-			// aapt resource value: 0x7f02015a
-			public const int notification_template_icon_bg = 2130837850;
+			// aapt resource value: 0x7f020160
+			public const int notification_template_icon_bg = 2130837856;
 			
-			// aapt resource value: 0x7f02015b
-			public const int notification_template_icon_low_bg = 2130837851;
+			// aapt resource value: 0x7f020161
+			public const int notification_template_icon_low_bg = 2130837857;
 			
 			// aapt resource value: 0x7f020150
 			public const int notification_tile_bg = 2130837840;
@@ -6415,25 +6408,43 @@ namespace Veganko.Droid
 			public const int Olivella_hranilna_krema_r = 2130837842;
 			
 			// aapt resource value: 0x7f020153
-			public const int qr = 2130837843;
+			public const int pbg_1 = 2130837843;
 			
 			// aapt resource value: 0x7f020154
-			public const int raspeberry_meringue = 2130837844;
+			public const int pbg_2 = 2130837844;
 			
 			// aapt resource value: 0x7f020155
-			public const int tooltip_frame_dark = 2130837845;
+			public const int pbg_3 = 2130837845;
 			
 			// aapt resource value: 0x7f020156
-			public const int tooltip_frame_light = 2130837846;
+			public const int pbg_4 = 2130837846;
 			
 			// aapt resource value: 0x7f020157
-			public const int violife = 2130837847;
+			public const int pbg_5 = 2130837847;
 			
 			// aapt resource value: 0x7f020158
-			public const int violife_mozarella = 2130837848;
+			public const int pbg_6 = 2130837848;
 			
 			// aapt resource value: 0x7f020159
-			public const int xamarin_logo = 2130837849;
+			public const int qr = 2130837849;
+			
+			// aapt resource value: 0x7f02015a
+			public const int raspeberry_meringue = 2130837850;
+			
+			// aapt resource value: 0x7f02015b
+			public const int tooltip_frame_dark = 2130837851;
+			
+			// aapt resource value: 0x7f02015c
+			public const int tooltip_frame_light = 2130837852;
+			
+			// aapt resource value: 0x7f02015d
+			public const int violife = 2130837853;
+			
+			// aapt resource value: 0x7f02015e
+			public const int violife_mozarella = 2130837854;
+			
+			// aapt resource value: 0x7f02015f
+			public const int xamarin_logo = 2130837855;
 			
 			static Drawable()
 			{
@@ -7592,10 +7603,10 @@ namespace Veganko.Droid
 			public const int Tabbar = 2130903124;
 			
 			// aapt resource value: 0x7f030055
-			public const int TextInputLayoutFilledBox = 2130903125;
+			public const int textinputlayoutfilledbox = 2130903125;
 			
 			// aapt resource value: 0x7f030056
-			public const int TextInputLayoutOutlinedBox = 2130903126;
+			public const int textinputlayoutoutlinedbox = 2130903126;
 			
 			// aapt resource value: 0x7f030057
 			public const int Toolbar = 2130903127;

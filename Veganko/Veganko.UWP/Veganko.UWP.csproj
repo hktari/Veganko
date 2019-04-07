@@ -171,6 +171,12 @@
     <Content Include="manner.jpg" />
     <Content Include="maslo_za_telo.jpg" />
     <Content Include="Olivella_hranilna_krema_r.jpg" />
+    <Content Include="pbg_1.png" />
+    <Content Include="pbg_2.png" />
+    <Content Include="pbg_3.png" />
+    <Content Include="pbg_4.png" />
+    <Content Include="pbg_5.png" />
+    <Content Include="pbg_6.png" />
     <Content Include="Properties\Default.rd.xml" />
     <Content Include="Assets\LockScreenLogo.scale-100.png" />
     <Content Include="Assets\LockScreenLogo.scale-125.png" />
@@ -239,7 +245,7 @@
     <PackageReference Include="Xam.Plugins.Forms.ImageCircle">
       <Version>2.0.1</Version>
     </PackageReference>
-    <PackageReference Include="Xamarin.Forms" Version="3.5.0.169047" />
+    <PackageReference Include="Xamarin.Forms" Version="3.5.0.129452" />
     <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform" Version="6.0.1" />
     <PackageReference Include="ZXing.Net.Mobile.Forms">
       <Version>2.3.2</Version>
