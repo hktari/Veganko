@@ -1112,6 +1112,7 @@ namespace Veganko.Droid
 			global::Xamarin.Forms.Platform.Android.Resource.Id.main_tablayout = global::Veganko.Droid.Resource.Id.main_tablayout;
 			global::Xamarin.Forms.Platform.Android.Resource.Id.main_toolbar = global::Veganko.Droid.Resource.Id.main_toolbar;
 			global::Xamarin.Forms.Platform.Android.Resource.Id.masked = global::Veganko.Droid.Resource.Id.masked;
+			global::Xamarin.Forms.Platform.Android.Resource.Id.materialformsedittext = global::Veganko.Droid.Resource.Id.materialformsedittext;
 			global::Xamarin.Forms.Platform.Android.Resource.Id.media_actions = global::Veganko.Droid.Resource.Id.media_actions;
 			global::Xamarin.Forms.Platform.Android.Resource.Id.message = global::Veganko.Droid.Resource.Id.message;
 			global::Xamarin.Forms.Platform.Android.Resource.Id.middle = global::Veganko.Droid.Resource.Id.middle;
@@ -1853,6 +1854,10 @@ namespace Veganko.Droid
 			global::Xamarin.Forms.Platform.Android.Resource.Style.Widget_MaterialComponents_TextInputLayout_OutlinedBox_Dense = global::Veganko.Droid.Resource.Style.Widget_MaterialComponents_TextInputLayout_OutlinedBox_Dense;
 			global::Xamarin.Forms.Platform.Android.Resource.Style.Widget_MaterialComponents_Toolbar = global::Veganko.Droid.Resource.Style.Widget_MaterialComponents_Toolbar;
 			global::Xamarin.Forms.Platform.Android.Resource.Style.Widget_Support_CoordinatorLayout = global::Veganko.Droid.Resource.Style.Widget_Support_CoordinatorLayout;
+			global::Xamarin.Forms.Platform.Android.Resource.Style.XamarinFormsMaterialProgressBarCircular = global::Veganko.Droid.Resource.Style.XamarinFormsMaterialProgressBarCircular;
+			global::Xamarin.Forms.Platform.Android.Resource.Style.XamarinFormsMaterialProgressBarHorizontal = global::Veganko.Droid.Resource.Style.XamarinFormsMaterialProgressBarHorizontal;
+			global::Xamarin.Forms.Platform.Android.Resource.Style.XamarinFormsMaterialTextInputLayoutFilledBox = global::Veganko.Droid.Resource.Style.XamarinFormsMaterialTextInputLayoutFilledBox;
+			global::Xamarin.Forms.Platform.Android.Resource.Style.XamarinFormsMaterialTheme = global::Veganko.Droid.Resource.Style.XamarinFormsMaterialTheme;
 			global::Xamarin.Forms.Platform.Android.Resource.Styleable.ActionBar = global::Veganko.Droid.Resource.Styleable.ActionBar;
 			global::Xamarin.Forms.Platform.Android.Resource.Styleable.ActionBar_background = global::Veganko.Droid.Resource.Styleable.ActionBar_background;
 			global::Xamarin.Forms.Platform.Android.Resource.Styleable.ActionBar_backgroundSplit = global::Veganko.Droid.Resource.Styleable.ActionBar_backgroundSplit;

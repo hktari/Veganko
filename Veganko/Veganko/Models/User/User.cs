@@ -8,6 +8,7 @@ namespace Veganko.Models.User
     {
         public UserAccessRights AccessRights { get; set; }
         public string Id { get; set; }
+        public ProfileBackgroundImage ProfileBackground { get; set; }
         public string ProfileImage { get; set; }
         public string Username { get; set; }
         public string Password { get; set; }

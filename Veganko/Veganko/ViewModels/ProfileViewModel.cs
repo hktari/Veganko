@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Veganko.Models;
 using Veganko.Models.User;
 using Veganko.Services;
+using Veganko.ViewModels.Profile;
 using Xamarin.Forms;
 
 namespace Veganko.ViewModels
@@ -18,12 +19,14 @@ namespace Veganko.ViewModels
             public Comment Comment { get; set; }
             public Product Product { get; set; }
         }
-        //public static ObservableCollection<Comment> Data = new ObservableCollection<Comment>
-        //{
-        //    new Comment { ProductName = "Vegan Pizza No.2", Rating = 3, ImageSrc = "raspeberry_meringue.jpg", Text = "Well, it's not cheese..." },
-        //    new Comment { ProductName = "Vegan Pizza No.1", Rating = 2, ImageSrc = "raspeberry_meringue.jpg", Text = "Still not cheese..." },
-        //    new Comment { ProductName = "Vanilla Soya Yoghurt", Rating = 5, ImageSrc = "raspeberry_meringue.jpg", Text = "SO GOOD, OH MA GOD !" }
-        //};
+
+        private ProfileBackgroundImage backgroundImage;
+        public ProfileBackgroundImage BackgroundImage
+        {
+            get => backgroundImage;
+            set => SetProperty(ref backgroundImage, value);
+        }
+
         public Command LoadItemsCommand => new Command(
             async () => await Refresh());
 
@@ -42,10 +45,13 @@ namespace Veganko.ViewModels
         public ProfileViewModel()
         {
             Title = "Profile";
+            // TODO: fix memory leak
+            MessagingCenter.Subscribe<BackgroundImageViewModel, ProfileBackgroundImage>(this, BackgroundImageViewModel.SaveMsg, OnBackgroundImageChanged);
             Comments = new ObservableCollection<ProfileComment>();
             commentDataStore = DependencyService.Get<IDataStore<Comment>>();
             productDataStore = DependencyService.Get<IDataStore<Product>>();
         }
+
         public async Task Refresh()
         {
             if (IsBusy)
@@ -86,6 +92,14 @@ namespace Veganko.ViewModels
             {
                 IsBusy = false;
             }
+        }
+
+        private void OnBackgroundImageChanged(BackgroundImageViewModel arg1, ProfileBackgroundImage selectedBackgroundImg)
+        {
+            // TODO: service call ?
+
+            User.ProfileBackground = selectedBackgroundImg;
+            BackgroundImage = selectedBackgroundImg;
         }
     }
 }

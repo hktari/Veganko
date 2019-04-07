@@ -1,69 +1,109 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<views:BaseContentPage xmlns="http://xamarin.com/schemas/2014/forms"
-			 xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-			 xmlns:views="clr-namespace:Veganko.Views"
-			 x:Class="Veganko.Views.ProfilePage"
-			 xmlns:vm="clr-namespace:Veganko.ViewModels;"
-			 xmlns:converters="clr-namespace:Veganko.Converters"
-			 xmlns:circleImageControl="clr-namespace:ImageCircle.Forms.Plugin.Abstractions;assembly=ImageCircle.Forms.Plugin.Abstractions">
-	<ContentPage.BindingContext>
-		<vm:ProfileViewModel />
-	</ContentPage.BindingContext>
-	<ContentPage.Resources>
-		<ResourceDictionary>
-			<converters:IntToStarConverter x:Key="intToStarConverter"/>
-		</ResourceDictionary>
-	</ContentPage.Resources>
-	<ContentPage.Content>
-		<ListView ItemsSource="{Binding Comments}" 
-					HasUnevenRows="True" 
-					VerticalOptions="FillAndExpand"
-					RefreshCommand="{Binding LoadItemsCommand}"
-					IsPullToRefreshEnabled="true"
-					IsRefreshing="{Binding IsBusy, Mode=OneWay}"
-					CachingStrategy="RecycleElement">
-			<ListView.Header>
-				<AbsoluteLayout VerticalOptions="Fill" HeightRequest="250" BackgroundColor="LightGray">
-					<!--<Image Source="coniferous_forest.jpg" Aspect="Fill"/>-->
-					
-					<StackLayout AbsoluteLayout.LayoutBounds="0.5, 0.5, 0.45, 1.0" AbsoluteLayout.LayoutFlags="All" Spacing="0">
-						<StackLayout VerticalOptions="CenterAndExpand">
-							<circleImageControl:CircleImage 
-								HorizontalOptions="Center"
-								VerticalOptions="Center"
-								Source="{Binding User.ProfileImage}"/>
-							<Label Text="{Binding User.Username}" FontSize="25" TextColor="White" FontAttributes="Bold" HorizontalTextAlignment="Center"/>
-							<Label Text="Long time cheese hater" TextColor="White" FontSize="16" Margin="0, 5.0, 0, 0" HorizontalTextAlignment="Center"/>
-							<Label Text="VEGAN" FontSize="16" TextColor="White" FontAttributes="Bold" HorizontalTextAlignment="Center"/>
-						</StackLayout>
-					</StackLayout>
-				</AbsoluteLayout>
-			</ListView.Header>
-			<ListView.ItemTemplate>
-				<DataTemplate>
-					<ViewCell>
-						<Grid Padding="10" RowSpacing="10" ColumnSpacing="10">
-							<Grid.RowDefinitions>
-								<RowDefinition Height="Auto"/>
-								<RowDefinition Height="Auto"/>
-								<RowDefinition Height="Auto"/>
-							</Grid.RowDefinitions>
-							<Grid.ColumnDefinitions>
-								<ColumnDefinition Width="Auto"/>
-								<ColumnDefinition Width="Auto"/>
-							</Grid.ColumnDefinitions>
-							<Image 
-								HorizontalOptions="Center"
-								VerticalOptions="Center"
-								Source="{Binding Product.Image}"
-								Grid.RowSpan="3"/>
-							<Label Grid.Column="1" Text="{Binding Product.Name}" VerticalOptions="EndAndExpand"/>
-							<Label Grid.Column="1" Grid.Row="1" Text="{Binding Comment.Rating, Converter = {StaticResource intToStarConverter}}" VerticalOptions="Start"/>
-							<Label Grid.Column="1" Grid.Row="2" Text="{Binding Comment.Text}" VerticalOptions="Start"/>
-						</Grid>
-					</ViewCell>
-				</DataTemplate>
-			</ListView.ItemTemplate>
-		</ListView>
-	</ContentPage.Content>
+<views:BaseContentPage
+    x:Class="Veganko.Views.ProfilePage"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:circleImageControl="clr-namespace:ImageCircle.Forms.Plugin.Abstractions;assembly=ImageCircle.Forms.Plugin.Abstractions"
+    xmlns:converters="clr-namespace:Veganko.Converters"
+    xmlns:views="clr-namespace:Veganko.Views"
+    xmlns:vm="clr-namespace:Veganko.ViewModels">
+    <ContentPage.BindingContext>
+        <vm:ProfileViewModel />
+    </ContentPage.BindingContext>
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <converters:IntToStarConverter x:Key="intToStarConverter" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
+    <ContentPage.Content>
+        <ListView
+            CachingStrategy="RecycleElement"
+            HasUnevenRows="True"
+            IsPullToRefreshEnabled="true"
+            IsRefreshing="{Binding IsBusy, Mode=OneWay}"
+            ItemsSource="{Binding Comments}"
+            RefreshCommand="{Binding LoadItemsCommand}"
+            VerticalOptions="FillAndExpand">
+            <ListView.Header>
+                <AbsoluteLayout
+                    BackgroundColor="LightGray"
+                    HeightRequest="250"
+                    VerticalOptions="Fill">
+                    <Image Aspect="AspectFill" Source="{Binding BackgroundImage}">
+                        <Image.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="OnBackgroundImageTap" />
+                        </Image.GestureRecognizers>
+                    </Image>
+                    <StackLayout
+                        AbsoluteLayout.LayoutBounds="0.5, 0.5, 0.45, 1.0"
+                        AbsoluteLayout.LayoutFlags="All"
+                        Spacing="0">
+                        <StackLayout VerticalOptions="CenterAndExpand">
+                            <circleImageControl:CircleImage
+                                HorizontalOptions="Center"
+                                Source="{Binding User.ProfileImage}"
+                                VerticalOptions="Center" />
+                            <Label
+                                FontAttributes="Bold"
+                                FontSize="25"
+                                HorizontalTextAlignment="Center"
+                                Text="{Binding User.Username}"
+                                TextColor="White" />
+                            <Label
+                                Margin="0,5.0,0,0"
+                                FontSize="16"
+                                HorizontalTextAlignment="Center"
+                                Text="Long time cheese hater"
+                                TextColor="White" />
+                            <Label
+                                FontAttributes="Bold"
+                                FontSize="16"
+                                HorizontalTextAlignment="Center"
+                                Text="VEGAN"
+                                TextColor="White" />
+                        </StackLayout>
+                    </StackLayout>
+                </AbsoluteLayout>
+            </ListView.Header>
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <ViewCell>
+                        <Grid
+                            Padding="10"
+                            ColumnSpacing="10"
+                            RowSpacing="10">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+                            <Image
+                                Grid.RowSpan="3"
+                                HorizontalOptions="Center"
+                                Source="{Binding Product.Image}"
+                                VerticalOptions="Center" />
+                            <Label
+                                Grid.Column="1"
+                                Text="{Binding Product.Name}"
+                                VerticalOptions="EndAndExpand" />
+                            <Label
+                                Grid.Row="1"
+                                Grid.Column="1"
+                                Text="{Binding Comment.Rating, Converter={StaticResource intToStarConverter}}"
+                                VerticalOptions="Start" />
+                            <Label
+                                Grid.Row="2"
+                                Grid.Column="1"
+                                Text="{Binding Comment.Text}"
+                                VerticalOptions="Start" />
+                        </Grid>
+                    </ViewCell>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+    </ContentPage.Content>
 </views:BaseContentPage>

@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="Veganko.Views.Profile.SelectBackgroundPage"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Clicked="OnSaveClicked" Text="Save" />
+    </ContentPage.ToolbarItems>
+    <ContentPage.Content>
+        <ListView ItemsSource="{Binding BackgroundImageSource}">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <Image
+                        Aspect="AspectFill"
+                        HeightRequest="250"
+                        Source="{Binding Image}"
+                        VerticalOptions="Center" />
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+    </ContentPage.Content>
+</ContentPage>
