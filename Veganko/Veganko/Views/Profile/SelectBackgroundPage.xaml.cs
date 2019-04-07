@@ -17,7 +17,7 @@ namespace Veganko.Views.Profile
 		public SelectBackgroundPage (BackgroundImageViewModel vm)
 		{
 			InitializeComponent ();
-            this.vm = vm;
+            BindingContext = this.vm = vm;
 		}
 
         private async void OnSaveClicked(object sender, EventArgs arg)

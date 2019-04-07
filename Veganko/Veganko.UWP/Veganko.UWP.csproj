@@ -121,6 +121,7 @@
     </Content>
     <Content Include="delete.png" />
     <Content Include="dmbio_orangensaft.jpg" />
+    <Content Include="edit.png" />
     <Content Include="evrokrem.jpg" />
     <Content Include="home_icon.png">
       <SubType>Designer</SubType>

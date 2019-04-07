@@ -50,6 +50,7 @@ namespace Veganko.ViewModels
             Comments = new ObservableCollection<ProfileComment>();
             commentDataStore = DependencyService.Get<IDataStore<Comment>>();
             productDataStore = DependencyService.Get<IDataStore<Product>>();
+            BackgroundImage = User.ProfileBackground;
         }
 
         public async Task Refresh()

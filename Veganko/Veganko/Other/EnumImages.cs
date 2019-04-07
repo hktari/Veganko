@@ -33,5 +33,15 @@ namespace Veganko
             { ProductType.Pijaca, "ico_beverages.png" },
             { ProductType.Kozmetika, "ico_cosmetics.png" }
         };
+
+        public static Dictionary<string, string> ProfileBackgroundImages => new Dictionary<string, string>
+        {
+            { "0", "pbg_1.png" },
+            { "1", "pbg_2.png" },
+            { "2", "pbg_3.png" },
+            { "3", "pbg_4.png" },
+            { "4", "pbg_5.png" },
+            { "5", "pbg_6.png" },
+        };
     }
 }

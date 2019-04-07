@@ -7,16 +7,23 @@
         <ToolbarItem Clicked="OnSaveClicked" Text="Save" />
     </ContentPage.ToolbarItems>
     <ContentPage.Content>
-        <ListView ItemsSource="{Binding BackgroundImageSource}">
+        <ListView
+            ItemsSource="{Binding BackgroundImageSource}"
+            RowHeight="250"
+            SelectedItem="{Binding Selected, Mode=TwoWay}">
             <ListView.ItemTemplate>
                 <DataTemplate>
-                    <Image
-                        Aspect="AspectFill"
-                        HeightRequest="250"
-                        Source="{Binding Image}"
-                        VerticalOptions="Center" />
+                    <ViewCell>
+                        <Image Aspect="Fill" Source="{Binding Image}" />
+                    </ViewCell>
                 </DataTemplate>
             </ListView.ItemTemplate>
+            <ListView.Footer>
+                <Button
+                    Clicked="OnSaveClicked"
+                    HorizontalOptions="Center"
+                    Text="Save" />
+            </ListView.Footer>
         </ListView>
     </ContentPage.Content>
 </ContentPage>

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Veganko.Models.User;
@@ -44,10 +45,10 @@ namespace Veganko.ViewModels.Profile
         };
 
         public const string SaveMsg = "ProfileBackgroundImage_Save";
-
+        
         public Task Save()
         {
-            MessagingCenter.Send(this, SaveMsg, Selected);
+            MessagingCenter.Instance.Send(this, SaveMsg, Selected);
             return Task.CompletedTask;
         }
 
@@ -55,7 +56,7 @@ namespace Veganko.ViewModels.Profile
 
         public BackgroundImageViewModel(ProfileBackgroundImage profileBackground)
         {
-            Selected = profileBackground;
+            Selected = BackgroundImageSource.First(pbg => pbg.Id == profileBackground.Id);
         }
     }
 }

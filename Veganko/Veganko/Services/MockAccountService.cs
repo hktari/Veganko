@@ -24,7 +24,18 @@ namespace Veganko.Services
             var hashedPassword = Helper.CalculateBase64Sha256Hash(password);
             var curId = IdCounter.ToString();
             IdCounter++;
-            var user = new User { Id = curId, Username = username, Password = hashedPassword, ProfileImage = profileImage };
+            var user = new User
+            {
+                Id = curId,
+                Username = username,
+                Password = hashedPassword,
+                ProfileImage = profileImage,
+                ProfileBackground = new ProfileBackgroundImage
+                {
+                    Id = "0",
+                    Image = EnumImages.ProfileBackgroundImages["0"]
+                }
+            };
             userDatabase.Add(user);
             return true;
         }

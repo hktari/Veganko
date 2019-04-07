@@ -29,11 +29,16 @@
                     BackgroundColor="LightGray"
                     HeightRequest="250"
                     VerticalOptions="Fill">
-                    <Image Aspect="AspectFill" Source="{Binding BackgroundImage}">
-                        <Image.GestureRecognizers>
-                            <TapGestureRecognizer Tapped="OnBackgroundImageTap" />
-                        </Image.GestureRecognizers>
-                    </Image>
+                    <Image
+                        AbsoluteLayout.LayoutBounds="0, 0, 1, 1"
+                        AbsoluteLayout.LayoutFlags="All"
+                        Aspect="Fill"
+                        Source="{Binding BackgroundImage.Image}" />
+                    <ImageButton
+                        AbsoluteLayout.LayoutBounds="1, 0, 25, 25"
+                        AbsoluteLayout.LayoutFlags="PositionProportional"
+                        Clicked="OnBackgroundImageTap"
+                        Source="edit.png" />
                     <StackLayout
                         AbsoluteLayout.LayoutBounds="0.5, 0.5, 0.45, 1.0"
                         AbsoluteLayout.LayoutFlags="All"

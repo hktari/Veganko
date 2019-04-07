@@ -249,6 +249,9 @@
   <ItemGroup>
     <AndroidResource Include="Resources\drawable\pbg_4.png" />
   </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\edit.png" />
+  </ItemGroup>
   <Import Project="..\Veganko\Veganko.projitems" Label="Shared" />
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
 </Project>
