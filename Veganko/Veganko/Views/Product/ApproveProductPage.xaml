@@ -6,10 +6,11 @@
     xmlns:circleImageControl="clr-namespace:ImageCircle.Forms.Plugin.Abstractions;assembly=ImageCircle.Forms.Plugin.Abstractions"
     xmlns:controls="clr-namespace:Veganko.Controls"
     xmlns:converters="clr-namespace:Veganko.Converters"
-    xmlns:local="clr-namespace:Veganko"
     xmlns:models="clr-namespace:Veganko.Models"
+    xmlns:partials="clr-namespace:Veganko.Views.Product.Partial"
     xmlns:views="clr-namespace:Veganko.Views"
     Padding="10">
+    <!--  TODO: Fix selecting product classifiers  -->
     <ContentPage.Resources>
         <ResourceDictionary>
             <converters:StringToEnumConverter x:Key="StringToEnumConverter" />
@@ -17,95 +18,8 @@
     </ContentPage.Resources>
     <ContentPage.Content>
         <ScrollView>
-            <Grid>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="0.5*" />
-                    <RowDefinition Height="3*" />
-                    <RowDefinition Height="Auto" />
-                </Grid.RowDefinitions>
-                <Label
-                    Grid.Row="0"
-                    Grid.Column="0"
-                    FontSize="Medium"
-                    Text="Ime izdelka:" />
-                <Entry
-                    Grid.Row="1"
-                    Grid.Column="0"
-                    Margin="0"
-                    FontSize="Medium"
-                    Text="{Binding Product.Name}" />
-                <Label
-                    Grid.Row="2"
-                    Grid.Column="0"
-                    FontSize="Medium"
-                    Text="Vrsta izdelka:" />
-                <Picker
-                    x:Name="TypePicker"
-                    Grid.Row="3"
-                    Grid.Column="0"
-                    ItemsSource="{x:Static local:ViewModels.NewProductViewModel.PickerSource}"
-                    SelectedItem="{Binding Product.Type, Converter={StaticResource StringToEnumConverter}}" />
-                <Label
-                    Grid.Row="4"
-                    Grid.Column="0"
-                    FontSize="Medium"
-                    Text="Znamka:" />
-                <Entry
-                    Grid.Row="5"
-                    Grid.Column="0"
-                    FontSize="Medium"
-                    Text="{Binding Product.Brand}" />
-                <Label
-                    Grid.Row="6"
-                    Grid.Column="0"
-                    Grid.ColumnSpan="2"
-                    FontSize="Medium"
-                    Text="Opis:" />
-                <Editor
-                    Grid.Row="7"
-                    Grid.Column="0"
-                    Grid.ColumnSpan="2"
-                    Margin="0"
-                    FontSize="Medium"
-                    Text="{Binding Product.Description}" />
-                <Button
-                    Grid.Row="0"
-                    Grid.RowSpan="4"
-                    Grid.Column="1"
-                    BackgroundColor="Transparent"
-                    Clicked="Scan_Clicked"
-                    HorizontalOptions="Center"
-                    Image="qr.jpg"
-                    VerticalOptions="Center" />
-                <StackLayout
-                    Grid.Row="8"
-                    Grid.Column="0"
-                    Grid.ColumnSpan="2"
-                    Spacing="12">
-                    <controls:SelectableEnumImageView
-                        x:Name="SelectableEnumImageView"
-                        x:TypeArguments="models:ProductClassifier"
-                        ImageSource="{x:Static local:EnumImages.ProductClassifierImages}"
-                        Selected="{Binding Product.ProductClassifiers, Mode=TwoWay}" />
-                    <Grid>
-                        <Image
-                            x:Name="ProductImage"
-                            Aspect="AspectFill"
-                            HeightRequest="200"
-                            HorizontalOptions="CenterAndExpand"
-                            Source="{Binding Product.Image, Mode=TwoWay}"
-                            VerticalOptions="Center"
-                            WidthRequest="250" />
-                        <Button x:Name="CameraButton" BackgroundColor="Transparent" />
-                    </Grid>
-                </StackLayout>
+            <StackLayout>
+                <partials:EditProductView />
                 <ImageButton
                     Grid.Row="9"
                     Grid.Column="0"
@@ -120,7 +34,7 @@
                     Clicked="OnApproveProductClicked"
                     HorizontalOptions="End"
                     Source="checkmark.png" />
-            </Grid>
+            </StackLayout>
         </ScrollView>
     </ContentPage.Content>
 </views:BaseContentPage>

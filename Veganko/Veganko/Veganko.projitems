@@ -74,6 +74,10 @@
       <DependentUpon>ApproveProductPage.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Views\Product\Partial\EditProductView.xaml.cs">
+      <DependentUpon>EditProductView.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Views\Product\Partial\ProductView.xaml.cs">
       <DependentUpon>ProductView.xaml</DependentUpon>
       <SubType>Code</SubType>
@@ -173,6 +177,12 @@
     <EmbeddedResource Include="$(MSBuildThisFileDirectory)Views\Product\ApproveProductPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Views\Product\Partial\EditProductView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </EmbeddedResource>
   </ItemGroup>
   <!--#if (CreateBackendProject)

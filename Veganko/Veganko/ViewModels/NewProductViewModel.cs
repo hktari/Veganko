@@ -13,8 +13,6 @@ namespace Veganko.ViewModels
 {
     public class NewProductViewModel : BaseViewModel
     {
-        public static List<string> PickerSource => new List<string>(Enum.GetNames(typeof(ProductType)));
-
         private Product product;
         public Product Product
         {
@@ -26,13 +24,6 @@ namespace Veganko.ViewModels
             {
                 SetProperty(ref product, value);
             }
-        }
-
-        private ObservableCollection<ProductClassifier> selected;
-        public ObservableCollection<ProductClassifier> Selected
-        {
-            get => selected;
-            set => SetProperty(ref selected, value);
         }
 
         private ProductType selectedProductType;
@@ -80,6 +71,10 @@ namespace Veganko.ViewModels
 
         public NewProductViewModel()
         {
+        }
+
+        private void OnPageAppeared(object parameter)
+        {
             var user = DependencyService.Get<IAccountService>().User;
             var mask = UserAccessRights.ProductsDelete;
 
@@ -93,11 +88,6 @@ namespace Veganko.ViewModels
                 ProductClassifiers = new ObservableCollection<ProductClassifier>()
             };
             SelectedProductType = (ProductType)1;
-        }
-
-        private void OnPageAppeared(object parameter)
-        {
-            
         }
     }
 }

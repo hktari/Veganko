@@ -1,7 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Text;
+using System.Threading.Tasks;
 using Veganko.Models;
+using Veganko.Other;
 using Veganko.Services;
 using Xamarin.Forms;
 
@@ -9,31 +12,65 @@ namespace Veganko.ViewModels
 {
     public class ApproveProductViewModel : BaseViewModel
     {
-        public Product Product { get; set; }
+        // To control initialization
+        private Product tmpProduct;
 
-        public Command ApproveProductCommand { get; }
+        private Product product;
+        public Product Product
+        {
+            get => product;
+            set => SetProperty(ref product, value);
+        }
 
-        public Command DeleteProductCommand { get; }
+        private ProductType selectedProductType;
+        public ProductType SelectedProductType
+        {
+            get
+            {
+                return selectedProductType;
+            }
+            set
+            {
+                if (SetProperty(ref selectedProductType, value))
+                {
+                    ProductClassifiers?.Clear();
+                    ProductClassifiers = new ObservableCollection<ProductClassifier>(EnumConfiguration.ClassifierDictionary[value]);
+                }
+            }
+        }
+
+        private ObservableCollection<ProductClassifier> productClassifiers;
+        public ObservableCollection<ProductClassifier> ProductClassifiers
+        {
+            get => productClassifiers;
+            set => SetProperty(ref productClassifiers, value);
+        }
 
         private readonly IProductService productService;
 
         public ApproveProductViewModel(Product product)
         {
-            Product = product;
-            ApproveProductCommand = new Command(ApproveProduct);
-            DeleteProductCommand = new Command(DeleteProduct);
             productService = DependencyService.Get<IProductService>();
+            tmpProduct = product;
         }
 
-        private void DeleteProduct()
+        public void Init()
         {
-            productService.DeleteAsync(Product);
+            SelectedProductType = tmpProduct.Type;
+            Product = tmpProduct;
+            tmpProduct = null;
         }
 
-        private void ApproveProduct()
+        public Task DeleteProduct()
         {
+            return productService.DeleteAsync(Product);
+        }
+
+        public Task ApproveProduct()
+        {
+            Product.Type = selectedProductType;
             Product.State = ProductState.Approved;
-            productService.UpdateAsync(Product);
+            return productService.UpdateAsync(Product);
         }
     }
 }

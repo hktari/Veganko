@@ -18,6 +18,8 @@ namespace Veganko.Views
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class NewProductPage : BaseContentPage
     {
+        public EventHandler ScanClicked;
+
         NewProductViewModel vm;
         
         public NewProductPage()
@@ -25,33 +27,6 @@ namespace Veganko.Views
             InitializeComponent();
             
             BindingContext = vm = new NewProductViewModel();
-            CameraButton.Clicked += async (sender, args) =>
-            {
-                var initialized = await CrossMedia.Current.Initialize();
-
-                if (!initialized || !CrossMedia.Current.IsCameraAvailable || !CrossMedia.Current.IsTakePhotoSupported)
-                {
-                    DisplayAlert("No Camera", ":( No camera available.", "OK");
-                    return;
-                }
-
-                var file = await CrossMedia.Current.TakePhotoAsync(new Plugin.Media.Abstractions.StoreCameraMediaOptions
-                {
-                    Directory = "Sample",
-                    Name = "test.jpg"
-                });
-
-                if (file == null)
-                    return;
-
-                vm.Product.ImageName = await ImageManager.UploadImage(file.GetStream());
-                await DisplayAlert("Alert", "Successfully uploaded image", "OK");
-                ProductImage.Source = ImageSource.FromStream(() =>
-                {
-                    var stream = file.GetStream();
-                    return stream;
-                });
-            };
         }
 
         void Save_Clicked(object sender, EventArgs e)
@@ -63,23 +38,6 @@ namespace Veganko.Views
 
             var productsVM = (ProductViewModel)((ProductPage)((NavigationPage)productsNavPage).CurrentPage).BindingContext;
             productsVM.NewProductAddedCommand?.Execute(vm.Product);
-        }
-
-        async void Scan_Clicked(object sender, EventArgs e)
-        {
-            var scanner = new ZXing.Mobile.MobileBarcodeScanner();
-
-            var result = await scanner.Scan();
-
-            if (result != null)
-            {
-                vm.Product.Barcode = result.Text;
-                await DisplayAlert("Obvestilo", "Skeniranje končano !", "OK");
-            }
-            else
-            {
-                await DisplayAlert("Obvestilo", "Napaka pri skeniranju !", "OK");
-            }
         }
 
         protected override void OnAppearing()
