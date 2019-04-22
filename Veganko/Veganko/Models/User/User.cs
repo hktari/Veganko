@@ -8,10 +8,12 @@ namespace Veganko.Models.User
     {
         public UserAccessRights AccessRights { get; set; }
         public string Id { get; set; }
-        public ProfileBackgroundImage ProfileBackground { get; set; }
-        public string ProfileImage { get; set; }
+        public string ProfileBackgroundId { get; set; }
+        public string AvatarId { get; set; }
         public string Username { get; set; }
         public string Password { get; set; }
+        public string Description { get; set; }
+        public string Label { get; set; }
         public List<int> Favorites { get; set; }
 
         public bool CanApproveProducts()

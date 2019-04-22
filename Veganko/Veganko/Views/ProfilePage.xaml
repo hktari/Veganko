@@ -33,7 +33,7 @@
                         AbsoluteLayout.LayoutBounds="0, 0, 1, 1"
                         AbsoluteLayout.LayoutFlags="All"
                         Aspect="Fill"
-                        Source="{Binding BackgroundImage.Image}" />
+                        Source="{Binding BackgroundImage}" />
                     <ImageButton
                         AbsoluteLayout.LayoutBounds="1, 0, 25, 25"
                         AbsoluteLayout.LayoutFlags="PositionProportional"
@@ -46,7 +46,7 @@
                         <StackLayout VerticalOptions="CenterAndExpand">
                             <circleImageControl:CircleImage
                                 HorizontalOptions="Center"
-                                Source="{Binding User.ProfileImage}"
+                                Source="{Binding AvatarImage}"
                                 VerticalOptions="Center" />
                             <Label
                                 FontAttributes="Bold"
@@ -58,13 +58,13 @@
                                 Margin="0,5.0,0,0"
                                 FontSize="16"
                                 HorizontalTextAlignment="Center"
-                                Text="Long time cheese hater"
+                                Text="{Binding UserDescription}"
                                 TextColor="White" />
                             <Label
                                 FontAttributes="Bold"
                                 FontSize="16"
                                 HorizontalTextAlignment="Center"
-                                Text="VEGAN"
+                                Text="{Binding UserLabel}"
                                 TextColor="White" />
                         </StackLayout>
                     </StackLayout>

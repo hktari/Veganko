@@ -42,7 +42,7 @@ namespace Veganko.Services
             {
                 Id = App.MobileService.CurrentUser?.UserId,
                 Username = facebookData.FirstName,
-                ProfileImage = facebookData.Picture.Data.Url
+                AvatarId = facebookData.Picture.Data.Url
             };
             return await Task.FromResult(true);
         }

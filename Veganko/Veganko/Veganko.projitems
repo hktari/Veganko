@@ -35,6 +35,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Models\User\UserAccessRights.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Other\EnumImages.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Other\EnumConfiguration.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Other\Images.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\AccountService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\CommentDataStore.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\FavoritesDataStore.cs" />

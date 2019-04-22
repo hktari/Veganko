@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Veganko.Models;
 using Veganko.Models.User;
+using Veganko.Other;
 using Veganko.Services;
 using Veganko.ViewModels.Profile;
 using Xamarin.Forms;
@@ -20,17 +21,38 @@ namespace Veganko.ViewModels
             public Product Product { get; set; }
         }
 
-        private ProfileBackgroundImage backgroundImage;
-        public ProfileBackgroundImage BackgroundImage
+        private string backgroundImage;
+        public string BackgroundImage
         {
             get => backgroundImage;
             set => SetProperty(ref backgroundImage, value);
         }
 
+        private string userDescription;
+        public string UserDescription
+        {
+            get => userDescription;
+            set => SetProperty(ref userDescription, value);
+        }
+
+        private string userLabel;
+        private string UserLabel
+        {
+            get => userLabel;
+            set => SetProperty(ref userLabel, value);
+        }
+
+        private string avatarImage;
+        public string AvatarImage
+        {
+            get => avatarImage;
+            set => SetProperty(ref avatarImage, value);
+        }
+
         public Command LoadItemsCommand => new Command(
             async () => await Refresh());
 
-        public User User => DependencyService.Get<IAccountService>().User;
+        public User User { get; set; }
 
         private ObservableCollection<ProfileComment> comments;
         public ObservableCollection<ProfileComment> Comments
@@ -45,12 +67,21 @@ namespace Veganko.ViewModels
         public ProfileViewModel()
         {
             Title = "Profile";
+            User = DependencyService.Get<IAccountService>().User;
+            HandleNewData();
             // TODO: fix memory leak
             MessagingCenter.Subscribe<BackgroundImageViewModel, ProfileBackgroundImage>(this, BackgroundImageViewModel.SaveMsg, OnBackgroundImageChanged);
             Comments = new ObservableCollection<ProfileComment>();
             commentDataStore = DependencyService.Get<IDataStore<Comment>>();
             productDataStore = DependencyService.Get<IDataStore<Product>>();
-            BackgroundImage = User.ProfileBackground;
+        }
+
+        private void HandleNewData()
+        {
+            UserDescription = User.Description;
+            UserLabel = User.Label;
+            AvatarImage = Images.GetProfileAvatarById(User.AvatarId);
+            BackgroundImage = Images.GetProfileBackgroundImageById(User.ProfileBackgroundId);
         }
 
         public async Task Refresh()
@@ -99,8 +130,8 @@ namespace Veganko.ViewModels
         {
             // TODO: service call ?
 
-            User.ProfileBackground = selectedBackgroundImg;
-            BackgroundImage = selectedBackgroundImg;
+            User.ProfileBackgroundId = selectedBackgroundImg.Id;
+            BackgroundImage = Images.GetProfileBackgroundImageById(selectedBackgroundImg.Id);
         }
     }
 }

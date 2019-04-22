@@ -29,8 +29,8 @@ namespace Veganko.Services
                 Id = curId,
                 Username = username,
                 Password = hashedPassword,
-                ProfileImage = profileImage,
-                ProfileBackground = new ProfileBackgroundImage
+                AvatarId = profileImage,
+                ProfileBackgroundId = new ProfileBackgroundImage
                 {
                     Id = "0",
                     Image = EnumImages.ProfileBackgroundImages["0"]

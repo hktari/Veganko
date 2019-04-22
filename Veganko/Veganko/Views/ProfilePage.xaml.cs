@@ -30,7 +30,7 @@ namespace Veganko.Views
         private async void OnBackgroundImageTap(object sender, EventArgs arg)
         {
             await Navigation.PushModalAsync(
-                new SelectBackgroundPage(new BackgroundImageViewModel(vm.User.ProfileBackground)));
+                new SelectBackgroundPage(new BackgroundImageViewModel(vm.User.ProfileBackgroundId)));
         }
     }
 }
