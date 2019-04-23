@@ -64,6 +64,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\ProductViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\ProfileViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\Profile\BackgroundImageViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ViewModels\Profile\SelectAvatarViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Views\BaseContentPage.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Views\FavoritesPage.xaml.cs">
       <DependentUpon>FavoritesPage.xaml</DependentUpon>
@@ -83,6 +84,10 @@
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Views\Product\Partial\ProductView.xaml.cs">
       <DependentUpon>ProductView.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Views\Profile\SelectAvatarPage.xaml.cs">
+      <DependentUpon>SelectAvatarPage.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Views\Profile\SelectBackgroundPage.xaml.cs">
@@ -197,6 +202,12 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="$(MSBuildThisFileDirectory)Views\Profile\SelectBackgroundPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Views\Profile\SelectAvatarPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </EmbeddedResource>

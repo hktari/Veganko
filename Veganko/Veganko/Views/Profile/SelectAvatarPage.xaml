@@ -1,0 +1,42 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="Veganko.Views.Profile.SelectAvatarPage"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
+    <ContentPage.Content>
+        <StackLayout>
+            <FlexLayout
+                AlignContent="SpaceEvenly"
+                BindableLayout.ItemsSource="{Binding AvatarSource}"
+                Direction="Row"
+                JustifyContent="SpaceEvenly"
+                VerticalOptions="StartAndExpand"
+                Wrap="Wrap">
+                <BindableLayout.ItemTemplate>
+                    <DataTemplate>
+                        <ImageButton
+                            Aspect="AspectFit"
+                            Clicked="OnAvatarClicked"
+                            FlexLayout.Basis="50%"
+                            HeightRequest="112"
+                            HorizontalOptions="Center"
+                            Opacity="0.5"
+                            Source="{Binding Image}"
+                            VerticalOptions="Center"
+                            WidthRequest="112">
+                            <ImageButton.Triggers>
+                                <DataTrigger
+                                    Binding="{Binding IsSelected}"
+                                    TargetType="ImageButton"
+                                    Value="True">
+                                    <Setter Property="Opacity" Value="1.0" />
+                                </DataTrigger>
+                            </ImageButton.Triggers>
+                        </ImageButton>
+                    </DataTemplate>
+                </BindableLayout.ItemTemplate>
+            </FlexLayout>
+            <Button Clicked="OnSaveClicked" Text="Save" />
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

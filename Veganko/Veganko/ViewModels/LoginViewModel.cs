@@ -47,7 +47,7 @@ namespace Veganko.ViewModels
                 uac = UserAccessRights.ProductsRead | UserAccessRights.ProductsWrite;
             }
 
-            accountService.CreateAccount(username, password, "avatar_fox.png");
+            accountService.CreateAccount(username, password);
             accountService.Login(username, password);
             accountService.User.AccessRights = uac;
 

@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Veganko.Models;
 using Veganko.Models.User;
+using Veganko.Other;
 
 [assembly: Xamarin.Forms.Dependency(typeof(Veganko.Services.MockAccountService))]
 namespace Veganko.Services
@@ -16,7 +17,7 @@ namespace Veganko.Services
 
         private List<User> userDatabase = new List<User>();
 
-        public bool CreateAccount(string username, string password, string profileImage)
+        public bool CreateAccount(string username, string password)
         {
             // check if username exists
             if (userDatabase.Exists(u => u.Username == username))
@@ -29,12 +30,8 @@ namespace Veganko.Services
                 Id = curId,
                 Username = username,
                 Password = hashedPassword,
-                AvatarId = profileImage,
-                ProfileBackgroundId = new ProfileBackgroundImage
-                {
-                    Id = "0",
-                    Image = EnumImages.ProfileBackgroundImages["0"]
-                }
+                AvatarId = Images.AvatarImageSource.First().Id,
+                ProfileBackgroundId = Images.BackgroundImageSource.First().Id,
             };
             userDatabase.Add(user);
             return true;

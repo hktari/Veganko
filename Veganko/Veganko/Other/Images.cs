@@ -1,50 +1,71 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
+using Veganko.Models.User;
 
 namespace Veganko.Other
 {
     public static class Images
     {
+        public static List<ImageId> BackgroundImageSource => new List<ImageId>
+        {
+            new ImageId
+            {
+                Id = "0",
+                Image = "pbg_1.png"
+            },
+            new ImageId
+            {
+                Id = "1",
+                Image = "pbg_2.png"
+            },
+            new ImageId
+            {
+                Id = "2",
+                Image = "pbg_3.png"
+            },
+            new ImageId
+            {
+                Id = "3",
+                Image = "pbg_4.png"
+            },
+            new ImageId
+            {
+                Id = "4",
+                Image = "pbg_5.png"
+            },
+            new ImageId
+            {
+                Id = "5",
+                Image = "pbg_6.png"
+            },
+        };
+
+        public static List<ImageId> AvatarImageSource => new List<ImageId>
+        {
+            new ImageId
+            {
+                Id = "0",
+                Image = "avatar_fox.png"
+            },
+            new ImageId
+            {
+                Id = "1",
+                Image = "avatar_bear.png"
+            },
+        };
+
         public static string GetProfileBackgroundImageById(string id)
         {
-            switch (id)
-            {
-                case "0":
-                    return "pbg_1.png";
-                case "1":
-                    return "pbg_2.png";
-                case "2":
-                    return "pbg_3.png";
-                case "3":
-                    return "pbg_4.png";
-                case "4":
-                    return "pbg_5.png";
-                case "5":
-                    return "pbg_6.png";
-                default:
-                    throw new ArgumentException("Invalid id for profile background!");
-            }
+            return BackgroundImageSource.FirstOrDefault(img => img.Id == id)?.Image 
+                ?? throw new ArgumentException("Invalid id for profile background!");
         }
 
-        internal static string GetProfileAvatarById(string avatarId)
+        public static string GetProfileAvatarById(string avatarId)
         {
-            switch (avatarId)
-            {
-
-                default:
-                    break;
-            }
+            return AvatarImageSource.FirstOrDefault(img => img.Id == avatarId)?.Image
+                ?? throw new ArgumentException("Invalid id for avatar image!");
         }
-        //public static string GetAvatarImageById(string id)
-        //{
-        //    switch (id)
-        //    {
-        //        case "0":
-
-        //        default:
-        //            break;
-        //    }
-        //}
     }
 }

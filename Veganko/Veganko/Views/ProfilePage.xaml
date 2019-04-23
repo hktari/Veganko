@@ -44,10 +44,16 @@
                         AbsoluteLayout.LayoutFlags="All"
                         Spacing="0">
                         <StackLayout VerticalOptions="CenterAndExpand">
-                            <circleImageControl:CircleImage
-                                HorizontalOptions="Center"
-                                Source="{Binding AvatarImage}"
-                                VerticalOptions="Center" />
+                            <Grid HeightRequest="112" WidthRequest="112">
+                                <Image Aspect="AspectFit" Source="{Binding AvatarImage}" />
+                                <ImageButton
+                                    Clicked="OnEditAvatarTap"
+                                    HeightRequest="25"
+                                    HorizontalOptions="End"
+                                    Source="edit.png"
+                                    VerticalOptions="Start"
+                                    WidthRequest="25" />
+                            </Grid>
                             <Label
                                 FontAttributes="Bold"
                                 FontSize="25"

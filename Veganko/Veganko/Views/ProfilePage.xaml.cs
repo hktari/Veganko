@@ -32,5 +32,11 @@ namespace Veganko.Views
             await Navigation.PushModalAsync(
                 new SelectBackgroundPage(new BackgroundImageViewModel(vm.User.ProfileBackgroundId)));
         }
+
+        private async void OnEditAvatarTap(object sender, EventArgs e)
+        {
+            await Navigation.PushModalAsync(
+                new SelectAvatarPage(new SelectAvatarViewModel(vm.User.AvatarId)));
+        }
     }
 }
