@@ -108,6 +108,7 @@
     <Content Include="alverde_after_shave.jpg" />
     <Content Include="arasidovo_maslo.jpg" />
     <Content Include="avatar_bear.png" />
+    <Content Include="avatar_cat.png" />
     <Content Include="avatar_fox.png" />
     <Content Include="bostjan_kamnik.jpg">
       <SubType>Designer</SubType>

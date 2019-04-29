@@ -113,7 +113,7 @@
     <None Include="Properties\AndroidManifest.xml" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\drawable\ico_beverages.png" />
+    <Content Include="Resources\drawable\ico_beverages.png" />
     <AndroidResource Include="Resources\drawable\ico_food.png" />
     <AndroidResource Include="Resources\layout\Tabbar.axml" />
     <AndroidResource Include="Resources\layout\Toolbar.axml">
@@ -142,7 +142,7 @@
     <AndroidResource Include="Resources\drawable\qr.jpg" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\drawable\ico_gluten_free.png" />
+    <Content Include="Resources\drawable\ico_gluten_free.png" />
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\drawable\ico_pescetarian.png" />
@@ -151,7 +151,7 @@
     <AndroidResource Include="Resources\drawable\ico_raw_vegan.png" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\drawable\ico_vegan.png" />
+    <Content Include="Resources\drawable\ico_vegan.png" />
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\drawable\ico_vegetarian.png" />
@@ -229,7 +229,7 @@
     <AndroidResource Include="Resources\drawable\delete.png" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\drawable\ico_bio.png" />
+    <Content Include="Resources\drawable\ico_bio.png" />
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\drawable\pbg_5.png" />
@@ -251,6 +251,9 @@
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\drawable\edit.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Resources\drawable\avatar_cat.png" />
   </ItemGroup>
   <Import Project="..\Veganko\Veganko.projitems" Label="Shared" />
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
