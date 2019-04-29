@@ -38,7 +38,7 @@ namespace Veganko.ViewModels.Profile
 
         public Task Save()
         {
-            MessagingCenter.Instance.Send(this, SaveMsg, Selected);
+            MessagingCenter.Instance.Send(this, SaveMsg, Selected.Id);
             return Task.CompletedTask;
         }
     }

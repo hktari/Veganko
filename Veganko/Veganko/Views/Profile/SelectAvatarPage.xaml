@@ -16,6 +16,7 @@
                     <DataTemplate>
                         <ImageButton
                             Aspect="AspectFit"
+                            BackgroundColor="Transparent"
                             Clicked="OnAvatarClicked"
                             FlexLayout.Basis="50%"
                             HeightRequest="112"

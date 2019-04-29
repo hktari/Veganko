@@ -54,6 +54,11 @@ namespace Veganko.Other
                 Id = "1",
                 Image = "avatar_bear.png"
             },
+            new ImageId
+            {
+                Id = "2",
+                Image = "avatar_cat.png"
+            },
         };
 
         public static string GetProfileBackgroundImageById(string id)

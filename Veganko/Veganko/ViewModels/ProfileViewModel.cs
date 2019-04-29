@@ -70,7 +70,7 @@ namespace Veganko.ViewModels
             User = DependencyService.Get<IAccountService>().User;
             HandleNewData();
             // TODO: fix memory leak
-            MessagingCenter.Subscribe<BackgroundImageViewModel, ImageId>(this, BackgroundImageViewModel.SaveMsg, OnBackgroundImageChanged);
+            MessagingCenter.Subscribe<BackgroundImageViewModel, string>(this, BackgroundImageViewModel.SaveMsg, OnBackgroundImageChanged);
             MessagingCenter.Subscribe<SelectAvatarViewModel, string>(this, SelectAvatarViewModel.SaveMsg, OnAvatarImageChanged);
             Comments = new ObservableCollection<ProfileComment>();
             commentDataStore = DependencyService.Get<IDataStore<Comment>>();
@@ -127,12 +127,12 @@ namespace Veganko.ViewModels
             }
         }
 
-        private void OnBackgroundImageChanged(BackgroundImageViewModel arg1, ImageId selectedBackgroundImg)
+        private void OnBackgroundImageChanged(BackgroundImageViewModel arg1, string newBackgroundId)
         {
             // TODO: service call ?
 
-            User.ProfileBackgroundId = selectedBackgroundImg.Id;
-            BackgroundImage = selectedBackgroundImg.Image;
+            User.ProfileBackgroundId = newBackgroundId;
+            BackgroundImage = Images.GetProfileBackgroundImageById(newBackgroundId);
         }
 
         private void OnAvatarImageChanged(SelectAvatarViewModel sender, string newAvatarId)
