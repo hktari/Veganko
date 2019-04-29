@@ -113,7 +113,9 @@
     <None Include="Properties\AndroidManifest.xml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Resources\drawable\ico_beverages.png" />
+    <AndroidResource Include="Resources\drawable\ico_beverages.png">
+      <Generator>MSBuild:UpdateGeneratedFiles</Generator>
+    </AndroidResource>
     <AndroidResource Include="Resources\drawable\ico_food.png" />
     <AndroidResource Include="Resources\layout\Tabbar.axml" />
     <AndroidResource Include="Resources\layout\Toolbar.axml">
@@ -142,7 +144,9 @@
     <AndroidResource Include="Resources\drawable\qr.jpg" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Resources\drawable\ico_gluten_free.png" />
+    <AndroidResource Include="Resources\drawable\ico_gluten_free.png">
+      <Generator>MSBuild:UpdateGeneratedFiles</Generator>
+    </AndroidResource>
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\drawable\ico_pescetarian.png" />
@@ -151,7 +155,9 @@
     <AndroidResource Include="Resources\drawable\ico_raw_vegan.png" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Resources\drawable\ico_vegan.png" />
+    <AndroidResource Include="Resources\drawable\ico_vegan.png">
+      <Generator>MSBuild:UpdateGeneratedFiles</Generator>
+    </AndroidResource>
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\drawable\ico_vegetarian.png" />
@@ -229,7 +235,9 @@
     <AndroidResource Include="Resources\drawable\delete.png" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Resources\drawable\ico_bio.png" />
+    <AndroidResource Include="Resources\drawable\ico_bio.png">
+      <Generator>MSBuild:UpdateGeneratedFiles</Generator>
+    </AndroidResource>
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\drawable\pbg_5.png" />
@@ -253,7 +261,9 @@
     <AndroidResource Include="Resources\drawable\edit.png" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Resources\drawable\avatar_cat.png" />
+    <AndroidResource Include="Resources\drawable\avatar_cat.png">
+      <Generator>MSBuild:UpdateGeneratedFiles</Generator>
+    </AndroidResource>
   </ItemGroup>
   <Import Project="..\Veganko\Veganko.projitems" Label="Shared" />
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
