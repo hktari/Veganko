@@ -7,23 +7,37 @@
         <ToolbarItem Clicked="OnSaveClicked" Text="Save" />
     </ContentPage.ToolbarItems>
     <ContentPage.Content>
-        <ListView
-            ItemsSource="{Binding BackgroundImageSource}"
-            RowHeight="250"
-            SelectedItem="{Binding Selected, Mode=TwoWay}">
-            <ListView.ItemTemplate>
-                <DataTemplate>
-                    <ViewCell>
-                        <Image Aspect="Fill" Source="{Binding Image}" />
-                    </ViewCell>
-                </DataTemplate>
-            </ListView.ItemTemplate>
-            <ListView.Footer>
-                <Button
-                    Clicked="OnSaveClicked"
-                    HorizontalOptions="Center"
-                    Text="Save" />
-            </ListView.Footer>
-        </ListView>
+        <StackLayout>
+            <ScrollView>
+                <StackLayout
+                    BindableLayout.ItemsSource="{Binding BackgroundImages}"
+                    Spacing="0"
+                    VerticalOptions="FillAndExpand">
+                    <BindableLayout.ItemTemplate>
+                        <DataTemplate>
+                            <ImageButton
+                                Aspect="Fill"
+                                Clicked="OnImageClicked"
+                                HeightRequest="250"
+                                Opacity="0.5"
+                                Source="{Binding Image}">
+                                <ImageButton.Triggers>
+                                    <DataTrigger
+                                        Binding="{Binding IsSelected}"
+                                        TargetType="ImageButton"
+                                        Value="True">
+                                        <Setter Property="Opacity" Value="1.0" />
+                                    </DataTrigger>
+                                </ImageButton.Triggers>
+                            </ImageButton>
+                        </DataTemplate>
+                    </BindableLayout.ItemTemplate>
+                </StackLayout>
+            </ScrollView>
+            <Button
+                Clicked="OnSaveClicked"
+                HorizontalOptions="Center"
+                Text="Save" />
+        </StackLayout>
     </ContentPage.Content>
 </ContentPage>

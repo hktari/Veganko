@@ -28,9 +28,10 @@
     <Compile Include="$(MSBuildThisFileDirectory)Models\Comment.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\FacebookProfile.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\Favorite.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ViewModels\Images\SelectableImageId.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\JsonConverters\DecimalProductClassifierListConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\Product.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Models\User\ProfileBackgroundImage.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\ImageId.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\User\User.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\User\UserAccessRights.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Other\EnumImages.cs" />
