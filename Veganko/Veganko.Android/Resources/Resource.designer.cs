@@ -1300,6 +1300,8 @@ namespace Veganko.Droid
 			global::Xamarin.Forms.Platform.Android.Resource.Layout.select_dialog_singlechoice_material = global::Veganko.Droid.Resource.Layout.select_dialog_singlechoice_material;
 			global::Xamarin.Forms.Platform.Android.Resource.Layout.ShellContent = global::Veganko.Droid.Resource.Layout.ShellContent;
 			global::Xamarin.Forms.Platform.Android.Resource.Layout.support_simple_spinner_dropdown_item = global::Veganko.Droid.Resource.Layout.support_simple_spinner_dropdown_item;
+			global::Xamarin.Forms.Platform.Android.Resource.Layout.TextInputLayoutFilledBox = global::Veganko.Droid.Resource.Layout.TextInputLayoutFilledBox;
+			global::Xamarin.Forms.Platform.Android.Resource.Layout.TextInputLayoutOutlinedBox = global::Veganko.Droid.Resource.Layout.TextInputLayoutOutlinedBox;
 			global::Xamarin.Forms.Platform.Android.Resource.String.abc_action_bar_home_description = global::Veganko.Droid.Resource.String.abc_action_bar_home_description;
 			global::Xamarin.Forms.Platform.Android.Resource.String.abc_action_bar_up_description = global::Veganko.Droid.Resource.String.abc_action_bar_up_description;
 			global::Xamarin.Forms.Platform.Android.Resource.String.abc_action_menu_overflow_description = global::Veganko.Droid.Resource.String.abc_action_menu_overflow_description;
@@ -7614,10 +7616,10 @@ namespace Veganko.Droid
 			public const int Tabbar = 2130903124;
 			
 			// aapt resource value: 0x7f030055
-			public const int textinputlayoutfilledbox = 2130903125;
+			public const int TextInputLayoutFilledBox = 2130903125;
 			
 			// aapt resource value: 0x7f030056
-			public const int textinputlayoutoutlinedbox = 2130903126;
+			public const int TextInputLayoutOutlinedBox = 2130903126;
 			
 			// aapt resource value: 0x7f030057
 			public const int Toolbar = 2130903127;

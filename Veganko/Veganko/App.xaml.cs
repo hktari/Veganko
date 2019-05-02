@@ -5,6 +5,10 @@ using Xamarin.Forms;
 using Microsoft.WindowsAzure.MobileServices;
 using Veganko.Services;
 
+using Microsoft.AppCenter;
+using Microsoft.AppCenter.Analytics;
+using Microsoft.AppCenter.Crashes;
+
 namespace Veganko
 {
 	public partial class App : Application
@@ -20,7 +24,6 @@ namespace Veganko
 #if DEBUG && __ANDROID__
             HotReloader.Current.Start(this);
 #endif
-
             MainPage = new Loginpage();
 
             //MainPage = new MainPage();
@@ -33,6 +36,11 @@ namespace Veganko
 
         protected override void OnStart ()
 		{
+            AppCenter.Start(
+                "android=daa6adb5-45f6-42a5-9612-34de5f472a92;",
+                typeof(Analytics),
+                typeof(Crashes));      
+            
             //if (MobileService.CurrentUser != null)
             //    MainPage = new MainPage();
             //else
