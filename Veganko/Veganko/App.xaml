@@ -19,7 +19,11 @@
             </Style>
 
             <Style TargetType="ContentPage">
-                <Setter Property="NavigationPage.HasNavigationBar" Value="False" />
+                <Setter Property="NavigationPage.HasNavigationBar">
+                    <Setter.Value>
+                        <OnPlatform Android="False" Default="True" />
+                    </Setter.Value>
+                </Setter>
             </Style>
         </ResourceDictionary>
     </Application.Resources>
