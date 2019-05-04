@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Veganko.Models.User;
+using Veganko.Services;
 using Veganko.ViewModels;
 using Veganko.ViewModels.Profile;
 using Veganko.Views.Profile;
@@ -12,13 +13,13 @@ using Xamarin.Forms.Xaml;
 
 namespace Veganko.Views
 {
-	[XamlCompilation(XamlCompilationOptions.Compile)]
-	public partial class ProfilePage : BaseContentPage
-	{
+    [XamlCompilation(XamlCompilationOptions.Compile)]
+    public partial class ProfilePage : BaseContentPage
+    {
         ProfileViewModel vm;
-        public ProfilePage ()
-		{
-			InitializeComponent ();
+        public ProfilePage()
+        {
+            InitializeComponent();
             vm = (ProfileViewModel)BindingContext;
         }
         protected override void OnAppearing()
@@ -37,6 +38,12 @@ namespace Veganko.Views
         {
             await Navigation.PushModalAsync(
                 new SelectAvatarPage(new SelectAvatarViewModel(vm.User.AvatarId)));
+        }
+
+        private void OnLogoutClicked(object sender, EventArgs e)
+        {
+            DependencyService.Get<IAccountService>().Logout();
+            App.Current.MainPage = new Loginpage();
         }
     }
 }

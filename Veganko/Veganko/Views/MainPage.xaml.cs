@@ -23,16 +23,6 @@ namespace Veganko.Views
                         Icon = Device.RuntimePlatform == Device.UWP ? null : "icon.png"
                     });
             }
-
-            var logoutBtn = new ToolbarItem { Text = "Logout" };
-            logoutBtn.Clicked += OnLogoutBtnClicked;
-            ToolbarItems.Add(logoutBtn);
-        }
-
-        private void OnLogoutBtnClicked(object sender, EventArgs e)
-        {
-            DependencyService.Get<IAccountService>().Logout();
-            App.Current.MainPage = new Loginpage();
         }
 
         private NavigationPage lastPage;
