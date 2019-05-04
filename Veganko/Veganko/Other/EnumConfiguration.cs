@@ -15,29 +15,24 @@ namespace Veganko.Other
             {
                 ProductType.Hrana, new List<ProductClassifier>
                 {
-                    ProductClassifier.Vegeterijansko,
                     ProductClassifier.Vegansko,
                     ProductClassifier.GlutenFree,
                     ProductClassifier.RawVegan,
-                    ProductClassifier.Pesketarijansko,
                     ProductClassifier.Bio
                 }
             },
             {
                 ProductType.Pijaca, new List<ProductClassifier>
                 {
-                    ProductClassifier.Vegeterijansko,
                     ProductClassifier.Vegansko,
                     ProductClassifier.GlutenFree,
                     ProductClassifier.RawVegan,
-                    ProductClassifier.Pesketarijansko,
                     ProductClassifier.Bio
                 }
             },
             {
                 ProductType.Kozmetika, new List<ProductClassifier>
                 {
-                    ProductClassifier.Vegeterijansko,
                     ProductClassifier.Vegansko,
                     ProductClassifier.CrueltyFree,
                     ProductClassifier.Bio

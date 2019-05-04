@@ -18,14 +18,6 @@
                 <OnPlatform UWP="New" />
             </Page.Title>
         </views:NewProductPage>
-        <NavigationPage Icon="ico_favorites.png">
-            <NavigationPage.Title>
-                <OnPlatform UWP="Favorites" />
-            </NavigationPage.Title>
-            <x:Arguments>
-                <views:FavoritesPage />
-            </x:Arguments>
-        </NavigationPage>
         <views:ProfilePage Icon="icon.png">
             <Page.Title>
                 <OnPlatform UWP="Profile" />
