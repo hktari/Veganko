@@ -7,6 +7,11 @@ namespace Veganko.Views
 {
     public class BaseContentPage : ContentPage
     {
+        public BaseContentPage()
+        {
+            NavigationPage.SetHasNavigationBar(this, false);
+        }
+
         new public void SendAppearing()
         {
             OnAppearing();
