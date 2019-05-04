@@ -101,11 +101,11 @@
                         <circleImageControl:CircleImage
                             Grid.RowSpan="2"
                             Aspect="AspectFill"
-                            BorderColor="LightBlue"
+                            BorderColor="Transparent"
                             BorderThickness="1"
                             HeightRequest="66"
                             HorizontalOptions="CenterAndExpand"
-                            Source="{Binding User.ProfileImage}"
+                            Source="{Binding ProfileAvatar}"
                             VerticalOptions="CenterAndExpand"
                             WidthRequest="66" />
                         <controls:RatingsView

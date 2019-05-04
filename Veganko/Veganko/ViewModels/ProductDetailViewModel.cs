@@ -9,6 +9,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Diagnostics;
 using Veganko.Models.User;
+using Veganko.Other;
 
 namespace Veganko.ViewModels
 {
@@ -45,7 +46,14 @@ namespace Veganko.ViewModels
                 SetProperty(ref isFavorite, value);
             }
         }
-                
+
+        private string profileAvatar;
+        public string ProfileAvatar
+        {
+            get => profileAvatar;
+            set => SetProperty(ref profileAvatar, value);
+        }
+
         public User User => DependencyService.Get<IAccountService>().User;
 
         private Favorite favoriteEntry;
@@ -62,6 +70,7 @@ namespace Veganko.ViewModels
             favoriteDataStore = DependencyService.Get<IDataStore<Favorite>>();
             
             Comments = new ObservableCollection<Comment>();
+            ProfileAvatar = Images.GetProfileAvatarById(User.AvatarId);
         }
 
         public async Task RefreshIsFavorite()
