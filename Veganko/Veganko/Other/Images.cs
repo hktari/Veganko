@@ -13,32 +13,32 @@ namespace Veganko.Other
             new ImageId
             {
                 Id = "0",
-                Image = "pbg_1.png"
+                Image = "pinkbackground1.png"
             },
             new ImageId
             {
                 Id = "1",
-                Image = "pbg_2.png"
+                Image = "greenbackground2.png"
             },
             new ImageId
             {
                 Id = "2",
-                Image = "pbg_3.png"
+                Image = "orangebackground3.png"
             },
             new ImageId
             {
                 Id = "3",
-                Image = "pbg_4.png"
+                Image = "yellowbackground4.png"
             },
             new ImageId
             {
                 Id = "4",
-                Image = "pbg_5.png"
+                Image = "greybackground5.png"
             },
             new ImageId
             {
                 Id = "5",
-                Image = "pbg_6.png"
+                Image = "violetbackground6.png"
             },
         };
 
