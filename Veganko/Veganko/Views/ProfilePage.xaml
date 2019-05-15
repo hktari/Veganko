@@ -29,14 +29,17 @@
                     BackgroundColor="LightGray"
                     HeightRequest="250"
                     VerticalOptions="Fill">
-                    <Image
+                    <Frame
+                        Padding="0"
                         AbsoluteLayout.LayoutBounds="0, 0, 1, 1"
                         AbsoluteLayout.LayoutFlags="All"
-                        Aspect="Fill"
-                        Source="{Binding BackgroundImage}" />
+                        BorderColor="Black">
+                        <Image Aspect="AspectFill" Source="{Binding BackgroundImage}" />
+                    </Frame>
                     <ImageButton
                         AbsoluteLayout.LayoutBounds="1, 0, 25, 25"
                         AbsoluteLayout.LayoutFlags="PositionProportional"
+                        BorderColor="Black"
                         Clicked="OnBackgroundImageTap"
                         Source="edit.png" />
                     <StackLayout
