@@ -29,13 +29,11 @@
                     BackgroundColor="LightGray"
                     HeightRequest="250"
                     VerticalOptions="Fill">
-                    <Frame
-                        Padding="0"
+                    <Image
                         AbsoluteLayout.LayoutBounds="0, 0, 1, 1"
                         AbsoluteLayout.LayoutFlags="All"
-                        BorderColor="Black">
-                        <Image Aspect="AspectFill" Source="{Binding BackgroundImage}" />
-                    </Frame>
+                        Aspect="AspectFill"
+                        Source="{Binding BackgroundImage}" />
                     <ImageButton
                         AbsoluteLayout.LayoutBounds="1, 0, 25, 25"
                         AbsoluteLayout.LayoutFlags="PositionProportional"
