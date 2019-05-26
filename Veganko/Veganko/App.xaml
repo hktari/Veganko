@@ -25,6 +25,15 @@
                     </Setter.Value>
                 </Setter>
             </Style>
+            <Style TargetType="Entry">
+                <Setter Property="IsTextPredictionEnabled" Value="False" />
+                <Setter Property="IsSpellCheckEnabled" Value="False" />
+            </Style>
+            <Style x:Key="EntryFrameStyle" TargetType="Frame">
+                <Setter Property="Padding" Value="0" />
+                <Setter Property="CornerRadius" Value="9" />
+                <Setter Property="BorderColor" Value="Black" />
+            </Style>
         </ResourceDictionary>
     </Application.Resources>
 </Application>

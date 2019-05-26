@@ -24,6 +24,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Converters\StringCaseFormatter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Converters\StringToEnumConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Converters\UACConverter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Effects\CustomEntryEffect.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\StringExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\Comment.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\FacebookProfile.cs" />

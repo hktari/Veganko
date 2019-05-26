@@ -5,6 +5,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:controls="clr-namespace:Veganko.Controls"
     xmlns:converters="clr-namespace:Veganko.Converters"
+    xmlns:effects="clr-namespace:Veganko.Droid.Effects"
     xmlns:local="clr-namespace:Veganko"
     xmlns:models="clr-namespace:Veganko.Models"
     xmlns:views="clr-namespace:Veganko.Views"
@@ -12,6 +13,7 @@
     <ContentView.Resources>
         <ResourceDictionary>
             <converters:StringToEnumConverter x:Key="StringEnumConverter" />
+            <Style BasedOn="{StaticResource EntryFrameStyle}" TargetType="Frame" />
         </ResourceDictionary>
     </ContentView.Resources>
     <ContentView.Content>
@@ -30,22 +32,24 @@
                 Grid.Column="0"
                 FontSize="Medium"
                 Text="Ime izdelka:" />
-            <Entry
-                Grid.Row="1"
-                Grid.Column="0"
-                Margin="0"
-                FontSize="Medium"
-                Text="{Binding Product.Name}" />
-            <Label
-                Grid.Row="2"
-                Grid.Column="0"
-                FontSize="Medium"
-                Text="Znamka:" />
-            <Entry
-                Grid.Row="3"
-                Grid.Column="0"
-                FontSize="Medium"
-                Text="{Binding Product.Brand}" />
+            <Frame Grid.Row="1" Grid.Column="0">
+                <Entry
+                    Margin="0"
+                    FontSize="Medium"
+                    Text="{Binding Product.Name}">
+                    <Entry.Effects>
+                        <effects:CustomEntryEffect />
+                    </Entry.Effects>
+                </Entry>
+            </Frame>
+            <Label FontSize="Medium" Text="Znamka:" />
+            <Frame Grid.Row="3" Grid.Column="0">
+                <Entry FontSize="Medium" Text="{Binding Product.Brand}">
+                    <Entry.Effects>
+                        <effects:CustomEntryEffect />
+                    </Entry.Effects>
+                </Entry>
+            </Frame>
             <Label
                 Grid.Row="4"
                 Grid.Column="0"
@@ -84,6 +88,7 @@
                         BackgroundColor="Transparent"
                         HeightRequest="63"
                         HorizontalOptions="Center"
+                        IsEnabled="False"
                         VerticalOptions="Center"
                         WidthRequest="63">
                         <ImageButton.Triggers>

@@ -97,7 +97,9 @@
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Effects\CustomEntryEffect.cs" />
     <Compile Include="MainActivity.cs" />
+    <Compile Include="Renderers\CustomEntryRenderer.cs" />
     <Compile Include="Renderers\CustomNavigationPageRenderer.cs" />
     <Compile Include="Renderers\FlatButtonRenderer.cs" />
     <Compile Include="Renderers\MainPageRenderer.cs" />
