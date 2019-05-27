@@ -23,7 +23,7 @@
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
+                <RowDefinition Height="150" />
                 <RowDefinition Height="0.5*" />
                 <RowDefinition Height="3*" />
             </Grid.RowDefinitions>
@@ -42,7 +42,11 @@
                     </Entry.Effects>
                 </Entry>
             </Frame>
-            <Label FontSize="Medium" Text="Znamka:" />
+            <Label
+                Grid.Row="2"
+                Grid.Column="0"
+                FontSize="Medium"
+                Text="Znamka:" />
             <Frame Grid.Row="3" Grid.Column="0">
                 <Entry FontSize="Medium" Text="{Binding Product.Brand}">
                     <Entry.Effects>
@@ -56,27 +60,34 @@
                 Grid.ColumnSpan="2"
                 FontSize="Medium"
                 Text="Opis:" />
-            <Editor
+            <Frame
                 Grid.Row="5"
                 Grid.Column="0"
                 Grid.ColumnSpan="2"
-                Margin="0"
-                FontSize="Medium"
-                Text="{Binding Product.Description}" />
+                Style="{StaticResource EntryFrameStyle}">
+                <Editor
+                    Margin="0"
+                    FontSize="Medium"
+                    Text="{Binding Product.Description}">
+                    <Editor.Effects>
+                        <effects:CustomEntryEffect />
+                    </Editor.Effects>
+                </Editor>
+            </Frame>
             <Label
                 x:Name="barcodeScanResult"
                 Grid.Row="0"
                 Grid.Column="1"
                 IsVisible="False"
                 Text="{Binding Product.Barcode}" />
-            <Button
+            <ImageButton
                 Grid.Row="0"
                 Grid.RowSpan="4"
                 Grid.Column="1"
-                BackgroundColor="Transparent"
+                BackgroundColor="White"
                 Clicked="Scan_Clicked"
                 HorizontalOptions="Center"
-                Image="qr.jpg"
+                Source="qr.jpg"
                 VerticalOptions="Center" />
             <StackLayout
                 Grid.Row="6"
