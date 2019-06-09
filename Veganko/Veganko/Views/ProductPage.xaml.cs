@@ -33,18 +33,20 @@ namespace Veganko.Views
                     Veganko.Droid.Resource.Drawable.ico_beverages,
                     Veganko.Droid.Resource.Drawable.ico_cosmetics,
                 },
-                new string[]
+                Enum.GetNames(typeof(ProductType)));
+            adapter.ItemSelected += (s, productType) => vm.SelectedProductType = (ProductType)Enum.Parse(typeof(ProductType), productType);
+            vm.PropertyChanged += (s, prop) =>
+            {
+                if (prop.PropertyName == nameof(ProductViewModel.SelectedProductType))
                 {
-                    "none",
-                    "hrana",
-                    "pijača",
-                    "kozmetika"
-                });
-            adapter.ItemSelected += (s, productType) => Console.WriteLine(productType);
+                    var ptName = Enum.GetName(typeof(ProductType), vm.SelectedProductType);
+                    var selectedIdx = adapter.Items.Select((item, idx) => item == ptName ? idx : -1).First(i => i != -1);
+                    spinner.SetSelection(selectedIdx);
+                }
+            };
             spinner.OnItemSelectedListener = adapter;
             spinner.Adapter = adapter;
             pickerRoot.Content = spinner.ToView();
-            //pickerRoot.Content = 
 #endif
         }
         async void OnProductSelected(object sender, SelectedItemChangedEventArgs args)

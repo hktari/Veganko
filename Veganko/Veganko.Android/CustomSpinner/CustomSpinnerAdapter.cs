@@ -28,6 +28,8 @@ namespace Veganko.Droid.CustomSpinner
             inflter = (LayoutInflater.From(applicationContext));
         }
 
+        public IReadOnlyCollection<string> Items => fruit;
+
         public EventHandler<string> ItemSelected { get; set; }
 
         public override int Count => images.Length;
