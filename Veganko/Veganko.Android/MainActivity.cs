@@ -11,6 +11,7 @@ using ZXing.Mobile;
 using Microsoft.WindowsAzure.MobileServices;
 using Veganko.Services;
 using System.Threading.Tasks;
+using System.Runtime.Remoting.Contexts;
 
 [assembly: UsesFeature("android.hardware.camera", Required = false)]
 [assembly: UsesFeature("android.hardware.camera.autofocus", Required = false)]
@@ -18,14 +19,16 @@ namespace Veganko.Droid
 {
     [Activity(Label = "Veganko", Icon = "@drawable/icon", Theme = "@style/MainTheme", MainLauncher = true, ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation)]
     public class MainActivity : global::Xamarin.Forms.Platform.Android.FormsAppCompatActivity, IAuthenticate
-    {        
+    {
+        public static MainActivity Context { get; private set; }
+
         protected override void OnCreate(Bundle bundle)
         {
             TabLayoutResource = Resource.Layout.Tabbar;
             ToolbarResource = Resource.Layout.Toolbar;
-            
             base.OnCreate(bundle);
 
+            Context = this;
             global::Xamarin.Forms.Forms.Init(this, bundle);
             ImageCircleRenderer.Init();
             ZXing.Net.Mobile.Forms.Android.Platform.Init();

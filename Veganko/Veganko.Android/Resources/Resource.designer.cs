@@ -6652,8 +6652,8 @@ namespace Veganko.Droid
 			// aapt resource value: 0x7f0b0082
 			public const int content = 2131427458;
 			
-			// aapt resource value: 0x7f0b00ff
-			public const int contentFrame = 2131427583;
+			// aapt resource value: 0x7f0b0101
+			public const int contentFrame = 2131427585;
 			
 			// aapt resource value: 0x7f0b0075
 			public const int contentPanel = 2131427445;
@@ -6763,6 +6763,9 @@ namespace Veganko.Droid
 			// aapt resource value: 0x7f0b006e
 			public const int image = 2131427438;
 			
+			// aapt resource value: 0x7f0b00fc
+			public const int imageView = 2131427580;
+			
 			// aapt resource value: 0x7f0b00ef
 			public const int info = 2131427567;
 			
@@ -6805,11 +6808,11 @@ namespace Veganko.Droid
 			// aapt resource value: 0x7f0b00f6
 			public const int main_toolbar = 2131427574;
 			
-			// aapt resource value: 0x7f0b0101
-			public const int masked = 2131427585;
+			// aapt resource value: 0x7f0b0103
+			public const int masked = 2131427587;
 			
-			// aapt resource value: 0x7f0b00fd
-			public const int materialformsedittext = 2131427581;
+			// aapt resource value: 0x7f0b00ff
+			public const int materialformsedittext = 2131427583;
 			
 			// aapt resource value: 0x7f0b00e8
 			public const int media_actions = 2131427560;
@@ -7108,8 +7111,8 @@ namespace Veganko.Droid
 			// aapt resource value: 0x7f0b002c
 			public const int showTitle = 2131427372;
 			
-			// aapt resource value: 0x7f0b00fc
-			public const int sliding_tabs = 2131427580;
+			// aapt resource value: 0x7f0b00fe
+			public const int sliding_tabs = 2131427582;
 			
 			// aapt resource value: 0x7f0b00a5
 			public const int smallLabel = 2131427493;
@@ -7183,6 +7186,9 @@ namespace Veganko.Droid
 			// aapt resource value: 0x7f0b005a
 			public const int textStart = 2131427418;
 			
+			// aapt resource value: 0x7f0b00fd
+			public const int textView = 2131427581;
+			
 			// aapt resource value: 0x7f0b00b0
 			public const int text_input_password_toggle = 2131427504;
 			
@@ -7207,8 +7213,8 @@ namespace Veganko.Droid
 			// aapt resource value: 0x7f0b007e
 			public const int title_template = 2131427454;
 			
-			// aapt resource value: 0x7f0b00fe
-			public const int toolbar = 2131427582;
+			// aapt resource value: 0x7f0b0100
+			public const int toolbar = 2131427584;
 			
 			// aapt resource value: 0x7f0b0045
 			public const int top = 2131427397;
@@ -7249,8 +7255,8 @@ namespace Veganko.Droid
 			// aapt resource value: 0x7f0b001b
 			public const int view_offset_helper = 2131427355;
 			
-			// aapt resource value: 0x7f0b0100
-			public const int visible = 2131427584;
+			// aapt resource value: 0x7f0b0102
+			public const int visible = 2131427586;
 			
 			// aapt resource value: 0x7f0b00d5
 			public const int volume_item_container = 2131427541;
@@ -7628,25 +7634,28 @@ namespace Veganko.Droid
 			public const int ShellContent = 2130903122;
 			
 			// aapt resource value: 0x7f030053
-			public const int support_simple_spinner_dropdown_item = 2130903123;
+			public const int spinner_custom_layout = 2130903123;
 			
 			// aapt resource value: 0x7f030054
-			public const int Tabbar = 2130903124;
+			public const int support_simple_spinner_dropdown_item = 2130903124;
 			
 			// aapt resource value: 0x7f030055
-			public const int TextInputLayoutFilledBox = 2130903125;
+			public const int Tabbar = 2130903125;
 			
 			// aapt resource value: 0x7f030056
-			public const int TextInputLayoutOutlinedBox = 2130903126;
+			public const int TextInputLayoutFilledBox = 2130903126;
 			
 			// aapt resource value: 0x7f030057
-			public const int Toolbar = 2130903127;
+			public const int TextInputLayoutOutlinedBox = 2130903127;
 			
 			// aapt resource value: 0x7f030058
-			public const int zxingscanneractivitylayout = 2130903128;
+			public const int Toolbar = 2130903128;
 			
 			// aapt resource value: 0x7f030059
-			public const int zxingscannerfragmentlayout = 2130903129;
+			public const int zxingscanneractivitylayout = 2130903129;
+			
+			// aapt resource value: 0x7f03005a
+			public const int zxingscannerfragmentlayout = 2130903130;
 			
 			static Layout()
 			{

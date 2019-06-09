@@ -66,52 +66,63 @@
                     </StackLayout>
                 </StackLayout>
                 <StackLayout Orientation="Horizontal">
-                    <!--<Button Command="{Binding SwitchFilteringOptions}" Image="icon.png" />-->
-                    <StackLayout>
-                        <ImageButton
-                            BackgroundColor="Transparent"
-                            HeightRequest="63"
-                            HorizontalOptions="Center"
-                            VerticalOptions="Center"
-                            WidthRequest="63">
-                            <ImageButton.Triggers>
-                                <DataTrigger
-                                    Binding="{Binding SelectedProductType}"
-                                    TargetType="ImageButton"
-                                    Value="{x:Static models:ProductType.NOT_SET}">
-                                    <Setter Property="Source" Value="icon.png" />
-                                </DataTrigger>
-                                <DataTrigger
-                                    Binding="{Binding SelectedProductType}"
-                                    TargetType="ImageButton"
-                                    Value="{x:Static models:ProductType.Hrana}">
-                                    <Setter Property="Source" Value="ico_food.png" />
-                                </DataTrigger>
-                                <DataTrigger
-                                    Binding="{Binding SelectedProductType}"
-                                    TargetType="ImageButton"
-                                    Value="{x:Static models:ProductType.Pijaca}">
-                                    <Setter Property="Source" Value="ico_beverages.png" />
-                                </DataTrigger>
-                                <DataTrigger
-                                    Binding="{Binding SelectedProductType}"
-                                    TargetType="ImageButton"
-                                    Value="{x:Static models:ProductType.Kozmetika}">
-                                    <Setter Property="Source" Value="ico_cosmetics.png" />
-                                </DataTrigger>
-                            </ImageButton.Triggers>
-                        </ImageButton>
-                        <Picker x:Name="productTypePicker" SelectedItem="{Binding SelectedProductType, Converter={StaticResource StringEnumConverter}, Mode=TwoWay}">
-                            <Picker.ItemsSource>
-                                <x:Array Type="{x:Type x:String}">
-                                    <x:String>NOT_SET</x:String>
-                                    <x:String>Hrana</x:String>
-                                    <x:String>Pijaca</x:String>
-                                    <x:String>Kozmetika</x:String>
-                                </x:Array>
-                            </Picker.ItemsSource>
-                        </Picker>
-                    </StackLayout>
+                    <ContentView x:Name="pickerRoot">
+                        <ContentView.Content>
+                            <OnPlatform>
+                                <OnPlatform.Android>
+                                    <ContentView />
+                                </OnPlatform.Android>
+                                <OnPlatform.Default>
+                                    <StackLayout>
+                                        <ImageButton
+                                            BackgroundColor="Transparent"
+                                            HeightRequest="63"
+                                            HorizontalOptions="Center"
+                                            VerticalOptions="Center"
+                                            WidthRequest="63">
+                                            <ImageButton.Triggers>
+                                                <DataTrigger
+                                                    Binding="{Binding SelectedProductType}"
+                                                    TargetType="ImageButton"
+                                                    Value="{x:Static models:ProductType.NOT_SET}">
+                                                    <Setter Property="Source" Value="icon.png" />
+                                                </DataTrigger>
+                                                <DataTrigger
+                                                    Binding="{Binding SelectedProductType}"
+                                                    TargetType="ImageButton"
+                                                    Value="{x:Static models:ProductType.Hrana}">
+                                                    <Setter Property="Source" Value="ico_food.png" />
+                                                </DataTrigger>
+                                                <DataTrigger
+                                                    Binding="{Binding SelectedProductType}"
+                                                    TargetType="ImageButton"
+                                                    Value="{x:Static models:ProductType.Pijaca}">
+                                                    <Setter Property="Source" Value="ico_beverages.png" />
+                                                </DataTrigger>
+                                                <DataTrigger
+                                                    Binding="{Binding SelectedProductType}"
+                                                    TargetType="ImageButton"
+                                                    Value="{x:Static models:ProductType.Kozmetika}">
+                                                    <Setter Property="Source" Value="ico_cosmetics.png" />
+                                                </DataTrigger>
+                                            </ImageButton.Triggers>
+                                        </ImageButton>
+                                        <Picker x:Name="productTypePicker" SelectedItem="{Binding SelectedProductType, Converter={StaticResource StringEnumConverter}, Mode=TwoWay}">
+                                            <Picker.ItemsSource>
+                                                <x:Array Type="{x:Type x:String}">
+                                                    <x:String>NOT_SET</x:String>
+                                                    <x:String>Hrana</x:String>
+                                                    <x:String>Pijaca</x:String>
+                                                    <x:String>Kozmetika</x:String>
+                                                </x:Array>
+                                            </Picker.ItemsSource>
+                                        </Picker>
+                                    </StackLayout>
+                                </OnPlatform.Default>
+                            </OnPlatform>
+                        </ContentView.Content>
+                    </ContentView>
+
                     <controls:SelectableEnumImageView
                         x:TypeArguments="models:ProductClassifier"
                         ImageSource="{x:Static local:EnumImages.ProductClassifierImages}"

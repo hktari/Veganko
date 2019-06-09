@@ -7,7 +7,11 @@ using Veganko.Models;
 using Veganko.ViewModels;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
-
+#if __ANDROID__
+using Xamarin.Forms.Platform.Android;
+using Android.Widget;
+using Veganko.Droid.CustomSpinner;
+#endif
 namespace Veganko.Views
 {
 	[XamlCompilation(XamlCompilationOptions.Compile)]
@@ -19,6 +23,29 @@ namespace Veganko.Views
 		{
 			InitializeComponent ();
             BindingContext = vm = new ProductViewModel();
+#if __ANDROID__
+            Spinner spinner = new Spinner(Veganko.Droid.MainActivity.Context);
+            CustomSpinnerAdapter adapter = new CustomSpinnerAdapter(Droid.MainActivity.Context, 
+                new int[] 
+                {
+                    Veganko.Droid.Resource.Drawable.ico_search,
+                    Veganko.Droid.Resource.Drawable.ico_food,
+                    Veganko.Droid.Resource.Drawable.ico_beverages,
+                    Veganko.Droid.Resource.Drawable.ico_cosmetics,
+                },
+                new string[]
+                {
+                    "none",
+                    "hrana",
+                    "pijača",
+                    "kozmetika"
+                });
+            adapter.ItemSelected += (s, productType) => Console.WriteLine(productType);
+            spinner.OnItemSelectedListener = adapter;
+            spinner.Adapter = adapter;
+            pickerRoot.Content = spinner.ToView();
+            //pickerRoot.Content = 
+#endif
         }
         async void OnProductSelected(object sender, SelectedItemChangedEventArgs args)
         {
