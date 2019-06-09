@@ -5,7 +5,7 @@ using Xamarin.Forms;
 
 namespace Veganko.Effects
 {
-    class CustomEntryEffect : RoutingEffect
+    public class CustomEntryEffect : RoutingEffect
     {
         public CustomEntryEffect()
             : base("Veganko.CustomEntryEffect")
