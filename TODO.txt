@@ -1,0 +1,18 @@
+- sign up page
+- forgot password
+- products page
+	- crash on search
+	- barcode image
+	- search entry style
+- product detail page
+	- comment avatar
+	- comment unselectable
+	- remove favorite
+- new product page
+	- desc entry size
+	- barcode img
+	- barcode scan completed img
+	- product type selector
+	- taking image doesn't work on my phone
+- profile page
+	- crash on logout
