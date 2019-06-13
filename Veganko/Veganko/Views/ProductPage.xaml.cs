@@ -7,11 +7,6 @@ using Veganko.Models;
 using Veganko.ViewModels;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
-#if __ANDROID__
-using Xamarin.Forms.Platform.Android;
-using Android.Widget;
-using Veganko.Droid.CustomSpinner;
-#endif
 namespace Veganko.Views
 {
 	[XamlCompilation(XamlCompilationOptions.Compile)]
@@ -23,31 +18,6 @@ namespace Veganko.Views
 		{
 			InitializeComponent ();
             BindingContext = vm = new ProductViewModel();
-#if __ANDROID__
-            Spinner spinner = new Spinner(Veganko.Droid.MainActivity.Context);
-            CustomSpinnerAdapter adapter = new CustomSpinnerAdapter(Droid.MainActivity.Context, 
-                new int[] 
-                {
-                    Veganko.Droid.Resource.Drawable.ico_search,
-                    Veganko.Droid.Resource.Drawable.ico_food,
-                    Veganko.Droid.Resource.Drawable.ico_beverages,
-                    Veganko.Droid.Resource.Drawable.ico_cosmetics,
-                },
-                Enum.GetNames(typeof(ProductType)));
-            adapter.ItemSelected += (s, productType) => vm.SelectedProductType = (ProductType)Enum.Parse(typeof(ProductType), productType);
-            vm.PropertyChanged += (s, prop) =>
-            {
-                if (prop.PropertyName == nameof(ProductViewModel.SelectedProductType))
-                {
-                    var ptName = Enum.GetName(typeof(ProductType), vm.SelectedProductType);
-                    var selectedIdx = adapter.Items.Select((item, idx) => item == ptName ? idx : -1).First(i => i != -1);
-                    spinner.SetSelection(selectedIdx);
-                }
-            };
-            spinner.OnItemSelectedListener = adapter;
-            spinner.Adapter = adapter;
-            pickerRoot.Content = spinner.ToView();
-#endif
         }
         async void OnProductSelected(object sender, SelectedItemChangedEventArgs args)
         {

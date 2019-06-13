@@ -1,7 +1,7 @@
 - sign up page
 - forgot password
 - products page
-	- crash on search
+	- crash on search (https://appcenter.ms/users/bkamnik1995/apps/Veganko/crashes/errors/2708869956u/overview)
 	- barcode image
 	- search entry style
 - product detail page
@@ -16,3 +16,4 @@
 	- taking image doesn't work on my phone
 - profile page
 	- crash on logout
+- app icon

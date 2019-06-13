@@ -24,7 +24,11 @@ namespace Veganko.Droid.CustomSpinner
             var ptName = Enum.GetName(typeof(ProductType), newValue);
             // Get the idx of ptName in adapter.Items
             var selectedIdx = dpts.adapter.Items.Select((item, idx) => item == ptName ? idx : -1).First(i => i != -1);
-            dpts.spinner.SetSelection(selectedIdx);
+
+            if (dpts.spinner.SelectedItemPosition != selectedIdx)
+            {
+                dpts.spinner.SetSelection(selectedIdx);
+            }
         }
 
         public ProductType SelectedProductType
@@ -35,7 +39,7 @@ namespace Veganko.Droid.CustomSpinner
 
         public DroidProductTypeSpinner()
         {
-            Spinner spinner = new Spinner(Veganko.Droid.MainActivity.Context);
+            spinner = new Spinner(Veganko.Droid.MainActivity.Context);
             adapter = new CustomSpinnerAdapter(Droid.MainActivity.Context,
                 new int[]
                 {
@@ -45,10 +49,15 @@ namespace Veganko.Droid.CustomSpinner
                     Veganko.Droid.Resource.Drawable.ico_cosmetics,
                 },
                 Enum.GetNames(typeof(ProductType)));
-            adapter.ItemSelected += (s, productType) => SelectedProductType = (ProductType)Enum.Parse(typeof(ProductType), productType);
+            adapter.ItemSelected += OnItemSelected;
             spinner.OnItemSelectedListener = adapter;
             spinner.Adapter = adapter;
             Content = spinner.ToView();
+        }
+
+        private void OnItemSelected(object sender, string productType)
+        {
+            SelectedProductType = (ProductType)Enum.Parse(typeof(ProductType), productType);
         }
     }
 }

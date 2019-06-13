@@ -15,14 +15,12 @@ namespace Veganko.Droid.CustomSpinner
 {
     public class CustomSpinnerAdapter : BaseAdapter, AdapterView.IOnItemSelectedListener
     {
-        Context context;
         int[] images;
         string[] fruit;
         LayoutInflater inflter;
 
         public CustomSpinnerAdapter(Context applicationContext, int[] flags, string[] fruit)
         {
-            this.context = applicationContext;
             this.images = flags;
             this.fruit = fruit;
             inflter = (LayoutInflater.From(applicationContext));
@@ -36,7 +34,7 @@ namespace Veganko.Droid.CustomSpinner
 
         public override Java.Lang.Object GetItem(int position)
         {
-            return null;
+            return fruit.ElementAtOrDefault(position);
         }
 
         public override long GetItemId(int i)
