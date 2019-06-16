@@ -5,7 +5,6 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:controls="clr-namespace:Veganko.Controls"
     xmlns:converters="clr-namespace:Veganko.Converters"
-    xmlns:customspinner="clr-namespace:Veganko.Droid.CustomSpinner"
     xmlns:local="clr-namespace:Veganko"
     xmlns:models="clr-namespace:Veganko.Models"
     xmlns:other="clr-namespace:Veganko.Other"
@@ -71,7 +70,7 @@
                         <ContentView.Content>
                             <OnPlatform>
                                 <OnPlatform.Android>
-                                    <customspinner:DroidProductTypeSpinner SelectedProductType="{Binding SelectedProductType, Mode=TwoWay}" />
+                                    <controls:DroidProductTypeSpinner SelectedProductType="{Binding SelectedProductType, Mode=TwoWay}" />
                                 </OnPlatform.Android>
                                 <OnPlatform.Default>
                                     <StackLayout>

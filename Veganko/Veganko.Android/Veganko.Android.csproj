@@ -98,11 +98,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CustomSpinner\CustomSpinnerAdapter.cs" />
-    <Compile Include="CustomSpinner\DroidProductTypeSpinner.cs" />
     <Compile Include="Effects\CustomEntryEffect.cs" />
     <Compile Include="MainActivity.cs" />
     <Compile Include="Renderers\CustomEntryRenderer.cs" />
     <Compile Include="Renderers\CustomNavigationPageRenderer.cs" />
+    <Compile Include="Renderers\DroidProductTypeSpinnerRenderer.cs" />
     <Compile Include="Renderers\FlatButtonRenderer.cs" />
     <Compile Include="Renderers\MainPageRenderer.cs" />
     <Compile Include="Resources\Resource.Designer.cs" />

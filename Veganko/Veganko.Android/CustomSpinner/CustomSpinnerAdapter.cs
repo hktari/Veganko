@@ -16,10 +16,10 @@ namespace Veganko.Droid.CustomSpinner
     public class CustomSpinnerAdapter : BaseAdapter, AdapterView.IOnItemSelectedListener
     {
         int[] images;
-        string[] fruit;
+        List<string> fruit;
         LayoutInflater inflter;
 
-        public CustomSpinnerAdapter(Context applicationContext, int[] flags, string[] fruit)
+        public CustomSpinnerAdapter(Context applicationContext, int[] flags, List<string> fruit) 
         {
             this.images = flags;
             this.fruit = fruit;
