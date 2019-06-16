@@ -87,7 +87,7 @@
                 BackgroundColor="White"
                 Clicked="Scan_Clicked"
                 HorizontalOptions="Center"
-                Source="qr.jpg"
+                Source="barcode.jpg"
                 VerticalOptions="Center" />
             <StackLayout
                 Grid.Row="6"
