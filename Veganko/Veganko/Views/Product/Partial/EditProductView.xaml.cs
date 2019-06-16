@@ -40,7 +40,7 @@ namespace Veganko.Views.Product.Partial
 
                 //imageNameResult.Text = await ImageManager.UploadImage(file.GetStream());
                 imageNameResult.Text = "unknown";
-                ProductImage.Source = ImageSource.FromStream(() =>
+                CameraButton.Source = ImageSource.FromStream(() =>
                 {
                     var stream = file.GetStream();
                     return stream;

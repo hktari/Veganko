@@ -17,7 +17,7 @@
         </ResourceDictionary>
     </ContentView.Resources>
     <ContentView.Content>
-        <Grid>
+        <Grid ColumnSpacing="25">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
@@ -80,15 +80,18 @@
                 Grid.Column="1"
                 IsVisible="False"
                 Text="{Binding Product.Barcode}" />
-            <ImageButton
-                Grid.Row="0"
-                Grid.RowSpan="4"
+            <Frame
+                Grid.Row="1"
+                Grid.RowSpan="3"
                 Grid.Column="1"
-                BackgroundColor="White"
-                Clicked="Scan_Clicked"
+                Padding="7.5"
                 HorizontalOptions="Center"
-                Source="barcode.jpg"
-                VerticalOptions="Center" />
+                VerticalOptions="Center">
+                <ImageButton
+                    BackgroundColor="White"
+                    Clicked="Scan_Clicked"
+                    Source="barcode.jpg" />
+            </Frame>
             <StackLayout
                 Grid.Row="6"
                 Grid.Column="0"
@@ -158,21 +161,19 @@
                     Source="{Binding ProductClassifiers}"
                     VerticalOptions="Center"
                     ViewSize="63" />
-                <Grid>
-                    <Image
-                        x:Name="ProductImage"
-                        Aspect="AspectFill"
-                        HeightRequest="200"
-                        HorizontalOptions="CenterAndExpand"
-                        Source="{Binding Product.Image, Mode=TwoWay}"
-                        VerticalOptions="Center"
-                        WidthRequest="250" />
-                    <Label
-                        x:Name="imageNameResult"
-                        IsVisible="False"
-                        Text="{Binding Product.ImageName}" />
-                    <Button x:Name="CameraButton" BackgroundColor="Transparent" />
-                </Grid>
+                <Frame>
+                    <Grid>
+                        <Label
+                            x:Name="imageNameResult"
+                            IsVisible="False"
+                            Text="{Binding Product.ImageName}" />
+                        <ImageButton
+                            x:Name="CameraButton"
+                            Aspect="AspectFill"
+                            BackgroundColor="White"
+                            Source="{Binding Product.Image, Mode=TwoWay}" />
+                    </Grid>
+                </Frame>
             </StackLayout>
         </Grid>
     </ContentView.Content>
