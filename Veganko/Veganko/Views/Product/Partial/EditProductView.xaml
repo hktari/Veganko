@@ -23,8 +23,8 @@
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
                 <RowDefinition Height="150" />
-                <RowDefinition Height="0.5*" />
                 <RowDefinition Height="3*" />
             </Grid.RowDefinitions>
             <Label
