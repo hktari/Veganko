@@ -18,7 +18,9 @@ namespace Veganko.Other
                     ProductClassifier.Vegansko,
                     ProductClassifier.GlutenFree,
                     ProductClassifier.RawVegan,
-                    ProductClassifier.Bio
+                    ProductClassifier.Bio,
+                    ProductClassifier.SoyFree,
+                    ProductClassifier.NutFree
                 }
             },
             {
@@ -27,7 +29,9 @@ namespace Veganko.Other
                     ProductClassifier.Vegansko,
                     ProductClassifier.GlutenFree,
                     ProductClassifier.RawVegan,
-                    ProductClassifier.Bio
+                    ProductClassifier.Bio,
+                    ProductClassifier.SoyFree,
+                    ProductClassifier.NutFree
                 }
             },
             {
