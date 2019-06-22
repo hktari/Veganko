@@ -148,6 +148,7 @@
     <Content Include="ico_gluten_free.png">
       <SubType>Designer</SubType>
     </Content>
+    <Content Include="ico_nut_free.png" />
     <Content Include="ico_pescetarian.png">
       <SubType>Designer</SubType>
     </Content>
@@ -157,6 +158,7 @@
     <Content Include="ico_search.png">
       <SubType>Designer</SubType>
     </Content>
+    <Content Include="ico_soy_free.png" />
     <Content Include="ico_vegan.png">
       <SubType>Designer</SubType>
     </Content>
