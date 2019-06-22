@@ -117,7 +117,7 @@ namespace Veganko.Controls
                 image.SetBinding(Image.SourceProperty, nameof(EnumImageItemViewModel<T>.Image));
                 image.SetBinding(Image.OpacityProperty, nameof(EnumImageItemViewModel<T>.Opacity));
                 //image.WidthRequest = image.HeightRequest = ViewSize;
-                image.HorizontalOptions = LayoutOptions.Center;
+                image.HorizontalOptions = image.VerticalOptions = LayoutOptions.Center;
                 image.SetBinding(VisualElement.WidthRequestProperty, new Binding(nameof(ViewSize), BindingMode.Default, null, null, null, this));
                 image.SetBinding(VisualElement.HeightRequestProperty, new Binding(nameof(ViewSize), BindingMode.Default, null, null, null, this));
                 image.Aspect = Aspect.AspectFit;
