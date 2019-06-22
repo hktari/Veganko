@@ -2,7 +2,8 @@
 <ContentPage
     x:Class="Veganko.Views.Loginpage"
     xmlns="http://xamarin.com/schemas/2014/forms"
-    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:effects="clr-namespace:Veganko.Effects">
     <ContentPage.Resources>
         <Style TargetType="Label">
             <Setter Property="TextColor" Value="Black" />
@@ -101,7 +102,11 @@
                             Padding="0"
                             BorderColor="Black"
                             CornerRadius="0">
-                            <Entry FontSize="16" Text="type here" />
+                            <Entry FontSize="16">
+                                <Entry.Effects>
+                                    <effects:CustomEntryEffect />
+                                </Entry.Effects>
+                            </Entry>
                         </Frame>
                     </StackLayout>
                     <StackLayout
@@ -117,7 +122,11 @@
                             Padding="0"
                             BorderColor="Black"
                             CornerRadius="0">
-                            <Entry FontSize="16" Text="type here" />
+                            <Entry FontSize="16">
+                                <Entry.Effects>
+                                    <effects:CustomEntryEffect />
+                                </Entry.Effects>
+                            </Entry>
                         </Frame>
                         <Label
                             FontSize="20"
