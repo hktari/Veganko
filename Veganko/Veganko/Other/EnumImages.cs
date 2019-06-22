@@ -25,6 +25,8 @@ namespace Veganko
             { ProductClassifier.RawVegan, "ico_raw_vegan.png" },
             { ProductClassifier.CrueltyFree, "ico_cruelty_free.png" },
             { ProductClassifier.Bio, "ico_bio.png" },
+            { ProductClassifier.SoyFree, "ico_soy_free.png" },
+            { ProductClassifier.NutFree, "ico_nut_free.png" },
         };
 
         public static Dictionary<ProductType, string> ProductTypeImages => new Dictionary<ProductType, string>

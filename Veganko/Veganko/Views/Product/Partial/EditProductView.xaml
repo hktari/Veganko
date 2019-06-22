@@ -8,8 +8,7 @@
     xmlns:effects="clr-namespace:Veganko.Effects"
     xmlns:local="clr-namespace:Veganko"
     xmlns:models="clr-namespace:Veganko.Models"
-    xmlns:views="clr-namespace:Veganko.Views"
-    Padding="10">
+    xmlns:views="clr-namespace:Veganko.Views">
     <ContentView.Resources>
         <ResourceDictionary>
             <converters:StringToEnumConverter x:Key="StringEnumConverter" />
@@ -17,7 +16,10 @@
         </ResourceDictionary>
     </ContentView.Resources>
     <ContentView.Content>
-        <Grid ColumnSpacing="25">
+        <Grid
+            ColumnSpacing="25"
+            HeightRequest="850"
+            VerticalOptions="Start">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
@@ -25,7 +27,7 @@
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="150" />
-                <RowDefinition Height="3*" />
+                <RowDefinition Height="350" />
             </Grid.RowDefinitions>
             <Label
                 Grid.Row="0"
@@ -64,6 +66,7 @@
                 Grid.Row="5"
                 Grid.Column="0"
                 Grid.ColumnSpan="2"
+                HeightRequest="150"
                 Style="{StaticResource EntryFrameStyle}">
                 <Editor
                     Margin="0"
@@ -92,11 +95,7 @@
                     Clicked="Scan_Clicked"
                     Source="barcode.jpg" />
             </Frame>
-            <StackLayout
-                Grid.Row="6"
-                Grid.Column="0"
-                Grid.ColumnSpan="2"
-                Spacing="12">
+            <StackLayout Grid.Row="6" Grid.ColumnSpan="2">
                 <ContentView>
                     <ContentView.Content>
                         <OnPlatform>
@@ -155,13 +154,14 @@
                 </ContentView>
 
                 <controls:SelectableEnumImageView
+                    HorizontalAlignment="Center"
                     x:TypeArguments="models:ProductClassifier"
                     ImageSource="{x:Static local:EnumImages.ProductClassifierImages}"
                     Selected="{Binding Product.ProductClassifiers, Mode=TwoWay}"
                     Source="{Binding ProductClassifiers}"
                     VerticalOptions="Center"
                     ViewSize="63" />
-                <Frame>
+                <Frame HeightRequest="275" VerticalOptions="Start">
                     <Grid>
                         <Label
                             x:Name="imageNameResult"

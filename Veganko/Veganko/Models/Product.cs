@@ -27,7 +27,9 @@ namespace Veganko.Models
         RawVegan = 16,
         Pesketarijansko = 32,
         CrueltyFree = 64,
-        Bio = 128
+        Bio = 128,
+        SoyFree = 256,
+        NutFree = 512
     }
     [JsonConverter(typeof(StringEnumConverter))]
     public enum ProductType

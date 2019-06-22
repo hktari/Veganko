@@ -26,7 +26,8 @@
                     Grid.ColumnSpan="2"
                     Clicked="OnDeleteProductClicked"
                     HorizontalOptions="Start"
-                    Source="delete.png" />
+                    Source="delete.png"
+                    VerticalOptions="EndAndExpand" />
                 <ImageButton
                     Grid.Row="9"
                     Grid.Column="0"

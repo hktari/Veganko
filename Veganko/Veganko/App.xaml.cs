@@ -8,6 +8,7 @@ using Veganko.Services;
 using Microsoft.AppCenter;
 using Microsoft.AppCenter.Analytics;
 using Microsoft.AppCenter.Crashes;
+using System.Net;
 
 namespace Veganko
 {
@@ -22,7 +23,13 @@ namespace Veganko
 		{
 			InitializeComponent();
 #if DEBUG && __ANDROID__
-            HotReloader.Current.Start(this);
+            HotReloader.Current.Run(this,
+                new HotReloader.Configuration
+                {
+                    ExtensionIpAddress = IPAddress.Parse("192.168.1.243"),
+                    DeviceUrlPort = 8000,
+                    ExtensionAutoDiscoveryPort = 15000
+                });
 #endif
             MainPage = new Loginpage();
 
