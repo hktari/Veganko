@@ -15,7 +15,10 @@
         </ResourceDictionary>
     </ContentPage.Resources>
     <ContentPage.Content>
-        <ListView HasUnevenRows="True" ItemsSource="{Binding Comments}">
+        <ListView
+            HasUnevenRows="True"
+            ItemsSource="{Binding Comments}"
+            SelectionMode="None">
             <ListView.Header>
                 <StackLayout Spacing="30">
                     <StackLayout

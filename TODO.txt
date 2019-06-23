@@ -1,13 +1,6 @@
 - sign up page
 - forgot password
-- products page
-	- crash on search (https://appcenter.ms/users/bkamnik1995/apps/Veganko/crashes/errors/2708869956u/overview)
-	- barcode image
-	- search entry style
-- product detail page
-	- comment avatar
-	- comment unselectable
-	- remove favorite
+
 - new product page
 	- barcode scan completed img
 	- taking image doesn't work on my phone
