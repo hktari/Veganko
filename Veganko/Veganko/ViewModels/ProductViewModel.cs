@@ -235,7 +235,7 @@ namespace Veganko.ViewModels
         {
             if (SelectedProductType == ProductType.NOT_SET)
             {
-                if (!string.IsNullOrWhiteSpace(SearchText))
+                if (matchesByText != null)
                 {
                     SetSearchResults(matchesByText);
                 }
@@ -305,7 +305,7 @@ namespace Veganko.ViewModels
                 .ToList();
 
             SetSearchResults(matchesByText);
-		}
+        }
 
         private async void OnBarcodeSearch()
         {
