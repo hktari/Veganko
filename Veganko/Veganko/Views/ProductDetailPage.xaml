@@ -47,26 +47,6 @@
                                     </FormattedString>
                                 </Label.FormattedText>
                             </Label>
-                            <ImageButton
-                                Grid.Row="1"
-                                Grid.Column="2"
-                                AbsoluteLayout.LayoutBounds="1, 0"
-                                AbsoluteLayout.LayoutFlags="PositionProportional"
-                                BackgroundColor="Transparent"
-                                Command="{Binding AddToFavoritesCommand}"
-                                HeightRequest="50"
-                                Opacity="1.0"
-                                Source="ico_favorites.png"
-                                WidthRequest="50">
-                                <ImageButton.Triggers>
-                                    <DataTrigger
-                                        Binding="{Binding IsFavorite}"
-                                        TargetType="ImageButton"
-                                        Value="False">
-                                        <Setter Property="Opacity" Value="0.5" />
-                                    </DataTrigger>
-                                </ImageButton.Triggers>
-                            </ImageButton>
                         </StackLayout>
                         <Label
                             Grid.Row="3"
@@ -167,6 +147,13 @@
                                 Grid.Column="2"
                                 HorizontalOptions="End"
                                 Text="{Binding Rating, Converter={StaticResource IntToStarConverter}}" />
+                            <Label
+                                Grid.Row="1"
+                                Grid.Column="2"
+                                FontSize="Small"
+                                HorizontalOptions="End"
+                                Text="{Binding DatePosted, StringFormat='{}{0:dd.MM.yyyy'}"
+                                TextColor="LightGray" />
                             <Label
                                 Grid.Row="1"
                                 Grid.Column="1"
