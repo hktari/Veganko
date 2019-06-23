@@ -22,34 +22,34 @@ namespace Veganko.Services
                     ProductId = "0",
                     DatePosted = DateTime.Now,
                     Rating = 1, Text = "Very good product !",
-                    Username = "Ed Sheeran"
+                    UserId = "0"
                 },
                 new Comment
                 {
                     ProductId = "0",
                     DatePosted = DateTime.Now,
                     Rating = 3, Text = "Idd !",
-                    Username = "Boštjan"
+                    UserId = "0"
                 },
                 new Comment
                 {
                     ProductId = "0",
                     DatePosted = DateTime.Now,
                     Rating = 1, Text = "Boka jedi čaj naret !",
-                    Username = "Zala"
+                    UserId = "1"
                 },
                 new Comment
                 {
                     ProductId = "1",
-                    Username = "BigDick112",
                     Rating = 4,
                     DatePosted = DateTime.Now,
-                    Text = "Res ful dobro... Močno priporočam."
+                    Text = "Res ful dobro... Močno priporočam.",
+                    UserId = "2",
                 },
                 new Comment
                 {
                     ProductId = "1",
-                    Username = "Magda_likesbigdick113",
+                    UserId = "2",
                     Rating = 3,
                     DatePosted = DateTime.Now,
                     Text = "Sreča je kot metulj."
@@ -57,7 +57,7 @@ namespace Veganko.Services
                 new Comment
                 {
                     ProductId = "2",
-                    Username = "Janez_iz_portoroža",
+                    UserId = "1",
                     Rating = 2,
                     DatePosted = DateTime.Now,
                     Text = "Nima točno takšnega okusa kot nutella :/"
@@ -65,7 +65,7 @@ namespace Veganko.Services
                 new Comment
                 {
                     ProductId = "2",
-                    Username = "Ed Sheeran",
+                    UserId = "0",
                     Rating = 5,
                     DatePosted = DateTime.Now,
                     Text = "Real great stuff ! I should write a song about it..."
@@ -73,7 +73,7 @@ namespace Veganko.Services
                 new Comment
                 {
                     ProductId = "2",
-                    Username = "zalathecat",
+                    UserId = "1",
                     Rating = 5,
                     DatePosted = DateTime.Now,
                     Text = "Čokolada je life. In seveda mačke..."

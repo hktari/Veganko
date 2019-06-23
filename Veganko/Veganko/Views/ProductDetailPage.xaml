@@ -155,7 +155,7 @@
                                 BorderThickness="1"
                                 HeightRequest="66"
                                 HorizontalOptions="CenterAndExpand"
-                                Source="circle_icon.png"
+                                Source="{Binding UserAvatar}"
                                 VerticalOptions="CenterAndExpand"
                                 WidthRequest="66" />
                             <Label

@@ -97,7 +97,7 @@ namespace Veganko.ViewModels
 
                 if (commentData != null && productData != null)
                 {
-                    commentData = commentData.Where(c => c.Username == User.Username);
+                    commentData = commentData.Where(c => c.UserId == User.Id);
                     foreach (var comment in commentData)
                     {
                         var product = productData.FirstOrDefault(p => p.Id == comment.ProductId);

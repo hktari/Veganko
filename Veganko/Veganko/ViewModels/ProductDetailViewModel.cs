@@ -19,10 +19,10 @@ namespace Veganko.ViewModels
         public Command AddToFavoritesCommand => new Command(AddToFavorites);
 
         public Product Product { get; set; }
-        public ObservableCollection<Comment> Comments { get; set; }
+        public ObservableCollection<CommentViewModel> Comments { get; set; }
 
-        private Comment newComment;
-        public Comment NewComment
+        private CommentViewModel newComment;
+        public CommentViewModel NewComment
         {
             get
             {
@@ -58,8 +58,9 @@ namespace Veganko.ViewModels
 
         private Favorite favoriteEntry;
 
-        IDataStore<Comment> commentDataStore;
-        IDataStore<Favorite> favoriteDataStore;
+        private IDataStore<Comment> commentDataStore;
+        private IDataStore<Favorite> favoriteDataStore;
+        private IUserService userService;
 
         public ProductDetailViewModel(Product product)
         {
@@ -68,8 +69,8 @@ namespace Veganko.ViewModels
 
             commentDataStore = DependencyService.Get<IDataStore<Comment>>();
             favoriteDataStore = DependencyService.Get<IDataStore<Favorite>>();
-            
-            Comments = new ObservableCollection<Comment>();
+            userService = DependencyService.Get<IUserService>();
+            Comments = new ObservableCollection<CommentViewModel>();
             ProfileAvatar = Images.GetProfileAvatarById(User.AvatarId);
         }
 
@@ -104,7 +105,15 @@ namespace Veganko.ViewModels
 
         private async void SendComment(object obj)
         {
-            await commentDataStore.AddItemAsync(NewComment);
+            var comment = new Comment
+            {
+                ProductId = Product.Id,
+                Rating = NewComment.Rating,
+                Text = NewComment.Text,
+                UserId = User.Id,
+            };
+
+            await commentDataStore.AddItemAsync(comment);
             await RefreshComments();
 
             NewComment = CreateDefaultComment();
@@ -118,17 +127,27 @@ namespace Veganko.ViewModels
             {
                 var items = result.Where(c => c.ProductId == Product.Id).ToList();
                 items.Sort(new CommentDatePostedComparer());
+                var allUserIds = items.Distinct(new UserIdComparer()).Select(c => c.UserId);
+                var userInfos = await userService.GetByIds(allUserIds);
                 foreach (var item in items)
-                    Comments.Add(item);
+                {
+                    var userInfo = userInfos.FirstOrDefault(upi => upi.Id == item.UserId);
+                    if (userInfo == null)
+                    {
+                        Debug.WriteLine("Couldn't match user to comment. comment:{0}, userId:{1}", item.Id, item.UserId);
+                        continue;
+                    }
+
+                    Comments.Add(
+                        new CommentViewModel(item, userInfo));
+                }
             }
         }
         
-        private Comment CreateDefaultComment()
+        private CommentViewModel CreateDefaultComment()
         {
-            return new Comment()
+            return new CommentViewModel(User)
             {
-                Username = User.Username,
-                ProductId = Product.Id,
                 Rating = 1,
                 Text = ""
             };
@@ -139,6 +158,28 @@ namespace Veganko.ViewModels
             public int Compare(Comment x, Comment y)
             {
                 return x.DatePosted.CompareTo(y.DatePosted) * -1; // descending order
+            }
+        }
+
+        private class UserIdComparer : IEqualityComparer<Comment>
+        {
+            public bool Equals(Comment x, Comment y)
+            {
+                if (x == null || y == null)
+                {
+                    return false;
+                }
+                else if (x == null && y == null)
+                {
+                    return true;
+                }
+
+                return x.UserId.Equals(y.UserId);
+            }
+
+            public int GetHashCode(Comment obj)
+            {
+                return obj.UserId.GetHashCode();
             }
         }
     }

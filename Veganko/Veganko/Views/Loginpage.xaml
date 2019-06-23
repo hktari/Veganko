@@ -80,6 +80,7 @@
                 Grid.RowSpan="3"
                 Grid.Column="2"
                 Padding="3"
+                BackgroundColor="White"
                 IsClippedToBounds="True"
                 Style="{StaticResource EntryFrameStyle}">
                 <StackLayout IsClippedToBounds="True">
