@@ -31,8 +31,8 @@ namespace Veganko.Views.Product.Partial
 
                 var file = await CrossMedia.Current.TakePhotoAsync(new Plugin.Media.Abstractions.StoreCameraMediaOptions
                 {
-                    Directory = "Sample",
-                    Name = "test.jpg"
+                    Directory = "Sample", PhotoSize = Plugin.Media.Abstractions.PhotoSize.MaxWidthHeight, MaxWidthHeight = 720, CompressionQuality = 50, 
+                    Name = Guid.NewGuid().ToString() + ".png"
                 });
 
                 if (file == null)

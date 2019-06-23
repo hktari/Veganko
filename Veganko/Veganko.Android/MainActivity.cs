@@ -34,7 +34,7 @@ namespace Veganko.Droid
             ZXing.Net.Mobile.Forms.Android.Platform.Init();
             // Initialize the scanner first so it can track the current context
             MobileBarcodeScanner.Initialize(this.Application);
-            Plugin.CurrentActivity.CrossCurrentActivity.Current.Activity = this;
+            Plugin.CurrentActivity.CrossCurrentActivity.Current.Init(this, bundle);
             CurrentPlatform.Init();
             // Initialize the authenticator before loading the app.
             App.Init((IAuthenticate)this);
