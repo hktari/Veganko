@@ -30,7 +30,7 @@ namespace Veganko.Droid.Effects
 
         protected override void OnDetached()
         {
-            throw new NotImplementedException();
+            // Nothing
         }
     }
 }
