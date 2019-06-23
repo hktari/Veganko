@@ -79,10 +79,10 @@
                 Grid.Row="1"
                 Grid.RowSpan="3"
                 Grid.Column="2"
-                Padding="1"
-                BorderColor="Black"
-                CornerRadius="0">
-                <StackLayout BackgroundColor="White">
+                Padding="3"
+                IsClippedToBounds="True"
+                Style="{StaticResource EntryFrameStyle}">
+                <StackLayout IsClippedToBounds="True">
                     <ContentView HeightRequest="50">
                         <BoxView
                             HeightRequest="1"
@@ -98,10 +98,7 @@
                             HorizontalOptions="Center"
                             Text="Username"
                             TextColor="Black" />
-                        <Frame
-                            Padding="0"
-                            BorderColor="Black"
-                            CornerRadius="0">
+                        <Frame Style="{StaticResource EntryFrameStyle}">
                             <Entry FontSize="16">
                                 <Entry.Effects>
                                     <effects:CustomEntryEffect />
@@ -118,10 +115,7 @@
                             HorizontalOptions="Center"
                             Text="Password"
                             TextColor="Black" />
-                        <Frame
-                            Padding="0"
-                            BorderColor="Black"
-                            CornerRadius="0">
+                        <Frame Style="{StaticResource EntryFrameStyle}">
                             <Entry FontSize="16">
                                 <Entry.Effects>
                                     <effects:CustomEntryEffect />

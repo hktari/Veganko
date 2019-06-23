@@ -110,6 +110,9 @@
     <Content Include="avatar_bear.png" />
     <Content Include="avatar_cat.png" />
     <Content Include="avatar_fox.png" />
+    <Content Include="barcode.png">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="bostjan_kamnik.jpg">
       <SubType>Designer</SubType>
     </Content>
