@@ -1,7 +1,6 @@
 - sign up page
+	- change login id is email not username throughout the app
 - forgot password
-- login page
-	- razmak manjši
 - new product page
 	- barcode scan completed img
 	- taking image doesn't work on my phone
