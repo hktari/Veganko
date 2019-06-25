@@ -43,7 +43,7 @@ namespace Veganko.Views
         private void OnLogoutClicked(object sender, EventArgs e)
         {
             DependencyService.Get<IAccountService>().Logout();
-            App.Current.MainPage = new Loginpage();
+            App.Current.MainPage = new NavigationPage(new Loginpage());
         }
     }
 }
