@@ -97,10 +97,10 @@
                         <Label
                             FontSize="24"
                             HorizontalOptions="Center"
-                            Text="Username"
+                            Text="Email"
                             TextColor="Black" />
                         <Frame Style="{StaticResource EntryFrameStyle}">
-                            <Entry FontSize="16">
+                            <Entry FontSize="16" Text="{Binding Email}">
                                 <Entry.Effects>
                                     <effects:CustomEntryEffect />
                                 </Entry.Effects>
@@ -114,10 +114,13 @@
                         <Label
                             FontSize="24"
                             HorizontalOptions="Center"
-                            Text="Password"
+                            Text="Geslo"
                             TextColor="Black" />
                         <Frame Style="{StaticResource EntryFrameStyle}">
-                            <Entry FontSize="16">
+                            <Entry
+                                FontSize="16"
+                                IsPassword="True"
+                                Text="{Binding Password}">
                                 <Entry.Effects>
                                     <effects:CustomEntryEffect />
                                 </Entry.Effects>
@@ -126,7 +129,7 @@
                         <Label
                             FontSize="20"
                             HorizontalTextAlignment="End"
-                            Text="forgot password ?" />
+                            Text="ste pozabili geslo ?" />
                     </StackLayout>
                     <Grid HeightRequest="50">
                         <Button

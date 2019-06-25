@@ -32,6 +32,7 @@ namespace Veganko.Services
                 Password = hashedPassword,
                 AvatarId = Images.AvatarImageSource.First().Id,
                 ProfileBackgroundId = Images.BackgroundImageSource.First().Id,
+                AccessRights = UserAccessRights.All
             };
             userDatabase.Add(user);
             return Task.FromResult(true);

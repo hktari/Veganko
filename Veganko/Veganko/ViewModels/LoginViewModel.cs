@@ -26,9 +26,25 @@ namespace Veganko.ViewModels
             User = new User();
         }
 
-        private void Login(object obj)
+        private string password;
+        public string Password
+        {
+            get => password;
+            set => SetProperty(ref password, value);
+        }
+
+        private string email;
+        public string Email
+        {
+            get => email;
+            set => SetProperty(ref email, value);
+        }
+
+        private async void Login(object obj)
         {
             IAccountService accountService = DependencyService.Get<IAccountService>();
+            
+            // TODO: check input and login
 
             string username = null;
             string password = null;
