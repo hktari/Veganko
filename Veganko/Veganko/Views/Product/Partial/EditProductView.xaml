@@ -82,14 +82,22 @@
                 Grid.Row="0"
                 Grid.Column="1"
                 IsVisible="False"
-                Text="{Binding Product.Barcode}" />
+                Text="{Binding Barcode, Mode=TwoWay}" />
             <Frame
                 Grid.Row="1"
                 Grid.RowSpan="3"
                 Grid.Column="1"
                 Padding="7.5"
-                HorizontalOptions="Center"
-                VerticalOptions="Center">
+                BackgroundColor="Green">
+                <Frame.Triggers>
+                    <DataTrigger
+                        Binding="{Binding Barcode}"
+                        TargetType="Frame"
+                        Value="{x:Null}">
+                        <Setter Property="Opacity" Value="0.5" />
+                        <Setter Property="BackgroundColor" Value="White" />
+                    </DataTrigger>
+                </Frame.Triggers>
                 <ImageButton
                     BackgroundColor="White"
                     Clicked="Scan_Clicked"

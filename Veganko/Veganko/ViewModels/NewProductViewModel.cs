@@ -58,22 +58,23 @@ namespace Veganko.ViewModels
         {
             get
             {
-                return Product.Barcode;
+                return Product?.Barcode;
             }
             set
             {
-                if (Product.Barcode == value)
+                if (Product?.Barcode == value)
                     return;
                 Product.Barcode = value;
                 OnPropertyChanged(nameof(Barcode));
             }
         }
 
-        public NewProductViewModel()
+        private void OnPageAppeared(object parameter)
         {
+            InitProduct();
         }
 
-        private void OnPageAppeared(object parameter)
+        private void InitProduct()
         {
             var user = DependencyService.Get<IAccountService>().User;
             var mask = UserAccessRights.ProductsDelete;
@@ -85,9 +86,10 @@ namespace Veganko.ViewModels
             {
                 Image = "raspeberry_meringue.jpg",
                 //State = hasApprovalRights ? ProductState.Approved : ProductState.PendingApproval  // TODO: uncomment after testing
-                ProductClassifiers = new ObservableCollection<ProductClassifier>()
+                ProductClassifiers = new ObservableCollection<ProductClassifier>(),
             };
             SelectedProductType = (ProductType)1;
+            Barcode = null;
         }
     }
 }
