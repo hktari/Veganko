@@ -14,7 +14,7 @@ namespace Veganko.Services
     {
         public User User { get; private set; }
 
-        public bool CreateAccount(string username, string password)
+        public Task<bool> CreateAccount(string username, string password)
         {
             throw new NotImplementedException();
         }

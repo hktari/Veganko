@@ -152,7 +152,7 @@
                     <Grid HeightRequest="50">
                         <Button
                             BackgroundColor="White"
-                            Command="{Binding SignUpCommand}"
+                            Clicked="OnSignUpBtnClicked"
                             FontSize="24"
                             HeightRequest="50"
                             Text="SIGN UP" />

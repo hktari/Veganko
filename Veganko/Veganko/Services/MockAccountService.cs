@@ -17,11 +17,11 @@ namespace Veganko.Services
 
         private List<User> userDatabase = new List<User>();
 
-        public bool CreateAccount(string username, string password)
+        public Task<bool> CreateAccount(string username, string password)
         {
             // check if username exists
             if (userDatabase.Exists(u => u.Username == username))
-                return false;
+                return Task.FromResult(false);
             var hashedPassword = Helper.CalculateBase64Sha256Hash(password);
             var curId = IdCounter.ToString();
             IdCounter++;
@@ -34,7 +34,7 @@ namespace Veganko.Services
                 ProfileBackgroundId = Images.BackgroundImageSource.First().Id,
             };
             userDatabase.Add(user);
-            return true;
+            return Task.FromResult(true);
         }
 
         public bool Login(string username, string password)
