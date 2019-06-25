@@ -1,6 +1,7 @@
 - sign up page
 - forgot password
-
+- login page
+	- razmak manjši
 - new product page
 	- barcode scan completed img
 	- taking image doesn't work on my phone

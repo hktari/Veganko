@@ -91,7 +91,7 @@
                             Text="Email"
                             TextColor="Black" />
                         <Frame Style="{StaticResource EntryFrameStyle}">
-                            <Entry FontSize="16">
+                            <Entry FontSize="16" Text="{Binding Email}">
                                 <Entry.Effects>
                                     <effects:CustomEntryEffect />
                                 </Entry.Effects>
@@ -108,7 +108,7 @@
                             Text="Uporabniško ime"
                             TextColor="Black" />
                         <Frame Style="{StaticResource EntryFrameStyle}">
-                            <Entry FontSize="16">
+                            <Entry FontSize="16" Text="{Binding Username}">
                                 <Entry.Effects>
                                     <effects:CustomEntryEffect />
                                 </Entry.Effects>
@@ -125,7 +125,10 @@
                             Text="Geslo"
                             TextColor="Black" />
                         <Frame Style="{StaticResource EntryFrameStyle}">
-                            <Entry FontSize="16">
+                            <Entry
+                                FontSize="16"
+                                IsPassword="True"
+                                Text="{Binding Password}">
                                 <Entry.Effects>
                                     <effects:CustomEntryEffect />
                                 </Entry.Effects>
@@ -142,7 +145,7 @@
                             Text="Ponovi geslo"
                             TextColor="Black" />
                         <Frame Style="{StaticResource EntryFrameStyle}">
-                            <Entry FontSize="16">
+                            <Entry FontSize="16" IsPassword="True">
                                 <Entry.Effects>
                                     <effects:CustomEntryEffect />
                                 </Entry.Effects>

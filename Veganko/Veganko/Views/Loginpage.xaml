@@ -58,7 +58,7 @@
                 Grid.Row="3"
                 Grid.RowSpan="2"
                 Grid.Column="2"
-                Command="{Binding SignupCommand}"
+                Clicked="OnSignUpBtnClicked"
                 HorizontalOptions="Start"
                 Source="login_sign_up.png"
                 VerticalOptions="Center"

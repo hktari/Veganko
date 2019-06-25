@@ -31,9 +31,7 @@ namespace Veganko
                     ExtensionAutoDiscoveryPort = 15000
                 });
 #endif
-            MainPage = new Loginpage();
-
-            //MainPage = new MainPage();
+            MainPage = new NavigationPage(new Loginpage());
         }
 
         public static void Init(IAuthenticate authenticator)

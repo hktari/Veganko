@@ -18,5 +18,10 @@ namespace Veganko.Views
 			InitializeComponent ();
             BindingContext = this.vm = new LoginViewModel();
 		}
+
+        private async void OnSignUpBtnClicked(object sender, EventArgs args)
+        {
+            await Navigation.PushAsync(new RegisterPage());
+        }
 	}
 }
