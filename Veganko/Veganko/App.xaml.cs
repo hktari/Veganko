@@ -23,13 +23,7 @@ namespace Veganko
 		{
 			InitializeComponent();
 #if DEBUG && __ANDROID__
-            HotReloader.Current.Run(this,
-                new HotReloader.Configuration
-                {
-                    ExtensionIpAddress = IPAddress.Parse("192.168.1.243"),
-                    DeviceUrlPort = 8000,
-                    ExtensionAutoDiscoveryPort = 15000
-                });
+            HotReloader.Current.Run(this);
 #endif
             MainPage = new Loginpage();
 
@@ -43,11 +37,12 @@ namespace Veganko
 
         protected override void OnStart ()
 		{
+#if DEBUG
             AppCenter.Start(
                 "android=daa6adb5-45f6-42a5-9612-34de5f472a92;",
                 typeof(Analytics),
                 typeof(Crashes));      
-            
+#endif
             //if (MobileService.CurrentUser != null)
             //    MainPage = new MainPage();
             //else

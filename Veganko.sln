@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.27130.2020
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29102.190
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Veganko.Android", "Veganko\Veganko.Android\Veganko.Android.csproj", "{490DBBC7-A144-4351-9086-582DFCE5BA00}"
 EndProject
@@ -26,9 +26,11 @@ EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		Veganko\Veganko\Veganko.projitems*{04157ac5-92b8-461b-86de-006af2acd6a5}*SharedItemsImports = 4
+		Tests\Unit\UnitTests.Shared\UnitTests.Shared.projitems*{46484f11-6620-4b73-a220-0f9025882b73}*SharedItemsImports = 4
 		Veganko\Veganko\Veganko.projitems*{490dbbc7-a144-4351-9086-582dfce5ba00}*SharedItemsImports = 4
 		Veganko\Veganko\Veganko.projitems*{5fa59065-c093-4b74-8142-5e3d5e56a30d}*SharedItemsImports = 13
 		Tests\Unit\UnitTests.Shared\UnitTests.Shared.projitems*{6d761d9a-24cd-48ec-bf03-54c9f283896f}*SharedItemsImports = 13
+		Tests\Unit\UnitTests.Shared\UnitTests.Shared.projitems*{c231abec-8962-427b-90a5-a1a6608eda9a}*SharedItemsImports = 4
 		Veganko\Veganko\Veganko.projitems*{c6f5190e-9b83-44f2-aa8b-2ae3685ef8b3}*SharedItemsImports = 4
 		Tests\Unit\UnitTests.Shared\UnitTests.Shared.projitems*{ed2211d3-1f78-40a2-b412-850ddfeece73}*SharedItemsImports = 4
 	EndGlobalSection
