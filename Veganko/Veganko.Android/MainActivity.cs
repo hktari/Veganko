@@ -12,6 +12,7 @@ using Microsoft.WindowsAzure.MobileServices;
 using Veganko.Services;
 using System.Threading.Tasks;
 using System.Runtime.Remoting.Contexts;
+using FFImageLoading.Forms.Platform;
 
 [assembly: UsesFeature("android.hardware.camera", Required = false)]
 [assembly: UsesFeature("android.hardware.camera.autofocus", Required = false)]
@@ -31,6 +32,7 @@ namespace Veganko.Droid
             Context = this;
             global::Xamarin.Forms.Forms.Init(this, bundle);
             ImageCircleRenderer.Init();
+            CachedImageRenderer.Init(true);
             ZXing.Net.Mobile.Forms.Android.Platform.Init();
             // Initialize the scanner first so it can track the current context
             MobileBarcodeScanner.Initialize(this.Application);
