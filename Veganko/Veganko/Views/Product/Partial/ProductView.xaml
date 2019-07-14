@@ -6,7 +6,8 @@
     xmlns:controls="clr-namespace:Veganko.Controls"
     xmlns:converters="clr-namespace:Veganko.Converters"
     xmlns:local="clr-namespace:Veganko"
-    xmlns:models="clr-namespace:Veganko.Models">
+    xmlns:models="clr-namespace:Veganko.Models"
+    xmlns:forms="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms">
     <ContentView.Resources>
         <converters:StringCaseFormatter x:Key="StringCaseConverter" ToUpperCase="True" />
     </ContentView.Resources>
@@ -17,8 +18,8 @@
             RowSpacing="0"
             VerticalOptions="Center">
             <Grid.RowDefinitions>
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="50" />
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto" />
@@ -32,7 +33,7 @@
                 HorizontalOptions="Center"
                 IsClippedToBounds="True"
                 VerticalOptions="Center">
-                <Image
+                <forms:CachedImage
                     Aspect="AspectFill"
                     HeightRequest="113"
                     HorizontalOptions="Center"
@@ -51,13 +52,16 @@
             </Label>
             <controls:EnumImageView
                 Grid.Row="1"
-                Grid.Column="1"
+                Grid.Column="1" 
                 HorizontalAlignment="Start"
                 x:TypeArguments="models:ProductClassifier"
                 ImageSource="{x:Static local:EnumImages.ProductClassifierImages}"
                 Source="{Binding ProductClassifiers}"
-                VerticalOptions="End"
-                ViewSize="50" />
+                ViewSize="45">
+                <x:Arguments>
+                    <x:Boolean>false</x:Boolean>
+                </x:Arguments>
+            </controls:EnumImageView>
         </Grid>
     </ContentView.Content>
-</ContentView>
+</ContentView> 

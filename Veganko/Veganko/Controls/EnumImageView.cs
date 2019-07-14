@@ -1,4 +1,5 @@
-﻿using System;
+﻿using FFImageLoading.Forms;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
@@ -23,6 +24,18 @@ namespace Veganko.Controls
 
         public static readonly BindableProperty ViewSizeProperty =
             BindableProperty.Create(nameof(ViewSize), typeof(double), typeof(EnumImageView<T>), VisualElement.WidthRequestProperty.DefaultValue);
+
+        private readonly bool scrollable;
+
+        public EnumImageView() 
+            : this(true)
+        {
+
+        }
+        public EnumImageView(bool scrollable)
+        {
+            this.scrollable = scrollable;
+        }
 
         public Dictionary<T, string> ImageSource
         {
@@ -99,18 +112,33 @@ namespace Veganko.Controls
             SetViewContent(CreateView(newSource));
         }
 
+        StackLayout stackLayout;
         protected void SetViewContent(IEnumerable<View> views)
         {
-            var stackLayout = new StackLayout { Orientation = orientation, HorizontalOptions = horizontalAlignment};
+            if (stackLayout == null)
+            {
+                stackLayout = new StackLayout { Orientation = orientation, HorizontalOptions = horizontalAlignment };
+            }
+
+            stackLayout.Children.Clear();
             foreach (var item in views)
             {
                 stackLayout.Children.Add(item);
             }
-            Content = new ScrollView
+
+            if (scrollable)
             {
-                Orientation = ScrollOrientation.Horizontal,
-                Content = stackLayout
-            };
+                Content = new ScrollView
+                {
+                    Orientation = ScrollOrientation.Horizontal,
+                    Content = stackLayout
+                };
+            }
+            else
+            {
+                Content = stackLayout;
+            }
+
         }
         
         protected string GetImageForClassifer(T classifier)
@@ -123,10 +151,10 @@ namespace Veganko.Controls
             List<View> views = new List<View>();
             foreach (var classifier in source)
             {
-                var image = new Image();
+                var image = new CachedImage();
                 EnumImageItemViewModel<T> vm;
                 image.BindingContext = vm = new EnumImageItemViewModel<T>(classifier, GetImageForClassifer(classifier));
-                image.SetBinding(Image.SourceProperty, nameof(EnumImageItemViewModel<T>.Image));
+                image.SetBinding(CachedImage.SourceProperty, nameof(EnumImageItemViewModel<T>.Image));
                 //image.WidthRequest = image.HeightRequest = ViewSize;
                 image.HorizontalOptions = LayoutOptions.Center;
                 image.VerticalOptions = LayoutOptions.Center;
