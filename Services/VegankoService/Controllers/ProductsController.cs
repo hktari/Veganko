@@ -22,6 +22,11 @@ namespace VegankoService.Controllers
         [HttpPost]
         public ActionResult<Product> Post(ProductInput input)
         {
+            if (input.ImageData == null)
+            {
+                return new BadRequestResult();
+            }
+
             var product = new Product();
             input.MapToProduct(product);
             productRepository.Create(product);

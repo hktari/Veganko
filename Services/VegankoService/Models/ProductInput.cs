@@ -1,8 +1,10 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
+using VegankoService.Models.Converters;
 
 namespace VegankoService.Models
 {
@@ -16,6 +18,7 @@ namespace VegankoService.Models
         public string Barcode { get; set; }
 
         [Required]
+        [JsonConverter(typeof(Base64StringToByteArrayConverter))]
         public byte[] ImageData { get; set; }
 
         public string Description { get; set; }
