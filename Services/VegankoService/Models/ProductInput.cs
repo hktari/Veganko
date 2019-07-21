@@ -35,7 +35,6 @@ namespace VegankoService.Models
             product.Description = Description;
             product.ProductClassifiers = ProductClassifiers;
             product.Type = Type;
-            return product;
         }
     }
 }

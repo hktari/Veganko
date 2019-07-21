@@ -64,7 +64,7 @@ namespace VegankoService.Controllers
             return  productRepository.GetAll(page, count);
         }
 
-        [HttpGet]
+        [HttpGet("{id}")]
         public ActionResult<Product> Get(string id)
         {
             if (string.IsNullOrWhiteSpace(id))
