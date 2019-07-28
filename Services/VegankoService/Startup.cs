@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -26,9 +27,17 @@ namespace VegankoService
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddSingleton<IProductRepository, MockProductRepository>();
+            //services.AddSingleton<IProductRepository, MockProductRepository>();
+            services.AddTransient<VegankoContext>();
+            
+            services.AddSingleton<IProductRepository, ProductRepository>();
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+
+            
+            //services.AddDbContext<VegankoContext>
+            //    (options => options.UseSqlServer(connection));
+            
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
