@@ -34,14 +34,19 @@ namespace VegankoService.Controllers
         }
 
         [HttpGet]
-        public ActionResult<PagedList<Comment>> GetAll(int page = 1, int pageSize = 10)
+        public ActionResult<PagedList<Comment>> GetAll(string productId, int page = 1, int pageSize = 10)
         {
+            if (productId == null)
+            {
+                return BadRequest("ProductId required");
+            }
+
             if (page < 1)
             {
                 return BadRequest("Page index starts with 1.");
             }
 
-            return commentRepository.GetAll(page, pageSize);
+            return commentRepository.GetAll(productId, page, pageSize);
         }
 
         // POST: api/Comments

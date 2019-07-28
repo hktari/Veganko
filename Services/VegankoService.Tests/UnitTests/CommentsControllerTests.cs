@@ -36,7 +36,14 @@ namespace VegankoService.Tests.UnitTests
         public void GetAll_PageIdxLessThanOne_ReturnsBadRequest()
         {
             Assert.IsInstanceOfType(
-                commentsController.GetAll(0, 10).Result, typeof(BadRequestObjectResult));
+                commentsController.GetAll("existing", 0, 10).Result, typeof(BadRequestObjectResult));
+        }
+
+        [TestMethod]
+        public void GetAll_NullProductId_ReturnsBadRequest()
+        {
+            Assert.IsInstanceOfType(
+                commentsController.GetAll(null).Result, typeof(BadRequestObjectResult));
         }
 
         [TestMethod]

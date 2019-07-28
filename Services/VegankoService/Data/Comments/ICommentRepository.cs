@@ -8,7 +8,7 @@ namespace VegankoService.Data.Comments
 {
     public interface ICommentRepository
     {
-        PagedList<Comment> GetAll(int page, int pageSize = 10);
+        PagedList<Comment> GetAll(string productId, int page, int pageSize = 10);
         Comment Get(string id);
         void Create(Comment comment);
         void Update(Comment comment);

@@ -52,5 +52,13 @@ namespace VegankoService.Tests.IntegrationTests
 
             Assert.AreEqual(HttpStatusCode.BadRequest, result.StatusCode);
         }
+
+        [TestMethod]
+        public async Task GetAllComments_NonNullProductId_ReturnsOk()
+        {
+            var result = await _client.GetAsync("/api/comments?productId=some-id");
+
+            Assert.AreEqual(HttpStatusCode.OK, result.StatusCode);
+        }
     }
 }

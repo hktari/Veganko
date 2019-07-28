@@ -28,14 +28,14 @@ namespace VegankoService.Data.Comments
             return null;
         }
 
-        public PagedList<Comment> GetAll(int page, int pageSize = 10)
+        public PagedList<Comment> GetAll(string productId, int page, int pageSize = 10)
         {
-            throw new NotImplementedException();
+            return new PagedList<Comment>();
         }
 
         public void Update(Comment comment)
         {
-            throw new NotImplementedException();
+
         }
     }
 }
