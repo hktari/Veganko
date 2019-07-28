@@ -66,7 +66,7 @@ namespace VegankoService.Controllers
         [HttpGet]
         public ActionResult<PagedList<Product>> GetAll(int page = 1, int count = 10)
         {
-            return  productRepository.GetAll(page, count);
+            return productRepository.GetAll(page, count);
         }
 
         [HttpGet("{id}")]

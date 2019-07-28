@@ -12,6 +12,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using VegankoService.Data;
+using VegankoService.Data.Comments;
 
 namespace VegankoService
 {
@@ -31,6 +32,7 @@ namespace VegankoService
             services.AddTransient<VegankoContext>();
             
             services.AddSingleton<IProductRepository, ProductRepository>();
+            services.AddSingleton<ICommentRepository, MockCommentRepository>();
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
