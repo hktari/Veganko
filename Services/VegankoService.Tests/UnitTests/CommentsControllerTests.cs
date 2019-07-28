@@ -22,7 +22,7 @@ namespace VegankoService.Tests.UnitTests
         [TestMethod]
         public void Get_NonExistentId_ReturnsNotFound()
         {
-            Assert.IsInstanceOfType(commentsController.Get("non-existent"), typeof(NotFoundResult));
+            Assert.IsInstanceOfType(commentsController.Get("non-existent").Result, typeof(NotFoundResult));
         }
 
         [TestMethod]
@@ -32,6 +32,25 @@ namespace VegankoService.Tests.UnitTests
             Assert.AreEqual("existing", comment.Id);
         }
 
+        [TestMethod]
+        public void GetAll_PageIdxLessThanOne_ReturnsBadRequest()
+        {
+            Assert.IsInstanceOfType(
+                commentsController.GetAll(0, 10).Result, typeof(BadRequestObjectResult));
+        }
 
+        [TestMethod]
+        public void Put_NonExistentId_ReturnsNotFound()
+        {
+            Assert.IsInstanceOfType(
+                commentsController.Put("non-existent", new Models.CommentInput()).Result, typeof(NotFoundResult));
+        }
+
+        [TestMethod]
+        public void Delete_NonExistentId_ReturnsNotFound()
+        {
+            Assert.IsInstanceOfType(
+                commentsController.Delete("non-existent"), typeof(NotFoundResult));
+        }
     }
 }
