@@ -36,9 +36,9 @@ namespace VegankoService
             services.AddSingleton<IProductRepository, ProductRepository>();
             services.AddSingleton<ICommentRepository, MockCommentRepository>();
 
-            services.AddIdentity<ApplicationUser, IdentityRole>()
-                .AddEntityFrameworkStores<VegankoContext>()
-                .AddDefaultTokenProviders();
+            //services.AddIdentity<ApplicationUser, IdentityRole>()
+            //    .AddEntityFrameworkStores<VegankoContext>()
+            //    .AddDefaultTokenProviders();
 
             services.Configure<IdentityOptions>(options =>
             {
@@ -80,6 +80,9 @@ namespace VegankoService
             }
 
             app.UseHttpsRedirection();
+
+            //app.UseAuthentication();
+
             app.UseMvc();
         }
     }

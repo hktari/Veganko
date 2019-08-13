@@ -47,7 +47,7 @@ namespace VegankoService.Tests.IntegrationTests
             //_client.DefaultRequestHeaders
             //    .Add("Authorization", new[] { $"Bearer {_adminToken}" });
 
-            ProductInput newProduct = new ProductInput { Name = "test", Type = "food", ProductClassifiers = 0, ImageData = null };
+            ProductInput newProduct = new ProductInput { Name = "test", Type = "food", ProductClassifiers = 0, ImageBase64Encoded  = null };
             var result = await _client.PostAsJsonAsync("/api/products", newProduct);
 
             Assert.AreEqual(HttpStatusCode.BadRequest, result.StatusCode);

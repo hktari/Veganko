@@ -12,12 +12,13 @@ namespace VegankoService.Data
         public VegankoContext()
         {}
 
-        public DbSet<Product> Products { get; set; }
+        public DbSet<Product> Product { get; set; }
+
+        public DbSet<Comment> Comment { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            base.OnConfiguring(optionsBuilder);
-            //optionsBuilder.UseInMemoryDatabase("Products");
+                //optionsBuilder.UseInMemoryDatabase("Products");
             var connection = @"Server=(localdb)\mssqllocaldb;Database=VegankoService;Trusted_Connection=True;ConnectRetryCount=0";
             optionsBuilder.UseSqlServer(connection);
         }

@@ -18,20 +18,20 @@ namespace VegankoService.Data
 
         public void Create(Product product)
         {
-            context.Products.Add(product);
+            context.Product.Add(product);
             context.SaveChanges();
         }
 
         public void Delete(string id)
         {
-            context.Products.Remove(
-                context.Products.SingleOrDefault() ?? throw new ArgumentException("Can't find product with id:" + id));
+            context.Product.Remove(
+                context.Product.SingleOrDefault() ?? throw new ArgumentException("Can't find product with id:" + id));
             context.SaveChanges();
         }
 
         public Product Get(string id)
         {
-            return context.Products.FirstOrDefault(p => p.Id == id);
+            return context.Product.FirstOrDefault(p => p.Id == id);
         }
 
         public PagedList<Product> GetAll(int page, int pageSize = 10)
@@ -44,16 +44,16 @@ namespace VegankoService.Data
 
             return new PagedList<Product>
             {
-                Items = context.Products.Skip(pageSize * pageIdx).Take(pageSize),
+                Items = context.Product.Skip(pageSize * pageIdx).Take(pageSize),
                 Page = page,
                 PageSize = pageSize,
-                TotalCount = context.Products.Count(),
+                TotalCount = context.Product.Count(),
             };
         }
 
         public void Update(Product product)
         {
-            context.Products.Update(product);
+            context.Product.Update(product);
             context.SaveChanges();
         }
     }

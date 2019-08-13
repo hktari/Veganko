@@ -5,6 +5,7 @@ using System.Text;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using System.Runtime.Serialization;
+using System.ComponentModel.DataAnnotations;
 
 namespace VegankoService.Models
 {
@@ -44,12 +45,12 @@ namespace VegankoService.Models
     public class Product
     {
         public string Id { get; set; }
-        public ProductState State { get; set; }
+        public int State { get; set; }
         public string Name { get; set; }
         public string Brand { get; set; }
         public string Barcode { get; set; }
         public string ImageName { get; set; }
-        public byte[] ImageData { get; set; }
+        public string ImageBase64Encoded { get; set; }
         public string Description { get; set; }
         public int ProductClassifiers { get; set; }
         public string Type { get; set; }

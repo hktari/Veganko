@@ -22,7 +22,7 @@ namespace VegankoService.Controllers
         [HttpPost]
         public ActionResult<Product> Post(ProductInput input)
         {
-            if (input.ImageData == null)
+            if (input.ImageBase64Encoded  == null)
             {
                 return new BadRequestResult();
             }

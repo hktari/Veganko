@@ -18,8 +18,7 @@ namespace VegankoService.Models
         public string Barcode { get; set; }
 
         [Required]
-        [JsonConverter(typeof(Base64StringToByteArrayConverter))]
-        public byte[] ImageData { get; set; }
+        public string ImageBase64Encoded { get; set; }
 
         public string Description { get; set; }
 
@@ -34,7 +33,7 @@ namespace VegankoService.Models
             product.Name = Name;
             product.Brand = Brand;
             product.Barcode = Barcode;
-            product.ImageData = ImageData;
+            product.ImageBase64Encoded = ImageBase64Encoded;
             product.Description = Description;
             product.ProductClassifiers = ProductClassifiers;
             product.Type = Type;

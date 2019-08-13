@@ -11,7 +11,7 @@ namespace VegankoService.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class CommentsController : ControllerBase
+    public class CommentsController : Controller
     {
         private readonly ICommentRepository commentRepository;
 
