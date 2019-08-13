@@ -34,7 +34,7 @@ namespace VegankoService
             services.AddTransient<VegankoContext>();
             
             services.AddSingleton<IProductRepository, ProductRepository>();
-            services.AddSingleton<ICommentRepository, MockCommentRepository>();
+            services.AddSingleton<ICommentRepository, CommentRepository>();
 
             //services.AddIdentity<ApplicationUser, IdentityRole>()
             //    .AddEntityFrameworkStores<VegankoContext>()

@@ -25,7 +25,7 @@ namespace VegankoService.Data
         public void Delete(string id)
         {
             context.Product.Remove(
-                context.Product.SingleOrDefault() ?? throw new ArgumentException("Can't find product with id:" + id));
+                context.Product.FirstOrDefault(p => p.Id == id) ?? throw new ArgumentException("Can't find product with id:" + id));
             context.SaveChanges();
         }
 
