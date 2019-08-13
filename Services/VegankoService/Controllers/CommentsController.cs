@@ -54,6 +54,7 @@ namespace VegankoService.Controllers
         public ActionResult<Comment> Post([FromBody] CommentInput input)
         {
             Comment comment = new Comment();
+            comment.UtcDatePosted = DateTime.UtcNow;
             input.MapToComment(comment);
 
             commentRepository.Create(comment);
