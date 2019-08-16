@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
@@ -10,16 +11,18 @@ using VegankoService.Models.User;
 
 namespace VegankoService.Controllers
 {
-    [Authorize]
-    [Route("[controller]/[action]")]
+    [Route("api/account")]
+    [ApiController]
     public class AccountController : Controller
     {
         private readonly UserManager<ApplicationUser> userManager;
         private readonly SignInManager<ApplicationUser> signInManager;
         private readonly ILogger<AccountController> logger;
+        private readonly IConfiguration configuration;
 
-        public AccountController(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager, ILogger<AccountController> logger)
+        public AccountController(IConfiguration configuration, UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager, ILogger<AccountController> logger)
         {
+            this.configuration = configuration;
             this.userManager = userManager;
             this.signInManager = signInManager;
             this.logger = logger;
@@ -39,6 +42,7 @@ namespace VegankoService.Controllers
                 Label = model.Label,
                 AvatarId = model.AvatarId,
                 ProfileBackgroundId = model.ProfileBackgroundId,
+                AccessRights = int.MaxValue, // puno right
             };
 
             IdentityResult result = await userManager.CreateAsync(user, model.PasswordHash);
@@ -56,6 +60,46 @@ namespace VegankoService.Controllers
 
             // If we got this far, something failed, redisplay form
             return BadRequest(result.Errors);
+        }
+
+        //public async Task<IActionResult> SignIn()
+        //{
+        //        // This doesn't count login failures towards account lockout
+        //        // To enable password failures to trigger account lockout, 
+        //        // set lockoutOnFailure: true
+        //        var result = await signInManager.PasswordSignInAsync(Input.Email,
+        //            Input.Password, Input.RememberMe, lockoutOnFailure: true);
+        //        if (result.Succeeded)
+        //        {
+        //            logger.LogInformation("User logged in.");
+        //            return Ok();  // bearer Token ?
+        //        }
+        //        if (result.IsLockedOut)
+        //        {
+        //            logger.LogWarning("User account locked out.");
+        //            return BadRequest();
+        //        }
+        //        else
+        //        {
+        //            ModelState.AddModelError(string.Empty, "Invalid login attempt.");
+        //            return BadRequest("Login failed");
+        //        }
+        
+        //    // If we got this far, something failed, redisplay form
+        //    return BadRequest();
+        //}
+
+        [AllowAnonymous]
+        [HttpGet]
+        public IActionResult GenerateToken(
+            string name = "aspnetcore-api-demo", bool admin = false)
+        {
+            var jwt = JwtTokenGenerator.Generate(
+                name, admin,
+                configuration["Tokens:Issuer"],
+                configuration["Tokens:Key"]);
+
+            return Ok(jwt);
         }
     }
 }

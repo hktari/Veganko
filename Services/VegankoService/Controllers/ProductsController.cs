@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,6 +10,7 @@ using VegankoService.Models;
 namespace VegankoService.Controllers
 {
     [ApiController]
+    [Authorize]
     [Route("api/products")]
     public class ProductsController : Controller
     {

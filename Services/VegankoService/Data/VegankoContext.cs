@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using VegankoService.Models;
+using VegankoService.Models.User;
 
 namespace VegankoService.Data
 {
@@ -15,6 +16,8 @@ namespace VegankoService.Data
         public DbSet<Product> Product { get; set; }
 
         public DbSet<Comment> Comment { get; set; }
+
+        public DbSet<ApplicationUser> ApplicationUser { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

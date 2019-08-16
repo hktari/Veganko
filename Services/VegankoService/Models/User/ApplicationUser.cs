@@ -8,11 +8,11 @@ namespace VegankoService.Models.User
 {
     public class ApplicationUser : IdentityUser
     {
-        //public UserAccessRights AccessRights { get; set; }
+        public int AccessRights { get; set; }
         public string ProfileBackgroundId { get; set; }
         public string AvatarId { get; set; }
         public string Description { get; set; }
         public string Label { get; set; }
-        public List<int> Favorites { get; set; }
+        // public List<int> Favorites { get; set; }
     }
 }

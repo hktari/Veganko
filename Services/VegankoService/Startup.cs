@@ -15,6 +15,9 @@ using Microsoft.Extensions.Options;
 using VegankoService.Data;
 using VegankoService.Data.Comments;
 using VegankoService.Models.User;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 namespace VegankoService
 {
@@ -36,9 +39,25 @@ namespace VegankoService
             services.AddSingleton<IProductRepository, ProductRepository>();
             services.AddSingleton<ICommentRepository, CommentRepository>();
 
-            //services.AddIdentity<ApplicationUser, IdentityRole>()
-            //    .AddEntityFrameworkStores<VegankoContext>()
-            //    .AddDefaultTokenProviders();
+            services
+                .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                .AddJwtBearer(
+                    options =>
+                    {
+                        var tokenValidationParameters = new TokenValidationParameters
+                        {
+                            ValidIssuer = Configuration["Tokens:Issuer"],
+                            ValidAudience = Configuration["Tokens:Issuer"],
+                            IssuerSigningKey =
+                                new SymmetricSecurityKey(
+                                    Encoding.UTF8.GetBytes(Configuration["Tokens:Key"]))
+                        };
+
+                        options.TokenValidationParameters = tokenValidationParameters;
+                    });
+
+            services.AddIdentity<ApplicationUser, IdentityRole>()
+                .AddEntityFrameworkStores<VegankoContext>();
 
             services.Configure<IdentityOptions>(options =>
             {
@@ -81,7 +100,7 @@ namespace VegankoService
 
             app.UseHttpsRedirection();
 
-            //app.UseAuthentication();
+            app.UseAuthentication();
 
             app.UseMvc();
         }
