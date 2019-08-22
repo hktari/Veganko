@@ -10,7 +10,7 @@ using VegankoService.Models;
 namespace VegankoService.Controllers
 {
     [ApiController]
-    [Authorize]
+    [Authorize(Policy = "ApiUser")]
     [Route("api/products")]
     public class ProductsController : Controller
     {

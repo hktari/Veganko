@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
+using VegankoService.Data;
 using VegankoService.Models.User;
 
 namespace VegankoService.Controllers
@@ -17,52 +18,76 @@ namespace VegankoService.Controllers
     public class AccountController : Controller
     {
         private readonly UserManager<ApplicationUser> userManager;
-        private readonly SignInManager<ApplicationUser> signInManager;
         private readonly ILogger<AccountController> logger;
+        private readonly VegankoContext context;
         private readonly IConfiguration configuration;
 
-        public AccountController(IConfiguration configuration, UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager, ILogger<AccountController> logger)
+        public AccountController(IConfiguration configuration, UserManager<ApplicationUser> userManager, ILogger<AccountController> logger, VegankoContext context)
         {
             this.configuration = configuration;
             this.userManager = userManager;
-            this.signInManager = signInManager;
             this.logger = logger;
+            this.context = context;
         }
 
+        //[HttpPost]
+        //[AllowAnonymous]
+        ////[ValidateAntiForgeryToken]
+        //public async Task<IActionResult> Register(RegisterUserInput model)
+        //{
+        //    //ViewData["ReturnUrl"] = returnUrl;
+        //    var user = new ApplicationUser
+        //    {
+        //        UserName = model.Username,
+        //        Email = model.Email,
+        //    };
+
+        //    IdentityResult result = await userManager.CreateAsync(user, model.PasswordHash);
+        //    if (result.Succeeded)
+        //    {
+        //        logger.LogInformation("User created a new account with password.");
+
+        //        //var code = await userManager.GenerateEmailConfirmationTokenAsync(user);
+        //        //var callbackUrl = Url.EmailConfirmationLink(user.Id, code, Request.Scheme);
+        //        //await _emailSender.SendEmailConfirmationAsync(model.Email, callbackUrl);
+
+        //        await signInManager.SignInAsync(user, isPersistent: false);
+        //        return Ok();
+        //    }
+
+        //    // If we got this far, something failed, redisplay form
+        //    return BadRequest(result.Errors);
+        //}
+
+        // POST api/accounts
         [HttpPost]
-        [AllowAnonymous]
-        //[ValidateAntiForgeryToken]
-        public async Task<IActionResult> Register(RegisterUserInput model)
+        public async Task<IActionResult> Post([FromBody]RegisterUserInput model)
         {
-            //ViewData["ReturnUrl"] = returnUrl;
             var user = new ApplicationUser
             {
                 UserName = model.Username,
                 Email = model.Email,
-                Description = model.Description,
-                Label = model.Label,
-                AvatarId = model.AvatarId,
-                ProfileBackgroundId = model.ProfileBackgroundId,
-                AccessRights = int.MaxValue, // puno right
             };
 
-            IdentityResult result = await userManager.CreateAsync(user, model.PasswordHash);
-            if (result.Succeeded)
-            {
-                logger.LogInformation("User created a new account with password.");
+            var result = await userManager.CreateAsync(user, model.PasswordHash);
 
-                //var code = await userManager.GenerateEmailConfirmationTokenAsync(user);
-                //var callbackUrl = Url.EmailConfirmationLink(user.Id, code, Request.Scheme);
-                //await _emailSender.SendEmailConfirmationAsync(model.Email, callbackUrl);
+            if (!result.Succeeded)
+                return new BadRequestObjectResult(result);
 
-                await signInManager.SignInAsync(user, isPersistent: false);
-                return Ok();
-            }
+            await context.Customer.AddAsync(
+                new Customer
+                {
+                    IdentityId = user.Id,
+                    Description = model.Description,
+                    Label = model.Label,
+                    AvatarId = model.AvatarId,
+                    ProfileBackgroundId = model.ProfileBackgroundId,
+                    // AccessRights = int.MaxValue, // puno right 
+                });
+            await context.SaveChangesAsync();
 
-            // If we got this far, something failed, redisplay form
-            return BadRequest(result.Errors);
+            return new OkObjectResult("Account created");
         }
-
         //public async Task<IActionResult> SignIn()
         //{
         //        // This doesn't count login failures towards account lockout
@@ -85,22 +110,9 @@ namespace VegankoService.Controllers
         //            ModelState.AddModelError(string.Empty, "Invalid login attempt.");
         //            return BadRequest("Login failed");
         //        }
-        
+
         //    // If we got this far, something failed, redisplay form
         //    return BadRequest();
         //}
-
-        [AllowAnonymous]
-        [HttpGet]
-        public IActionResult GenerateToken(
-            string name = "aspnetcore-api-demo", bool admin = false)
-        {
-            var jwt = JwtTokenGenerator.Generate(
-                name, admin,
-                configuration["Tokens:Issuer"],
-                configuration["Tokens:Key"]);
-
-            return Ok(jwt);
-        }
     }
 }

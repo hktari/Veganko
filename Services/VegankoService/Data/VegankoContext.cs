@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,7 +9,7 @@ using VegankoService.Models.User;
 
 namespace VegankoService.Data
 {
-    public class VegankoContext : DbContext
+    public class VegankoContext : IdentityDbContext<ApplicationUser>
     {
         public VegankoContext()
         {}
@@ -17,7 +18,7 @@ namespace VegankoService.Data
 
         public DbSet<Comment> Comment { get; set; }
 
-        public DbSet<ApplicationUser> ApplicationUser { get; set; }
+        public DbSet<Customer> Customer { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
