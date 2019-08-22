@@ -25,6 +25,7 @@ using VegankoService.Models;
 using VegankoService.Helpers;
 using System.Net;
 using Microsoft.AspNetCore.Diagnostics;
+using System.IdentityModel.Tokens.Jwt;
 
 namespace VegankoService
 {

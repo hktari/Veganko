@@ -1,10 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using VegankoService.Data;
 using VegankoService.Data.Comments;
 using VegankoService.Models;
 
@@ -16,10 +19,14 @@ namespace VegankoService.Controllers
     public class CommentsController : Controller
     {
         private readonly ICommentRepository commentRepository;
+        private readonly VegankoContext context;
+        private readonly ClaimsPrincipal caller;
 
-        public CommentsController(ICommentRepository commentRepository)
+        public CommentsController(ICommentRepository commentRepository, IHttpContextAccessor httpContextAccessor, VegankoContext context)
         {
             this.commentRepository = commentRepository;
+            this.context = context;
+            caller = httpContextAccessor.HttpContext.User;
         }
 
         // GET: api/Comments
@@ -53,11 +60,14 @@ namespace VegankoService.Controllers
 
         // POST: api/Comments
         [HttpPost]
-        public ActionResult<Comment> Post([FromBody] CommentInput input)
+        public async Task<ActionResult<Comment>> Post([FromBody] CommentInput input)
         {
+            Models.User.Customer customer = await CurrentCustomer();
+
             Comment comment = new Comment();
             comment.UtcDatePosted = DateTime.UtcNow;
             input.MapToComment(comment);
+            comment.UserId = customer.Id;
 
             commentRepository.Create(comment);
             return CreatedAtAction(
@@ -81,16 +91,29 @@ namespace VegankoService.Controllers
 
         // DELETE: api/ApiWithActions/5
         [HttpDelete("{id}")]
-        public IActionResult Delete(string id)
+        public async Task<IActionResult> Delete(string id)
         {
+            Models.User.Customer customer = await CurrentCustomer();
+
             var comment = commentRepository.Get(id);
             if (comment == null)
             {
                 return NotFound();
             }
 
+            if (comment.UserId != customer.Id)
+            {
+                return Unauthorized();
+            }
+
             commentRepository.Delete(id);
             return Ok();
+        }
+
+        private Task<Models.User.Customer> CurrentCustomer()
+        {
+            var userId = caller.Claims.Single(c => c.Type == "id");
+            return context.Customer.Include(c => c.Identity).SingleAsync(c => c.Identity.Id == userId.Value);
         }
     }
 }
