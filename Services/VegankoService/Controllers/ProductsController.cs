@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using VegankoService.Data;
+using VegankoService.Helpers;
 using VegankoService.Models;
 
 namespace VegankoService.Controllers
@@ -37,6 +38,7 @@ namespace VegankoService.Controllers
         }
 
         [HttpPut("{id}")]
+        // TODO:  only author  and  admin and  manager ?  can  edit
         public ActionResult<Product> Put(string id, ProductInput input)
         {
             var product = productRepository.Get(id);
@@ -51,6 +53,7 @@ namespace VegankoService.Controllers
         }
 
         [HttpDelete("{id}")]
+        [Authorize(Roles = Constants.Strings.Roles.Admin + ", " + Constants.Strings.Roles.Manager)]
         public IActionResult Delete(string id)
         {
             if (string.IsNullOrWhiteSpace(id))

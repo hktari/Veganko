@@ -5,11 +5,14 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using VegankoService.Data;
 using VegankoService.Data.Comments;
+using VegankoService.Helpers;
 using VegankoService.Models;
+using VegankoService.Models.User;
 
 namespace VegankoService.Controllers
 {
@@ -20,12 +23,15 @@ namespace VegankoService.Controllers
     {
         private readonly ICommentRepository commentRepository;
         private readonly VegankoContext context;
+        private readonly UserManager<ApplicationUser> userManager;
         private readonly ClaimsPrincipal caller;
 
-        public CommentsController(ICommentRepository commentRepository, IHttpContextAccessor httpContextAccessor, VegankoContext context)
+        public CommentsController(
+            ICommentRepository commentRepository, IHttpContextAccessor httpContextAccessor, VegankoContext context, UserManager<ApplicationUser> userManager)
         {
             this.commentRepository = commentRepository;
             this.context = context;
+            this.userManager = userManager;
             caller = httpContextAccessor.HttpContext.User;
         }
 
@@ -94,14 +100,16 @@ namespace VegankoService.Controllers
         public async Task<IActionResult> Delete(string id)
         {
             Models.User.Customer customer = await CurrentCustomer();
-
+            
             var comment = commentRepository.Get(id);
             if (comment == null)
             {
                 return NotFound();
             }
 
-            if (comment.UserId != customer.Id)
+            var userIdentity = await userManager.FindByIdAsync(GetUserIdentityId());
+            var userRoles = await userManager.GetRolesAsync(userIdentity);
+            if (!userRoles.Contains(Constants.Strings.Roles.Admin) && comment.UserId != customer.Id)
             {
                 return Unauthorized();
             }
@@ -112,8 +120,13 @@ namespace VegankoService.Controllers
 
         private Task<Models.User.Customer> CurrentCustomer()
         {
-            var userId = caller.Claims.Single(c => c.Type == "id");
-            return context.Customer.Include(c => c.Identity).SingleAsync(c => c.Identity.Id == userId.Value);
+            var userId = GetUserIdentityId();
+            return context.Customer.Include(c => c.Identity).SingleAsync(c => c.Identity.Id == userId);
+        }
+
+        private string GetUserIdentityId()
+        {
+            return caller.Claims.Single(c => c.Type == "id").Value;
         }
     }
 }

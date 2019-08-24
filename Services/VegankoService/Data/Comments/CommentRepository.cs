@@ -30,7 +30,7 @@ namespace VegankoService.Data.Comments
 
         public Comment Get(string id)
         {
-            return context.Comment.FirstOrDefault(c => c.Id == id) ?? throw new ArgumentException("Can't find comment with id:" + id);
+            return context.Comment.FirstOrDefault(c => c.Id == id);
         }
 
         public PagedList<Comment> GetAll(string productId, int page, int pageSize = 10)

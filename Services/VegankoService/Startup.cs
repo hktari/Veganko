@@ -109,8 +109,9 @@ namespace VegankoService
                 o.Password.RequireUppercase = false;
                 o.Password.RequireNonAlphanumeric = false;
                 o.Password.RequiredLength = 6;
-            });
-            builder = new IdentityBuilder(builder.UserType, typeof(IdentityRole), builder.Services);
+            })
+            .AddRoles<IdentityRole>();
+            //builder = new IdentityBuilder(builder.UserType, typeof(IdentityRole), builder.Services);
             builder.AddEntityFrameworkStores<VegankoContext>().AddDefaultTokenProviders();
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
@@ -142,6 +143,8 @@ namespace VegankoService
             //initializing custom roles 
             var RoleManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();
             var UserManager = serviceProvider.GetRequiredService<UserManager<ApplicationUser>>();
+            var context = serviceProvider.GetRequiredService<VegankoContext>();
+
             string[] roleNames = { Constants.Strings.Roles.Admin, Constants.Strings.Roles.Manager, Constants.Strings.Roles.Member };
             IdentityResult roleResult;
 
@@ -155,26 +158,29 @@ namespace VegankoService
                 }
             }
 
-            var _user = await UserManager.FindByEmailAsync(Configuration["AppSettings:AdminUserEmail"]);
+            var _user = await UserManager.FindByEmailAsync(Configuration["AdminUserEmail"]);
             if (_user == null)
             {
                 //Here you could create a super user who will maintain the web app
                 var poweruser = new ApplicationUser
                 {
-                    UserName = Configuration["AppSettings:AdminUsername"],
-                    Email = Configuration["AppSettings:AdminUserEmail"],
+                    UserName = Configuration["AdminUsername"],
+                    Email = Configuration["AdminUserEmail"],
                     EmailConfirmed = true
                 };
 
                 //Ensure you have these values in your appsettings.json file
-                string userPWD = Configuration["AppSettings:AdminPassword"];
+                string userPWD = Configuration["AdminPassword"];
 
                 var createPowerUser = await UserManager.CreateAsync(poweruser, userPWD);
+
                 if (createPowerUser.Succeeded)
                 {
                     //here we tie the new user to the role
                     await UserManager.AddToRoleAsync(poweruser, Constants.Strings.Roles.Admin);
 
+                    context.Customer.Add(new Customer { IdentityId = poweruser.Id });
+                    await context.SaveChangesAsync();
                 }
             }
         }

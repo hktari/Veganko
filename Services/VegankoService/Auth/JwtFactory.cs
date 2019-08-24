@@ -21,7 +21,7 @@ namespace VegankoService.Auth
             ThrowIfInvalidOptions(_jwtOptions);
         }
 
-        public async Task<string> GenerateEncodedToken(string userName, ClaimsIdentity identity, bool isAdmin)
+        public async Task<string> GenerateEncodedToken(string userName, ClaimsIdentity identity)
         {
             var claims = new List<Claim>
             {
@@ -32,10 +32,6 @@ namespace VegankoService.Auth
                  identity.FindFirst(Helpers.Constants.Strings.JwtClaimIdentifiers.Id)
              };
 
-            if (isAdmin)
-            {
-                claims.Add(new Claim(ClaimTypes.Role, "admin"));
-            }
 
             // Create the JWT security token and encode it.
             var jwt = new JwtSecurityToken(
@@ -53,15 +49,22 @@ namespace VegankoService.Auth
 
         public ClaimsIdentity GenerateClaimsIdentity(string userName, string id)
         {
-            return new ClaimsIdentity(new GenericIdentity(userName, "Token"), new[]
+            var claims = new  List<Claim>
             {
                 new Claim(Helpers.Constants.Strings.JwtClaimIdentifiers.Id, id),
                 new Claim(Helpers.Constants.Strings.JwtClaimIdentifiers.Rol, Helpers.Constants.Strings.JwtClaims.ApiAccess)
-            });
+            };
+
+            //if (isAdmin)
+            //{
+            //    claims.Add(new Claim(ClaimTypes.Role, "admin"));
+            //}
+            return  new ClaimsIdentity(new GenericIdentity(userName, "Token"), claims);
+
         }
 
-        /// <returns>Date converted to seconds since Unix epoch (Jan 1, 1970, midnight UTC).</returns>
-        private static long ToUnixEpochDate(DateTime date)
+    /// <returns>Date converted to seconds since Unix epoch (Jan 1, 1970, midnight UTC).</returns>
+    private static long ToUnixEpochDate(DateTime date)
           => (long)Math.Round((date.ToUniversalTime() -
                                new DateTimeOffset(1970, 1, 1, 0, 0, 0, TimeSpan.Zero))
                               .TotalSeconds);
