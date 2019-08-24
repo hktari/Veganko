@@ -7,7 +7,7 @@ using System.Security.Principal;
 using System.Threading.Tasks;
 using VegankoService.Models;
 using Microsoft.Extensions.Options;
- 
+using System.Collections.Generic;
 
 namespace VegankoService.Auth
 {
@@ -21,16 +21,21 @@ namespace VegankoService.Auth
             ThrowIfInvalidOptions(_jwtOptions);
         }
 
-        public async Task<string> GenerateEncodedToken(string userName, ClaimsIdentity identity)
+        public async Task<string> GenerateEncodedToken(string userName, ClaimsIdentity identity, bool isAdmin)
         {
-            var claims = new[]
-         {
+            var claims = new List<Claim>
+            {
                  new Claim(JwtRegisteredClaimNames.Sub, userName),
                  new Claim(JwtRegisteredClaimNames.Jti, await _jwtOptions.JtiGenerator()),
                  new Claim(JwtRegisteredClaimNames.Iat, ToUnixEpochDate(_jwtOptions.IssuedAt).ToString(), ClaimValueTypes.Integer64),
                  identity.FindFirst(Helpers.Constants.Strings.JwtClaimIdentifiers.Rol),
                  identity.FindFirst(Helpers.Constants.Strings.JwtClaimIdentifiers.Id)
              };
+
+            if (isAdmin)
+            {
+                claims.Add(new Claim(ClaimTypes.Role, "admin"));
+            }
 
             // Create the JWT security token and encode it.
             var jwt = new JwtSecurityToken(

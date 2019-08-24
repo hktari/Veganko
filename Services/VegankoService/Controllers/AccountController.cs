@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 using VegankoService.Data;
+using VegankoService.Helpers;
 using VegankoService.Models.User;
 
 namespace VegankoService.Controllers
@@ -69,10 +70,16 @@ namespace VegankoService.Controllers
                 Email = model.Email,
             };
 
-            var result = await userManager.CreateAsync(user, model.PasswordHash);
+            var result = await userManager.CreateAsync(user, model.PasswordHash );
 
             if (!result.Succeeded)
                 return new BadRequestObjectResult(result);
+
+            var idResult = await userManager.AddToRoleAsync(user, Constants.Strings.Roles.Member);
+            if (!idResult.Succeeded)
+            {
+                return new BadRequestObjectResult(idResult);
+            }
 
             await context.Customer.AddAsync(
                 new Customer
