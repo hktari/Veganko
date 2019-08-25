@@ -31,9 +31,6 @@ namespace VegankoService
 {
     public class Startup
     {
-        private const string SecretKey = "iNivDmHLpUA223sqsfhqGbMRdRj1PVkH"; // todo: get this from somewhere secure
-        private readonly SymmetricSecurityKey _signingKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(SecretKey));
-
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -58,6 +55,9 @@ namespace VegankoService
             // Get options from app settings
             var jwtAppSettingOptions = Configuration.GetSection(nameof(JwtIssuerOptions));
 
+            SymmetricSecurityKey _signingKey = new SymmetricSecurityKey(
+                Encoding.ASCII.GetBytes(Configuration["SecretKey"]));
+        
             // Configure JwtIssuerOptions
             services.Configure<JwtIssuerOptions>(options =>
             {
