@@ -82,12 +82,18 @@ namespace VegankoService.Controllers
 
         // PUT: api/Comments/5
         [HttpPut("{id}")]
-        public ActionResult<Comment> Put(string id, [FromBody] CommentInput input)
+        public async Task<ActionResult<Comment>> Put(string id, [FromBody] CommentInput input)
         {
             var comment = commentRepository.Get(id);
             if (comment == null)
             {
                 return NotFound();
+            }
+
+            var user = await CurrentCustomer();
+            if (user.Id != comment.UserId)
+            {
+                return Forbid();
             }
 
             input.MapToComment(comment);
@@ -111,7 +117,7 @@ namespace VegankoService.Controllers
             var userRoles = await userManager.GetRolesAsync(userIdentity);
             if (!userRoles.Contains(Constants.Strings.Roles.Admin) && comment.UserId != customer.Id)
             {
-                return Unauthorized();
+                return Forbid();
             }
 
             commentRepository.Delete(id);

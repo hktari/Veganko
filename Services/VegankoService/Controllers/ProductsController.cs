@@ -23,6 +23,7 @@ namespace VegankoService.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = Constants.Strings.Roles.Admin + ", " + Constants.Strings.Roles.Manager)]
         public ActionResult<Product> Post(ProductInput input)
         {
             if (input.ImageBase64Encoded  == null)
@@ -38,7 +39,7 @@ namespace VegankoService.Controllers
         }
 
         [HttpPut("{id}")]
-        // TODO:  only author  and  admin and  manager ?  can  edit
+        [Authorize(Roles = Constants.Strings.Roles.Admin + ", " + Constants.Strings.Roles.Manager)]
         public ActionResult<Product> Put(string id, ProductInput input)
         {
             var product = productRepository.Get(id);
