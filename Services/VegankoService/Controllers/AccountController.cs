@@ -11,6 +11,7 @@ using System.Text;
 using System.Threading.Tasks;
 using VegankoService.Data;
 using VegankoService.Helpers;
+using VegankoService.Models;
 using VegankoService.Models.User;
 
 namespace VegankoService.Controllers
@@ -39,6 +40,7 @@ namespace VegankoService.Controllers
         }
 
         [HttpPut("edit")]
+        [Authorize]
         public async Task<ActionResult<CustomerProfile>> Edit([FromBody]AccountInput input)
         {
             // Can't be edited here
@@ -79,21 +81,80 @@ namespace VegankoService.Controllers
             {
                 return new BadRequestObjectResult(idResult);
             }
+            var customer = new Customer
+            {
+                IdentityId = user.Id,
+                Description = model.Description,
+                Label = model.Label,
+                AvatarId = model.AvatarId,
+                ProfileBackgroundId = model.ProfileBackgroundId,
+                // AccessRights = int.MaxValue, // puno right 
+            };
 
-            await context.Customer.AddAsync(
-                new Customer
-                {
-                    IdentityId = user.Id,
-                    Description = model.Description,
-                    Label = model.Label,
-                    AvatarId = model.AvatarId,
-                    ProfileBackgroundId = model.ProfileBackgroundId,
-                    // AccessRights = int.MaxValue, // puno right 
-                });
+            await context.Customer.AddAsync(customer);
             await context.SaveChangesAsync();
 
+            logger.LogDebug($"\nCreated user: " +
+                $"\nId:\t{customer.IdentityId}" +
+                $"\nUsername:\t{user.UserName}");
             return new OkObjectResult("Account created");
         }
 
+        [HttpGet]
+        [Authorize(Roles = Constants.Strings.Roles.Admin + ", " + Constants.Strings.Roles.Manager)]
+        public ActionResult<PagedList<CustomerProfile>> GetAll(int page = 1, int pageSize = 20)
+        {
+            page--;
+            if (page < 0)
+            {
+                return BadRequest("Pages start with index 1");
+            }
+
+            // Paged customers
+            IQueryable<Customer> customers = context.Customer
+                .Skip(page * pageSize)
+                .Take(pageSize);
+
+            var customerProfiles =
+               from customer in customers
+               join appUser in context.Users on customer.IdentityId equals appUser.Id
+               join userRole in context.UserRoles on customer.IdentityId equals userRole.UserId
+               join role in context.Roles on userRole.RoleId equals role.Id
+               select new CustomerProfile
+               {
+                   Id = customer.Id,
+                   Username = appUser.UserName,
+                   Email = appUser.Email,
+                   AvatarId = customer.AvatarId,
+                   Description = customer.Description,
+                   Label = customer.Label,
+                   ProfileBackgroundId = customer.ProfileBackgroundId,
+                   Role = role.Name
+               };
+
+            return new PagedList<CustomerProfile>
+            {
+                Items = customerProfiles.ToList(),
+                Page = page,
+                PageSize = pageSize,
+                TotalCount  = context.Customer.Count()
+            };
+        }
+
+        //[HttpGet("{id}")]
+        //[Authorize]
+        //public ActionResult<CustomerProfile> Get(string id)
+        //{
+        //    Customer customer = context.Customer.FirstOrDefault(c => c.Id == id);
+        //    if (customer == null)
+        //    {
+        //        return NotFound();
+        //    }
+        //    userManager.GEtROl
+        //    var customerProfile = new CustomerProfile(customer);
+        //    customerProfile.Role =   context.UserRoles.Join()
+        //        .First(idr => idr.UserId == Identity.GetUserIdentityId(HttpContext.User))
+        //        .
+        //}
     }
 }

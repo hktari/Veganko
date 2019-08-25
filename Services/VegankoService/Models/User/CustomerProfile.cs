@@ -7,6 +7,9 @@ namespace VegankoService.Models.User
 {
     public class CustomerProfile
     {
+        public CustomerProfile()
+        { }
+
         public CustomerProfile(Customer input)
         {
             Id = input.Id;
@@ -17,6 +20,8 @@ namespace VegankoService.Models.User
         }
 
         public string Id { get; set; }
+        public string Username { get; set; }
+        public string Email { get; set; }
         public string ProfileBackgroundId { get; set; }
         public string AvatarId { get; set; }
         public string Role { get; set; }
