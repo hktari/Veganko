@@ -1,10 +1,12 @@
 ﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using VegankoService.Data;
@@ -19,50 +21,41 @@ namespace VegankoService.Controllers
     public class AccountController : Controller
     {
         private readonly UserManager<ApplicationUser> userManager;
+        private readonly IHttpContextAccessor httpContextAccessor;
         private readonly ILogger<AccountController> logger;
         private readonly VegankoContext context;
         private readonly IConfiguration configuration;
 
-        public AccountController(IConfiguration configuration, UserManager<ApplicationUser> userManager, ILogger<AccountController> logger, VegankoContext context)
+        public AccountController(
+            IConfiguration configuration, UserManager<ApplicationUser> userManager, IHttpContextAccessor httpContextAccessor, ILogger<AccountController> logger, VegankoContext context)
         {
             this.configuration = configuration;
             this.userManager = userManager;
+            this.httpContextAccessor = httpContextAccessor;
             this.logger = logger;
             this.context = context;
         }
 
-        //[HttpPost]
-        //[AllowAnonymous]
-        ////[ValidateAntiForgeryToken]
-        //public async Task<IActionResult> Register(RegisterUserInput model)
-        //{
-        //    //ViewData["ReturnUrl"] = returnUrl;
-        //    var user = new ApplicationUser
-        //    {
-        //        UserName = model.Username,
-        //        Email = model.Email,
-        //    };
+        [HttpPut("edit")]
+        public async Task<ActionResult<Customer>> Edit([FromBody]AccountInput input)
+        {
+            // Can't be edited here
+            input.Email = input.Username = input.PasswordHash = null;
+            var customer = await Identity.CurrentCustomer(httpContextAccessor.HttpContext.User, context);
 
-        //    IdentityResult result = await userManager.CreateAsync(user, model.PasswordHash);
-        //    if (result.Succeeded)
-        //    {
-        //        logger.LogInformation("User created a new account with password.");
+            customer.AvatarId = input.AvatarId;
+            customer.ProfileBackgroundId = input.ProfileBackgroundId;
+            customer.Label = input.Label;
+            customer.Description = input.Description;
 
-        //        //var code = await userManager.GenerateEmailConfirmationTokenAsync(user);
-        //        //var callbackUrl = Url.EmailConfirmationLink(user.Id, code, Request.Scheme);
-        //        //await _emailSender.SendEmailConfirmationAsync(model.Email, callbackUrl);
-
-        //        await signInManager.SignInAsync(user, isPersistent: false);
-        //        return Ok();
-        //    }
-
-        //    // If we got this far, something failed, redisplay form
-        //    return BadRequest(result.Errors);
-        //}
+            context.Customer.Update(customer);
+            context.SaveChanges();
+            return customer;
+        }
 
         // POST api/accounts
         [HttpPost]
-        public async Task<IActionResult> Post([FromBody]RegisterUserInput model)
+        public async Task<IActionResult> Post([FromBody]AccountInput model)
         {
             var user = new ApplicationUser
             {

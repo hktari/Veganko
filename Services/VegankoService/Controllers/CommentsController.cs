@@ -68,7 +68,7 @@ namespace VegankoService.Controllers
         [HttpPost]
         public async Task<ActionResult<Comment>> Post([FromBody] CommentInput input)
         {
-            Models.User.Customer customer = await CurrentCustomer();
+            Models.User.Customer customer = await Identity.CurrentCustomer(caller, context);
 
             Comment comment = new Comment();
             comment.UtcDatePosted = DateTime.UtcNow;
@@ -90,7 +90,7 @@ namespace VegankoService.Controllers
                 return NotFound();
             }
 
-            var user = await CurrentCustomer();
+            var user = await Identity.CurrentCustomer(caller, context);
             if (user.Id != comment.UserId)
             {
                 return Forbid();
@@ -105,7 +105,7 @@ namespace VegankoService.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(string id)
         {
-            Models.User.Customer customer = await CurrentCustomer();
+            Models.User.Customer customer = await Identity.CurrentCustomer(caller, context);
             
             var comment = commentRepository.Get(id);
             if (comment == null)
@@ -113,7 +113,8 @@ namespace VegankoService.Controllers
                 return NotFound();
             }
 
-            var userIdentity = await userManager.FindByIdAsync(GetUserIdentityId());
+            var userIdentity = await userManager.FindByIdAsync(
+                Identity.GetUserIdentityId(caller));
             var userRoles = await userManager.GetRolesAsync(userIdentity);
             if (!userRoles.Contains(Constants.Strings.Roles.Admin) && comment.UserId != customer.Id)
             {
@@ -122,17 +123,6 @@ namespace VegankoService.Controllers
 
             commentRepository.Delete(id);
             return Ok();
-        }
-
-        private Task<Models.User.Customer> CurrentCustomer()
-        {
-            var userId = GetUserIdentityId();
-            return context.Customer.Include(c => c.Identity).SingleAsync(c => c.Identity.Id == userId);
-        }
-
-        private string GetUserIdentityId()
-        {
-            return caller.Claims.Single(c => c.Type == "id").Value;
         }
     }
 }

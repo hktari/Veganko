@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace VegankoService.Models.User
 {
-    public class RegisterUserInput
+    public class AccountInput
     {
         public string Username { get; set; }
         public string Email { get; set; }

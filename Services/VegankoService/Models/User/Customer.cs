@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -9,6 +10,7 @@ namespace VegankoService.Models.User
     {
         public string Id { get; set; }
         public string IdentityId { get; set; }
+        [JsonIgnore]
         public ApplicationUser Identity { get; set; }
         public int AccessRights { get; set; }
         public string ProfileBackgroundId { get; set; }
