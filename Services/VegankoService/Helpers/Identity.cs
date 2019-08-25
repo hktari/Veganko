@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,6 +15,12 @@ namespace VegankoService.Helpers
         public static string GetUserIdentityId(ClaimsPrincipal claimsPrincipal)
         {
             return claimsPrincipal.Claims.Single(c => c.Type == "id").Value;
+        }
+
+        public static Task<ApplicationUser> GetUserIdentity(ClaimsPrincipal claimsPrincipal, UserManager<ApplicationUser> userManager)
+        {
+            return userManager.FindByIdAsync(
+                GetUserIdentityId(claimsPrincipal));
         }
 
         public static Task<Customer> CurrentCustomer(ClaimsPrincipal claimsPrincipal, VegankoContext context)

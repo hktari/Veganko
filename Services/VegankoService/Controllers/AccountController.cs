@@ -21,23 +21,25 @@ namespace VegankoService.Controllers
     public class AccountController : Controller
     {
         private readonly UserManager<ApplicationUser> userManager;
+        private readonly RoleManager<IdentityRole> roleManager;
         private readonly IHttpContextAccessor httpContextAccessor;
         private readonly ILogger<AccountController> logger;
         private readonly VegankoContext context;
         private readonly IConfiguration configuration;
 
         public AccountController(
-            IConfiguration configuration, UserManager<ApplicationUser> userManager, IHttpContextAccessor httpContextAccessor, ILogger<AccountController> logger, VegankoContext context)
+            IConfiguration configuration, UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager, IHttpContextAccessor httpContextAccessor, ILogger<AccountController> logger, VegankoContext context)
         {
             this.configuration = configuration;
             this.userManager = userManager;
+            this.roleManager = roleManager;
             this.httpContextAccessor = httpContextAccessor;
             this.logger = logger;
             this.context = context;
         }
 
         [HttpPut("edit")]
-        public async Task<ActionResult<Customer>> Edit([FromBody]AccountInput input)
+        public async Task<ActionResult<CustomerProfile>> Edit([FromBody]AccountInput input)
         {
             // Can't be edited here
             input.Email = input.Username = input.PasswordHash = null;
@@ -50,7 +52,11 @@ namespace VegankoService.Controllers
 
             context.Customer.Update(customer);
             context.SaveChanges();
-            return customer;
+
+            var customerProfile = new CustomerProfile(customer);
+            var userID = await Identity.GetUserIdentity(httpContextAccessor.HttpContext.User, userManager);
+            customerProfile.Role = (await userManager.GetRolesAsync(userID)).First();
+            return customerProfile;
         }
 
         // POST api/accounts
@@ -88,31 +94,6 @@ namespace VegankoService.Controllers
 
             return new OkObjectResult("Account created");
         }
-        //public async Task<IActionResult> SignIn()
-        //{
-        //        // This doesn't count login failures towards account lockout
-        //        // To enable password failures to trigger account lockout, 
-        //        // set lockoutOnFailure: true
-        //        var result = await signInManager.PasswordSignInAsync(Input.Email,
-        //            Input.Password, Input.RememberMe, lockoutOnFailure: true);
-        //        if (result.Succeeded)
-        //        {
-        //            logger.LogInformation("User logged in.");
-        //            return Ok();  // bearer Token ?
-        //        }
-        //        if (result.IsLockedOut)
-        //        {
-        //            logger.LogWarning("User account locked out.");
-        //            return BadRequest();
-        //        }
-        //        else
-        //        {
-        //            ModelState.AddModelError(string.Empty, "Invalid login attempt.");
-        //            return BadRequest("Login failed");
-        //        }
 
-        //    // If we got this far, something failed, redisplay form
-        //    return BadRequest();
-        //}
     }
 }
