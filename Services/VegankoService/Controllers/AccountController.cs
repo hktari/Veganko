@@ -4,10 +4,8 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using VegankoService.Data;
 using VegankoService.Helpers;
@@ -82,7 +80,7 @@ namespace VegankoService.Controllers
                 Email = model.Email,
             };
 
-            var result = await userManager.CreateAsync(user, model.PasswordHash );
+            var result = await userManager.CreateAsync(user, model.PasswordHash);
 
             if (!result.Succeeded)
                 return new BadRequestObjectResult(result);
@@ -111,8 +109,8 @@ namespace VegankoService.Controllers
             return new OkObjectResult("Account created");
         }
 
-        [HttpGet]
         [Authorize(Roles = Constants.Strings.Roles.Admin + ", " + Constants.Strings.Roles.Manager)]
+        [HttpGet]
         public ActionResult<PagedList<CustomerProfile>> GetAll(int page = 1, int pageSize = 20)
         {
             page--;
@@ -148,12 +146,11 @@ namespace VegankoService.Controllers
                 Items = customerProfiles.ToList(),
                 Page = page,
                 PageSize = pageSize,
-                TotalCount  = context.Customer.Count()
+                TotalCount = context.Customer.Count()
             };
         }
 
-        //[HttpPut("{id}/role")]
-        //public IActionResult EditRole(string id)
+       
         //  TODO: change  role
 
         //[HttpGet("{id}")]
