@@ -19,6 +19,7 @@ namespace VegankoService.Helpers
             {
                 public const string Admin = "Admin";
                 public const string Manager = "Manager";
+                public const string Moderator = "Moderator";
                 public const string Member = "Member";
             }
         }

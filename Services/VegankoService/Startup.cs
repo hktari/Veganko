@@ -144,7 +144,7 @@ namespace VegankoService
             var UserManager = serviceProvider.GetRequiredService<UserManager<ApplicationUser>>();
             var context = serviceProvider.GetRequiredService<VegankoContext>();
 
-            string[] roleNames = { Constants.Strings.Roles.Admin, Constants.Strings.Roles.Manager, Constants.Strings.Roles.Member };
+            string[] roleNames = { Constants.Strings.Roles.Admin, Constants.Strings.Roles.Manager, Constants.Strings.Roles.Moderator, Constants.Strings.Roles.Member };
             IdentityResult roleResult;
 
             foreach (var roleName in roleNames)

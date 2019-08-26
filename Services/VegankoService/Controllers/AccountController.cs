@@ -14,7 +14,7 @@ using VegankoService.Models.User;
 
 namespace VegankoService.Controllers
 {
-    //TODO: https://fullstackmark.com/post/13/jwt-authentication-with-aspnet-core-2-web-api-angular-5-net-core-identity-and-facebook-login
+    [Authorize(Policy = "ApiUser")]
     [Route("api/account")]
     [ApiController]
     public class AccountController : Controller
@@ -38,7 +38,6 @@ namespace VegankoService.Controllers
         }
 
         [HttpPut("{id}")]
-        [Authorize]
         public async Task<ActionResult<CustomerProfile>> Edit(string id, [FromBody]AccountInput input)
         {
             var customer = context.Customer.FirstOrDefault(c => c.Id == id);

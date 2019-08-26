@@ -12,7 +12,7 @@ using VegankoService.Models.User;
 
 namespace VegankoService.Controllers
 {
-    [Authorize(Roles = Constants.Strings.Roles.Admin + ", " + Constants.Strings.Roles.Manager)]
+    [Authorize(Policy= "ApiUser", Roles = Constants.Strings.Roles.Admin + ", " + Constants.Strings.Roles.Manager)]
     [Route("api/[controller]")]
     [ApiController]
     public class UserRolesController : Controller

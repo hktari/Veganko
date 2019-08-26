@@ -10,9 +10,11 @@ using VegankoService.Models;
 
 namespace VegankoService.Controllers
 {
-    [ApiController]
-    [Authorize(Policy = "ApiUser")]
+    [Authorize(
+        Policy = "ApiUser",
+        Roles = Constants.Strings.Roles.Admin + ", " + Constants.Strings.Roles.Manager + ", " + Constants.Strings.Roles.Moderator)]
     [Route("api/products")]
+    [ApiController]
     public class ProductsController : Controller
     {
         private readonly IProductRepository productRepository;
@@ -23,7 +25,6 @@ namespace VegankoService.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles = Constants.Strings.Roles.Admin + ", " + Constants.Strings.Roles.Manager)]
         public ActionResult<Product> Post(ProductInput input)
         {
             if (input.ImageBase64Encoded  == null)
@@ -39,7 +40,6 @@ namespace VegankoService.Controllers
         }
 
         [HttpPut("{id}")]
-        [Authorize(Roles = Constants.Strings.Roles.Admin + ", " + Constants.Strings.Roles.Manager)]
         public ActionResult<Product> Put(string id, ProductInput input)
         {
             var product = productRepository.Get(id);
@@ -54,7 +54,6 @@ namespace VegankoService.Controllers
         }
 
         [HttpDelete("{id}")]
-        [Authorize(Roles = Constants.Strings.Roles.Admin + ", " + Constants.Strings.Roles.Manager)]
         public IActionResult Delete(string id)
         {
             if (string.IsNullOrWhiteSpace(id))
@@ -69,12 +68,14 @@ namespace VegankoService.Controllers
             return Ok();
         }
 
+        [Authorize(Roles = Constants.Strings.Roles.Member)]
         [HttpGet]
         public ActionResult<PagedList<Product>> GetAll(int page = 1, int count = 10)
         {
             return productRepository.GetAll(page, count);
         }
 
+        [Authorize(Roles = Constants.Strings.Roles.Member)]
         [HttpGet("{id}")]
         public ActionResult<Product> Get(string id)
         {

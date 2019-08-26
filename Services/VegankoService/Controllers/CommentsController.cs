@@ -115,14 +115,21 @@ namespace VegankoService.Controllers
 
             var userIdentity = await userManager.FindByIdAsync(
                 Identity.GetUserIdentityId(caller));
-            var userRoles = await userManager.GetRolesAsync(userIdentity);
-            if (!userRoles.Contains(Constants.Strings.Roles.Admin) && comment.UserId != customer.Id)
+            var userRole = (await userManager.GetRolesAsync(userIdentity)).FirstOrDefault();
+            if (!CanRoleModifyComment(userRole) && comment.UserId != customer.Id)
             {
                 return Forbid();
             }
 
             commentRepository.Delete(id);
             return Ok();
+        }
+
+        private bool CanRoleModifyComment(string role)
+        {
+            return role == Constants.Strings.Roles.Admin
+                || role == Constants.Strings.Roles.Manager
+                || role == Constants.Strings.Roles.Moderator;
         }
     }
 }
