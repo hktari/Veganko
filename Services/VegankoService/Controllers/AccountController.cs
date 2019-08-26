@@ -39,13 +39,24 @@ namespace VegankoService.Controllers
             this.context = context;
         }
 
-        [HttpPut("edit")]
+        [HttpPut("{id}")]
         [Authorize]
-        public async Task<ActionResult<CustomerProfile>> Edit([FromBody]AccountInput input)
+        public async Task<ActionResult<CustomerProfile>> Edit(string id, [FromBody]AccountInput input)
         {
+            var customer = context.Customer.FirstOrDefault(c => c.Id == id);
+
+            if (customer == null)
+            {
+                return NotFound();
+            }
+
+            if (customer.IdentityId != Identity.GetUserIdentityId(httpContextAccessor.HttpContext.User))
+            {
+                return Forbid();
+            }
+
             // Can't be edited here
             input.Email = input.Username = input.PasswordHash = null;
-            var customer = await Identity.CurrentCustomer(httpContextAccessor.HttpContext.User, context);
 
             customer.AvatarId = input.AvatarId;
             customer.ProfileBackgroundId = input.ProfileBackgroundId;
@@ -56,7 +67,7 @@ namespace VegankoService.Controllers
             context.SaveChanges();
 
             var customerProfile = new CustomerProfile(customer);
-            var userID = await Identity.GetUserIdentity(httpContextAccessor.HttpContext.User, userManager);
+            var userID = await userManager.FindByIdAsync(customer.IdentityId);
             customerProfile.Role = (await userManager.GetRolesAsync(userID)).First();
             return customerProfile;
         }
@@ -140,6 +151,10 @@ namespace VegankoService.Controllers
                 TotalCount  = context.Customer.Count()
             };
         }
+
+        //[HttpPut("{id}/role")]
+        //public IActionResult EditRole(string id)
+        //  TODO: change  role
 
         //[HttpGet("{id}")]
         //[Authorize]
