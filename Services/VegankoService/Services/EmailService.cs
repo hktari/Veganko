@@ -1,4 +1,6 @@
 ﻿using MailKit.Net.Smtp;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 using MimeKit;
 using System;
 using System.Collections.Generic;
@@ -9,10 +11,6 @@ namespace VegankoService.Services
 {
     public class EmailService : IEmailService
     {
-        public EmailService()
-        {
-
-        }
         private readonly Dictionary<string, EmailProvider> knownEmailProviders = new Dictionary<string, EmailProvider>
         {
             { "gmail", new EmailProvider("gmail", "smtp.gmail.com", 587) },
@@ -22,12 +20,24 @@ namespace VegankoService.Services
             { "office365", new EmailProvider("office365", "smtp.office365.com", 587) },
         };
 
+        private readonly IConfiguration configuration;
+        private readonly ILogger<EmailService> logger;
+
+        public EmailService(IConfiguration configuration, ILogger<EmailService> logger)
+        {
+            this.configuration = configuration;
+            this.logger = logger;
+        }
+
         public async Task SendEmail(string email, string subject, string message)
         {
+            string senderEmail = configuration["EmailService.Email"];
+            string senderPassword = configuration["EmailService.Password"];
+
             var mimeMsg = new MimeMessage();
             mimeMsg.From.Add(new MailboxAddress
                 ("Veganko",
-                "vegankoapp@gmail.com"));
+                senderEmail));
             mimeMsg.To.Add(new MailboxAddress
                 ("Receiver",
                 email));
@@ -40,20 +50,20 @@ namespace VegankoService.Services
             int atSignIdx = email.IndexOf("@");
             string targetEmailProvider = email.Substring(
                 atSignIdx + 1, email.LastIndexOf('.') - atSignIdx - 1);
-            Console.WriteLine("target email pvovider: " + targetEmailProvider);
+            logger.LogDebug("target email pvovider: " + targetEmailProvider);
 
+            // TODO: error handling
             EmailProvider emProvider = knownEmailProviders[targetEmailProvider];
 
             using (var client = new SmtpClient())
             {
-                // TODO: get hostname port and ssl
                 client.Connect(emProvider.Url, emProvider.Port, emProvider.SSL);
                 client.Authenticate(
-                    "vegankoapp@gmail.com",
-                    "lOh49YRwZDO85oQyfHfo");
+                    senderEmail,
+                    senderPassword);
 
                 await client.SendAsync(mimeMsg);
-                Console.WriteLine("THe mail has been sent successfully !");
+                logger.LogDebug("The mail has been sent successfully !");
 
                 await client.DisconnectAsync(true);
             }
