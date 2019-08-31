@@ -4,13 +4,16 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.Encodings.Web;
 using System.Threading.Tasks;
 using VegankoService.Data;
 using VegankoService.Helpers;
 using VegankoService.Models;
 using VegankoService.Models.User;
+using VegankoService.Services;
 
 namespace VegankoService.Controllers
 {
@@ -24,10 +27,17 @@ namespace VegankoService.Controllers
         private readonly IHttpContextAccessor httpContextAccessor;
         private readonly ILogger<AccountController> logger;
         private readonly VegankoContext context;
+        private readonly IEmailService emailService;
         private readonly IConfiguration configuration;
 
         public AccountController(
-            IConfiguration configuration, UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager, IHttpContextAccessor httpContextAccessor, ILogger<AccountController> logger, VegankoContext context)
+            IConfiguration configuration,
+            UserManager<ApplicationUser> userManager,
+            RoleManager<IdentityRole> roleManager,
+            IHttpContextAccessor httpContextAccessor,
+            ILogger<AccountController> logger,
+            VegankoContext context,
+            IEmailService emailService)
         {
             this.configuration = configuration;
             this.userManager = userManager;
@@ -35,6 +45,7 @@ namespace VegankoService.Controllers
             this.httpContextAccessor = httpContextAccessor;
             this.logger = logger;
             this.context = context;
+            this.emailService = emailService;
         }
 
         [HttpPut("{id}")]
@@ -71,15 +82,16 @@ namespace VegankoService.Controllers
 
         // POST api/accounts
         [HttpPost]
-        public async Task<IActionResult> Post([FromBody]AccountInput model)
+        [AllowAnonymous]
+        public async Task<IActionResult> Post([FromBody]AccountInput input)
         {
             var user = new ApplicationUser
             {
-                UserName = model.Username,
-                Email = model.Email,
+                UserName = input.Username,
+                Email = input.Email,
             };
 
-            var result = await userManager.CreateAsync(user, model.PasswordHash);
+            var result = await userManager.CreateAsync(user, input.PasswordHash);
 
             if (!result.Succeeded)
                 return new BadRequestObjectResult(result);
@@ -92,10 +104,10 @@ namespace VegankoService.Controllers
             var customer = new Customer
             {
                 IdentityId = user.Id,
-                Description = model.Description,
-                Label = model.Label,
-                AvatarId = model.AvatarId,
-                ProfileBackgroundId = model.ProfileBackgroundId,
+                Description = input.Description,
+                Label = input.Label,
+                AvatarId = input.AvatarId,
+                ProfileBackgroundId = input.ProfileBackgroundId,
                 // AccessRights = int.MaxValue, // puno right 
             };
 
@@ -105,7 +117,35 @@ namespace VegankoService.Controllers
             logger.LogDebug($"\nCreated user: " +
                 $"\nId:\t{customer.IdentityId}" +
                 $"\nUsername:\t{user.UserName}");
+
+            var code = await userManager.GenerateEmailConfirmationTokenAsync(user);
+
+            var callbackUrl = Url.Action("confirm_email", "account",
+                   new { userId = user.Id, code = code }, protocol: HttpContext.Request.Scheme);
+            await emailService.SendEmail(input.Email, "Confirm your email", 
+                $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
+
             return new OkObjectResult("Account created");
+        }
+
+        [AllowAnonymous]
+        [HttpGet("confirm_email")]
+        public async Task<IActionResult> ConfirmEmail(string userId, string code)
+        {
+            var user = await userManager.FindByIdAsync(userId);
+
+            if (user == null)
+            {
+                return BadRequest();
+            }
+
+            IdentityResult result = await userManager.ConfirmEmailAsync(user, code);
+            if (!result.Succeeded)
+            {
+                return BadRequest(result.Errors);
+            }
+
+            return Ok();
         }
 
         [Authorize(Roles = Constants.Strings.Roles.Admin + ", " + Constants.Strings.Roles.Manager)]

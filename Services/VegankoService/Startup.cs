@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -26,6 +27,7 @@ using VegankoService.Helpers;
 using System.Net;
 using Microsoft.AspNetCore.Diagnostics;
 using System.IdentityModel.Tokens.Jwt;
+using VegankoService.Services;
 
 namespace VegankoService
 {
@@ -50,6 +52,9 @@ namespace VegankoService
             services.AddSingleton<IJwtFactory, JwtFactory>();
 
             services.TryAddTransient<IHttpContextAccessor, HttpContextAccessor>();
+
+            services.AddTransient<IEmailService, EmailService>();
+            //services.Configure<AuthMessageSenderOptions>(Configuration); ???
 
             // jwt wire up
             // Get options from app settings
@@ -132,7 +137,10 @@ namespace VegankoService
 
             app.UseAuthentication();
 
-            app.UseMvc();
+            app.UseMvc(routes =>
+            {
+                routes.MapRoute("default", "api/{controller=Home}/{action=Index}/{id?}");
+            });
 
             CreateRoles(serviceProvider).Wait();
         }
