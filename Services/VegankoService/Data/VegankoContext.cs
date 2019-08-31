@@ -20,6 +20,8 @@ namespace VegankoService.Data
 
         public DbSet<Customer> Customer { get; set; }
 
+        public DbSet<OTP> OTPs { get; set; }
+
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
                 //optionsBuilder.UseInMemoryDatabase("Products");

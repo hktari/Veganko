@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,6 +23,8 @@ namespace VegankoService.Controllers
     [ApiController]
     public class AccountController : Controller
     {
+        private static Random r = new Random();
+
         private readonly UserManager<ApplicationUser> userManager;
         private readonly RoleManager<IdentityRole> roleManager;
         private readonly IHttpContextAccessor httpContextAccessor;
@@ -189,23 +192,152 @@ namespace VegankoService.Controllers
             };
         }
 
-       
-        //  TODO: change  role
+        [HttpPost("ChangePassword")]
+        public async Task<IActionResult> ChangePassword(ChangePasswordBindingModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
 
-        //[HttpGet("{id}")]
-        //[Authorize]
-        //public ActionResult<CustomerProfile> Get(string id)
-        //{
-        //    Customer customer = context.Customer.FirstOrDefault(c => c.Id == id);
-        //    if (customer == null)
-        //    {
-        //        return NotFound();
-        //    }
-        //    userManager.GEtROl
-        //    var customerProfile = new CustomerProfile(customer);
-        //    customerProfile.Role =   context.UserRoles.Join()
-        //        .First(idr => idr.UserId == Identity.GetUserIdentityId(HttpContext.User))
-        //        .
-        //}
+            ApplicationUser user = await Identity.GetUserIdentity(httpContextAccessor.HttpContext.User, userManager);
+
+            IdentityResult result = await userManager.ChangePasswordAsync(user, model.OldPassword, model.NewPassword);
+
+            if (!result.Succeeded)
+            {
+                return BadRequest(result);
+            }
+
+            return Ok();
+        }
+
+        [HttpPost("ForgotPassword")]
+        [AllowAnonymous]
+        public async Task<IActionResult> ForgotPassword(ForgotPasswordInput input)
+        {
+            if (ModelState.IsValid)
+            {
+                var user = await userManager.FindByEmailAsync(input.Email);
+                //If user has to activate his email to confirm his account, the use code listing below
+                if (user == null || !(await userManager.IsEmailConfirmedAsync(user)))
+                {
+                    logger.LogDebug("Forgot password: user not found or account is unconfirmed: " + input.Email);
+
+                    return Ok();
+                }
+
+                string code = string.Empty;
+                for (int i = 0; i < 6; i++)
+                {
+                    code += r.Next(0, 10);
+                }
+
+                OTP otp = context.OTPs.FirstOrDefault(o => o.IdentityId == user.Id);
+                if (otp == null)
+                {
+                    context.OTPs.Add(otp = new OTP
+                    {
+                        Code = int.Parse(code),
+                        IdentityId = user.Id,
+                        Timestamp = DateTime.UtcNow
+                    });
+                }
+                else
+                {
+                    otp.Code = int.Parse(code);
+                    otp.Timestamp = DateTime.UtcNow;
+                    context.OTPs.Update(otp);
+                }
+
+                await context.SaveChangesAsync();
+                
+                //string code = await userManager.GeneratePasswordResetTokenAsync(user);
+                
+                await emailService.SendEmail(user.Email, "Reset Password", $"Please reset your password by using this {code}");
+                return Ok();
+            }
+
+            // If we got this far, something failed, redisplay form
+            return BadRequest(ModelState);
+        }
+
+        [HttpPost("otp")]
+        [AllowAnonymous]
+        public async Task<IActionResult> ValidateOTP(ValidateOTPInput input)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            var user = await userManager.FindByEmailAsync(input.Email);
+            if (user == null)
+            {
+                // Don't reveal that the user does not exist
+                logger.LogDebug("Validate OTP: user doesn't exist: " + input.Email);
+                return Ok();
+            }
+
+            OTP otp = context.OTPs.FirstOrDefault(o => o.IdentityId == user.Id);
+            if (otp == null)
+            {
+                logger.LogDebug("Validate OTP: not otp found for user: " + user.Email);
+                return Ok();
+            }
+
+            IActionResult result = null;
+
+            if (otp.Timestamp.Add(TimeSpan.FromMinutes(30)) < DateTime.UtcNow)
+            {
+                context.OTPs.Remove(otp);
+                result = BadRequest("OTP expired.");
+            }
+            else if (otp.Code != input.OTP)
+            {
+                if (otp.LoginCount > 5)
+                {
+                    context.OTPs.Remove(otp);
+                    result = Forbid("Too many invalid requests.");
+                }
+                else
+                {
+                    otp.LoginCount++;
+                    context.OTPs.Update(otp);
+                    result = BadRequest("Wrong password.");
+                }
+            }
+            else
+            {
+                string token = await userManager.GeneratePasswordResetTokenAsync(user);
+                result = Ok(token);
+                context.OTPs.Remove(otp);
+                logger.LogDebug("OTP validation successful.");
+            }
+            
+            await context.SaveChangesAsync();
+            return result;
+        }
+
+        [HttpPost("ResetPassword")]
+        [AllowAnonymous]
+        public async Task<IActionResult> ResetPassword(ResetPasswordInput input)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            var user = await userManager.FindByEmailAsync(input.Email);
+            if (user == null)
+            {
+                // Don't reveal that the user does not exist
+                return Ok();
+            }
+            var result = await userManager.ResetPasswordAsync(user, input.Token, input.Password);
+            if (result.Succeeded)
+            {
+                return Ok();
+            }
+            return Ok();
+        }
     }
 }

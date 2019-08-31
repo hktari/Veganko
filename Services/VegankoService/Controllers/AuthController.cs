@@ -43,7 +43,7 @@ namespace VegankoService.Controllers
             if (userToVerify == null)
                 return LoginFailed();
 
-            if (await _userManager.CheckPasswordAsync(userToVerify, credentials.Password))
+            if (!await _userManager.CheckPasswordAsync(userToVerify, credentials.Password))
             {
                 return LoginFailed();
             }

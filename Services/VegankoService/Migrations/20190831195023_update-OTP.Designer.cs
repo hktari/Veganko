@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using VegankoService.Data;
 
 namespace VegankoService.Migrations
 {
     [DbContext(typeof(VegankoContext))]
-    partial class VegankoContextModelSnapshot : ModelSnapshot
+    [Migration("20190831195023_update-OTP")]
+    partial class updateOTP
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -260,8 +262,6 @@ namespace VegankoService.Migrations
                     b.Property<int>("Code");
 
                     b.Property<string>("IdentityId");
-
-                    b.Property<int>("LoginCount");
 
                     b.Property<DateTime>("Timestamp");
 
