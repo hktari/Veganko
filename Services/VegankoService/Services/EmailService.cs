@@ -31,8 +31,8 @@ namespace VegankoService.Services
 
         public async Task SendEmail(string email, string subject, string message)
         {
-            string senderEmail = configuration["EmailService.Email"];
-            string senderPassword = configuration["EmailService.Password"];
+            string senderEmail = configuration.GetSection("EmailService")["Email"];
+            string senderPassword = configuration.GetSection("EmailService")["Password"];
 
             var mimeMsg = new MimeMessage();
             mimeMsg.From.Add(new MailboxAddress
