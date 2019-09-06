@@ -247,6 +247,7 @@ namespace VegankoService.Controllers
                 {
                     otp.Code = int.Parse(code);
                     otp.Timestamp = DateTime.UtcNow;
+                    otp.LoginCount = 0;
                     context.OTPs.Update(otp);
                 }
 
