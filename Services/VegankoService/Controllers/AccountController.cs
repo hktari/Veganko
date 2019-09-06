@@ -67,7 +67,7 @@ namespace VegankoService.Controllers
             }
 
             // Can't be edited here
-            input.Email = input.Username = input.PasswordHash = null;
+            input.Email = input.Username = input.Password = null;
 
             customer.AvatarId = input.AvatarId;
             customer.ProfileBackgroundId = input.ProfileBackgroundId;
@@ -94,7 +94,7 @@ namespace VegankoService.Controllers
                 Email = input.Email,
             };
 
-            var result = await userManager.CreateAsync(user, input.PasswordHash);
+            var result = await userManager.CreateAsync(user, input.Password);
 
             if (!result.Succeeded)
                 return new BadRequestObjectResult(result);

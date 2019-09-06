@@ -10,8 +10,8 @@ namespace Veganko.Services
     public interface IAccountService
     {
         User User { get; }
-        bool CreateAccount(string username, string password);
-        bool Login(string username, string password);
+        Task CreateAccount(User user, string password);
+        Task Login(string username, string password);
         Task<bool> LoginWithFacebook();
         bool Logout();
     }

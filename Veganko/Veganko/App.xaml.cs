@@ -9,6 +9,8 @@ using Microsoft.AppCenter;
 using Microsoft.AppCenter.Analytics;
 using Microsoft.AppCenter.Crashes;
 using System.Net;
+using Veganko.Services.Http;
+using Autofac;
 
 namespace Veganko
 {
@@ -19,15 +21,28 @@ namespace Veganko
         );
         public static IAuthenticate Authenticator { get; private set; }
 
+        public static IContainer IoC { get; private set; }
+
         public App ()
 		{
 			InitializeComponent();
+
+            SetupDependencies();
+
 #if DEBUG && __ANDROID__
             HotReloader.Current.Run(this);
 #endif
             MainPage = new Loginpage();
 
             //MainPage = new MainPage();
+        }
+
+        private void SetupDependencies()
+        {
+            ContainerBuilder builder = new ContainerBuilder();
+            builder.RegisterType<RestService>().As<IRestService>().SingleInstance();
+            builder.RegisterType<AccountService>().As<IAccountService>().SingleInstance();
+            IoC = builder.Build();
         }
 
         public static void Init(IAuthenticate authenticator)

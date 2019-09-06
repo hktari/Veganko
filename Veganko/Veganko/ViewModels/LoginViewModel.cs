@@ -9,6 +9,7 @@ using Veganko.Models.User;
 using Veganko.Services;
 using Veganko.Views;
 using Xamarin.Forms;
+using Autofac;
 
 namespace Veganko.ViewModels
 {
@@ -28,7 +29,7 @@ namespace Veganko.ViewModels
 
         private void Login(object obj)
         {
-            IAccountService accountService = DependencyService.Get<IAccountService>();
+            IAccountService accountService = App.IoC.Resolve<IAccountService>();
 
             string username = null;
             string password = null;
@@ -47,7 +48,7 @@ namespace Veganko.ViewModels
                 uac = UserAccessRights.ProductsRead | UserAccessRights.ProductsWrite;
             }
 
-            accountService.CreateAccount(username, password);
+            accountService.CreateAccount(new User { Username = username }, password);
             accountService.Login(username, password);
             accountService.User.AccessRights = uac;
 

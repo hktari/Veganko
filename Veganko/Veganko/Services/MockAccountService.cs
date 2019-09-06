@@ -7,7 +7,6 @@ using Veganko.Models;
 using Veganko.Models.User;
 using Veganko.Other;
 
-[assembly: Xamarin.Forms.Dependency(typeof(Veganko.Services.MockAccountService))]
 namespace Veganko.Services
 {
     class MockAccountService : IAccountService
@@ -16,36 +15,35 @@ namespace Veganko.Services
         public User User { get; private set; }
 
         private List<User> userDatabase = new List<User>();
+        private Dictionary<string, string> userPasswords = new Dictionary<string, string>();
 
-        public bool CreateAccount(string username, string password)
+        public Task CreateAccount(User user, string password)
         {
             // check if username exists
-            if (userDatabase.Exists(u => u.Username == username))
-                return false;
+            if (userDatabase.Exists(u => u.Username == user.Username))
+                throw new Exception("Exists !");
+
             var hashedPassword = Helper.CalculateBase64Sha256Hash(password);
             var curId = IdCounter.ToString();
             IdCounter++;
-            var user = new User
-            {
-                Id = curId,
-                Username = username,
-                Password = hashedPassword,
-                AvatarId = Images.AvatarImageSource.First().Id,
-                ProfileBackgroundId = Images.BackgroundImageSource.First().Id,
-            };
+            
             userDatabase.Add(user);
-            return true;
+            userPasswords.Add(user.Id, hashedPassword);
+
+            return Task.CompletedTask;
         }
 
-        public bool Login(string username, string password)
+        public Task Login(string username, string password)
         {
             var user = userDatabase.Find(u => u.Username == username);
-            if (user != null && Helper.CalculateBase64Sha256Hash(password) == user.Password)
+            if (user == null || Helper.CalculateBase64Sha256Hash(password) != userPasswords[user.Id])
             {
-                User = user;
-                return true;
+                throw new Exception("Invalid credentials.");
             }
-            return false;            
+
+            User = user;
+
+            return Task.CompletedTask;
         }
 
         public bool Logout()

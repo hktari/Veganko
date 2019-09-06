@@ -11,7 +11,7 @@ namespace Veganko.Models.User
         public string ProfileBackgroundId { get; set; }
         public string AvatarId { get; set; }
         public string Username { get; set; }
-        public string Password { get; set; }
+        public string Email { get; set; }
         public string Description { get; set; }
         public string Label { get; set; }
         public List<int> Favorites { get; set; }

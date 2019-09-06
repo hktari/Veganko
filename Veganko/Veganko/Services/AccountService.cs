@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using RestSharp;
 using System;
 using System.Collections.Generic;
 using System.Net.Http;
@@ -6,22 +7,43 @@ using System.Text;
 using System.Threading.Tasks;
 using Veganko.Models;
 using Veganko.Models.User;
+using Veganko.Services.Http;
 
 //[assembly: Xamarin.Forms.Dependency(typeof(Veganko.Services.AccountService))]
 namespace Veganko.Services
 {
     class AccountService : IAccountService
     {
-        public User User { get; private set; }
+        private readonly IRestService restService;
 
-        public bool CreateAccount(string username, string password)
+        public AccountService(IRestService restService)
         {
-            throw new NotImplementedException();
+            this.restService = restService;
         }
 
-        public bool Login(string username, string password)
+        public User User { get; private set; }
+
+        public Task CreateAccount(User user, string password)
         {
-            throw new NotImplementedException();
+            RestRequest request = new RestRequest("account", Method.POST);
+            request.AddJsonBody(
+                new
+                {
+                    userName = user.Username,
+                    email = user.Email,
+                    password,
+                    description = user.Description,
+                    label = user.Label,
+                    avatarId = user.AvatarId,
+                    profileBackgroundId = user.ProfileBackgroundId
+                });
+
+            return restService.ExecuteAsync(request);
+        }
+
+        public Task Login(string username, string password)
+        {
+            return restService.Login(username, password);
         }
 
         public async Task<bool> LoginWithFacebook()
