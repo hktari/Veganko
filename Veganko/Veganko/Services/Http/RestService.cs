@@ -22,6 +22,7 @@ namespace Veganko.Services.Http
         {
             client = new RestClient(Endpoint)
                 .UseSerializer(() => new JsonNetSerializer());
+            client.RemoteCertificateValidationCallback = (p1, p2, p3, p4) => true;
         }
 
         public async Task Login(string username, string password)
@@ -40,19 +41,26 @@ namespace Veganko.Services.Http
             this.password = password;
         }
 
-        public async Task<TModel> ExecuteAsync<TModel>(RestRequest request)
+        public async Task<TModel> ExecuteAsync<TModel>(RestRequest request, bool authorize = true)
             where TModel : new()
         {
-            await HandleAuthorization(request);
+            if (authorize)
+            {
+                await HandleAuthorization(request);
+            }
+
             IRestResponse<TModel> response = await client.ExecuteTaskAsync<TModel>(request);
             AssertResponseSuccess(response);
 
             return response.Data;
         }
 
-        public async Task<IRestResponse> ExecuteAsync(RestRequest request)
+        public async Task<IRestResponse> ExecuteAsync(RestRequest request, bool authorize = true)
         {
-            await HandleAuthorization(request);
+            if (authorize)
+            {
+                await HandleAuthorization(request);
+            }
 
             IRestResponse response = await client.ExecuteTaskAsync(request);
             AssertResponseSuccess(response);
@@ -81,7 +89,7 @@ namespace Veganko.Services.Http
             {
                 string debugMsg = $"Http request failed: \n{response.Request.Resource}\n{response.Request.Method}\n{response.StatusCode}: {response.StatusDescription}";
                 Console.WriteLine(debugMsg);
-                throw new Exception(debugMsg);
+                throw new ServiceException(response.Content, response.StatusDescription, response.Request.Resource, response.Request.Method.ToString());
             }
         }
 

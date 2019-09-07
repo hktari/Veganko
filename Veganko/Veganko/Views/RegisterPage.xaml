@@ -145,7 +145,7 @@
                             Text="Ponovi geslo"
                             TextColor="Black" />
                         <Frame Style="{StaticResource EntryFrameStyle}">
-                            <Entry FontSize="16" IsPassword="True">
+                            <Entry FontSize="16" IsPassword="True" Text="{Binding ConfirmPassword}">
                                 <Entry.Effects>
                                     <effects:CustomEntryEffect />
                                 </Entry.Effects>

@@ -38,7 +38,7 @@ namespace Veganko.Services
                     profileBackgroundId = user.ProfileBackgroundId
                 });
 
-            return restService.ExecuteAsync(request);
+            return restService.ExecuteAsync(request, false);
         }
 
         public Task Login(string username, string password)
@@ -50,7 +50,7 @@ namespace Veganko.Services
         {
             RestRequest request = new RestRequest("account/forgotpassword", Method.POST);
             request.AddJsonBody(new { email });
-            return restService.ExecuteAsync(request);
+            return restService.ExecuteAsync(request, false);
         }
 
         public Task ResetPassword(string email, string token, string newPassword)
@@ -64,7 +64,7 @@ namespace Veganko.Services
                     password = newPassword,
                 });
 
-            return restService.ExecuteAsync(request);
+            return restService.ExecuteAsync(request, false);
         }
 
         public async Task<string> ValidateOTP(string email, int otp)
@@ -77,7 +77,7 @@ namespace Veganko.Services
                     email
                 });
 
-            IRestResponse response = await restService.ExecuteAsync(request);
+            IRestResponse response = await restService.ExecuteAsync(request, false);
             return response.Content;
         }
 
