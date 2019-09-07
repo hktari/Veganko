@@ -155,7 +155,7 @@
                                 Grid.Column="2"
                                 FontSize="Small"
                                 HorizontalOptions="End"
-                                Text="{Binding DatePosted, StringFormat='{}{0:dd.MM.yyyy'}"
+                                Text="{Binding DatePosted, StringFormat='{}{0:dd.MM.yyyy}'}"
                                 TextColor="LightGray" />
                             <Label
                                 Grid.Row="1"

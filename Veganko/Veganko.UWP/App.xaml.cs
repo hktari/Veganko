@@ -1,4 +1,5 @@
-﻿using ImageCircle.Forms.Plugin.UWP;
+﻿using FFImageLoading.Forms.Platform;
+using ImageCircle.Forms.Plugin.UWP;
 using Microsoft.WindowsAzure.MobileServices;
 using System;
 using System.Collections.Generic;
@@ -69,6 +70,7 @@ namespace Veganko.UWP
 
                 ImageCircleRenderer.Init();
                 ZXing.Net.Mobile.Forms.WindowsUniversal.ZXingScannerViewRenderer.Init();
+                CachedImageRenderer.Init();
 
                 if (e.PreviousExecutionState == ApplicationExecutionState.Terminated)
                 {

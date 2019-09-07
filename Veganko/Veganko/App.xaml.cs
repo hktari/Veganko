@@ -9,6 +9,8 @@ using Microsoft.AppCenter;
 using Microsoft.AppCenter.Analytics;
 using Microsoft.AppCenter.Crashes;
 using System.Net;
+using Veganko.Services.Http;
+using Autofac;
 
 namespace Veganko
 {
@@ -19,19 +21,26 @@ namespace Veganko
         );
         public static IAuthenticate Authenticator { get; private set; }
 
+        public static IContainer IoC { get; private set; }
+
         public App ()
 		{
 			InitializeComponent();
+
+            SetupDependencies();
+
 #if DEBUG && __ANDROID__
-            HotReloader.Current.Run(this,
-                new HotReloader.Configuration
-                {
-                    ExtensionIpAddress = IPAddress.Parse("192.168.1.243"),
-                    DeviceUrlPort = 8000,
-                    ExtensionAutoDiscoveryPort = 15000
-                });
+            HotReloader.Current.Run(this);
 #endif
             MainPage = new NavigationPage(new Loginpage());
+        }
+
+        private void SetupDependencies()
+        {
+            ContainerBuilder builder = new ContainerBuilder();
+            builder.RegisterType<RestService>().As<IRestService>().SingleInstance();
+            builder.RegisterType<AccountService>().As<IAccountService>().SingleInstance();
+            IoC = builder.Build();
         }
 
         public static void Init(IAuthenticate authenticator)
@@ -41,11 +50,12 @@ namespace Veganko
 
         protected override void OnStart ()
 		{
+#if DEBUG
             AppCenter.Start(
                 "android=daa6adb5-45f6-42a5-9612-34de5f472a92;",
                 typeof(Analytics),
                 typeof(Crashes));      
-            
+#endif
             //if (MobileService.CurrentUser != null)
             //    MainPage = new MainPage();
             //else

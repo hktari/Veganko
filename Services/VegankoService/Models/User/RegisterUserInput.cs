@@ -1,0 +1,18 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+
+namespace VegankoService.Models.User
+{
+    public class AccountInput
+    {
+        public string Username { get; set; }
+        public string Email { get; set; }
+        public string Password { get; set; }
+        public string ProfileBackgroundId { get; set; }
+        public string AvatarId { get; set; }
+        public string Description { get; set; }
+        public string Label { get; set; }
+    }
+}

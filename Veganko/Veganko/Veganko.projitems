@@ -31,6 +31,9 @@
     <Compile Include="$(MSBuildThisFileDirectory)Models\FacebookProfile.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\Favorite.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\User\UserPublicInfo.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Services\Http\IRestService.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Services\Http\RestService.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Services\Http\Token.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\IUserService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\MockUserService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\CommentViewModel.cs" />
