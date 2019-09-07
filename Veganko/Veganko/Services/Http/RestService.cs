@@ -25,19 +25,25 @@ namespace Veganko.Services.Http
             client.RemoteCertificateValidationCallback = (p1, p2, p3, p4) => true;
         }
 
-        public async Task Login(string username, string password)
+        public async Task Login(string email, string password)
         {
             RestRequest loginRequest = new RestRequest("auth/login", Method.POST);
             loginRequest.AddJsonBody(
                 new
                 {
-                    username,
+                    email,
                     password
                 });
 
-            curToken = await ExecuteAsync<Token>(loginRequest);
+            var response = await client.ExecuteTaskAsync<LoginResponse>(loginRequest);
+            if (response.Data.Error != null)
+            {
+                throw new ServiceException(response.Data.Error, response.StatusDescription, loginRequest.Resource, loginRequest.Method.ToString());
+            }
+
+            curToken = response.Data.Token;
             curToken.ExpiresAtUtc = DateTime.UtcNow.AddSeconds(curToken.ExpiresIn);
-            this.username = username;
+            this.username = email;
             this.password = password;
         }
 
@@ -49,9 +55,17 @@ namespace Veganko.Services.Http
                 await HandleAuthorization(request);
             }
 
-            IRestResponse<TModel> response = await client.ExecuteTaskAsync<TModel>(request);
-            AssertResponseSuccess(response);
+            IRestResponse<TModel> response;
+            try
+            {
+                response = await client.ExecuteTaskAsync<TModel>(request);
+            }
+            catch (Exception ex)
+            {
+                throw new ServiceException("Neznana napaka.", null, request.Resource, request.Method.ToString(), ex);
+            }
 
+            AssertResponseSuccess(response);
             return response.Data;
         }
 
@@ -61,7 +75,7 @@ namespace Veganko.Services.Http
             {
                 await HandleAuthorization(request);
             }
-
+            
             IRestResponse response = await client.ExecuteTaskAsync(request);
             AssertResponseSuccess(response);
             return response;

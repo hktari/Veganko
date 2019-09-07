@@ -10,6 +10,7 @@ using Veganko.Services;
 using Veganko.Views;
 using Xamarin.Forms;
 using Autofac;
+using System.Threading.Tasks;
 
 namespace Veganko.ViewModels
 {
@@ -17,7 +18,6 @@ namespace Veganko.ViewModels
     {
         public string SelectedUserType { get; set; } = "user";
 
-        public Command LoginCommand => new Command(Login);
         public User User { get; set; }
 
         bool authenticated = false;
@@ -41,38 +41,28 @@ namespace Veganko.ViewModels
             set => SetProperty(ref email, value);
         }
 
-        private async void Login(object obj)
+        public async Task Login()
         {
             IAccountService accountService = App.IoC.Resolve<IAccountService>();
 
-            string username = null;
-            string password = null;
-            UserAccessRights uac;
-            bool adminAccess = false;
-
             if (SelectedUserType == "admin")
             {
+                string username = null;
+                string password = null;
+                UserAccessRights uac;
+                bool adminAccess = false;
+
                 username = password = "admin";
                 uac = UserAccessRights.All;
                 adminAccess = true;
+                await accountService.CreateAccount(new User { Username = username }, password);
+                await accountService.Login(username, password);
+                accountService.User.AccessRights = uac;
             }
             else
             {
-                username = password = "user";
-                uac = UserAccessRights.ProductsRead | UserAccessRights.ProductsWrite;
+                await accountService.Login(email, password);
             }
-
-            accountService.CreateAccount(new User { Username = username }, password);
-            accountService.Login(username, password);
-            accountService.User.AccessRights = uac;
-
-            App.Current.MainPage = new MainPage(adminAccess);
-            //var authenticated = await DependencyService.Get<IAccountService>().LoginWithFacebook();
-
-            //if (authenticated)
-            //{
-            //    App.Current.MainPage = new MainPage();
-            //}
         }
     }
 }

@@ -8,7 +8,7 @@ namespace Veganko.Services.Http
 {
     public interface IRestService
     {
-        Task Login(string username, string password);
+        Task Login(string email, string password);
 
         Task<IRestResponse> ExecuteAsync(RestRequest request, bool authorize = true);
 

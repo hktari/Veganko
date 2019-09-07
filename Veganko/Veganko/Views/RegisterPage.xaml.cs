@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Veganko.Extensions;
 using Veganko.Services.Http;
 using Veganko.ViewModels;
 using Xamarin.Forms;
@@ -27,7 +28,7 @@ namespace Veganko.Views
             {
                 if (vm.Password != vm.ConfirmPassword)
                 {
-                    await DisplayAlert("Napaka", "Gesla se ne ujemata.", "OK");
+                    await this.Err("Gesla se ne ujemata.");
                 }
 
                 await vm.RegisterUser();
@@ -36,7 +37,7 @@ namespace Veganko.Views
             catch (ServiceException ex)
             {
 
-                await DisplayAlert("Napaka", "Napaka pri registraciji: " + ex.Response, "OK");
+                await this.Err("Napaka pri registraciji: " + ex.Response);
             }
         }
 	}

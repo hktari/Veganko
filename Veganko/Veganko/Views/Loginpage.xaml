@@ -129,7 +129,7 @@
                     <Grid HeightRequest="50" VerticalOptions="EndAndExpand">
                         <Button
                             BackgroundColor="White"
-                            Command="{Binding LoginCommand}"
+                            Clicked="OnLoginBtnClicked"
                             FontSize="24"
                             HeightRequest="50"
                             Text="LOGIN" />

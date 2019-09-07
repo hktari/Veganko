@@ -7,6 +7,15 @@ namespace Veganko.Services.Http
     class ServiceException : Exception
     {
         public ServiceException(string response, string statusDescription, string resource, string method)
+            : this(response, statusDescription, resource, method, null)
+        {
+            Response = response;
+            StatusDescription = statusDescription;
+            Resource = resource;
+            Method = method;
+        }
+
+        public ServiceException(string response, string statusDescription, string resource, string method, Exception innerException)
         {
             Response = response;
             StatusDescription = statusDescription;

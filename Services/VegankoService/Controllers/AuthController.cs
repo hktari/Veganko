@@ -11,6 +11,7 @@ using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
 using VegankoService.Models.User;
 using System.Collections.Generic;
+using VegankoService.Models.Auth;
 
 namespace VegankoService.Controllers
 {
@@ -34,11 +35,11 @@ namespace VegankoService.Controllers
         [HttpPost("login")]
         public async Task<IActionResult> Post([FromBody]CredentialsInput credentials)
         {
-            if (string.IsNullOrEmpty(credentials.UserName) || string.IsNullOrEmpty(credentials.Password))
+            if (string.IsNullOrEmpty(credentials.Email) || string.IsNullOrEmpty(credentials.Password))
                 return LoginFailed();
 
             // get the user to verifty
-            var userToVerify = await _userManager.FindByNameAsync(credentials.UserName);
+            var userToVerify = await _userManager.FindByEmailAsync(credentials.Email);
 
             if (userToVerify == null)
                 return LoginFailed();
@@ -50,18 +51,25 @@ namespace VegankoService.Controllers
 
             // check the credentials
             if (!userToVerify.EmailConfirmed)
-                return BadRequest("Email not confirmed.");
+            {
+                return BadRequest(new LoginResponse { Error = "Email not confirmed." });
+            }
 
             IList<string> roles = await _userManager.GetRolesAsync(userToVerify);
-            ClaimsIdentity identity = _jwtFactory.GenerateClaimsIdentity(credentials.UserName, userToVerify.Id, roles);
+            ClaimsIdentity identity = _jwtFactory.GenerateClaimsIdentity(credentials.Email, userToVerify.Id, roles);
 
-            var jwt = await Tokens.GenerateJwt(identity, _jwtFactory, credentials.UserName, _jwtOptions, new JsonSerializerSettings { Formatting = Formatting.Indented });
-            return new OkObjectResult(jwt);
+            var jwt = await Tokens.GenerateJwt(identity, _jwtFactory, credentials.Email, _jwtOptions);
+            return new OkObjectResult(
+                new LoginResponse { Token = jwt } );
         }
 
         private BadRequestObjectResult LoginFailed()
         {
-            return BadRequest("Invalid username or password.");
+            return BadRequest(
+                new LoginResponse
+                {
+                    Error = "Invalid username or password."
+                });
         }
     }
 }

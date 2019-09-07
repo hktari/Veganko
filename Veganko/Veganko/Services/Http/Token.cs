@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Veganko.Services.Http
 {
-    class Token
+    public class Token
     {
         [JsonProperty("id")]
         public string Id { get; set; }

@@ -41,9 +41,9 @@ namespace Veganko.Services
             return restService.ExecuteAsync(request, false);
         }
 
-        public Task Login(string username, string password)
+        public Task Login(string email, string password)
         {
-            return restService.Login(username, password);
+            return restService.Login(email, password);
         }
 
         public Task ForgotPassword(string email)
