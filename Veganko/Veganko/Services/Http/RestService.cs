@@ -44,19 +44,19 @@ namespace Veganko.Services.Http
             where TModel : new()
         {
             await HandleAuthorization(request);
-
             IRestResponse<TModel> response = await client.ExecuteTaskAsync<TModel>(request);
             AssertResponseSuccess(response);
 
             return response.Data;
         }
 
-        public async Task ExecuteAsync(RestRequest request)
+        public async Task<IRestResponse> ExecuteAsync(RestRequest request)
         {
             await HandleAuthorization(request);
 
             IRestResponse response = await client.ExecuteTaskAsync(request);
             AssertResponseSuccess(response);
+            return response;
         }
 
         private async Task HandleAuthorization(RestRequest request)

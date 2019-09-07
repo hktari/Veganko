@@ -46,6 +46,41 @@ namespace Veganko.Services
             return restService.Login(username, password);
         }
 
+        public Task ForgotPassword(string email)
+        {
+            RestRequest request = new RestRequest("account/forgotpassword", Method.POST);
+            request.AddJsonBody(new { email });
+            return restService.ExecuteAsync(request);
+        }
+
+        public Task ResetPassword(string email, string token, string newPassword)
+        {
+            RestRequest request = new RestRequest("account/resetpassword", Method.POST);
+            request.AddJsonBody(
+                new
+                {
+                    email,
+                    token,
+                    password = newPassword,
+                });
+
+            return restService.ExecuteAsync(request);
+        }
+
+        public async Task<string> ValidateOTP(string email, int otp)
+        {
+            RestRequest request = new RestRequest("account/otp", Method.POST);
+            request.AddJsonBody(
+                new
+                {
+                    otp,
+                    email
+                });
+
+            IRestResponse response = await restService.ExecuteAsync(request);
+            return response.Content;
+        }
+
         public async Task<bool> LoginWithFacebook()
         {
             if (App.Authenticator == null)

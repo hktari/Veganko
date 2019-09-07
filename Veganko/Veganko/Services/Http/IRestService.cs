@@ -10,7 +10,7 @@ namespace Veganko.Services.Http
     {
         Task Login(string username, string password);
 
-        Task ExecuteAsync(RestRequest request);
+        Task<IRestResponse> ExecuteAsync(RestRequest request);
 
         Task<TModel> ExecuteAsync<TModel>(RestRequest request)
             where TModel : new();

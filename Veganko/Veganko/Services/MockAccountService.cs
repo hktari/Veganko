@@ -56,5 +56,20 @@ namespace Veganko.Services
         {
             throw new NotImplementedException();
         }
+
+        public Task ForgotPassword(string email)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task ResetPassword(string email, string token, string newPassword)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<string> ValidateOTP(string email, int otp)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
