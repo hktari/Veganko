@@ -22,6 +22,7 @@ namespace Veganko.Services
         public Task<Product> AddAsync(Product item)
         {
             RestRequest request = new RestRequest("products", Method.POST);
+            request.AddJsonBody(item);
             return restService.ExecuteAsync<Product>(request);
         }
 
@@ -51,6 +52,7 @@ namespace Veganko.Services
         public Task<Product> UpdateAsync(Product item)
         {
             RestRequest request = new RestRequest($"products/{item.Id}", Method.PUT);
+            request.AddJsonBody(item);
             return restService.ExecuteAsync<Product>(request);
         }
 

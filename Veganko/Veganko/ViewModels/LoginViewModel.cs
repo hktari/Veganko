@@ -24,6 +24,10 @@ namespace Veganko.ViewModels
 
         public LoginViewModel()
         {
+#if DEBUG
+            Email = "bkamnik1995@gmail.com";
+            Password = "hello123";
+#endif
         }
 
         private string password;
