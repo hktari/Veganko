@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Veganko.Extensions;
 using Veganko.Models;
+using Veganko.Services.Http;
 using Veganko.ViewModels;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
@@ -37,7 +39,14 @@ namespace Veganko.Views
             if (result == "Yes")
             {
                 var mi = ((MenuItem)sender);
-                await vm.DeleteProduct((Veganko.Models.Product)mi.CommandParameter);
+                try
+                {
+                    await vm.DeleteProduct((Veganko.Models.Product)mi.CommandParameter);
+                }
+                catch (ServiceException ex)
+                {
+                    await this.Err("Napak pri brisanju: " + ex.Response);
+                }
             }
         }
 

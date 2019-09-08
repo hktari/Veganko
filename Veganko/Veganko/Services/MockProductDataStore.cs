@@ -225,6 +225,26 @@ namespace Veganko.Services
             IEnumerable<Product> result = items.Where(p => p.State == ProductState.PendingApproval);
             return Task.FromResult(result);
         }
+
+        Task<Product> IProductService.AddAsync(Product item)
+        {
+            throw new NotImplementedException();
+        }
+
+        Task<Product> IProductService.UpdateAsync(Product item)
+        {
+            throw new NotImplementedException();
+        }
+
+        Task IProductService.DeleteAsync(Product item)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<PagedList<Product>> AllAsync(int page = 1, int pageSize = 10, bool forceRefresh = false, bool includeUnapproved = false)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
 

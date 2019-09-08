@@ -40,6 +40,7 @@ namespace Veganko
             ContainerBuilder builder = new ContainerBuilder();
             builder.RegisterType<RestService>().As<IRestService>().SingleInstance();
             builder.RegisterType<AccountService>().As<IAccountService>().SingleInstance();
+            builder.RegisterType<ProductDataStore>().As<IProductService>().SingleInstance();
             IoC = builder.Build();
         }
 

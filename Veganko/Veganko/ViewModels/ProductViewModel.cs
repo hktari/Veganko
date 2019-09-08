@@ -12,6 +12,7 @@ using Veganko.Models;
 using Veganko.Models.User;
 using Veganko.Other;
 using Veganko.Services;
+using Veganko.Services.Http;
 using Veganko.Views;
 using Xamarin.Forms;
 using Xamarin.Forms.Internals;
@@ -24,7 +25,6 @@ namespace Veganko.ViewModels
         public Command SearchClickedCommand => new Command(OnSearchClicked);
         public Command SearchBarcodeCommand => new Command(OnBarcodeSearch);
         public Command SwitchFilteringOptions => new Command(OnSwitchFilteringOptions);
-        public Command<Product> NewProductAddedCommand => new Command<Product>(OnNewProductAdded);
 
         private UserRole userRole;
         public UserRole UserRole
@@ -188,8 +188,9 @@ namespace Veganko.ViewModels
             {
                 SearchText = string.Empty;
                 UnapplyFilters();
+                // TODO: handle pages
                 Products = new List<Product>(
-                    await productService.AllAsync(true));
+                    (await productService.AllAsync(forceRefresh: true)).Items);
                 SetSearchResults(Products);
             }
             catch (Exception ex)
@@ -204,16 +205,10 @@ namespace Veganko.ViewModels
 
         public async Task DeleteProduct(Product product)
         {
-            if (await productService.DeleteAsync(product))
-            {
-                Debug.Assert(Products != null);
-                Products.Remove(product);
-                SearchResult.Remove(product);
-            }
-            else
-            {
-                // TODO: Notify user
-            }
+            await productService.DeleteAsync(product);
+            Debug.Assert(Products != null);
+            Products.Remove(product);
+            SearchResult.Remove(product);
         }
 
         protected void SetSearchResults(IEnumerable<Product> items)
@@ -323,14 +318,11 @@ namespace Veganko.ViewModels
             }
         }
 
-
-        private async void OnNewProductAdded(Product product)
+        public async Task AddNewProduct(Product product)
         {
-            if (await productService.AddAsync(product))
-            {
-                Products.Add(product);
-                UnapplyFilters(false);
-            }
+            product = await productService.AddAsync(product);
+            Products.Add(product);
+            UnapplyFilters(false);
         }
 
         private void OnSwitchFilteringOptions()

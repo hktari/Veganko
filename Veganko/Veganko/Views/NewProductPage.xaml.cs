@@ -12,6 +12,7 @@ using Veganko.ViewModels;
 using Plugin.Media;
 using XamarinImageUploader;
 using Veganko.Other;
+using Veganko.Services.Http;
 
 namespace Veganko.Views
 {
@@ -29,7 +30,7 @@ namespace Veganko.Views
             BindingContext = vm = new NewProductViewModel();
         }
 
-        void Save_Clicked(object sender, EventArgs e)
+        async void Save_Clicked(object sender, EventArgs e)
         {
             var mainPage = App.Current.MainPage as TabbedPage;
             var productsNavPage = mainPage.Children[0];
@@ -39,7 +40,15 @@ namespace Veganko.Views
             var productsVM = (ProductViewModel)((ProductPage)((NavigationPage)productsNavPage).CurrentPage).BindingContext;
             vm.Product.ProductClassifiers = vm.ProductClassifiers;
             vm.Product.Type = vm.SelectedProductType;
-            productsVM.NewProductAddedCommand?.Execute(vm.Product);
+
+            try
+            {
+                await productsVM.AddNewProduct(vm.Product);
+            }
+            catch (ServiceException ex)
+            {
+                await this.Err("Napak pri dodajanju: " + ex.Response);
+            }
         }
 
         protected override void OnAppearing()
