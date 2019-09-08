@@ -26,7 +26,11 @@ namespace UnitTests.Shared.Converters
             };
 
             string json = JsonConvert.SerializeObject(classifiers, jsonSerializerSettings);
-            Assert.AreEqual(classifiers, JsonConvert.DeserializeObject(json, jsonSerializerSettings));
+            IList<ProductClassifier> deserialized = JsonConvert.DeserializeObject<IList<ProductClassifier>>(json, jsonSerializerSettings);
+            for (int i = 0; i < classifiers.Count; i++)
+            {
+                Assert.AreEqual(classifiers[i], deserialized[classifiers.Count - i - 1]);
+            }
         }
     }
 }
