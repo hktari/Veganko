@@ -89,37 +89,7 @@ namespace VegankoService.Controllers
                 return BadRequest("Pages start with index 1");
             }
 
-            // Paged customers
-            IQueryable<Customer> customers = context.Customer
-                .Skip(page * pageSize)
-                .Take(pageSize);
-
-            // TODO: move to repository 
-
-            var customerProfiles =
-               from customer in customers
-               join appUser in context.Users on customer.IdentityId equals appUser.Id
-               join userRole in context.UserRoles on customer.IdentityId equals userRole.UserId
-               join role in context.Roles on userRole.RoleId equals role.Id
-               select new CustomerProfile
-               {
-                   Id = customer.Id,
-                   Username = appUser.UserName,
-                   Email = appUser.Email,
-                   AvatarId = customer.AvatarId,
-                   Description = customer.Description,
-                   Label = customer.Label,
-                   ProfileBackgroundId = customer.ProfileBackgroundId,
-                   Role = role.Name
-               };
-
-            return new PagedList<CustomerProfile>
-            {
-                Items = customerProfiles.ToList(),
-                Page = page,
-                PageSize = pageSize,
-                TotalCount = context.Customer.Count()
-            };
+            return usersRepository.GetAll(page, pageSize);
         }
     }
 }
