@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Autofac;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -42,7 +43,7 @@ namespace Veganko.Views
 
         private void OnLogoutClicked(object sender, EventArgs e)
         {
-            DependencyService.Get<IAccountService>().Logout();
+            App.IoC.Resolve<IAccountService>().Logout();
             App.Current.MainPage = new NavigationPage(new Loginpage());
         }
     }

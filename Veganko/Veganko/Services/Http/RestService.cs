@@ -36,7 +36,11 @@ namespace Veganko.Services.Http
                 });
 
             var response = await client.ExecuteTaskAsync<LoginResponse>(loginRequest);
-            if (response.Data.Error != null)
+            if (!response.IsSuccessful)
+            {
+                throw new ServiceException(response.ErrorMessage, response.StatusDescription, loginRequest.Resource, loginRequest.Method.ToString(), response.ErrorException);
+            }
+            else if (response.Data.Error != null)
             {
                 throw new ServiceException(response.Data.Error, response.StatusDescription, loginRequest.Resource, loginRequest.Method.ToString());
             }

@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using System.Diagnostics;
 using Veganko.Models.User;
 using Veganko.Other;
+using Autofac;
 
 namespace Veganko.ViewModels
 {
@@ -54,7 +55,7 @@ namespace Veganko.ViewModels
             set => SetProperty(ref profileAvatar, value);
         }
 
-        public User User => DependencyService.Get<IAccountService>().User;
+        public User User => App.IoC.Resolve<IAccountService>().User;
 
         private Favorite favoriteEntry;
 
@@ -96,7 +97,7 @@ namespace Veganko.ViewModels
                     .AddItemAsync(
                         new Favorite
                         {
-                            UserId = DependencyService.Get<IAccountService>().User.Id,
+                            UserId = App.IoC.Resolve<IAccountService>().User.Id,
                             ProductId = Product.Id
                         });
             }

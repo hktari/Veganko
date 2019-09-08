@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Autofac;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -67,7 +68,7 @@ namespace Veganko.ViewModels
         public ProfileViewModel()
         {
             Title = "Profile";
-            User = DependencyService.Get<IAccountService>().User;
+            User = App.IoC.Resolve<IAccountService>().User;
             HandleNewData();
             // TODO: fix memory leak
             MessagingCenter.Subscribe<BackgroundImageViewModel, string>(this, BackgroundImageViewModel.SaveMsg, OnBackgroundImageChanged);

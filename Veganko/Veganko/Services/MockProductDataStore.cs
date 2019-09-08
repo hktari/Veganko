@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Autofac;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -18,7 +19,7 @@ namespace Veganko.Services
 
         public MockProductDataStore()
         {
-            accountService = DependencyService.Get<IAccountService>();
+            accountService = App.IoC.Resolve<IAccountService>();
 
             items = new List<Product>();
             var mockItems = new List<Product>

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Autofac;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
@@ -76,7 +77,7 @@ namespace Veganko.ViewModels
 
         private void InitProduct()
         {
-            var user = DependencyService.Get<IAccountService>().User;
+            var user = App.IoC.Resolve<IAccountService>().User;
             var mask = UserAccessRights.ProductsDelete;
 
             Debug.Assert(user != null);

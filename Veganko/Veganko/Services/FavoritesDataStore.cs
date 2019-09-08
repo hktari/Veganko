@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Autofac;
+using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
@@ -38,7 +39,7 @@ namespace Veganko.Services
 
         public async Task<IEnumerable<Favorite>> GetItemsAsync(bool forceRefresh = false)
         {
-            User user = DependencyService.Get<IAccountService>().User;
+            User user = App.IoC.Resolve<IAccountService>().User;
             return await App.MobileService.GetTable<Favorite>().Where(fe => fe.UserId == user.Id).ToListAsync();
         }
 

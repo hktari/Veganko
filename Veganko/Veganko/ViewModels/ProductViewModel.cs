@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Autofac;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
@@ -153,7 +154,7 @@ namespace Veganko.ViewModels
         public ProductViewModel()
         {
             productService = DependencyService.Get<IProductService>();
-            accountService = DependencyService.Get<IAccountService>();
+            accountService = App.IoC.Resolve<IAccountService>();
 
             Title = "Iskanje";
             Products = new List<Product>();
