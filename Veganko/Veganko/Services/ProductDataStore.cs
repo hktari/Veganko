@@ -38,15 +38,20 @@ namespace Veganko.Services
             return restService.ExecuteAsync<Product>(request);
         }
 
-        public Task<PagedList<Product>> AllAsync(int page = 1, int pageSize = 10, bool forceRefresh = false, bool includeUnapproved = false)
+        public async Task<PagedList<Product>> AllAsync(int page = 1, int pageSize = 10, bool forceRefresh = false, bool includeUnapproved = false)
         {
-            // TODO: include unapproved ?
-
             RestRequest request = new RestRequest("products", Method.GET);
             request.AddParameter("page", page, ParameterType.QueryString);
             request.AddParameter("pageSize", pageSize, ParameterType.QueryString);
 
-            return restService.ExecuteAsync<PagedList<Product>>(request);
+            var items = await restService.ExecuteAsync<PagedList<Product>>(request);
+            foreach (var item in items.Items)
+            {
+                item.Image = ImageSource.FromStream(
+                    () => item.ImageBase64Encoded != null ? new MemoryStream(item.ImageBase64Encoded) : null);
+            }
+
+            return items;
         }
         
         public Task<Product> UpdateAsync(Product item)

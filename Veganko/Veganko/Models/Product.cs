@@ -59,8 +59,6 @@ namespace Veganko.Models
         [JsonIgnore]
         public string ImageName { get; set; }
 
-        // TODO
-        //public ImageSource Image => ImageSource.FromStream(() => new MemoryStream())
         [JsonIgnore]
         public ImageSource Image { get; set; }
 
