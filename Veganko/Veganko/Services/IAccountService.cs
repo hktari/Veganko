@@ -16,6 +16,6 @@ namespace Veganko.Services
         Task ResetPassword(string email, string token, string newPassword);
         Task<string> ValidateOTP(string email, int otp);
         Task<bool> LoginWithFacebook();
-        bool Logout();
+        void Logout();
     }
 }

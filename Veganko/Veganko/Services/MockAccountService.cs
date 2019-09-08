@@ -46,10 +46,9 @@ namespace Veganko.Services
             return Task.CompletedTask;
         }
 
-        public bool Logout()
+        public void Logout()
         {
             User = null;
-            return true;
         }
 
         public Task<bool> LoginWithFacebook()

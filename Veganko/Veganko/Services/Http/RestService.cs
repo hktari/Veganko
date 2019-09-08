@@ -54,6 +54,12 @@ namespace Veganko.Services.Http
             return response.Data.UserProfile;
         }
 
+        public void Logout()
+        {
+            curToken = null;
+            username = password = null;
+        }
+
         public async Task<TModel> ExecuteAsync<TModel>(RestRequest request, bool authorize = true)
             where TModel : new()
         {

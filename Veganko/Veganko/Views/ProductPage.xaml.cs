@@ -60,7 +60,14 @@ namespace Veganko.Views
             base.OnAppearing();
 
             //if (vm.Products == null || vm.Products.Count == 0)
-            await vm.RefreshProducts().ConfigureAwait(false);
+            try
+            {
+                await vm.RefreshProducts();
+            }
+            catch (ServiceException ex)
+            {
+                await this.Err("Napaka pri nalaganju: " + ex.StatusDescription);
+            }
         }
     }
 }

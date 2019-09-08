@@ -103,9 +103,10 @@ namespace Veganko.Services
             return await Task.FromResult(true);
         }
 
-        public bool Logout()
+        public void Logout()
         {
-            throw new NotImplementedException();
+            User = null;
+            restService.Logout();
         }
     }
 }

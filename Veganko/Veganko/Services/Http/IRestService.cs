@@ -11,6 +11,8 @@ namespace Veganko.Services.Http
     {
         Task<UserPublicInfo> Login(string email, string password);
 
+        void Logout();
+
         Task<IRestResponse> ExecuteAsync(RestRequest request, bool authorize = true);
 
         Task<TModel> ExecuteAsync<TModel>(RestRequest request, bool authorize = true)
