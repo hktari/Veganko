@@ -10,13 +10,12 @@ using VegankoService.Models;
 
 namespace VegankoService.Controllers
 {
-    [Authorize(
-        Policy = "ApiUser",
-        Roles = Constants.Strings.Roles.Admin + ", " + Constants.Strings.Roles.Manager + ", " + Constants.Strings.Roles.Moderator)]
+    [Authorize(Policy = "ApiUser")]
     [Route("api/products")]
     [ApiController]
     public class ProductsController : Controller
     {
+        private const string RestrictedAccessRoles = Constants.Strings.Roles.Admin + ", " + Constants.Strings.Roles.Manager + ", " + Constants.Strings.Roles.Moderator;
         private readonly IProductRepository productRepository;
 
         public ProductsController(IProductRepository productRepository)
@@ -25,6 +24,7 @@ namespace VegankoService.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = RestrictedAccessRoles)]
         public ActionResult<Product> Post(ProductInput input)
         {
             if (input.ImageBase64Encoded  == null)
@@ -40,6 +40,7 @@ namespace VegankoService.Controllers
         }
 
         [HttpPut("{id}")]
+        [Authorize(Roles = RestrictedAccessRoles)]
         public ActionResult<Product> Put(string id, ProductInput input)
         {
             var product = productRepository.Get(id);
@@ -54,6 +55,7 @@ namespace VegankoService.Controllers
         }
 
         [HttpDelete("{id}")]
+        [Authorize(Roles = RestrictedAccessRoles)]
         public IActionResult Delete(string id)
         {
             if (string.IsNullOrWhiteSpace(id))
