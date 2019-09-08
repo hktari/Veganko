@@ -36,7 +36,7 @@ namespace Veganko.Views
             try
             {
                 await vm.Login();
-                await Navigation.PushAsync(new MainPage());
+                await Navigation.PushAsync(new MainPage(vm.IsManager));
             }
             catch (ServiceException ex)
             {

@@ -10,11 +10,11 @@ namespace Veganko.Views
 	[XamlCompilation(XamlCompilationOptions.Compile)]
 	public partial class MainPage : TabbedPage
 	{
-        public MainPage(bool adminAccess = false)
+        public MainPage(bool isManager = false)
         {
             InitializeComponent();
 
-            if (adminAccess)
+            if (isManager)
             {
                 Children.Add(
                     new NavigationPage(new ManageProductsPage())

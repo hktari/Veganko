@@ -24,5 +24,10 @@ namespace Veganko.Models.User
 
         [JsonConverter(typeof(StringEnumConverter))]
         public UserRole Role { get; set; }
+
+        public bool IsManager()
+        {
+            return Role > UserRole.Member;
+        }
     }
 }

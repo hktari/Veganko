@@ -18,13 +18,12 @@ namespace Veganko.ViewModels
     {
         public string SelectedUserType { get; set; } = "user";
 
-        public UserPublicInfo User { get; set; }
+        public bool IsManager { get; private set; }
 
         bool authenticated = false;
 
         public LoginViewModel()
         {
-            User = new UserPublicInfo();
         }
 
         private string password;
@@ -64,6 +63,7 @@ namespace Veganko.ViewModels
             else
             {
                 await accountService.Login(email, password);
+                IsManager = accountService.User.IsManager();
             }
         }
     }
