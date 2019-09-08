@@ -51,37 +51,7 @@ namespace VegankoService.Controllers
             this.emailService = emailService;
         }
 
-        [HttpPut("{id}")]
-        public async Task<ActionResult<CustomerProfile>> Edit(string id, [FromBody]AccountInput input)
-        {
-            var customer = context.Customer.FirstOrDefault(c => c.Id == id);
-
-            if (customer == null)
-            {
-                return NotFound();
-            }
-
-            if (customer.IdentityId != Identity.GetUserIdentityId(httpContextAccessor.HttpContext.User))
-            {
-                return Forbid();
-            }
-
-            // Can't be edited here
-            input.Email = input.Username = input.Password = null;
-
-            customer.AvatarId = input.AvatarId;
-            customer.ProfileBackgroundId = input.ProfileBackgroundId;
-            customer.Label = input.Label;
-            customer.Description = input.Description;
-
-            context.Customer.Update(customer);
-            context.SaveChanges();
-
-            var customerProfile = new CustomerProfile(customer);
-            var userID = await userManager.FindByIdAsync(customer.IdentityId);
-            customerProfile.Role = (await userManager.GetRolesAsync(userID)).First();
-            return customerProfile;
-        }
+       
 
         // POST api/accounts
         [HttpPost]
@@ -150,48 +120,7 @@ namespace VegankoService.Controllers
 
             return Ok();
         }
-
-        [Authorize(Roles = Constants.Strings.Roles.Admin + ", " + Constants.Strings.Roles.Manager)]
-        [HttpGet]
-        public ActionResult<PagedList<CustomerProfile>> GetAll(int page = 1, int pageSize = 20)
-        {
-            page--;
-            if (page < 0)
-            {
-                return BadRequest("Pages start with index 1");
-            }
-
-            // Paged customers
-            IQueryable<Customer> customers = context.Customer
-                .Skip(page * pageSize)
-                .Take(pageSize);
-
-            var customerProfiles =
-               from customer in customers
-               join appUser in context.Users on customer.IdentityId equals appUser.Id
-               join userRole in context.UserRoles on customer.IdentityId equals userRole.UserId
-               join role in context.Roles on userRole.RoleId equals role.Id
-               select new CustomerProfile
-               {
-                   Id = customer.Id,
-                   Username = appUser.UserName,
-                   Email = appUser.Email,
-                   AvatarId = customer.AvatarId,
-                   Description = customer.Description,
-                   Label = customer.Label,
-                   ProfileBackgroundId = customer.ProfileBackgroundId,
-                   Role = role.Name
-               };
-
-            return new PagedList<CustomerProfile>
-            {
-                Items = customerProfiles.ToList(),
-                Page = page,
-                PageSize = pageSize,
-                TotalCount = context.Customer.Count()
-            };
-        }
-
+       
         [HttpPost("ChangePassword")]
         public async Task<IActionResult> ChangePassword(ChangePasswordBindingModel model)
         {

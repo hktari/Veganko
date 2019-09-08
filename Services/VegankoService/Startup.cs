@@ -28,6 +28,7 @@ using System.Net;
 using Microsoft.AspNetCore.Diagnostics;
 using System.IdentityModel.Tokens.Jwt;
 using VegankoService.Services;
+using VegankoService.Data.Users;
 
 namespace VegankoService
 {
@@ -48,6 +49,7 @@ namespace VegankoService
             
             services.AddSingleton<IProductRepository, ProductRepository>();
             services.AddSingleton<ICommentRepository, CommentRepository>();
+            services.AddSingleton<IUsersRepository, UsersRepository>();
 
             services.AddSingleton<IJwtFactory, JwtFactory>();
 

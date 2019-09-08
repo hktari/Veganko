@@ -12,6 +12,7 @@ using Newtonsoft.Json;
 using VegankoService.Models.User;
 using System.Collections.Generic;
 using VegankoService.Models.Auth;
+using VegankoService.Data.Users;
 
 namespace VegankoService.Controllers
 {
@@ -21,13 +22,20 @@ namespace VegankoService.Controllers
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly RoleManager<IdentityRole> roleManager;
         private readonly IJwtFactory _jwtFactory;
+        private readonly IUsersRepository usersRepository;
         private readonly JwtIssuerOptions _jwtOptions;
 
-        public AuthController(UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager, IJwtFactory jwtFactory, IOptions<JwtIssuerOptions> jwtOptions)
+        public AuthController(
+            UserManager<ApplicationUser> userManager,
+            RoleManager<IdentityRole> roleManager,
+            IJwtFactory jwtFactory,
+            IOptions<JwtIssuerOptions> jwtOptions,
+            IUsersRepository usersRepository)
         {
             _userManager = userManager;
             this.roleManager = roleManager;
             _jwtFactory = jwtFactory;
+            this.usersRepository = usersRepository;
             _jwtOptions = jwtOptions.Value;
         }
 
@@ -58,9 +66,15 @@ namespace VegankoService.Controllers
             IList<string> roles = await _userManager.GetRolesAsync(userToVerify);
             ClaimsIdentity identity = _jwtFactory.GenerateClaimsIdentity(credentials.Email, userToVerify.Id, roles);
 
+            CustomerProfile customerProfile = usersRepository.Get(userToVerify.Id);
+
             var jwt = await Tokens.GenerateJwt(identity, _jwtFactory, credentials.Email, _jwtOptions);
             return new OkObjectResult(
-                new LoginResponse { Token = jwt } );
+                new LoginResponse
+                {
+                    Profile = customerProfile,
+                    Token = jwt
+                });
         }
 
         private BadRequestObjectResult LoginFailed()
