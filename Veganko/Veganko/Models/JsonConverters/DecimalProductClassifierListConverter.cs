@@ -6,7 +6,7 @@ using System.Text;
 
 namespace Veganko.Models.JsonConverters
 {
-    class DecimalProductClassifierListConverter : JsonConverter
+    public class DecimalProductClassifierListConverter : JsonConverter
     {
         public override bool CanConvert(Type objectType)
         {
