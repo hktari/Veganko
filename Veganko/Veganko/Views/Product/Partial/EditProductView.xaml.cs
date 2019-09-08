@@ -15,38 +15,22 @@ namespace Veganko.Views.Product.Partial
 	[XamlCompilation(XamlCompilationOptions.Compile)]
 	public partial class EditProductView : ContentView
 	{
-		public EditProductView ()
+        public static readonly BindableProperty TakeImageCommandProperty
+            = BindableProperty.Create(nameof(TakeImageCommand), typeof(Command), typeof(EditProductView));
+        
+        public Command TakeImageCommand
+        {
+            get => (Command)GetValue(TakeImageCommandProperty);
+            set => SetValue(TakeImageCommandProperty, value);
+        }
+
+        public EditProductView ()
 		{
 			InitializeComponent ();
 
-            CameraButton.Clicked += async (sender, args) =>
+            CameraButton.Clicked += (sender, args) =>
             {
-                var initialized = await CrossMedia.Current.Initialize();
-
-                if (!initialized || !CrossMedia.Current.IsCameraAvailable || !CrossMedia.Current.IsTakePhotoSupported)
-                {
-                    App.Current.MainPage.DisplayAlert("No Camera", ":( No camera available.", "OK");
-                    return;
-                }
-
-                var file = await CrossMedia.Current.TakePhotoAsync(new Plugin.Media.Abstractions.StoreCameraMediaOptions
-                {
-                    Directory = "Sample", PhotoSize = Plugin.Media.Abstractions.PhotoSize.MaxWidthHeight, MaxWidthHeight = 720, CompressionQuality = 50, 
-                    Name = Guid.NewGuid().ToString() + ".png"
-                });
-
-                if (file == null)
-                    return;
-
-                //imageNameResult.Text = await ImageManager.UploadImage(file.GetStream());
-                imageNameResult.Text = "unknown";
-                CameraButton.Source = ImageSource.FromStream(() =>
-                {
-                    var stream = file.GetStream();
-                    return stream;
-                });
-
-                await App.Current.MainPage.DisplayAlert("Alert", "Successfully uploaded image", "OK");
+                TakeImageCommand?.Execute(args);
             };
         }
 

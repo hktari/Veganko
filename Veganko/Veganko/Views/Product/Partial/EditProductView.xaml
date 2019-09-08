@@ -179,7 +179,7 @@
                             x:Name="CameraButton"
                             Aspect="AspectFill"
                             BackgroundColor="White"
-                            Source="{Binding Product.Image, Mode=TwoWay}" />
+                            Source="{Binding ProductImg}" />
                     </Grid>
                 </Frame>
             </StackLayout>

@@ -70,14 +70,12 @@ namespace VegankoService.Controllers
             return Ok();
         }
 
-        [Authorize(Roles = Constants.Strings.Roles.Member)]
         [HttpGet]
         public ActionResult<PagedList<Product>> GetAll(int page = 1, int pageSize = 10)
         {
             return productRepository.GetAll(page, pageSize);
         }
 
-        [Authorize(Roles = Constants.Strings.Roles.Member)]
         [HttpGet("{id}")]
         public ActionResult<Product> Get(string id)
         {
