@@ -7,6 +7,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using System.Runtime.Serialization;
 using Veganko.Models.JsonConverters;
+using System.IO;
 
 namespace Veganko.Models
 {
@@ -46,19 +47,33 @@ namespace Veganko.Models
     public class Product
     {
         public string Id { get; set; }
+
         public ProductState State { get; set; }
+
         public string Name { get; set; }
+
         public string Brand { get; set; }
+
         public string Barcode { get; set; }
+
+        [JsonIgnore]
         public string ImageName { get; set; }
+
+        // TODO
+        //public ImageSource Image => ImageSource.FromStream(() => new MemoryStream())
         [JsonIgnore]
         public ImageSource Image { get; set; }
-        [JsonIgnore]
-        public byte[] ImageData { get; set; }
+
+        [JsonConverter(typeof(Base64StringToByteArrayConverter))]
+        public byte[] ImageBase64Encoded { get; set; }
+
         public string Description { get; set; }
+
         [JsonConverter(typeof(DecimalProductClassifierListConverter))]
         public ObservableCollection<ProductClassifier> ProductClassifiers { get; set; }
+
         public ProductType Type { get; set; }
+
         public int Rating { get; set; }
         
         public Product()

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Autofac;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Text;
@@ -50,7 +51,7 @@ namespace Veganko.ViewModels
 
         public ApproveProductViewModel(Product product)
         {
-            productService = DependencyService.Get<IProductService>();
+            productService = App.IoC.Resolve<IProductService>();
             tmpProduct = product;
         }
 

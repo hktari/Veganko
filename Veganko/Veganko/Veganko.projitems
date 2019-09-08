@@ -31,6 +31,8 @@
     <Compile Include="$(MSBuildThisFileDirectory)Models\Comment.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\FacebookProfile.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\Favorite.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\JsonConverters\Base64StringToByteArrayConverter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\PagedList.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\User\UserAccessRights.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\User\UserPublicInfo.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\User\UserRole.cs" />

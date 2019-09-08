@@ -153,7 +153,7 @@ namespace Veganko.ViewModels
 
         public ProductViewModel()
         {
-            productService = DependencyService.Get<IProductService>();
+            productService = App.IoC.Resolve<IProductService>();
             accountService = App.IoC.Resolve<IAccountService>();
 
             Title = "Iskanje";

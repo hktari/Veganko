@@ -70,9 +70,9 @@ namespace VegankoService.Controllers
 
         [Authorize(Roles = Constants.Strings.Roles.Member)]
         [HttpGet]
-        public ActionResult<PagedList<Product>> GetAll(int page = 1, int count = 10)
+        public ActionResult<PagedList<Product>> GetAll(int page = 1, int pageSize = 10)
         {
-            return productRepository.GetAll(page, count);
+            return productRepository.GetAll(page, pageSize);
         }
 
         [Authorize(Roles = Constants.Strings.Roles.Member)]

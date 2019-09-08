@@ -8,11 +8,11 @@ namespace Veganko.Services
 {
     public interface IProductService
     {
-        Task<bool> AddAsync(Product item);
-        Task<bool> UpdateAsync(Product item);
-        Task<bool> DeleteAsync(Product item);
+        Task<Product> AddAsync(Product item);
+        Task<Product> UpdateAsync(Product item);
+        Task DeleteAsync(Product item);
         Task<Product> GetAsync(string id);
-        Task<IEnumerable<Product>> AllAsync(bool forceRefresh = false, bool includeUnapproved = false);
+        Task<PagedList<Product>> AllAsync(int page = 1, int pageSize = 10, bool forceRefresh = false, bool includeUnapproved = false);
         Task<IEnumerable<Product>> GetUnapprovedAsync(bool forceRefresh = false); 
     }
 }

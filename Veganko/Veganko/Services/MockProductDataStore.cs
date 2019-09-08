@@ -8,7 +8,6 @@ using System.Threading.Tasks;
 using Veganko.Models;
 using Xamarin.Forms;
 
-[assembly: Xamarin.Forms.Dependency(typeof(Veganko.Services.MockProductDataStore))]
 namespace Veganko.Services
 {
     public class MockProductDataStore : IProductService
