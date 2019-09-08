@@ -12,12 +12,12 @@ namespace Veganko.Services
     class MockAccountService : IAccountService
     {
         private static int IdCounter;
-        public User User { get; private set; }
+        public UserPublicInfo User { get; private set; }
 
-        private List<User> userDatabase = new List<User>();
+        private List<UserPublicInfo> userDatabase = new List<UserPublicInfo>();
         private Dictionary<string, string> userPasswords = new Dictionary<string, string>();
 
-        public Task CreateAccount(User user, string password)
+        public Task CreateAccount(UserPublicInfo user, string password)
         {
             // check if username exists
             if (userDatabase.Exists(u => u.Username == user.Username))

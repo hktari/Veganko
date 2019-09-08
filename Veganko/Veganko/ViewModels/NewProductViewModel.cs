@@ -81,7 +81,8 @@ namespace Veganko.ViewModels
             var mask = UserAccessRights.ProductsDelete;
 
             Debug.Assert(user != null);
-            var hasApprovalRights = (user.AccessRights & mask) == mask;
+            // TODO:
+            var hasApprovalRights = (user.Role.ToUAC() & mask) == mask;
 
             Product = new Product
             {

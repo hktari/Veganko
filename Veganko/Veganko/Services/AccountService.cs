@@ -9,7 +9,6 @@ using Veganko.Models;
 using Veganko.Models.User;
 using Veganko.Services.Http;
 
-//[assembly: Xamarin.Forms.Dependency(typeof(Veganko.Services.AccountService))]
 namespace Veganko.Services
 {
     class AccountService : IAccountService
@@ -21,9 +20,9 @@ namespace Veganko.Services
             this.restService = restService;
         }
 
-        public User User { get; private set; }
+        public UserPublicInfo User { get; private set; }
 
-        public Task CreateAccount(User user, string password)
+        public Task CreateAccount(UserPublicInfo user, string password)
         {
             RestRequest request = new RestRequest("account", Method.POST);
             request.AddJsonBody(
@@ -41,9 +40,9 @@ namespace Veganko.Services
             return restService.ExecuteAsync(request, false);
         }
 
-        public Task Login(string email, string password)
+        public async Task Login(string email, string password)
         {
-            return restService.Login(email, password);
+            User = await restService.Login(email, password);
         }
 
         public Task ForgotPassword(string email)
@@ -95,7 +94,7 @@ namespace Veganko.Services
             var response = await client.GetAsync("https://vegankoauthenticationhelper.azurewebsites.net/api/GetUserDetails");
             var content = await response.Content.ReadAsStringAsync();
             var facebookData = JsonConvert.DeserializeObject<FacebookDetails>(content);
-            User = new User
+            User = new UserPublicInfo
             {
                 Id = App.MobileService.CurrentUser?.UserId,
                 Username = facebookData.FirstName,

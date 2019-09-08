@@ -73,7 +73,7 @@ namespace Veganko.ViewModels
         }
         public async Task RegisterUser()
         {
-            User user = new User
+            UserPublicInfo user = new UserPublicInfo
             {
                 Username = username,
                 Email = email,

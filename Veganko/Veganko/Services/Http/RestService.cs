@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Text;
 using System.Threading.Tasks;
+using Veganko.Models.User;
 
 namespace Veganko.Services.Http
 {
@@ -25,7 +26,7 @@ namespace Veganko.Services.Http
             client.RemoteCertificateValidationCallback = (p1, p2, p3, p4) => true;
         }
 
-        public async Task Login(string email, string password)
+        public async Task<UserPublicInfo> Login(string email, string password)
         {
             RestRequest loginRequest = new RestRequest("auth/login", Method.POST);
             loginRequest.AddJsonBody(
@@ -49,6 +50,8 @@ namespace Veganko.Services.Http
             curToken.ExpiresAtUtc = DateTime.UtcNow.AddSeconds(curToken.ExpiresIn);
             this.username = email;
             this.password = password;
+
+            return response.Data.UserProfile;
         }
 
         public async Task<TModel> ExecuteAsync<TModel>(RestRequest request, bool authorize = true)

@@ -18,13 +18,13 @@ namespace Veganko.ViewModels
     {
         public string SelectedUserType { get; set; } = "user";
 
-        public User User { get; set; }
+        public UserPublicInfo User { get; set; }
 
         bool authenticated = false;
 
         public LoginViewModel()
         {
-            User = new User();
+            User = new UserPublicInfo();
         }
 
         private string password;
@@ -47,17 +47,19 @@ namespace Veganko.ViewModels
 
             if (SelectedUserType == "admin")
             {
-                string username = null;
-                string password = null;
-                UserAccessRights uac;
-                bool adminAccess = false;
+                // TODO: rework
 
-                username = password = "admin";
-                uac = UserAccessRights.All;
-                adminAccess = true;
-                await accountService.CreateAccount(new User { Username = username }, password);
-                await accountService.Login(username, password);
-                accountService.User.AccessRights = uac;
+                //string username = null;
+                //string password = null;
+                //UserAccessRights uac;
+                //bool adminAccess = false;
+
+                //username = password = "admin";
+                //uac = UserAccessRights.All;
+                //adminAccess = true;
+                //await accountService.CreateAccount(new UserPublicInfo { Username = username }, password);
+                //await accountService.Login(username, password);
+                //accountService.User.AccessRights = uac;
             }
             else
             {

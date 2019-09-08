@@ -9,7 +9,7 @@ namespace Veganko.ViewModels
 {
     public class CommentViewModel : BaseViewModel
     {
-        public CommentViewModel(User user)
+        public CommentViewModel(UserPublicInfo user)
         {
             Username = user.Username;
             UserAvatar = Images.GetProfileAvatarById(user.AvatarId);

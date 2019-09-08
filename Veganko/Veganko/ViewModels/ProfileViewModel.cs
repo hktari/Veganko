@@ -53,7 +53,7 @@ namespace Veganko.ViewModels
         public Command LoadItemsCommand => new Command(
             async () => await Refresh());
 
-        public User User { get; set; }
+        public UserPublicInfo User { get; set; }
 
         private ObservableCollection<ProfileComment> comments;
         public ObservableCollection<ProfileComment> Comments

@@ -158,7 +158,7 @@
                 VerticalOptions="FillAndExpand">
                 <ListView.Triggers>
                     <DataTrigger
-                        Binding="{Binding UserAccessRights, Converter={StaticResource UACConverter}, ConverterParameter={x:Static user:UserAccessRights.ProductsDelete}}"
+                        Binding="{Binding UserRole, Converter={StaticResource UACConverter}, ConverterParameter={x:Static user:UserAccessRights.ProductsDelete}}"
                         TargetType="ListView"
                         Value="True">
                         <Setter Property="ItemTemplate" Value="{StaticResource RemovableProductTemplate}" />

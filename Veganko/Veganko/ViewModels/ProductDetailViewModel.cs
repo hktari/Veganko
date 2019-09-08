@@ -55,7 +55,7 @@ namespace Veganko.ViewModels
             set => SetProperty(ref profileAvatar, value);
         }
 
-        public User User => App.IoC.Resolve<IAccountService>().User;
+        public UserPublicInfo User => App.IoC.Resolve<IAccountService>().User;
 
         private Favorite favoriteEntry;
 

@@ -15,7 +15,7 @@ namespace Veganko.Converters
             try
             {
                 var mask = (UserAccessRights)parameter;
-                var uac = (UserAccessRights)value;
+                var uac = ((UserRole)value).ToUAC();
                 return (uac & mask) == mask;
             }
             catch (InvalidCastException ex)

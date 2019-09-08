@@ -30,6 +30,7 @@ namespace Veganko.Views
             if (string.IsNullOrWhiteSpace(vm.Email) || string.IsNullOrWhiteSpace(vm.Password))
             {
                 await this.Err("Izpolnite vsa polja prosim :)");
+                return;
             }
 
             try

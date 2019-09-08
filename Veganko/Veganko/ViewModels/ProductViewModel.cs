@@ -26,16 +26,16 @@ namespace Veganko.ViewModels
         public Command SwitchFilteringOptions => new Command(OnSwitchFilteringOptions);
         public Command<Product> NewProductAddedCommand => new Command<Product>(OnNewProductAdded);
 
-        private UserAccessRights userAccessRights;
-        public UserAccessRights UserAccessRights
+        private UserRole userRole;
+        public UserRole UserRole
         {
             get
             {
-                return userAccessRights;
+                return userRole;
             }
             set
             {
-                SetProperty(ref userAccessRights, value);
+                SetProperty(ref userRole, value);
             }
         }
 
@@ -162,7 +162,7 @@ namespace Veganko.ViewModels
             SelectedProductClassifiers = new ObservableCollection<ProductClassifier>();
             SelectedProductType = ProductType.NOT_SET;
             ShowProductClassifiers = true;
-            UserAccessRights = accountService.User.AccessRights;
+            UserRole = accountService.User.Role;
 
             LoadItemsCommand = new Command(async () => await RefreshProducts());
         }
