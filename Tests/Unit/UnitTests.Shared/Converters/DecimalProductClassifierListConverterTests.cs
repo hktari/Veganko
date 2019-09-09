@@ -32,5 +32,40 @@ namespace UnitTests.Shared.Converters
                 Assert.AreEqual(classifiers[i], deserialized[classifiers.Count - i - 1]);
             }
         }
+
+        [TestMethod]
+        public void SerializationAndDeserializationOfDefaultValue_ResultsInEmpty()
+        {
+            List<ProductClassifier> classifiers = new List<ProductClassifier>
+            {
+                default,
+            };
+
+            JsonSerializerSettings jsonSerializerSettings = new JsonSerializerSettings
+            {
+                Converters = new List<JsonConverter> { new DecimalProductClassifierListConverter() }
+            };
+
+            string json = JsonConvert.SerializeObject(classifiers, jsonSerializerSettings);
+            IList<ProductClassifier> deserialized = JsonConvert.DeserializeObject<IList<ProductClassifier>>(json, jsonSerializerSettings);
+            Assert.AreEqual(0, deserialized.Count);
+        }
+
+        [TestMethod]
+        public void SerializationAndDeserializationOfEmptyList_ResultsInEmptyList()
+        {
+            List<ProductClassifier> classifiers = new List<ProductClassifier>
+            {
+            };
+
+            JsonSerializerSettings jsonSerializerSettings = new JsonSerializerSettings
+            {
+                Converters = new List<JsonConverter> { new DecimalProductClassifierListConverter() }
+            };
+
+            string json = JsonConvert.SerializeObject(classifiers, jsonSerializerSettings);
+            IList<ProductClassifier> deserialized = JsonConvert.DeserializeObject<IList<ProductClassifier>>(json, jsonSerializerSettings);
+            Assert.AreEqual(0, deserialized.Count);
+        }
     }
 }

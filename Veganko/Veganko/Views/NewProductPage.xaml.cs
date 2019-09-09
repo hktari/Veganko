@@ -38,7 +38,6 @@ namespace Veganko.Views
             mainPage.CurrentPage = productsNavPage;
 
             var productsVM = (ProductViewModel)((ProductPage)((NavigationPage)productsNavPage).CurrentPage).BindingContext;
-            vm.Product.ProductClassifiers = vm.ProductClassifiers;
             vm.Product.Type = vm.SelectedProductType;
 
             try
