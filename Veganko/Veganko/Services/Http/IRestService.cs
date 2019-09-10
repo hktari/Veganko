@@ -13,7 +13,7 @@ namespace Veganko.Services.Http
 
         void Logout();
 
-        Task<IRestResponse> ExecuteAsync(RestRequest request, bool authorize = true);
+        Task<IRestResponse> ExecuteAsync(RestRequest request, bool authorize = true, bool throwIfUnsuccessful = true);
 
         Task<TModel> ExecuteAsync<TModel>(RestRequest request, bool authorize = true)
             where TModel : new();

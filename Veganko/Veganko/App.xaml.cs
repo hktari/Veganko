@@ -41,6 +41,8 @@ namespace Veganko
             builder.RegisterType<RestService>().As<IRestService>().SingleInstance();
             builder.RegisterType<AccountService>().As<IAccountService>().SingleInstance();
             builder.RegisterType<ProductDataStore>().As<IProductService>().SingleInstance();
+            builder.RegisterType<UserService>().As<IUserService>().SingleInstance();
+
             IoC = builder.Build();
         }
 

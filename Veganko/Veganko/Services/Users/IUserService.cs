@@ -10,5 +10,6 @@ namespace Veganko.Services
     {
         Task<UserPublicInfo> Get(string id);
         Task<IEnumerable<UserPublicInfo>> GetByIds(IEnumerable<string> id);
+        Task<UserPublicInfo> Edit(UserPublicInfo user);
     }
 }

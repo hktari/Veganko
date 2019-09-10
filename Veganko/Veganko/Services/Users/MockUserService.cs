@@ -5,7 +5,6 @@ using System.Text;
 using System.Threading.Tasks;
 using Veganko.Models.User;
 
-[assembly: Xamarin.Forms.Dependency(typeof(Veganko.Services.MockUserService))]
 namespace Veganko.Services
 {
     public class MockUserService : IUserService
@@ -40,6 +39,11 @@ namespace Veganko.Services
                 Label = "..."
             },
         };
+
+        public Task<UserPublicInfo> Edit(UserPublicInfo user)
+        {
+            throw new NotImplementedException();
+        }
 
         public Task<UserPublicInfo> Get(string id)
         {

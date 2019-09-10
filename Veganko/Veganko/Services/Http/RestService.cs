@@ -82,7 +82,7 @@ namespace Veganko.Services.Http
             return response.Data;
         }
 
-        public async Task<IRestResponse> ExecuteAsync(RestRequest request, bool authorize = true)
+        public async Task<IRestResponse> ExecuteAsync(RestRequest request, bool authorize = true, bool throwIfUnsuccessful = true)
         {
             if (authorize)
             {
@@ -90,7 +90,11 @@ namespace Veganko.Services.Http
             }
             
             IRestResponse response = await client.ExecuteTaskAsync(request);
-            AssertResponseSuccess(response);
+            if (throwIfUnsuccessful)
+            {
+                AssertResponseSuccess(response);
+            }
+
             return response;
         }
 

@@ -70,7 +70,7 @@ namespace Veganko.ViewModels
 
             commentDataStore = DependencyService.Get<IDataStore<Comment>>();
             favoriteDataStore = DependencyService.Get<IDataStore<Favorite>>();
-            userService = DependencyService.Get<IUserService>();
+            userService = App.IoC.Resolve<IUserService>();
             Comments = new ObservableCollection<CommentViewModel>();
             ProfileAvatar = Images.GetProfileAvatarById(User.AvatarId);
         }
