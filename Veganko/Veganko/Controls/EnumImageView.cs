@@ -27,14 +27,34 @@ namespace Veganko.Controls
 
         private readonly bool scrollable;
 
+        private ScrollView scrollView;
+        private StackLayout stackLayout;
+
         public EnumImageView() 
             : this(true)
         {
 
         }
+
         public EnumImageView(bool scrollable)
         {
             this.scrollable = scrollable;
+
+            if (scrollable)
+            {
+                Content = new ScrollView
+                {
+                    Orientation = ScrollOrientation.Horizontal,
+                    Content = stackLayout = new StackLayout()
+                };
+            }
+            else
+            {
+                Content = stackLayout = new StackLayout();
+            }
+            
+            stackLayout.SetBinding(StackLayout.OrientationProperty, new Binding(nameof(Orientation), source: this));
+            stackLayout.SetBinding(HorizontalOptionsProperty, new Binding(nameof(HorizontalOptions), source: this));
         }
 
         public Dictionary<T, string> ImageSource
@@ -112,33 +132,13 @@ namespace Veganko.Controls
             SetViewContent(CreateView(newSource));
         }
 
-        StackLayout stackLayout;
         protected void SetViewContent(IEnumerable<View> views)
         {
-            if (stackLayout == null)
-            {
-                stackLayout = new StackLayout { Orientation = orientation, HorizontalOptions = horizontalAlignment };
-            }
-
             stackLayout.Children.Clear();
             foreach (var item in views)
             {
                 stackLayout.Children.Add(item);
             }
-
-            if (scrollable)
-            {
-                Content = new ScrollView
-                {
-                    Orientation = ScrollOrientation.Horizontal,
-                    Content = stackLayout
-                };
-            }
-            else
-            {
-                Content = stackLayout;
-            }
-
         }
         
         protected string GetImageForClassifer(T classifier)
