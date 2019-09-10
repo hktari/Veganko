@@ -23,10 +23,10 @@ namespace Veganko.Views
             InitializeComponent();
             vm = (ProfileViewModel)BindingContext;
         }
-        protected override void OnAppearing()
+        protected async override void OnAppearing()
         {
             base.OnAppearing();
-            vm.Refresh();
+            await vm.Refresh();
         }
 
         private async void OnBackgroundImageTap(object sender, EventArgs arg)
@@ -45,6 +45,12 @@ namespace Veganko.Views
         {
             App.IoC.Resolve<IAccountService>().Logout();
             App.Current.MainPage = new NavigationPage(new Loginpage());
+        }
+
+        private async void OnSaveClicked(object sender, EventArgs e)
+        {
+            await vm.SaveProfile();
+            await DisplayAlert("Hi", "Profilna spremenjena !", "OK");
         }
     }
 }

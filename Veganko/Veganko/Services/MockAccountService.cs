@@ -12,7 +12,7 @@ namespace Veganko.Services
     class MockAccountService : IAccountService
     {
         private static int IdCounter;
-        public UserPublicInfo User { get; private set; }
+        public UserPublicInfo User { get; set; }
 
         private List<UserPublicInfo> userDatabase = new List<UserPublicInfo>();
         private Dictionary<string, string> userPasswords = new Dictionary<string, string>();

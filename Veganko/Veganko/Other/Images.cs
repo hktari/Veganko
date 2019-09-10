@@ -61,6 +61,18 @@ namespace Veganko.Other
             },
         };
 
+        public static string GetProfileBackgroundImageId(string image)
+        {
+            return BackgroundImageSource.FirstOrDefault(img => img.Image == image)?.Id
+                ?? throw new ArgumentException("Invalid image for profile background!");
+        }
+
+        public static string GetProfileAvatarId(string image)
+        {
+            return AvatarImageSource.FirstOrDefault(img => img.Image == image)?.Id
+                ?? throw new ArgumentException("Invalid image for avatar image!");
+        }
+
         public static string GetProfileBackgroundImageById(string id)
         {
             return BackgroundImageSource.FirstOrDefault(img => img.Id == id)?.Image 

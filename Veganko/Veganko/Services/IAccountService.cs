@@ -9,7 +9,7 @@ namespace Veganko.Services
 {
     public interface IAccountService
     {
-        UserPublicInfo User { get; }
+        UserPublicInfo User { get; set; }
         Task CreateAccount(UserPublicInfo user, string password);
         Task Login(string email, string password);
         Task ForgotPassword(string email);

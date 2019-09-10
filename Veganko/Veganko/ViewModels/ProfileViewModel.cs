@@ -61,14 +61,25 @@ namespace Veganko.ViewModels
             get { return comments; }
             set { SetProperty(ref comments, value); }
         }
-        
+
+        private bool isDirty;
+        public bool IsDirty
+        {
+            get => isDirty;
+            set => SetProperty(ref isDirty, value);
+        }
+
         private IDataStore<Comment> commentDataStore;
         private IDataStore<Product> productDataStore;
+        private readonly IAccountService accountService;
+        private readonly IUserService userService;
 
         public ProfileViewModel()
         {
+            accountService = App.IoC.Resolve<IAccountService>();
+            userService = App.IoC.Resolve<IUserService>();
             Title = "Profile";
-            User = App.IoC.Resolve<IAccountService>().User;
+            User = accountService.User;
             HandleNewData();
             // TODO: fix memory leak
             MessagingCenter.Subscribe<BackgroundImageViewModel, string>(this, BackgroundImageViewModel.SaveMsg, OnBackgroundImageChanged);
@@ -76,6 +87,19 @@ namespace Veganko.ViewModels
             Comments = new ObservableCollection<ProfileComment>();
             commentDataStore = DependencyService.Get<IDataStore<Comment>>();
             productDataStore = DependencyService.Get<IDataStore<Product>>();
+        }
+
+        public async Task SaveProfile()
+        {
+            // Update the in memory cache of the user model
+            accountService.User = await userService.Edit(
+                new UserPublicInfo
+                {
+                    Label = UserLabel,
+                    Description = UserDescription,
+                    AvatarId = Images.GetProfileAvatarId(AvatarImage),
+                    ProfileBackgroundId = Images.GetProfileBackgroundImageId(BackgroundImage),
+                });
         }
 
         private void HandleNewData()
@@ -130,16 +154,24 @@ namespace Veganko.ViewModels
 
         private void OnBackgroundImageChanged(BackgroundImageViewModel arg1, string newBackgroundId)
         {
-            // TODO: service call ?
-
-            User.ProfileBackgroundId = newBackgroundId;
             BackgroundImage = Images.GetProfileBackgroundImageById(newBackgroundId);
+            UpdateIsDirty();
+        }
+
+        private void UpdateIsDirty()
+        {
+            UserPublicInfo user = accountService.User;
+            IsDirty =
+                Images.GetProfileBackgroundImageId(BackgroundImage) != user.ProfileBackgroundId ||
+                Images.GetProfileAvatarId(AvatarImage) != user.AvatarId ||
+                UserDescription != user.Description ||
+                UserLabel != user.Label;
         }
 
         private void OnAvatarImageChanged(SelectAvatarViewModel sender, string newAvatarId)
         {
-            User.AvatarId = newAvatarId;
             AvatarImage = Images.GetProfileAvatarById(newAvatarId);
+            UpdateIsDirty();
         }
     }
 }

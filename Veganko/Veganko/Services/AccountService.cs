@@ -11,7 +11,7 @@ using Veganko.Services.Http;
 
 namespace Veganko.Services
 {
-    class AccountService : IAccountService
+    internal class AccountService : IAccountService
     {
         private readonly IRestService restService;
 
@@ -20,7 +20,7 @@ namespace Veganko.Services
             this.restService = restService;
         }
 
-        public UserPublicInfo User { get; private set; }
+        public UserPublicInfo User { get; set; }
 
         public Task CreateAccount(UserPublicInfo user, string password)
         {

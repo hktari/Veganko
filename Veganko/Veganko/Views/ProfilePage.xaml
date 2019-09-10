@@ -121,6 +121,11 @@
                     Clicked="OnLogoutClicked"
                     HorizontalOptions="End"
                     Text="Logout" />
+                <Button
+                    IsVisible="{Binding IsDirty}"
+                    Clicked="OnSaveClicked"
+                    HorizontalOptions="Start"
+                    Text="Save changes" />
             </ListView.Footer>
         </ListView>
     </ContentPage.Content>
