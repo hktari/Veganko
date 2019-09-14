@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using RestSharp;
 using System;
 using System.Collections.Generic;
@@ -76,8 +77,15 @@ namespace Veganko.Services
                     email
                 });
 
-            IRestResponse response = await restService.ExecuteAsync(request, false);
-            return response.Content;
+            IRestResponse response = await restService.ExecuteAsync(request, false, throwIfUnsuccessful: false);
+            if (response.IsSuccessful)
+            {
+                return JObject.Parse(response.Content).Value<string>("pwd_reset_token");
+            }
+            else
+            {
+                throw new ServiceException(response);
+            }
         }
 
         public async Task<bool> LoginWithFacebook()

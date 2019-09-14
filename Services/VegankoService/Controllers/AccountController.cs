@@ -13,6 +13,7 @@ using System.Threading.Tasks;
 using VegankoService.Data;
 using VegankoService.Helpers;
 using VegankoService.Models;
+using VegankoService.Models.Account;
 using VegankoService.Models.User;
 using VegankoService.Services;
 
@@ -200,12 +201,13 @@ namespace VegankoService.Controllers
             {
                 return BadRequest(ModelState);
             }
+            
             var user = await userManager.FindByEmailAsync(input.Email);
             if (user == null)
             {
                 // Don't reveal that the user does not exist
                 logger.LogDebug("Validate OTP: user doesn't exist: " + input.Email);
-                return Ok();
+                return Ok(new ValidateOTPResponse());
             }
 
             OTP otp = context.OTPs.FirstOrDefault(o => o.IdentityId == user.Id);
@@ -239,7 +241,11 @@ namespace VegankoService.Controllers
             else
             {
                 string token = await userManager.GeneratePasswordResetTokenAsync(user);
-                result = Ok(token);
+                result = Ok(
+                    new ValidateOTPResponse
+                    {
+                        PwdResetToken = token
+                    });
                 context.OTPs.Remove(otp);
                 logger.LogDebug("OTP validation successful.");
             }

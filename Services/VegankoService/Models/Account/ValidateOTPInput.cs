@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace VegankoService.Models.User
+namespace VegankoService.Models.Account
 {
     public class ValidateOTPInput
     {
