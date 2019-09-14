@@ -8,6 +8,22 @@ namespace Veganko.Models.User
 {
     public class UserPublicInfo
     {
+        public UserPublicInfo()
+        {
+        }
+
+        public UserPublicInfo(UserPublicInfo user)
+        {
+            Id = user.Id;
+            ProfileBackgroundId = user.ProfileBackgroundId;
+            AvatarId = user.AvatarId;
+            Username = user.Username;
+            Email = user.Email;
+            Description = user.Description;
+            Label = user.Label;
+            Role = user.Role;
+        }
+
         public string Id { get; set; }
 
         public string ProfileBackgroundId { get; set; }

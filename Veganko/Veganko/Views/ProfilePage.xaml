@@ -117,15 +117,17 @@
                 </DataTemplate>
             </ListView.ItemTemplate>
             <ListView.Footer>
-                <Button
-                    Clicked="OnLogoutClicked"
-                    HorizontalOptions="End"
-                    Text="Logout" />
-                <Button
-                    IsVisible="{Binding IsDirty}"
-                    Clicked="OnSaveClicked"
-                    HorizontalOptions="Start"
-                    Text="Save changes" />
+                <Grid>
+                    <Button
+                        Clicked="OnLogoutClicked"
+                        HorizontalOptions="End"
+                        Text="Logout" />
+                    <Button
+                        IsVisible="{Binding IsDirty}"
+                        Clicked="OnSaveClicked"
+                        HorizontalOptions="Start"
+                        Text="Save changes" />
+                </Grid>
             </ListView.Footer>
         </ListView>
     </ContentPage.Content>

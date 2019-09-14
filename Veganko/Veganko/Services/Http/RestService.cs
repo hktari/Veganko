@@ -13,7 +13,13 @@ namespace Veganko.Services.Http
 {
     public class RestService : IRestService
     {
+#if __ANDROID__
+        private const string Endpoint = "https://10.0.2.2:5001/api";
+#else
         private const string Endpoint = "https://localhost:5001/api";
+
+#endif
+
         private readonly IRestClient client;
         private Token curToken;
         private string username;

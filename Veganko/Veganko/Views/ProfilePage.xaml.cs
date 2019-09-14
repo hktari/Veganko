@@ -4,8 +4,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Veganko.Extensions;
 using Veganko.Models.User;
 using Veganko.Services;
+using Veganko.Services.Http;
 using Veganko.ViewModels;
 using Veganko.ViewModels.Profile;
 using Veganko.Views.Profile;
@@ -49,8 +51,16 @@ namespace Veganko.Views
 
         private async void OnSaveClicked(object sender, EventArgs e)
         {
-            await vm.SaveProfile();
-            await DisplayAlert("Hi", "Profilna spremenjena !", "OK");
+            try
+            {
+                await vm.SaveProfile();
+                await DisplayAlert("Hi", "Profilna spremenjena !", "OK");
+
+            }
+            catch (ServiceException ex)
+            {
+                await this.Err(ex.StatusDescription);
+            }
         }
     }
 }

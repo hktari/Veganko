@@ -51,6 +51,11 @@ namespace Veganko.Services
                 users.FirstOrDefault(user => user.Id == id)) ?? throw new Exception("User not found!");
         }
 
+        public Task<IEnumerable<UserPublicInfo>> GetAll(int page = 1, int pageSize = 20)
+        {
+            throw new NotImplementedException();
+        }
+
         public Task<IEnumerable<UserPublicInfo>> GetByIds(IEnumerable<string> userIds)
         {
             return Task.FromResult(

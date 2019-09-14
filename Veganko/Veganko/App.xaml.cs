@@ -11,6 +11,7 @@ using Microsoft.AppCenter.Crashes;
 using System.Net;
 using Veganko.Services.Http;
 using Autofac;
+using Veganko.Services.Users;
 
 namespace Veganko
 {

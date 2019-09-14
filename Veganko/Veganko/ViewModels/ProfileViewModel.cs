@@ -9,6 +9,7 @@ using Veganko.Models;
 using Veganko.Models.User;
 using Veganko.Other;
 using Veganko.Services;
+using Veganko.Services.Http;
 using Veganko.ViewModels.Profile;
 using Xamarin.Forms;
 
@@ -91,15 +92,16 @@ namespace Veganko.ViewModels
 
         public async Task SaveProfile()
         {
+            UserPublicInfo updatedUser = new UserPublicInfo(accountService.User)
+            {
+                Label = UserLabel,
+                Description = UserDescription,
+                AvatarId = Images.GetProfileAvatarId(AvatarImage),
+                ProfileBackgroundId = Images.GetProfileBackgroundImageId(BackgroundImage),
+            };
+
             // Update the in memory cache of the user model
-            accountService.User = await userService.Edit(
-                new UserPublicInfo
-                {
-                    Label = UserLabel,
-                    Description = UserDescription,
-                    AvatarId = Images.GetProfileAvatarId(AvatarImage),
-                    ProfileBackgroundId = Images.GetProfileBackgroundImageId(BackgroundImage),
-                });
+            accountService.User = await userService.Edit(updatedUser);
         }
 
         private void HandleNewData()
