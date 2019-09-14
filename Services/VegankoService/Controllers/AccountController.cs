@@ -212,7 +212,7 @@ namespace VegankoService.Controllers
             if (otp == null)
             {
                 logger.LogDebug("Validate OTP: not otp found for user: " + user.Email);
-                return Ok();
+                return BadRequest();
             }
 
             IActionResult result = null;

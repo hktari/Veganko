@@ -49,5 +49,9 @@ namespace Veganko.Views
                 vm.IsBusy = false;
             }
         }
+        private void OnForgotPasswordClicked(object sender, EventArgs args)
+        {
+            Navigation.PushAsync(new ForgotPasswordPage());
+        }
     }
 }

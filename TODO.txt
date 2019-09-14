@@ -1,6 +1,7 @@
 - sign up page
 	- change login id is email not username throughout the app
 - forgot password
+	- partial for background view
 - new product page
 	- barcode scan completed img
 	- taking image doesn't work on my phone

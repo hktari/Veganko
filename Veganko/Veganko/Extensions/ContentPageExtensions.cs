@@ -12,5 +12,10 @@ namespace Veganko.Extensions
         {
             return page.DisplayAlert("Napaka", message, "OK");
         }
+
+        public static Task Inform(this ContentPage page, string message)
+        {
+            return page.DisplayAlert("Sporočilo", message, "OK");
+        }
     }
 }
