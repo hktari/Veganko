@@ -6,6 +6,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using VegankoService.Models;
 using VegankoService.Models.User;
+using VegankoService.Models.Comments;
 
 namespace VegankoService.Data
 {

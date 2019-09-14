@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using VegankoService.Models;
+using VegankoService.Models.Comments;
 
 namespace VegankoService.Data.Comments
 {
@@ -28,9 +29,9 @@ namespace VegankoService.Data.Comments
             return null;
         }
 
-        public PagedList<Comment> GetAll(string productId, int page, int pageSize = 10)
+        public PagedList<CommentOutput> GetAll(string productId, int page, int pageSize = 10)
         {
-            return new PagedList<Comment>();
+            return new PagedList<CommentOutput>();
         }
 
         public void Update(Comment comment)

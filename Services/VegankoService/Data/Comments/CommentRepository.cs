@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using VegankoService.Models;
+using VegankoService.Models.Comments;
 
 namespace VegankoService.Data.Comments
 {
@@ -33,7 +34,7 @@ namespace VegankoService.Data.Comments
             return context.Comment.FirstOrDefault(c => c.Id == id);
         }
 
-        public PagedList<Comment> GetAll(string productId, int page, int pageSize = 10)
+        public PagedList<CommentOutput> GetAll(string productId, int page, int pageSize = 10)
         {
             int pageIdx = page - 1;
             if (pageIdx < 0)
@@ -41,9 +42,36 @@ namespace VegankoService.Data.Comments
                 throw new ArgumentException("Page idx < 0 !");
             }
 
-            return new PagedList<Comment>
+            IEnumerable<Comment> comments = 
+                context.Comment
+                .Where(c => c.ProductId == productId)
+                .Skip(pageSize * pageIdx)
+                .Take(pageSize);
+
+            IEnumerable<CommentOutput> commentOutputs =
+                from comment in comments
+                join customer in context.Customer on comment.UserId equals customer.Id
+                join appUser in context.Users on customer.IdentityId equals appUser.Id
+                join userRole in context.UserRoles on customer.IdentityId equals userRole.UserId
+                join role in context.Roles on userRole.RoleId equals role.Id
+                select new CommentOutput
+                {
+                    Id = comment.Id,
+                    ProductId = comment.ProductId,
+                    Rating = comment.Rating,
+                    Text = comment.Text,
+                    UserAvatarId = customer.AvatarId,
+                    UserEmail = appUser.Email,
+                    UserId = appUser.Id,
+                    Username = appUser.UserName,
+                    UserProfileBackgroundId = customer.ProfileBackgroundId,
+                    UserRole = role.Name,
+                    UtcDatePosted = comment.UtcDatePosted
+                };
+
+            return new PagedList<CommentOutput>
             {
-                Items = context.Comment.Where(c => c.ProductId == productId).Skip(pageSize * pageIdx).Take(pageSize),
+                Items = commentOutputs,
                 Page = page,
                 PageSize = pageSize,
                 TotalCount = context.Comment.Where(c => c.ProductId == productId).Count(),

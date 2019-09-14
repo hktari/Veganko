@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace VegankoService.Models
+namespace VegankoService.Models.Comments
 {
     public class Comment
     {

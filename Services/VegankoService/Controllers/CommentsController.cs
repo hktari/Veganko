@@ -12,6 +12,7 @@ using VegankoService.Data;
 using VegankoService.Data.Comments;
 using VegankoService.Helpers;
 using VegankoService.Models;
+using VegankoService.Models.Comments;
 using VegankoService.Models.User;
 
 namespace VegankoService.Controllers
@@ -49,7 +50,7 @@ namespace VegankoService.Controllers
         }
 
         [HttpGet]
-        public ActionResult<PagedList<Comment>> GetAll(string productId, int page = 1, int pageSize = 10)
+        public ActionResult<PagedList<CommentOutput>> GetAll(string productId, int page = 1, int pageSize = 10)
         {
             if (productId == null)
             {
