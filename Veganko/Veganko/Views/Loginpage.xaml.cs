@@ -35,12 +35,18 @@ namespace Veganko.Views
 
             try
             {
+                vm.IsBusy = true;
                 await vm.Login();
                 await Navigation.PushAsync(new MainPage(vm.IsManager));
+                Navigation.RemovePage(this);
             }
             catch (ServiceException ex)
             {
                 await this.Err($"{ex.StatusDescription}: {ex.Response}");
+            }
+            finally
+            {
+                vm.IsBusy = false;
             }
         }
     }

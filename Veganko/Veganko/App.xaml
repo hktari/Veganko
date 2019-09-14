@@ -34,6 +34,23 @@
                 <Setter Property="CornerRadius" Value="9" />
                 <Setter Property="BorderColor" Value="Black" />
             </Style>
+
+            <ControlTemplate x:Key="LodingIndictorTemplate">
+                <Grid>
+                    <ContentPresenter />
+                    <BoxView
+                        BackgroundColor="DarkGray"
+                        IsVisible="{TemplateBinding BindingContext.IsBusy}"
+                        Opacity="0.45" />
+                    <ActivityIndicator
+                        HeightRequest="50"
+                        HorizontalOptions="Center"
+                        IsRunning="{TemplateBinding BindingContext.IsBusy}"
+                        IsVisible="{TemplateBinding BindingContext.IsBusy}"
+                        VerticalOptions="Center"
+                        WidthRequest="50" />
+                </Grid>
+            </ControlTemplate>
         </ResourceDictionary>
     </Application.Resources>
 </Application>
