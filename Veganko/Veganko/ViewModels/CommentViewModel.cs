@@ -18,6 +18,7 @@ namespace Veganko.ViewModels
         public CommentViewModel(Comment comment)
         {
             Id = comment.Id;
+            UserId = comment.UserId;
             Username = comment.Username;
             UserAvatar = Images.GetProfileAvatarById(comment.UserAvatarId);
             Text = comment.Text;
@@ -26,6 +27,7 @@ namespace Veganko.ViewModels
         }
 
         public string Id { get; set; }
+        public string UserId { get; set; }
         public string Username { get; set; }
         public string UserAvatar { get; set; }
         public int Rating { get; set; }

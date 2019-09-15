@@ -1,0 +1,62 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<ContentView
+    x:Class="Veganko.Views.Product.Partial.CommentView"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:circleImageControl="clr-namespace:ImageCircle.Forms.Plugin.Abstractions;assembly=ImageCircle.Forms.Plugin.Abstractions"
+    xmlns:converter="clr-namespace:Veganko.Converters"
+    xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+    <ContentView.Resources>
+        <converter:IntToStarConverter x:Key="IntToStarConverter" />
+    </ContentView.Resources>
+    <ContentView.Content>
+        <Grid
+            Padding="10"
+            ColumnSpacing="10"
+            RowSpacing="10">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+
+            <circleImageControl:CircleImage
+                Grid.RowSpan="2"
+                Aspect="AspectFill"
+                BorderColor="LightBlue"
+                BorderThickness="1"
+                HeightRequest="66"
+                HorizontalOptions="CenterAndExpand"
+                Source="{Binding UserAvatar}"
+                VerticalOptions="CenterAndExpand"
+                WidthRequest="66" />
+            <Label
+                Grid.Column="1"
+                Text="{Binding Username}"
+                VerticalOptions="EndAndExpand" />
+            <Label
+                Grid.Row="0"
+                Grid.Column="2"
+                HorizontalOptions="End"
+                Text="{Binding Rating, Converter={StaticResource IntToStarConverter}}" />
+            <Label
+                Grid.Row="1"
+                Grid.Column="2"
+                FontSize="Small"
+                HorizontalOptions="End"
+                Text="{Binding DatePosted, StringFormat='{}{0:dd.MM.yyyy}'}"
+                TextColor="LightGray" />
+            <Label
+                Grid.Row="1"
+                Grid.Column="1"
+                Text="{Binding Text}"
+                VerticalOptions="Start" />
+        </Grid>
+    </ContentView.Content>
+</ContentView>

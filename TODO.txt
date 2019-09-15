@@ -1,5 +1,6 @@
-- comments
-	- client side implement
+- comment
+	- delete
+	- edit
 - sign up page
 	- change login id is email not username throughout the app
 - forgot password

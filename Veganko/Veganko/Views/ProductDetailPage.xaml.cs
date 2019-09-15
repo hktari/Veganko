@@ -41,6 +41,11 @@ namespace Veganko.Views
             }
         }
 
+        private async void OnDeleteCommentClicked(object sender, EventArgs args)
+        {
+            await this.Err("DEELTEING COMMENT!");
+        }
+
         private async void OnSendCommentClicked(object sender, EventArgs args)
         {
             if (string.IsNullOrWhiteSpace(vm.NewComment.Text) || vm.NewComment.Rating == 0)

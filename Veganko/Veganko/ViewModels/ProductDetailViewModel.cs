@@ -12,13 +12,13 @@ using Veganko.Models.User;
 using Veganko.Other;
 using Autofac;
 using Veganko.Services.Comments;
+using Veganko.Views.Product.DTS;
 
 namespace Veganko.ViewModels
 {
     public class ProductDetailViewModel : BaseViewModel
     {
         public Command AddToFavoritesCommand => new Command(AddToFavorites);
-
         public Product Product { get; set; }
 
         private ObservableCollection<CommentViewModel> comments;
@@ -61,7 +61,11 @@ namespace Veganko.ViewModels
             set => SetProperty(ref profileAvatar, value);
         }
 
+        //public CommentDataTemplateSelector CommentDTS { get; set; }
+
         public UserPublicInfo User => App.IoC.Resolve<IAccountService>().User;
+
+        public bool IsUserManager { get; set; }
 
         private Favorite favoriteEntry;
 
@@ -79,6 +83,8 @@ namespace Veganko.ViewModels
             userService = App.IoC.Resolve<IUserService>();
             Comments = new ObservableCollection<CommentViewModel>();
             ProfileAvatar = Images.GetProfileAvatarById(User.AvatarId);
+
+            IsUserManager = User.IsManager();
         }
 
         public async Task RefreshIsFavorite()
