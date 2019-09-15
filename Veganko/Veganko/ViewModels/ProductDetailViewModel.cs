@@ -116,6 +116,12 @@ namespace Veganko.ViewModels
             await RefreshIsFavorite();
         }
 
+        public async Task DeleteComment(CommentViewModel commentVM)
+        {
+            await commentDataStore.DeleteItemAsync(commentVM.Id);
+            Comments.Remove(commentVM);
+        }
+
         public async Task SendComment()
         {
             Debug.Assert(User != null);

@@ -10,7 +10,7 @@ namespace Veganko.Services.Comments
     {
         Task<Comment> AddItemAsync(Comment item);
         Task<Comment> UpdateItemAsync(Comment item);
-        Task DeleteItemAsync(Comment item);
+        Task DeleteItemAsync(string id);
         Task<Comment> GetItemAsync(string id);
         Task<PagedList<Comment>> GetItemsAsync(string productId, int page = 1, int pageSize = 20, bool forceRefresh = false);
     }

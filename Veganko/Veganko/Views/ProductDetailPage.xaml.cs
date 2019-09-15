@@ -43,7 +43,20 @@ namespace Veganko.Views
 
         private async void OnDeleteCommentClicked(object sender, EventArgs args)
         {
-            await this.Err("DEELTEING COMMENT!");
+            var mi = ((MenuItem)sender);
+            try
+            {
+                vm.IsBusy = true;
+                await vm.DeleteComment((CommentViewModel)mi.CommandParameter);
+            }
+            catch (ServiceException ex)
+            {
+                await this.Err("Napak pri brisanju: " + ex.Response);
+            }
+            finally
+            {
+                vm.IsBusy = false;
+            }
         }
 
         private async void OnSendCommentClicked(object sender, EventArgs args)

@@ -19,7 +19,11 @@
             <DataTemplate x:Key="EditableCommentTemplate">
                 <ViewCell>
                     <ViewCell.ContextActions>
-                        <MenuItem Clicked="OnDeleteCommentClicked" Text="Delete" />
+                        <MenuItem
+                            Clicked="OnDeleteCommentClicked"
+                            CommandParameter="{Binding .}"
+                            IsDestructive="True"
+                            Text="Delete" />
                     </ViewCell.ContextActions>
                     <partials:CommentView />
                 </ViewCell>

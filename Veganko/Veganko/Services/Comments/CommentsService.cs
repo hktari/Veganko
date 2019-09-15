@@ -36,9 +36,9 @@ namespace Veganko.Services.Comments
             }
         }
 
-        public Task DeleteItemAsync(Comment item)
+        public Task DeleteItemAsync(string id)
         {
-            RestRequest request = new RestRequest($"comments/{item.Id}", Method.DELETE);
+            RestRequest request = new RestRequest($"comments/{id}", Method.DELETE);
             return restService.ExecuteAsync(request);
         }
 
