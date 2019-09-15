@@ -11,16 +11,22 @@ using System.Diagnostics;
 using Veganko.Models.User;
 using Veganko.Other;
 using Autofac;
+using Veganko.Services.Comments;
 
 namespace Veganko.ViewModels
 {
     public class ProductDetailViewModel : BaseViewModel
     {
-        public Command SendCommentCommand => new Command(SendComment);
         public Command AddToFavoritesCommand => new Command(AddToFavorites);
 
         public Product Product { get; set; }
-        public ObservableCollection<CommentViewModel> Comments { get; set; }
+
+        private ObservableCollection<CommentViewModel> comments;
+        public ObservableCollection<CommentViewModel> Comments
+        {
+            get => comments;
+            set => SetProperty(ref comments, value);
+        }
 
         private CommentViewModel newComment;
         public CommentViewModel NewComment
@@ -59,7 +65,7 @@ namespace Veganko.ViewModels
 
         private Favorite favoriteEntry;
 
-        private IDataStore<Comment> commentDataStore;
+        private ICommentsService commentDataStore;
         private IDataStore<Favorite> favoriteDataStore;
         private IUserService userService;
 
@@ -68,7 +74,7 @@ namespace Veganko.ViewModels
             Product = product;
             NewComment = CreateDefaultComment();
 
-            commentDataStore = DependencyService.Get<IDataStore<Comment>>();
+            commentDataStore = App.IoC.Resolve<ICommentsService>();
             favoriteDataStore = DependencyService.Get<IDataStore<Favorite>>();
             userService = App.IoC.Resolve<IUserService>();
             Comments = new ObservableCollection<CommentViewModel>();
@@ -104,8 +110,12 @@ namespace Veganko.ViewModels
             await RefreshIsFavorite();
         }
 
-        private async void SendComment(object obj)
+        public async Task SendComment()
         {
+            Debug.Assert(User != null);
+            Debug.Assert(newComment.Rating > 0);
+            Debug.Assert(!string.IsNullOrWhiteSpace(newComment.Text));
+
             var comment = new Comment
             {
                 ProductId = Product.Id,
@@ -122,27 +132,11 @@ namespace Veganko.ViewModels
 
         public async Task RefreshComments()
         {
-            Comments.Clear();
-            var result = await commentDataStore.GetItemsAsync();
-            if (result != null)
-            {
-                var items = result.Where(c => c.ProductId == Product.Id).ToList();
-                items.Sort(new CommentDatePostedComparer());
-                var allUserIds = items.Distinct(new UserIdComparer()).Select(c => c.UserId);
-                var userInfos = await userService.GetByIds(allUserIds);
-                foreach (var item in items)
-                {
-                    var userInfo = userInfos.FirstOrDefault(upi => upi.Id == item.UserId);
-                    if (userInfo == null)
-                    {
-                        Debug.WriteLine("Couldn't match user to comment. comment:{0}, userId:{1}", item.Id, item.UserId);
-                        continue;
-                    }
-
-                    Comments.Add(
-                        new CommentViewModel(item, userInfo));
-                }
-            }
+            PagedList<Comment> commentsList = await commentDataStore.GetItemsAsync(Product.Id);
+            List<Comment> comments = commentsList.Items.ToList();
+            comments.Sort(new CommentDatePostedComparer());
+            Comments = new ObservableCollection<CommentViewModel>(
+                comments.Select(c => new CommentViewModel(c)));
         }
         
         private CommentViewModel CreateDefaultComment()

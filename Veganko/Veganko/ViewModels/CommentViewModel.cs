@@ -15,13 +15,13 @@ namespace Veganko.ViewModels
             UserAvatar = Images.GetProfileAvatarById(user.AvatarId);
         }
 
-        public CommentViewModel(Comment comment, UserPublicInfo userInfo)
+        public CommentViewModel(Comment comment)
         {
             Id = comment.Id;
-            Username = userInfo.Username;
-            UserAvatar = Images.GetProfileAvatarById(userInfo.AvatarId);
+            Username = comment.Username;
+            UserAvatar = Images.GetProfileAvatarById(comment.UserAvatarId);
             Text = comment.Text;
-            DatePosted = comment.UtcDatePosted;
+            DatePosted = comment.UtcDatePosted.ToLocalTime();
             Rating = comment.Rating;
         }
 

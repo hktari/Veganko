@@ -8,7 +8,8 @@
     xmlns:converter="clr-namespace:Veganko.Converters"
     xmlns:local="clr-namespace:Veganko"
     xmlns:models="clr-namespace:Veganko.Models"
-    xmlns:views="clr-namespace:Veganko.Views">
+    xmlns:views="clr-namespace:Veganko.Views"
+    ControlTemplate="{StaticResource LodingIndicatorTemplate}">
     <ContentPage.Resources>
         <ResourceDictionary>
             <converter:IntToStarConverter x:Key="IntToStarConverter" />
@@ -107,7 +108,7 @@
                                 Text="{Binding NewComment.Text}" />
                             <Button
                                 BackgroundColor="Transparent"
-                                Command="{Binding SendCommentCommand}"
+                                Clicked="OnSendCommentClicked"
                                 HorizontalOptions="End"
                                 Text="Send" />
                         </StackLayout>

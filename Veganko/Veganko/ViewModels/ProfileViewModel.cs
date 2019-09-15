@@ -9,6 +9,7 @@ using Veganko.Models;
 using Veganko.Models.User;
 using Veganko.Other;
 using Veganko.Services;
+using Veganko.Services.Comments;
 using Veganko.Services.Http;
 using Veganko.ViewModels.Profile;
 using Xamarin.Forms;
@@ -70,8 +71,8 @@ namespace Veganko.ViewModels
             set => SetProperty(ref isDirty, value);
         }
 
-        private IDataStore<Comment> commentDataStore;
-        private IDataStore<Product> productDataStore;
+        private ICommentsService commentDataStore;
+        private IProductService productDataStore;
         private readonly IAccountService accountService;
         private readonly IUserService userService;
 
@@ -86,8 +87,8 @@ namespace Veganko.ViewModels
             MessagingCenter.Subscribe<BackgroundImageViewModel, string>(this, BackgroundImageViewModel.SaveMsg, OnBackgroundImageChanged);
             MessagingCenter.Subscribe<SelectAvatarViewModel, string>(this, SelectAvatarViewModel.SaveMsg, OnAvatarImageChanged);
             Comments = new ObservableCollection<ProfileComment>();
-            commentDataStore = DependencyService.Get<IDataStore<Comment>>();
-            productDataStore = DependencyService.Get<IDataStore<Product>>();
+            commentDataStore = App.IoC.Resolve<ICommentsService>();
+            productDataStore = App.IoC.Resolve<IProductService>();
         }
 
         public async Task SaveProfile()
@@ -114,44 +115,45 @@ namespace Veganko.ViewModels
 
         public async Task Refresh()
         {
-            if (IsBusy)
-                return;
-            IsBusy = true;
-            try
-            {
-                var commentData = await commentDataStore.GetItemsAsync();
-                var productData = await productDataStore.GetItemsAsync();
+            // TODO remove if not needed 
 
-                if (commentData != null && productData != null)
-                {
-                    commentData = commentData.Where(c => c.UserId == User.Id);
-                    foreach (var comment in commentData)
-                    {
-                        var product = productData.FirstOrDefault(p => p.Id == comment.ProductId);
-                        // If for some reason the corresponding product isn't found, just ignore the comment
-                        if (product == null)
-                        {
-                            Console.WriteLine($"Ignoring comment {comment.Id} " +
-                                $"because the corresponding product {product.Id} couldn't be found.");
-                            continue;
-                        }
-                        var profileComment = new ProfileComment
-                        {
-                            Comment = comment,
-                            Product = product
-                        };
-                        Comments.Add(profileComment);
-                    }
-                }
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine("Could not refresh profile comments: " + e.Message + " " + e.StackTrace);
-            }
-            finally
-            {
-                IsBusy = false;
-            }
+            //if (IsBusy)
+            //    return;
+            //IsBusy = true;
+            //try
+            //{
+            //    var productData = await productDataStore.GetItemsAsync();
+
+            //    if (productData != null)
+            //    {
+            //        var commentData = await commentDataStore.GetItemsAsync(productData.);
+            //        foreach (var comment in commentData)
+            //        {
+            //            var product = productData.FirstOrDefault(p => p.Id == comment.ProductId);
+            //            // If for some reason the corresponding product isn't found, just ignore the comment
+            //            if (product == null)
+            //            {
+            //                Console.WriteLine($"Ignoring comment {comment.Id} " +
+            //                    $"because the corresponding product {product.Id} couldn't be found.");
+            //                continue;
+            //            }
+            //            var profileComment = new ProfileComment
+            //            {
+            //                Comment = comment,
+            //                Product = product
+            //            };
+            //            Comments.Add(profileComment);
+            //        }
+            //    }
+            //}
+            //catch (Exception e)
+            //{
+            //    Console.WriteLine("Could not refresh profile comments: " + e.Message + " " + e.StackTrace);
+            //}
+            //finally
+            //{
+            //    IsBusy = false;
+            //}
         }
 
         private void OnBackgroundImageChanged(BackgroundImageViewModel arg1, string newBackgroundId)
