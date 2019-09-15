@@ -25,8 +25,8 @@ namespace VegankoService.Data
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-                //optionsBuilder.UseInMemoryDatabase("Products");
-            var connection = @"Server=(localdb)\mssqllocaldb;Database=VegankoService;Trusted_Connection=True;ConnectRetryCount=0";
+            //optionsBuilder.UseInMemoryDatabase("Products");
+            var connection = @"server=localhost;userid=root;password=borut123;database=Veganko;";
             optionsBuilder.UseSqlServer(connection);
         }
     }
