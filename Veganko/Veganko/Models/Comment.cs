@@ -11,6 +11,11 @@ namespace Veganko.Models
         public string UserId { get; set; }
         public int Rating { get; set; }
         public string Text { get; set; }
-        public DateTime DatePosted { get; set; }
+        public DateTime UtcDatePosted { get; set; }
+        public string Username { get; set; }
+        public string UserEmail { get; set; }
+        public string UserProfileBackgroundId { get; set; }
+        public string UserAvatarId { get; set; }
+        public string UserRole { get; set; }
     }
 }

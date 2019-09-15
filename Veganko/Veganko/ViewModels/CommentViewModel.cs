@@ -21,7 +21,7 @@ namespace Veganko.ViewModels
             Username = userInfo.Username;
             UserAvatar = Images.GetProfileAvatarById(userInfo.AvatarId);
             Text = comment.Text;
-            DatePosted = comment.DatePosted;
+            DatePosted = comment.UtcDatePosted;
             Rating = comment.Rating;
         }
 

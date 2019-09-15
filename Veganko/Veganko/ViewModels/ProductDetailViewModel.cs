@@ -158,7 +158,7 @@ namespace Veganko.ViewModels
         {
             public int Compare(Comment x, Comment y)
             {
-                return x.DatePosted.CompareTo(y.DatePosted) * -1; // descending order
+                return x.UtcDatePosted.CompareTo(y.UtcDatePosted) * -1; // descending order
             }
         }
 

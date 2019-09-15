@@ -5,9 +5,9 @@ using System.Text;
 using System.Threading.Tasks;
 using Veganko.Models;
 
-[assembly: Xamarin.Forms.Dependency(typeof(Veganko.Services.MockCommentDataStore))]
-namespace Veganko.Services
+namespace Veganko.Services.Comments
 {
+    // TODO: implement new interface
 	public class MockCommentDataStore : IDataStore<Comment>
 	{
         private static int idCtr = 0;
@@ -20,21 +20,21 @@ namespace Veganko.Services
                 new Comment
                 {
                     ProductId = "0",
-                    DatePosted = DateTime.Now,
+                    UtcDatePosted = DateTime.Now,
                     Rating = 1, Text = "Very good product !",
                     UserId = "0"
                 },
                 new Comment
                 {
                     ProductId = "0",
-                    DatePosted = DateTime.Now,
+                    UtcDatePosted = DateTime.Now,
                     Rating = 3, Text = "Idd !",
                     UserId = "0"
                 },
                 new Comment
                 {
                     ProductId = "0",
-                    DatePosted = DateTime.Now,
+                    UtcDatePosted = DateTime.Now,
                     Rating = 1, Text = "Boka jedi čaj naret !",
                     UserId = "1"
                 },
@@ -42,7 +42,7 @@ namespace Veganko.Services
                 {
                     ProductId = "1",
                     Rating = 4,
-                    DatePosted = DateTime.Now,
+                    UtcDatePosted = DateTime.Now,
                     Text = "Res ful dobro... Močno priporočam.",
                     UserId = "2",
                 },
@@ -51,7 +51,7 @@ namespace Veganko.Services
                     ProductId = "1",
                     UserId = "2",
                     Rating = 3,
-                    DatePosted = DateTime.Now,
+                    UtcDatePosted = DateTime.Now,
                     Text = "Sreča je kot metulj."
                 },
                 new Comment
@@ -59,7 +59,7 @@ namespace Veganko.Services
                     ProductId = "2",
                     UserId = "1",
                     Rating = 2,
-                    DatePosted = DateTime.Now,
+                    UtcDatePosted = DateTime.Now,
                     Text = "Nima točno takšnega okusa kot nutella :/"
                 },
                 new Comment
@@ -67,7 +67,7 @@ namespace Veganko.Services
                     ProductId = "2",
                     UserId = "0",
                     Rating = 5,
-                    DatePosted = DateTime.Now,
+                    UtcDatePosted = DateTime.Now,
                     Text = "Real great stuff ! I should write a song about it..."
                 },
                 new Comment
@@ -75,7 +75,7 @@ namespace Veganko.Services
                     ProductId = "2",
                     UserId = "1",
                     Rating = 5,
-                    DatePosted = DateTime.Now,
+                    UtcDatePosted = DateTime.Now,
                     Text = "Čokolada je life. In seveda mačke..."
                 }
             };
@@ -88,7 +88,7 @@ namespace Veganko.Services
 		{
             item.Id = idCtr.ToString();
             idCtr++;
-            item.DatePosted = DateTime.Now;
+            item.UtcDatePosted = DateTime.Now;
             comments.Add(item);
             return Task.FromResult(true);
         }

@@ -12,6 +12,7 @@ using System.Net;
 using Veganko.Services.Http;
 using Autofac;
 using Veganko.Services.Users;
+using Veganko.Services.Comments;
 
 namespace Veganko
 {
@@ -42,6 +43,7 @@ namespace Veganko
             builder.RegisterType<RestService>().As<IRestService>().SingleInstance();
             builder.RegisterType<AccountService>().As<IAccountService>().SingleInstance();
             builder.RegisterType<ProductDataStore>().As<IProductService>().SingleInstance();
+            builder.RegisterType<CommentsService>().As<ICommentsService>().SingleInstance();
             builder.RegisterType<UserService>().As<IUserService>().SingleInstance();
 
             IoC = builder.Build();
