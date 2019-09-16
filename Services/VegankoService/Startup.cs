@@ -45,8 +45,13 @@ namespace VegankoService
         public void ConfigureServices(IServiceCollection services)
         {
             //services.AddSingleton<IProductRepository, MockProductRepository>();
-            services.AddTransient<VegankoContext>();
-            
+            services.AddScoped((sp) =>
+            {
+                var dbContext = new VegankoContext();
+                dbContext.Database.Migrate();
+                return dbContext;
+            });
+
             services.AddSingleton<IProductRepository, ProductRepository>();
             services.AddSingleton<ICommentRepository, CommentRepository>();
             services.AddSingleton<IUsersRepository, UsersRepository>();

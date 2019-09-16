@@ -17,7 +17,7 @@ namespace VegankoService.Data
 
         public DbSet<Product> Product { get; set; }
 
-        public DbSet<Comment> Comment { get; set; }
+        public DbSet<Comment> Comment { get; set; } 
 
         public DbSet<Customer> Customer { get; set; }
 
@@ -25,9 +25,8 @@ namespace VegankoService.Data
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            //optionsBuilder.UseInMemoryDatabase("Products");
-            var connection = @"server=localhost;userid=root;password=borut123;database=Veganko;";
-            optionsBuilder.UseSqlServer(connection);
+            var connection = @"server=localhost;user=root;password=borut123;database=Veganko;";
+            optionsBuilder.UseMySql(connection);
         }
     }
 }
