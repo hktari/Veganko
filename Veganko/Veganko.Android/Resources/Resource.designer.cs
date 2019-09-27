@@ -9660,10 +9660,13 @@ namespace Veganko.Droid
 		{
 			
 			// aapt resource value: 0x7f070000
-			public const int file_paths = 2131165184;
+			public const int auto_backup_rules = 2131165184;
 			
 			// aapt resource value: 0x7f070001
-			public const int xamarin_essentials_fileprovider_file_paths = 2131165185;
+			public const int file_paths = 2131165185;
+			
+			// aapt resource value: 0x7f070002
+			public const int xamarin_essentials_fileprovider_file_paths = 2131165186;
 			
 			static Xml()
 			{
