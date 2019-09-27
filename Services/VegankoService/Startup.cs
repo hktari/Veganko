@@ -194,7 +194,13 @@ namespace VegankoService
                     //here we tie the new user to the role
                     await UserManager.AddToRoleAsync(poweruser, Constants.Strings.Roles.Admin);
 
-                    context.Customer.Add(new Customer { IdentityId = poweruser.Id });
+                    context.Customer.Add(
+                        new Customer
+                        {
+                            IdentityId = poweruser.Id,
+                            AvatarId = "0",
+                            ProfileBackgroundId = "0",
+                        });
                     await context.SaveChangesAsync();
                 }
             }

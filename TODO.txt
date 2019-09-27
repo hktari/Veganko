@@ -1,3 +1,5 @@
+- save login info & token for auto login
+
 - comment
 	- delete
 	- edit
