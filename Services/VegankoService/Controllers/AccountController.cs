@@ -59,6 +59,10 @@ namespace VegankoService.Controllers
         [AllowAnonymous]
         public async Task<IActionResult> Post([FromBody]AccountInput input)
         {
+            // UserManager takes   care  of  trimming,  but  we want  a  valid  email   address for  sending  email confirmation
+            input.Email = input.Email.Trim();
+            input.Username = input.Username.Trim();
+
             var user = new ApplicationUser
             {
                 UserName = input.Username,
