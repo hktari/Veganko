@@ -63,7 +63,7 @@ namespace Veganko.ViewModels
 
         //public CommentDataTemplateSelector CommentDTS { get; set; }
 
-        public UserPublicInfo User => App.IoC.Resolve<IAccountService>().User;
+        public UserPublicInfo User => App.IoC.Resolve<IUserService>().CurrentUser;
 
         public bool IsUserManager { get; set; }
 
@@ -109,7 +109,7 @@ namespace Veganko.ViewModels
                     .AddItemAsync(
                         new Favorite
                         {
-                            UserId = App.IoC.Resolve<IAccountService>().User.Id,
+                            UserId = App.IoC.Resolve<IUserService>().CurrentUser.Id,
                             ProductId = Product.Id
                         });
             }

@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Veganko.Extensions;
 using Veganko.Models.User;
 using Veganko.Services;
+using Veganko.Services.Auth;
 using Veganko.Services.Http;
 using Veganko.ViewModels;
 using Veganko.ViewModels.Profile;
@@ -45,7 +46,7 @@ namespace Veganko.Views
 
         private void OnLogoutClicked(object sender, EventArgs e)
         {
-            App.IoC.Resolve<IAccountService>().Logout();
+            App.IoC.Resolve<IAuthService>().Logout();
             App.Current.MainPage = new NavigationPage(new Loginpage());
         }
 

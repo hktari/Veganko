@@ -162,7 +162,7 @@ namespace Veganko.ViewModels
             SelectedProductClassifiers = new ObservableCollection<ProductClassifier>();
             SelectedProductType = ProductType.NOT_SET;
             ShowProductClassifiers = true;
-            UserRole = accountService.User.Role;
+            UserRole = App.IoC.Resolve<IUserService>().CurrentUser.Role;
 
             LoadItemsCommand = new Command(async () => await RefreshProducts());
         }

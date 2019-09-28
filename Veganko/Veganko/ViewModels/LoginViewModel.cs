@@ -11,11 +11,15 @@ using Veganko.Views;
 using Xamarin.Forms;
 using Autofac;
 using System.Threading.Tasks;
+using Xamarin.Essentials;
+using Veganko.Services.Auth;
 
 namespace Veganko.ViewModels
 {
     public class LoginViewModel : BaseViewModel
     {
+        private readonly IUserService userService;
+
         public string SelectedUserType { get; set; } = "user";
 
         public bool IsManager { get; private set; }
@@ -24,6 +28,8 @@ namespace Veganko.ViewModels
 
         public LoginViewModel()
         {
+            userService = App.IoC.Resolve<IUserService>();
+
 #if DEBUG
             Email = "bkamnik1995@gmail.com";
             Password = "123qweAsd...";
@@ -38,15 +44,38 @@ namespace Veganko.ViewModels
         }
 
         private string email;
+
         public string Email
         {
             get => email;
             set => SetProperty(ref email, value);
         }
 
+        public async Task<bool> TryAutoLogin()
+        {
+            IAuthService authService = App.IoC.Resolve<IAuthService>();
+
+            if (!await authService.CredentialsExist())
+            {
+                return false;
+            }
+
+            if (!await authService.IsTokenValid())
+            {
+                await authService.RefreshToken();
+                UpdateIsManager();
+            }
+
+            //if (userService.CurrentUser == null)
+            //{
+            //    userService.GetCurrentUser();
+            //}
+            return true;
+        }
+
         public async Task Login()
         {
-            IAccountService accountService = App.IoC.Resolve<IAccountService>();
+            IAuthService authService = App.IoC.Resolve<IAuthService>();
 
             if (SelectedUserType == "admin")
             {
@@ -66,9 +95,14 @@ namespace Veganko.ViewModels
             }
             else
             {
-                await accountService.Login(email, password);
-                IsManager = accountService.User.IsManager();
+                await authService.Login(email, password);
+                UpdateIsManager();
             }
+        }
+
+        private void UpdateIsManager()
+        {
+            IsManager = userService.CurrentUser.IsManager();
         }
     }
 }

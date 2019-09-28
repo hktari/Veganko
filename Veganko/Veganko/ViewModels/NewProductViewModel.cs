@@ -133,7 +133,7 @@ namespace Veganko.ViewModels
 
         private void InitProduct()
         {
-            var user = App.IoC.Resolve<IAccountService>().User;
+            var user = App.IoC.Resolve<IUserService>().CurrentUser;
             var mask = UserAccessRights.ProductsDelete;
 
             Debug.Assert(user != null);

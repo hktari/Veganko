@@ -40,6 +40,8 @@ namespace Veganko.Services
             },
         };
 
+        public UserPublicInfo CurrentUser { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+
         public Task<UserPublicInfo> Edit(UserPublicInfo user)
         {
             throw new NotImplementedException();

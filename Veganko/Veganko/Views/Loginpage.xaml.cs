@@ -21,6 +21,26 @@ namespace Veganko.Views
             BindingContext = this.vm = new LoginViewModel();
 		}
 
+        protected async override void OnAppearing()
+        {
+            vm.IsBusy = true;
+            try
+            {
+                if (await vm.TryAutoLogin())
+                {
+                    NavigateToMainPage();
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error while logging in automatically. " + ex.Message);
+            }
+            finally
+            {
+                vm.IsBusy = false;
+            }
+        }
+
         private async void OnSignUpBtnClicked(object sender, EventArgs args)
         {
             await Navigation.PushAsync(new RegisterPage());
@@ -37,8 +57,7 @@ namespace Veganko.Views
             {
                 vm.IsBusy = true;
                 await vm.Login();
-                await Navigation.PushAsync(new MainPage(vm.IsManager));
-                Navigation.RemovePage(this);
+                NavigateToMainPage();
             }
             catch (ServiceException ex)
             {
@@ -49,6 +68,12 @@ namespace Veganko.Views
                 vm.IsBusy = false;
             }
         }
+
+        private void NavigateToMainPage()
+        {
+            App.Current.MainPage = new MainPage(vm.IsManager);
+        }
+
         private void OnForgotPasswordClicked(object sender, EventArgs args)
         {
             Navigation.PushAsync(new ForgotPasswordPage());

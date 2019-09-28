@@ -6,8 +6,9 @@ using Veganko.Models.User;
 
 namespace Veganko.Services
 {
-    interface IUserService
+    public interface IUserService
     {
+        UserPublicInfo CurrentUser { get; set; }
         Task<UserPublicInfo> Get(string id);
         Task<IEnumerable<UserPublicInfo>> GetByIds(IEnumerable<string> id);
         Task<IEnumerable<UserPublicInfo>> GetAll(int page = 1, int pageSize = 20);

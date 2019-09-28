@@ -81,7 +81,7 @@ namespace Veganko.ViewModels
             accountService = App.IoC.Resolve<IAccountService>();
             userService = App.IoC.Resolve<IUserService>();
             Title = "Profile";
-            User = accountService.User;
+            User = userService.CurrentUser;
             HandleNewData();
             // TODO: fix memory leak
             MessagingCenter.Subscribe<BackgroundImageViewModel, string>(this, BackgroundImageViewModel.SaveMsg, OnBackgroundImageChanged);
@@ -93,7 +93,7 @@ namespace Veganko.ViewModels
 
         public async Task SaveProfile()
         {
-            UserPublicInfo updatedUser = new UserPublicInfo(accountService.User)
+            UserPublicInfo updatedUser = new UserPublicInfo(userService.CurrentUser)
             {
                 Label = UserLabel,
                 Description = UserDescription,
@@ -102,7 +102,7 @@ namespace Veganko.ViewModels
             };
 
             // Update the in memory cache of the user model
-            accountService.User = await userService.Edit(updatedUser);
+            userService.CurrentUser = await userService.Edit(updatedUser);
         }
 
         private void HandleNewData()
@@ -164,7 +164,7 @@ namespace Veganko.ViewModels
 
         private void UpdateIsDirty()
         {
-            UserPublicInfo user = accountService.User;
+            UserPublicInfo user = userService.CurrentUser;
             IsDirty =
                 Images.GetProfileBackgroundImageId(BackgroundImage) != user.ProfileBackgroundId ||
                 Images.GetProfileAvatarId(AvatarImage) != user.AvatarId ||

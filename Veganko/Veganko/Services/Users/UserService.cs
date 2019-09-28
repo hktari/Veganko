@@ -19,6 +19,19 @@ namespace Veganko.Services.Users
             this.restService = restService;
         }
 
+        private UserPublicInfo currentUser;
+        public UserPublicInfo CurrentUser
+        {
+            get
+            {
+                return currentUser ?? throw new Exception($"{nameof(CurrentUser)} hasn't been set");
+            }
+            set
+            {
+                currentUser = value;
+            }
+        }
+
         public async Task<UserPublicInfo> Edit(UserPublicInfo user)
         {
             RestRequest request = new RestRequest($"users/{user.Id}", Method.PUT);

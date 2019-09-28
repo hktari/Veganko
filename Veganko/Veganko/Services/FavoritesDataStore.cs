@@ -39,7 +39,8 @@ namespace Veganko.Services
 
         public async Task<IEnumerable<Favorite>> GetItemsAsync(bool forceRefresh = false)
         {
-            UserPublicInfo user = App.IoC.Resolve<IAccountService>().User;
+            throw new NotImplementedException();
+            UserPublicInfo user = App.IoC.Resolve<IUserService>().CurrentUser;
             return await App.MobileService.GetTable<Favorite>().Where(fe => fe.UserId == user.Id).ToListAsync();
         }
 

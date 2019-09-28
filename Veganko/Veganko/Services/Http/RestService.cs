@@ -8,6 +8,7 @@ using System.Diagnostics;
 using System.Text;
 using System.Threading.Tasks;
 using Veganko.Models.User;
+using Veganko.Services.Auth;
 
 namespace Veganko.Services.Http
 {
@@ -25,10 +26,7 @@ namespace Veganko.Services.Http
 #endif
 
         private readonly IRestClient client;
-        private Token curToken;
-        private string username;
-        private string password;
-
+        
         public RestService()
         {
             client = new RestClient(Endpoint)
@@ -36,39 +34,7 @@ namespace Veganko.Services.Http
             client.RemoteCertificateValidationCallback = (p1, p2, p3, p4) => true;
         }
 
-        public async Task<UserPublicInfo> Login(string email, string password)
-        {
-            RestRequest loginRequest = new RestRequest("auth/login", Method.POST);
-            loginRequest.AddJsonBody(
-                new
-                {
-                    email,
-                    password
-                });
-
-            var response = await client.ExecuteTaskAsync<LoginResponse>(loginRequest);
-            if (!response.IsSuccessful)
-            {
-                throw new ServiceException(response.ErrorMessage, response.StatusDescription, loginRequest.Resource, loginRequest.Method.ToString(), response.ErrorException);
-            }
-            else if (response.Data.Error != null)
-            {
-                throw new ServiceException(response.Data.Error, response.StatusDescription, loginRequest.Resource, loginRequest.Method.ToString());
-            }
-
-            curToken = response.Data.Token;
-            curToken.ExpiresAtUtc = DateTime.UtcNow.AddSeconds(curToken.ExpiresIn);
-            this.username = email;
-            this.password = password;
-
-            return response.Data.UserProfile;
-        }
-
-        public void Logout()
-        {
-            curToken = null;
-            username = password = null;
-        }
+        public IAuthService AuthService { get; set; }
 
         public async Task<TModel> ExecuteAsync<TModel>(RestRequest request, bool authorize = true)
             where TModel : new()
@@ -110,18 +76,18 @@ namespace Veganko.Services.Http
 
         private async Task HandleAuthorization(RestRequest request)
         {
-            if (curToken == null)
+            if (!await AuthService.IsTokenValid())
             {
-                throw new Exception("Login before using !");
-            }
-            else if (curToken.ExpiresAtUtc <= DateTime.UtcNow)
-            {
-                Debug.Assert(username != null);
-                Debug.Assert(password != null);
-                await Login(username, password);
+                await AuthService.RefreshToken();
             }
 
-            request.AddHeader("Authorization", "Bearer " + curToken.AuthToken);
+            string token = await AuthService.GetToken();
+            if (token == null)
+            {
+                throw new Exception("Failed to handle authorization. Token is null");
+            }
+
+            request.AddHeader("Authorization", "Bearer " + token);
         }
 
         private void AssertResponseSuccess(IRestResponse response)

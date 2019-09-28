@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using Veganko.Models;
 using Veganko.Models.User;
 using Veganko.Services.Http;
+using Xamarin.Essentials;
 
 namespace Veganko.Services
 {
@@ -39,11 +40,6 @@ namespace Veganko.Services
                 });
 
             return restService.ExecuteAsync(request, false);
-        }
-
-        public async Task Login(string email, string password)
-        {
-            User = await restService.Login(email, password);
         }
 
         public Task ForgotPassword(string email)
@@ -88,33 +84,5 @@ namespace Veganko.Services
             }
         }
 
-        public async Task<bool> LoginWithFacebook()
-        {
-            if (App.Authenticator == null)
-                throw new Exception("Authentication dependency not found !");
-
-            var authenticated = await App.Authenticator.Authenticate();
-            if (!authenticated)
-                return await Task.FromResult(false);
-
-            var client = new HttpClient();
-            client.DefaultRequestHeaders.Add("ACCESS_TOKEN", App.MobileService.CurrentUser.MobileServiceAuthenticationToken);
-            var response = await client.GetAsync("https://vegankoauthenticationhelper.azurewebsites.net/api/GetUserDetails");
-            var content = await response.Content.ReadAsStringAsync();
-            var facebookData = JsonConvert.DeserializeObject<FacebookDetails>(content);
-            User = new UserPublicInfo
-            {
-                Id = App.MobileService.CurrentUser?.UserId,
-                Username = facebookData.FirstName,
-                AvatarId = facebookData.Picture.Data.Url
-            };
-            return await Task.FromResult(true);
-        }
-
-        public void Logout()
-        {
-            User = null;
-            restService.Logout();
-        }
     }
 }

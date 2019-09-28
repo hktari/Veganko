@@ -19,7 +19,7 @@ namespace Veganko.Views.Product.DTS
 
         protected override DataTemplate OnSelectTemplate(object item, BindableObject container)
         {
-            UserPublicInfo user = App.IoC.Resolve<IAccountService>().User;
+            UserPublicInfo user = App.IoC.Resolve<IUserService>().CurrentUser;
 
             CommentViewModel commentVM = item as CommentViewModel ?? throw new ArgumentException(nameof(item));
 

@@ -13,6 +13,7 @@ using Veganko.Services.Http;
 using Autofac;
 using Veganko.Services.Users;
 using Veganko.Services.Comments;
+using Veganko.Services.Auth;
 
 namespace Veganko
 {
@@ -34,18 +35,24 @@ namespace Veganko
 #if DEBUG && __ANDROID__
             HotReloader.Current.Run(this);
 #endif
+            // UWP requirement
             MainPage = new NavigationPage(new Loginpage());
         }
 
         private void SetupDependencies()
         {
             ContainerBuilder builder = new ContainerBuilder();
-            builder.RegisterType<RestService>().As<IRestService>().SingleInstance();
+            builder.RegisterType<RestService>()
+                .As<IRestService>()
+                .SingleInstance()
+                .PropertiesAutowired(PropertyWiringOptions.AllowCircularDependencies);
+
             builder.RegisterType<AccountService>().As<IAccountService>().SingleInstance();
             builder.RegisterType<ProductDataStore>().As<IProductService>().SingleInstance();
             builder.RegisterType<CommentsService>().As<ICommentsService>().SingleInstance();
             builder.RegisterType<UserService>().As<IUserService>().SingleInstance();
-
+            builder.RegisterType<AuthService>().As<IAuthService>().SingleInstance();
+            
             IoC = builder.Build();
         }
 
@@ -54,14 +61,15 @@ namespace Veganko
             Authenticator = authenticator;
         }
 
-        protected override void OnStart ()
+        protected async override void OnStart ()
 		{
 #if DEBUG
             AppCenter.Start(
                 "android=daa6adb5-45f6-42a5-9612-34de5f472a92;",
                 typeof(Analytics),
-                typeof(Crashes));      
+                typeof(Crashes));
 #endif
+
             //if (MobileService.CurrentUser != null)
             //    MainPage = new MainPage();
             //else

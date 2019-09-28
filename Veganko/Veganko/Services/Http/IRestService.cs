@@ -9,10 +9,6 @@ namespace Veganko.Services.Http
 {
     public interface IRestService
     {
-        Task<UserPublicInfo> Login(string email, string password);
-
-        void Logout();
-
         Task<IRestResponse> ExecuteAsync(RestRequest request, bool authorize = true, bool throwIfUnsuccessful = true);
 
         Task<TModel> ExecuteAsync<TModel>(RestRequest request, bool authorize = true)

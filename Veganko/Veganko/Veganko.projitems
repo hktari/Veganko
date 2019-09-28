@@ -36,12 +36,14 @@
     <Compile Include="$(MSBuildThisFileDirectory)Models\User\UserAccessRights.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\User\UserPublicInfo.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\User\UserRole.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Services\Auth\AuthService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\Comments\ICommentsService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\Http\LoginResponse.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\Http\ServiceException.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\Http\IRestService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\Http\RestService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\Http\Token.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Services\Auth\IAuthService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\Users\IUserService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\Users\MockUserService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\Users\UserService.cs" />
