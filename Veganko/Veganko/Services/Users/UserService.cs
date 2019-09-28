@@ -44,9 +44,10 @@ namespace Veganko.Services.Users
             {
                 UserPublicInfo updatedUser = JsonConvert.DeserializeObject<UserPublicInfo>(response.Content);
 
-                // Update the CurrentUser reference if the user being edited is the current user.
+                // Update the CurrentUser reference and cache if the user being edited is the current user.
                 if (currentUser?.Id == updatedUser.Id)
                 {
+                    Preferences.Set("currentUser", response.Content);
                     currentUser.Update(updatedUser);
                 }
 

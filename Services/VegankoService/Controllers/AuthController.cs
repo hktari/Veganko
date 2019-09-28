@@ -66,7 +66,7 @@ namespace VegankoService.Controllers
             IList<string> roles = await _userManager.GetRolesAsync(userToVerify);
             ClaimsIdentity identity = _jwtFactory.GenerateClaimsIdentity(credentials.Email, userToVerify.Id, roles);
 
-            CustomerProfile customerProfile = usersRepository.Get(userToVerify.Id);
+            CustomerProfile customerProfile = usersRepository.GetProfile(userToVerify.Id);
 
             var jwt = await Tokens.GenerateJwt(identity, _jwtFactory, credentials.Email, _jwtOptions);
             return new OkObjectResult(

@@ -16,7 +16,7 @@ namespace VegankoService.Data.Users
             this.context = context;
         }
 
-        public CustomerProfile Get(string identityId)
+        public CustomerProfile GetProfile(string identityId)
         {
              IQueryable<CustomerProfile> query = 
                 from customer in context.Customer
@@ -70,6 +70,19 @@ namespace VegankoService.Data.Users
                 PageSize = pageSize,
                 TotalCount = context.Customer.Count()
             };
+        }
+
+        public void Update(CustomerProfile customerProfile)
+        {
+            Customer customer = context.Customer.FirstOrDefault(c => c.Id == customerProfile.Id);
+            customerProfile.MapToCustomer(customer);
+            context.Customer.Update(customer);
+            context.SaveChanges();
+        }
+
+        public Customer Get(string id)
+        {
+            return context.Customer.FirstOrDefault(c => c.Id == id);
         }
     }
 }

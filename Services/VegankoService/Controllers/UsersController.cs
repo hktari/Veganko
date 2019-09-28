@@ -48,35 +48,20 @@ namespace VegankoService.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<ActionResult<CustomerProfile>> Edit(string id, [FromBody]AccountInput input)
+        public ActionResult<CustomerProfile> Edit(string id, [FromBody]CustomerProfile input)
         {
-            var customer = context.Customer.FirstOrDefault(c => c.Id == id);
+            Customer customer = usersRepository.Get(id);
 
-            if (customer == null)
-            {
-                return NotFound();
-            }
-
-            if (customer.IdentityId != Identity.GetUserIdentityId(httpContextAccessor.HttpContext.User))
+            // Only logged in user can edit the profile.
+            string userIdentityId = Identity.GetUserIdentityId(httpContextAccessor.HttpContext.User);
+            if (customer.IdentityId != userIdentityId)
             {
                 return Forbid();
             }
 
-            // Can't be edited here
-            input.Email = input.Username = input.Password = null;
+            usersRepository.Update(input);
 
-            customer.AvatarId = input.AvatarId;
-            customer.ProfileBackgroundId = input.ProfileBackgroundId;
-            customer.Label = input.Label;
-            customer.Description = input.Description;
-
-            context.Customer.Update(customer);
-            context.SaveChanges();
-
-            var customerProfile = new CustomerProfile(customer);
-            var userID = await userManager.FindByIdAsync(customer.IdentityId);
-            customerProfile.Role = (await userManager.GetRolesAsync(userID)).First();
-            return customerProfile;
+            return input;
         }
 
         [Authorize(Roles = Constants.Strings.Roles.Admin + ", " + Constants.Strings.Roles.Manager)]

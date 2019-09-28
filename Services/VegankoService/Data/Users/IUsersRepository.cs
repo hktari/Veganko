@@ -9,8 +9,9 @@ namespace VegankoService.Data.Users
 {
     public interface IUsersRepository
     {
-        CustomerProfile Get(string identityId);
+        Customer Get(string id);
+        CustomerProfile GetProfile(string identityId);
         PagedList<CustomerProfile> GetAll(int page, int pageSize = 10);
-
+        void Update(CustomerProfile customerProfile);
     }
 }

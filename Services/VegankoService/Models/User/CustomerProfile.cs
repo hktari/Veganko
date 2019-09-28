@@ -19,6 +19,15 @@ namespace VegankoService.Models.User
             Label = input.Label;
         }
 
+        public void MapToCustomer(Customer customer)
+        {
+            customer.Id = Id;
+            customer.ProfileBackgroundId = ProfileBackgroundId;
+            customer.AvatarId = AvatarId;
+            customer.Description = Description;
+            customer.Label = Label;
+        }
+
         public string Id { get; set; }
         public string Username { get; set; }
         public string Email { get; set; }
