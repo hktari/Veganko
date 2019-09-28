@@ -14,6 +14,11 @@ namespace Veganko.Models.User
 
         public UserPublicInfo(UserPublicInfo user)
         {
+            Update(user);
+        }
+
+        public void Update(UserPublicInfo user)
+        {
             Id = user.Id;
             ProfileBackgroundId = user.ProfileBackgroundId;
             AvatarId = user.AvatarId;

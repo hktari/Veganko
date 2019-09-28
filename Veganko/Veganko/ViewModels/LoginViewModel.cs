@@ -63,13 +63,10 @@ namespace Veganko.ViewModels
             if (!await authService.IsTokenValid())
             {
                 await authService.RefreshToken();
-                UpdateIsManager();
             }
 
-            //if (userService.CurrentUser == null)
-            //{
-            //    userService.GetCurrentUser();
-            //}
+            SetupCurrentUser();
+
             return true;
         }
 
@@ -96,12 +93,13 @@ namespace Veganko.ViewModels
             else
             {
                 await authService.Login(email, password);
-                UpdateIsManager();
+                SetupCurrentUser();
             }
         }
 
-        private void UpdateIsManager()
+        private void SetupCurrentUser()
         {
+            userService.EnsureCurrentUserIsSet();
             IsManager = userService.CurrentUser.IsManager();
         }
     }

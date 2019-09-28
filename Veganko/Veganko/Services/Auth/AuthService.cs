@@ -57,7 +57,7 @@ namespace Veganko.Services.Auth
             await SetToken(curToken.AuthToken);
             await SetTokenExpiryDateUtc(curToken.ExpiresAtUtc);
 
-            userService.CurrentUser = responseData.UserProfile;
+            userService.SetCurrentUser(responseData.UserProfile);
         }
 
         public void Logout()

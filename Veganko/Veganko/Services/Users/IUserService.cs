@@ -8,7 +8,10 @@ namespace Veganko.Services
 {
     public interface IUserService
     {
-        UserPublicInfo CurrentUser { get; set; }
+        void ClearCurrentUser();
+        void SetCurrentUser(UserPublicInfo user);
+        void EnsureCurrentUserIsSet();
+        UserPublicInfo CurrentUser { get; }
         Task<UserPublicInfo> Get(string id);
         Task<IEnumerable<UserPublicInfo>> GetByIds(IEnumerable<string> id);
         Task<IEnumerable<UserPublicInfo>> GetAll(int page = 1, int pageSize = 20);

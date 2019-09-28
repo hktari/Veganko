@@ -101,8 +101,7 @@ namespace Veganko.ViewModels
                 ProfileBackgroundId = Images.GetProfileBackgroundImageId(BackgroundImage),
             };
 
-            // Update the in memory cache of the user model
-            userService.CurrentUser = await userService.Edit(updatedUser);
+            await userService.Edit(updatedUser);
         }
 
         private void HandleNewData()

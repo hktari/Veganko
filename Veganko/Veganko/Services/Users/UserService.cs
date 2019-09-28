@@ -7,26 +7,28 @@ using Veganko.Models.User;
 using Veganko.Services.Http;
 using RestSharp.Serialization;
 using Newtonsoft.Json;
+using Xamarin.Essentials;
 
 namespace Veganko.Services.Users
 {
     public class UserService : IUserService
     {
         private readonly IRestService restService;
+        private UserPublicInfo currentUser;
 
         public UserService(IRestService restService)
         {
             this.restService = restService;
         }
 
-        private UserPublicInfo currentUser;
         public UserPublicInfo CurrentUser
         {
             get
             {
-                return currentUser ?? throw new Exception($"{nameof(CurrentUser)} hasn't been set");
+                return currentUser 
+                    ?? throw new Exception($"{nameof(CurrentUser)} hasn't been set. Make sure '{nameof(EnsureCurrentUserIsSet)}' has been called.");
             }
-            set
+            private set
             {
                 currentUser = value;
             }
@@ -40,7 +42,15 @@ namespace Veganko.Services.Users
             IRestResponse response = await restService.ExecuteAsync(request, throwIfUnsuccessful: false);
             if (response.IsSuccessful)
             {
-                return JsonConvert.DeserializeObject<UserPublicInfo>(response.Content);
+                UserPublicInfo updatedUser = JsonConvert.DeserializeObject<UserPublicInfo>(response.Content);
+
+                // Update the CurrentUser reference if the user being edited is the current user.
+                if (currentUser?.Id == updatedUser.Id)
+                {
+                    currentUser.Update(updatedUser);
+                }
+
+                return updatedUser;
             }
             else
             {
@@ -73,6 +83,37 @@ namespace Veganko.Services.Users
         public Task<IEnumerable<UserPublicInfo>> GetByIds(IEnumerable<string> id)
         {
             throw new NotImplementedException();
+        }
+
+        public void EnsureCurrentUserIsSet()
+        {
+            if (currentUser == null)
+            {
+                string serializedCurUser = Preferences.Get("currentUser", null);
+                if (serializedCurUser != null)
+                {
+                    try
+                    {
+                        currentUser = JsonConvert.DeserializeObject<UserPublicInfo>(serializedCurUser);
+                    }
+                    catch (JsonSerializationException ex)
+                    {
+                        throw new Exception($"Failed to deserialize {nameof(CurrentUser)} from cache.", ex);
+                    }
+                }
+            }
+        }
+
+        public void SetCurrentUser(UserPublicInfo user)
+        {
+            currentUser = user;
+            Preferences.Set("currentUser", JsonConvert.SerializeObject(user));
+        }
+
+        public void ClearCurrentUser()
+        {
+            Preferences.Remove("currentUser");
+            currentUser = null;
         }
     }
 }
