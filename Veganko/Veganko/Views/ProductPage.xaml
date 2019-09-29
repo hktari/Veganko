@@ -12,7 +12,8 @@
     xmlns:partial="clr-namespace:Veganko.Views.Product.Partial"
     xmlns:user="clr-namespace:Veganko.Models.User"
     xmlns:views="clr-namespace:Veganko.Views"
-    xmlns:vm="clr-namespace:Veganko.ViewModels">
+    xmlns:vm="clr-namespace:Veganko.ViewModels"
+    NavigationPage.HasNavigationBar="False">
     <ContentPage.Resources>
         <ResourceDictionary>
             <converters:BoolInverter x:Key="BoolInverter" />
@@ -74,7 +75,7 @@
                             VerticalOptions="Center" />
                     </StackLayout>
                 </StackLayout>
-                <StackLayout Orientation="Horizontal">
+                <StackLayout Orientation="Vertical">
                     <ContentView x:Name="pickerRoot">
                         <ContentView.Content>
                             <OnPlatform>
@@ -153,8 +154,8 @@
                 ItemTemplate="{StaticResource DefaultProductTemplate}"
                 ItemsSource="{Binding SearchResult}"
                 RefreshCommand="{Binding LoadItemsCommand}"
-                SeparatorVisibility="None"
                 RowHeight="143"
+                SeparatorVisibility="None"
                 VerticalOptions="FillAndExpand">
                 <ListView.Triggers>
                     <DataTrigger

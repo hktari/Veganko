@@ -21,13 +21,20 @@ namespace Veganko.Views
 			InitializeComponent ();
             BindingContext = vm = new ProductViewModel();
         }
-        async void OnProductSelected(object sender, SelectedItemChangedEventArgs args)
+
+        public ProductPage(ProductViewModel vm)
+        {
+            InitializeComponent();
+            BindingContext = this.vm = vm;
+        }
+
+        void OnProductSelected(object sender, SelectedItemChangedEventArgs args)
         {
             var item = args.SelectedItem as Veganko.Models.Product;
             if (item == null)
                 return;
 
-            await Navigation.PushAsync(new ProductDetailPage(new ProductDetailViewModel(item)));
+            vm.ProductSelectedCommand.Execute(item);
 
             // Manually deselect item.
             ProductsListView.SelectedItem = null;
@@ -55,19 +62,11 @@ namespace Veganko.Views
             vm.SearchClickedCommand.Execute(null);
         }
 
-        protected async override void OnAppearing()
+        protected override void OnAppearing()
         {
             base.OnAppearing();
 
-            //if (vm.Products == null || vm.Products.Count == 0)
-            try
-            {
-                await vm.RefreshProducts();
-            }
-            catch (ServiceException ex)
-            {
-                await this.Err("Napaka pri nalaganju: " + ex.StatusDescription);
-            }
+            vm.LoadItemsCommand.Execute(null);
         }
     }
 }

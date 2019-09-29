@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Veganko.Controls;
+using Veganko.Extensions;
 using Veganko.Models;
 using Veganko.Models.User;
 using Veganko.Other;
@@ -25,6 +26,8 @@ namespace Veganko.ViewModels
         public Command SearchClickedCommand => new Command(OnSearchClicked);
         public Command SearchBarcodeCommand => new Command(OnBarcodeSearch);
         public Command SwitchFilteringOptions => new Command(OnSwitchFilteringOptions);
+
+        public Command ProductSelectedCommand { get; set; }
 
         private UserRole userRole;
         public UserRole UserRole
@@ -164,7 +167,33 @@ namespace Veganko.ViewModels
             ShowProductClassifiers = true;
             UserRole = App.IoC.Resolve<IUserService>().CurrentUser.Role;
 
-            LoadItemsCommand = new Command(async () => await RefreshProducts());
+            LoadItemsCommand = new Command(async () =>
+            {
+                if (IsBusy)
+                    return;
+
+                IsBusy = true;
+
+                try
+                {
+                    SearchText = string.Empty;
+                    UnapplyFilters();
+                    // TODO: handle pages
+                    Products = await GetProducts();
+                    SetSearchResults(Products);
+                }
+                catch (Exception ex)
+                {
+                    await App.CurrentPage.Err("Napaka pri nalaganju.");
+                    Debug.WriteLine(ex);
+                }
+                finally
+                {
+                    IsBusy = false;
+                }
+            });
+
+            ProductSelectedCommand = new Command(async (param) => await OnProductSelected((Product)param));
         }
 
         #region TODO: MOVE TO EXTENSIONS
@@ -177,38 +206,23 @@ namespace Veganko.ViewModels
         }
         #endregion
 
-        public async Task RefreshProducts()
-        {
-            if (IsBusy)
-                return;
-
-            IsBusy = true;
-
-            try
-            {
-                SearchText = string.Empty;
-                UnapplyFilters();
-                // TODO: handle pages
-                Products = new List<Product>(
-                    (await productService.AllAsync(forceRefresh: true)).Items);
-                SetSearchResults(Products);
-            }
-            catch (Exception ex)
-            {
-                Debug.WriteLine(ex);
-            }
-            finally
-            {
-                IsBusy = false;
-            }
-        }
-
         public async Task DeleteProduct(Product product)
         {
             await productService.DeleteAsync(product);
             Debug.Assert(Products != null);
             Products.Remove(product);
             SearchResult.Remove(product);
+        }
+
+        protected virtual async Task<List<Product>> GetProducts()
+        {
+            return new List<Product>(
+                (await productService.AllAsync(forceRefresh: true)).Items);
+        }
+
+        protected virtual Task OnProductSelected(Product product)
+        {
+            return App.Navigation.PushAsync(new ProductDetailPage(new ProductDetailViewModel(product)));
         }
 
         protected void SetSearchResults(IEnumerable<Product> items)

@@ -32,7 +32,7 @@ namespace Veganko.ViewModels
 
 #if DEBUG
             Email = "bkamnik1995@gmail.com";
-            Password = "123qweAsd...";
+            Password = "test123";
 #endif
         }
 

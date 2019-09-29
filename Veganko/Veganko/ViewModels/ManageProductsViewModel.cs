@@ -2,42 +2,25 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Text;
+using System.Threading.Tasks;
 using Veganko.Models;
 using Veganko.Views;
+using Veganko.Views.Product;
 using Xamarin.Forms;
 
 namespace Veganko.ViewModels
 {
     public class ManageProductsViewModel : ProductViewModel
     {
-        public ManageProductsViewModel()
+        protected override Task OnProductSelected(Product product)
         {
-            LoadItemsCommand = new Command(GetUnapprovedProducts);
+            return App.Navigation.PushAsync(new ApproveProductPage(new ApproveProductViewModel(product)));
         }
 
-        private async void GetUnapprovedProducts()
+        protected async override Task<List<Product>> GetProducts()
         {
-            if (IsBusy)
-                return;
-
-            IsBusy = true;
-
-            try
-            {
-                SearchText = string.Empty;
-                UnapplyFilters();
-                Products = new List<Product>(
-                    await productService.GetUnapprovedAsync(true));
-                SetSearchResults(Products);
-            }
-            catch (Exception ex)
-            {
-                Debug.WriteLine(ex);
-            }
-            finally
-            {
-                IsBusy = false;
-            }
+            return new List<Product>(
+                await productService.GetUnapprovedAsync(true));
         }
     }
 }

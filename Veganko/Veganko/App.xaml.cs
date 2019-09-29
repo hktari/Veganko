@@ -17,14 +17,42 @@ using Veganko.Services.Auth;
 
 namespace Veganko
 {
-	public partial class App : Application
-	{
+    public partial class App : Application
+    {
         public static MobileServiceClient MobileService =
             new MobileServiceClient("https://veganko.azurewebsites.net"
         );
         public static IAuthenticate Authenticator { get; private set; }
 
         public static IContainer IoC { get; private set; }
+
+        public static INavigation Navigation
+        {
+            get
+            {
+                return (App.Current.MainPage as TabbedPage)?.CurrentPage?.Navigation
+                    ?? throw new Exception("No navigation available on current page.");
+            }
+        }
+
+        public static ContentPage CurrentPage
+        {
+            get
+            {
+                Page tabPage = (App.Current.MainPage as TabbedPage)?.CurrentPage;
+                ContentPage curPage;
+                if (tabPage is NavigationPage navigationPage)
+                {
+                    curPage = navigationPage?.CurrentPage as ContentPage;
+                }
+                else
+                {
+                    curPage = tabPage as ContentPage;
+                }
+
+                return curPage ?? throw new Exception("Failed to get current page.");
+            }
+        }
 
         public App ()
 		{

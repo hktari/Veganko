@@ -123,21 +123,12 @@
                 IsPullToRefreshEnabled="true"
                 IsRefreshing="{Binding IsBusy, Mode=OneWay}"
                 ItemSelected="OnProductSelected"
-                ItemTemplate="{StaticResource DefaultProductTemplate}"
+                ItemTemplate="{StaticResource RemovableProductTemplate}"
                 ItemsSource="{Binding SearchResult}"
                 RefreshCommand="{Binding LoadItemsCommand}"
                 RowHeight="173"
                 SeparatorVisibility="None"
-                VerticalOptions="FillAndExpand">
-                <ListView.Triggers>
-                    <DataTrigger
-                        Binding="{Binding UserRole, Converter={StaticResource UACConverter}, ConverterParameter={x:Static user:UserAccessRights.ProductsDelete}}"
-                        TargetType="ListView"
-                        Value="True">
-                        <Setter Property="ItemTemplate" Value="{StaticResource RemovableProductTemplate}" />
-                    </DataTrigger>
-                </ListView.Triggers>
-            </ListView>
+                VerticalOptions="FillAndExpand" />
         </StackLayout>
     </ContentPage.Content>
 </views:BaseContentPage>

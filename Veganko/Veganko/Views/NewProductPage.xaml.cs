@@ -32,7 +32,7 @@ namespace Veganko.Views
 
         async void Save_Clicked(object sender, EventArgs e)
         {
-            var mainPage = (App.Current.MainPage as NavigationPage).CurrentPage as TabbedPage;
+            var mainPage = (TabbedPage)App.Current.MainPage;
             var productsNavPage = mainPage.Children[0];
 
             mainPage.CurrentPage = productsNavPage;
