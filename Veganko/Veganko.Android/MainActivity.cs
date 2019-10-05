@@ -102,6 +102,8 @@ namespace Veganko.Droid
             return (int)Math.Ceiling((pixels * 160.0d) / dpi);
         }
 
+        // TODO: refactor and move to seperate file (partial class)
+
         protected async override void OnActivityResult(int requestCode, Result resultCode, Intent data)
         {
             if (requestCode == REQUEST_TAKE_PHOTO)

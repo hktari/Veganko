@@ -74,16 +74,13 @@ namespace Veganko.ViewModels
 
         private async void TakeImage()
         {
+            // TODO: test on other devices. If Ok remove unused lib from droid
 #if __ANDROID__
             byte[] data = await Veganko.Droid.MainActivity.Context.DispatchTakePictureIntent();
             Product.ImageBase64Encoded = data;
 
             ProductImg = ImageSource.FromStream(() => new MemoryStream(data));
-#endif
-        }
-
-        //private async void TakeImage(object obj)
-        //{
+#else
         //    var initialized = await CrossMedia.Current.Initialize();
 
         //    if (!initialized || !CrossMedia.Current.IsCameraAvailable || !CrossMedia.Current.IsTakePhotoSupported)
@@ -119,7 +116,8 @@ namespace Veganko.ViewModels
         //    }
 
         //    //await App.Current.MainPage.DisplayAlert("Alert", "Successfully uploaded image", "OK");
-        //}
+#endif
+        }
 
         public string Barcode
         {
