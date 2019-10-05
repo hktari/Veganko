@@ -7,13 +7,12 @@ using Veganko.Models;
 
 namespace Veganko.Services.Comments
 {
-    // TODO: implement new interface
-	public class MockCommentDataStore : IDataStore<Comment>
+	public class MockCommentsService : ICommentsService
 	{
         private static int idCtr = 0;
         List<Comment> comments = new List<Comment>();
 
-        public MockCommentDataStore()
+        public MockCommentsService()
         {
             var tmp = new List<Comment>
             {
@@ -84,39 +83,40 @@ namespace Veganko.Services.Comments
                 AddItemAsync(item);
     }
 
-        public Task<bool> AddItemAsync(Comment item)
-		{
-            item.Id = idCtr.ToString();
-            idCtr++;
-            item.UtcDatePosted = DateTime.Now;
-            comments.Add(item);
-            return Task.FromResult(true);
-        }
-
-		public Task<bool> DeleteItemAsync(Comment item)
-		{
-            if (comments.Contains(item))
+        public Task DeleteItemAsync(string id)
+        {
+            Comment comment = comments.FirstOrDefault(i => i.Id == id);
+            if (comment != null)
             {
-                comments.Remove(item);
+                comments.Remove(comment);
                 return Task.FromResult(true);
             }
             return Task.FromResult(false);
         }
 
-		public Task<Comment> GetItemAsync(string id)
+        public Task<Comment> GetItemAsync(string id)
 		{
             return Task.FromResult(
                 comments.Single(i => i.Id == id));
 		}
 
-		public Task<IEnumerable<Comment>> GetItemsAsync(bool forceRefresh = false)
-		{
-            return Task.FromResult(comments.AsEnumerable());
+        public Task<PagedList<Comment>> GetItemsAsync(string productId, int page = 1, int pageSize = 20, bool forceRefresh = false)
+        {
+            return Task.FromResult(new PagedList<Comment> {  Items = comments.AsEnumerable() });
         }
 
-		public Task<bool> UpdateItemAsync(Comment item)
-		{
-			throw new NotImplementedException();
-		}
-	}
+        public Task<Comment> AddItemAsync(Comment item)
+        {
+            item.Id = idCtr.ToString();
+            idCtr++;
+            item.UtcDatePosted = DateTime.Now;
+            comments.Add(item);
+            return Task.FromResult(item);
+        }
+
+        public Task<Comment> UpdateItemAsync(Comment item)
+        {
+            throw new NotImplementedException();
+        }
+    }
 }
