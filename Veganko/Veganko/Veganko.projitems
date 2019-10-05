@@ -37,6 +37,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Models\User\UserPublicInfo.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\User\UserRole.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\Auth\AuthService.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Services\Auth\MockAuthService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\Comments\ICommentsService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\Http\LoginResponse.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\Http\ServiceException.cs" />
@@ -66,7 +67,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Services\ImageManager\ImageManager.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\IProductService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\MockAccountService.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Services\Comments\MockCommentDataStore.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Services\Comments\MockCommentsService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\MockFavoriteDataStore.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\MockProductDataStore.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\ProductDataStore.cs" />
