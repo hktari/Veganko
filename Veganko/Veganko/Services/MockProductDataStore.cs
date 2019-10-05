@@ -16,8 +16,6 @@ namespace Veganko.Services
 
         public MockProductDataStore()
         {
-            accountService = App.IoC.Resolve<IAccountService>();
-
             items = new List<Product>();
             var mockItems = new List<Product>
             {

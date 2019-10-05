@@ -47,15 +47,6 @@ namespace Veganko.Views
         }
         private async void OnLoginBtnClicked(object sender, EventArgs args)
         {
-
-#if __ANDROID__
-            Veganko.Droid.MainActivity.Context.DispatchTakePictureIntent();
-
-#endif
-
-            return;
-
-
             if (string.IsNullOrWhiteSpace(vm.Email) || string.IsNullOrWhiteSpace(vm.Password))
             {
                 await this.Err("Izpolnite vsa polja prosim :)");
