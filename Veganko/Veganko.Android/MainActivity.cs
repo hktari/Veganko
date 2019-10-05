@@ -177,16 +177,18 @@ namespace Veganko.Droid
                 //Marshal.Copy(byteBuffer.GetDirectBufferAddress(), buffer, 0, count);
 
                 //ByteArrayOutputStream stream = new ByteArrayOutputStream();
-                MemoryStream stream = new MemoryStream();
-                if (await bitmap.CompressAsync(Bitmap.CompressFormat.Jpeg, 100, stream))
+                using (MemoryStream stream = new MemoryStream())
                 {
-                    stream.Position = 0;
-                    takePictureTCS.SetResult(stream);
-                    //PhotoPicked?.Invoke(this, stream);
-                }
-                else
-                {
-                    Debug.Fail("Failed to compress bitmap to jpeg.");
+                    if (await bitmap.CompressAsync(Bitmap.CompressFormat.Jpeg, 100, stream))
+                    {
+                        stream.Position = 0;
+                        takePictureTCS.SetResult(stream.ToArray());
+                        //PhotoPicked?.Invoke(this, stream);
+                    }
+                    else
+                    {
+                        Debug.Fail("Failed to compress bitmap to jpeg.");
+                    }
                 }
 
                 //byte[] buffer = stream.ToArray();
@@ -242,14 +244,14 @@ namespace Veganko.Droid
 
         public EventHandler<byte[]> PhotoPicked;
 
-        TaskCompletionSource<Stream> takePictureTCS;
+        TaskCompletionSource<byte[]> takePictureTCS;
 
         Uri currentPhotoUri;
         String currentPhotoPath;
 
-        public Task<Stream> DispatchTakePictureIntent()
+        public Task<byte[]> DispatchTakePictureIntent()
         {
-            takePictureTCS = new TaskCompletionSource<Stream>();
+            takePictureTCS = new TaskCompletionSource<byte[]>();
             //if (context == null)
             //{
             //    throw new Exception("Not initialized.");

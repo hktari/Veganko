@@ -75,8 +75,10 @@ namespace Veganko.ViewModels
         private async void TakeImage()
         {
 #if __ANDROID__
-            Veganko.Droid.MainActivity.Context.DispatchTakePictureIntent();
+            byte[] data = await Veganko.Droid.MainActivity.Context.DispatchTakePictureIntent();
+            Product.ImageBase64Encoded = data;
 
+            ProductImg = ImageSource.FromStream(() => new MemoryStream(data));
 #endif
         }
 
