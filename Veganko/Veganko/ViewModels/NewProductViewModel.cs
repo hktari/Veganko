@@ -72,44 +72,52 @@ namespace Veganko.ViewModels
 
         public Command TakeImageCommand => new Command(TakeImage);
 
-        private async void TakeImage(object obj)
+        private async void TakeImage()
         {
-            var initialized = await CrossMedia.Current.Initialize();
+#if __ANDROID__
+            Veganko.Droid.MainActivity.Context.DispatchTakePictureIntent();
 
-            if (!initialized || !CrossMedia.Current.IsCameraAvailable || !CrossMedia.Current.IsTakePhotoSupported)
-            {
-                await App.Current.MainPage.DisplayAlert("No Camera", ":( No camera available.", "OK");
-                return;
-            }
-
-            var file = await CrossMedia.Current.TakePhotoAsync(new Plugin.Media.Abstractions.StoreCameraMediaOptions
-            {
-                Directory = "Sample",
-                PhotoSize = Plugin.Media.Abstractions.PhotoSize.MaxWidthHeight,
-                MaxWidthHeight = 720,
-                CompressionQuality = 50,
-                Name = Guid.NewGuid().ToString() + ".png"
-            });
-
-            if (file == null)
-                return;
-
-            //imageNameResult.Text = await ImageManager.UploadImage(file.GetStream());
-            ProductImg = ImageSource.FromStream(() =>
-            {
-                var stream = file.GetStream();
-                return stream;
-            });
-
-            using(Stream stream = file.GetStream())
-            using (MemoryStream ms = new MemoryStream())
-            {
-                stream.CopyTo(ms);
-                Product.ImageBase64Encoded = ms.ToArray();
-            }
-
-            //await App.Current.MainPage.DisplayAlert("Alert", "Successfully uploaded image", "OK");
+#endif
         }
+
+        //private async void TakeImage(object obj)
+        //{
+        //    var initialized = await CrossMedia.Current.Initialize();
+
+        //    if (!initialized || !CrossMedia.Current.IsCameraAvailable || !CrossMedia.Current.IsTakePhotoSupported)
+        //    {
+        //        await App.Current.MainPage.DisplayAlert("No Camera", ":( No camera available.", "OK");
+        //        return;
+        //    }
+
+        //    var file = await CrossMedia.Current.TakePhotoAsync(new Plugin.Media.Abstractions.StoreCameraMediaOptions
+        //    {
+        //        Directory = "Sample",
+        //        PhotoSize = Plugin.Media.Abstractions.PhotoSize.MaxWidthHeight,
+        //        MaxWidthHeight = 720,
+        //        CompressionQuality = 50,
+        //        Name = Guid.NewGuid().ToString() + ".png"
+        //    });
+
+        //    if (file == null)
+        //        return;
+
+        //    //imageNameResult.Text = await ImageManager.UploadImage(file.GetStream());
+        //    ProductImg = ImageSource.FromStream(() =>
+        //    {
+        //        var stream = file.GetStream();
+        //        return stream;
+        //    });
+
+        //    using(Stream stream = file.GetStream())
+        //    using (MemoryStream ms = new MemoryStream())
+        //    {
+        //        stream.CopyTo(ms);
+        //        Product.ImageBase64Encoded = ms.ToArray();
+        //    }
+
+        //    //await App.Current.MainPage.DisplayAlert("Alert", "Successfully uploaded image", "OK");
+        //}
 
         public string Barcode
         {

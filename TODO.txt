@@ -1,3 +1,4 @@
+- https://{{endpoint}}/api/users return unconirme user
 - save profile hide button
 - if role is changed while user has sessions he/she has to relog or wait for session to expire
 - slika pri new product page
