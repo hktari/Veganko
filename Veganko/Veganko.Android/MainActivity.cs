@@ -139,8 +139,9 @@ namespace Veganko.Droid
 
                 Log.Debug("VEGANKO", $"Image width: {bmOptions.OutWidth}\theight: {bmOptions.OutHeight}");
 
+                int maxWidth = 1080;
                 // Get the dimensions of the View
-                int targetW = ToDps(metrics.WidthPixels, metrics.Xdpi);
+                int targetW = ToDps(maxWidth, metrics.Xdpi);
                 int targetH = 300;
                 Log.Debug("VEGANKO", $"Image in DPS width: {targetW}\theight: {targetH}");
 
