@@ -58,17 +58,17 @@ namespace Veganko.Services
 
         public Task ForgotPassword(string email)
         {
-            throw new NotImplementedException();
+            return Task.CompletedTask;
         }
 
         public Task ResetPassword(string email, string token, string newPassword)
         {
-            throw new NotImplementedException();
+            return Task.CompletedTask;
         }
 
         public Task<string> ValidateOTP(string email, int otp)
         {
-            throw new NotImplementedException();
+            return Task.FromResult("pwd-reset-token");
         }
     }
 }

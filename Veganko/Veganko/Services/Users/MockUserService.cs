@@ -40,21 +40,26 @@ namespace Veganko.Services
             },
         };
 
-        public UserPublicInfo CurrentUser { get => throw new NotImplementedException(); }
+        private UserPublicInfo curUser = new UserPublicInfo
+        {
+            Username = "test", Email = "test@email.com", ProfileBackgroundId = "0", AvatarId = "0", Role = UserRole.Admin
+        };
+
+        public UserPublicInfo CurrentUser => curUser;
 
         public void ClearCurrentUser()
         {
-            throw new NotImplementedException();
+            curUser = null;
         }
 
         public Task<UserPublicInfo> Edit(UserPublicInfo user)
         {
-            throw new NotImplementedException();
+            curUser = user;
+            return Task.FromResult(curUser);
         }
 
         public void EnsureCurrentUserIsSet()
         {
-            throw new NotImplementedException();
         }
 
         public Task<UserPublicInfo> Get(string id)
@@ -79,7 +84,7 @@ namespace Veganko.Services
 
         public void SetCurrentUser(UserPublicInfo user)
         {
-            throw new NotImplementedException();
+            curUser = user;
         }
     }
 }

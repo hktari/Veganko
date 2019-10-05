@@ -14,8 +14,6 @@ namespace Veganko.Services
     {
         List<Product> items;
 
-        private readonly IAccountService accountService;
-
         public MockProductDataStore()
         {
             accountService = App.IoC.Resolve<IAccountService>();
@@ -178,48 +176,6 @@ namespace Veganko.Services
             }
         }
 
-        public async Task<bool> AddAsync(Product item)
-        {
-            // TODO: uncomment when done testing
-            //if (accountService.User.CanApproveProducts())
-            //{
-            //    item.State = ProductState.Approved;
-            //}
-
-            items.Add(item);
-
-            return await Task.FromResult(true);
-        }
-
-        public async Task<bool> UpdateAsync(Product item)
-        {
-            var _item = items.Where((Product arg) => arg.Id == item.Id).FirstOrDefault();
-            items.Remove(_item);
-            items.Add(item);
-
-            return await Task.FromResult(true);
-        }
-
-        public async Task<bool> DeleteAsync(Product item)
-        {
-            var _item = items.Where((Product arg) => arg.Id == item.Id).FirstOrDefault();
-            items.Remove(_item);
-
-            return await Task.FromResult(true);
-        }
-
-        public async Task<Product> GetAsync(string id)
-        {
-            return await Task.FromResult(items.FirstOrDefault(s => s.Id == id));
-        }
-
-        public Task<IEnumerable<Product>> AllAsync(bool forceRefresh, bool includeUnapproved)
-        {
-            IEnumerable<Product> result = includeUnapproved ? items : items.Where(p => p.State == ProductState.Approved);
-            return Task.FromResult(result);
-        }
-
-
         public Task<IEnumerable<Product>> GetUnapprovedAsync(bool forceRefresh)
         {
             IEnumerable<Product> result = items.Where(p => p.State == ProductState.PendingApproval);
@@ -228,22 +184,37 @@ namespace Veganko.Services
 
         Task<Product> IProductService.AddAsync(Product item)
         {
-            throw new NotImplementedException();
+            items.Add(item);
+
+            return Task.FromResult(item);
         }
 
         Task<Product> IProductService.UpdateAsync(Product item)
         {
-            throw new NotImplementedException();
+            var _item = items.Where((Product arg) => arg.Id == item.Id).FirstOrDefault();
+            items.Remove(_item);
+            items.Add(item);
+
+            return Task.FromResult(item);
         }
 
         Task IProductService.DeleteAsync(Product item)
         {
-            throw new NotImplementedException();
+            var _item = items.Where((Product arg) => arg.Id == item.Id).FirstOrDefault();
+            items.Remove(_item);
+
+            return Task.CompletedTask;
         }
 
-        public Task<PagedList<Product>> AllAsync(int page = 1, int pageSize = 10, bool forceRefresh = false, bool includeUnapproved = false)
+        Task<PagedList<Product>> IProductService.AllAsync(int page = 1, int pageSize = 10, bool forceRefresh = false, bool includeUnapproved = false)
         {
-            throw new NotImplementedException();
+            IEnumerable<Product> result = includeUnapproved ? items : items.Where(p => p.State == ProductState.Approved);
+            return Task.FromResult(new PagedList<Product> { Items = result } );
+        }
+
+        Task<Product> IProductService.GetAsync(string id)
+        {
+            return Task.FromResult(items.First(p => p.Id == id));
         }
     }
 }
