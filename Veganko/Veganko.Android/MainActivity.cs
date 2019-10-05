@@ -21,11 +21,14 @@ using Java.Text;
 using Java.Util;
 using Debug = System.Diagnostics.Debug;
 using File = Java.IO.File;
+using Stream = System.IO.Stream;
+using Uri = Android.Net.Uri;
 using Android.Graphics;
 using Android.Util;
 using System.IO;
 using Java.Nio;
 using System.Runtime.InteropServices;
+using Android.Media;
 
 [assembly: UsesFeature("android.hardware.camera", Required = false)]
 [assembly: UsesFeature("android.hardware.camera.autofocus", Required = false)]
@@ -99,7 +102,7 @@ namespace Veganko.Droid
             return (int)Math.Ceiling((pixels * 160.0d) / dpi);
         }
 
-        protected override void OnActivityResult(int requestCode, Result resultCode, Intent data)
+        protected async override void OnActivityResult(int requestCode, Result resultCode, Intent data)
         {
             if (requestCode == REQUEST_TAKE_PHOTO)
             {
@@ -108,6 +111,17 @@ namespace Veganko.Droid
                     Log.Debug("VEGANKO", "Picking photo failed. Result code is canceled.");
                     return;
                 }
+
+
+                if (takePictureTCS == null)
+                {
+                    throw new Exception("Take picture task is null ");
+                }
+                else if (takePictureTCS.Task.Status == TaskStatus.RanToCompletion)
+                {
+                    throw new Exception("The Take picture task has already completed");
+                }
+
 
                 Log.Debug("VEGANKO", "start processing take photo result.");
 
@@ -144,34 +158,97 @@ namespace Veganko.Droid
                 // Decode the image file into a Bitmap sized to fill the View
                 bmOptions.InJustDecodeBounds = false;
                 bmOptions.InSampleSize = scaleFactor;
-                bmOptions.InPurgeable = true;
+                //bmOptions.InPurgeable = true;
 
                 Log.Debug("VEGANKO", "Decode image.");
 
                 Bitmap bitmap = BitmapFactory.DecodeFile(currentPhotoPath, bmOptions);
-                ByteBuffer byteBuffer = ByteBuffer.AllocateDirect(bitmap.ByteCount);
-                bitmap.CopyPixelsToBuffer(byteBuffer);
+                bitmap = RotateImageIfRequired(bitmap, currentPhotoUri);
+                //ByteBuffer byteBuffer = ByteBuffer.AllocateDirect(bitmap.ByteCount);
+                //byteBuffer.Position(0);
+                //bitmap.CopyPixelsToBuffer(byteBuffer);
 
-                int count = byteBuffer.Capacity();
-                Log.Debug("VEGANKO", $"byte buffer capacity: {count}.");
+                //int count = byteBuffer.Capacity();
+                //Log.Debug("VEGANKO", $"byte buffer capacity: {count}.");
 
-                byte[] buffer = new byte[count];
-                Marshal.Copy(byteBuffer.GetDirectBufferAddress(), buffer, 0, count);
+                //byte[] buffer = new byte[count];
+                //byteBuffer.Position(0);
+                //Marshal.Copy(byteBuffer.GetDirectBufferAddress(), buffer, 0, count);
 
-                byteBuffer.Clear();
-                byteBuffer.Dispose();
-                bitmap.Dispose();
+                //ByteArrayOutputStream stream = new ByteArrayOutputStream();
+                MemoryStream stream = new MemoryStream();
+                if (await bitmap.CompressAsync(Bitmap.CompressFormat.Jpeg, 100, stream))
+                {
+                    stream.Position = 0;
+                    takePictureTCS.SetResult(stream);
+                    //PhotoPicked?.Invoke(this, stream);
+                }
+                else
+                {
+                    Debug.Fail("Failed to compress bitmap to jpeg.");
+                }
 
-                MemoryStream stream = new MemoryStream(buffer);
+                //byte[] buffer = stream.ToArray();
 
+                //Bitmap bitmap2 = BitmapFactory.DecodeByteArray(buffer, 0, buffer.Length);
+
+                //byteBuffer.Clear();
+                //byteBuffer.Dispose();
+                //bitmap.Dispose();
+
+                //MemoryStream stream = new MemoryStream(buffer);
+
+                //takePictureTCS.SetResult(stream);
                 //Log.Debug("VEGANKO", $"Successfuly decoded bitmap: width: {bitmap?.Width}\theight: {bitmap?.Height}");
             }
         }
 
+        /**
+         * Rotate an image if required.
+         *
+         * @param img           The image bitmap
+         * @param selectedImage Image URI
+         * @return The resulted Bitmap after manipulation
+         */
+        private Bitmap RotateImageIfRequired(Bitmap img, Uri selectedImage)
+        {
+
+            ExifInterface ei = new ExifInterface(currentPhotoPath);
+            int orientation = ei.GetAttributeInt(ExifInterface.TagOrientation, (int)Android.Media.Orientation.Normal);
+
+            switch (orientation) {
+            case (int)Android.Media.Orientation.Rotate90:
+                return RotateImage(img, 90);
+            case (int)Android.Media.Orientation.Rotate180:
+                return RotateImage(img, 180);
+            case (int)Android.Media.Orientation.Rotate270:
+                return RotateImage(img, 270);
+            default:
+                return img;
+            }
+        }
+
+        private Bitmap RotateImage(Bitmap img, int degree)
+        {
+            Matrix matrix = new Matrix();
+            matrix.PostRotate(degree);
+            Bitmap rotatedImg = Bitmap.CreateBitmap(img, 0, 0, img.Width, img.Height, matrix, true);
+            img.Recycle();
+            return rotatedImg;
+        }
+
         const int REQUEST_TAKE_PHOTO = 1;
 
-        public void DispatchTakePictureIntent()
+        public EventHandler<byte[]> PhotoPicked;
+
+        TaskCompletionSource<Stream> takePictureTCS;
+
+        Uri currentPhotoUri;
+        String currentPhotoPath;
+
+        public Task<Stream> DispatchTakePictureIntent()
         {
+            takePictureTCS = new TaskCompletionSource<Stream>();
             //if (context == null)
             //{
             //    throw new Exception("Not initialized.");
@@ -195,17 +272,17 @@ namespace Veganko.Droid
                 // Continue only if the File was successfully created
                 if (photoFile != null)
                 {
-                    Android.Net.Uri photoURI = FileProvider.GetUriForFile(this,
+                    currentPhotoUri = FileProvider.GetUriForFile(this,
                                                           "com.honeybunny.Veganko.fileprovider",
                                                           photoFile);
-                    takePictureIntent.PutExtra(MediaStore.ExtraOutput, photoURI);
+                    takePictureIntent.PutExtra(MediaStore.ExtraOutput, currentPhotoUri);
                     System.Diagnostics.Debug.WriteLine("Starting photo picking activity with path: " + photoFile.AbsolutePath);
                     base.StartActivityForResult(takePictureIntent, REQUEST_TAKE_PHOTO);
                 }
             }
-        }
 
-        String currentPhotoPath;
+            return takePictureTCS.Task;
+        }
 
         private File CreateImageFile()
         {
