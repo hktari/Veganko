@@ -75,10 +75,12 @@ namespace Veganko.ViewModels
         private async void TakeImage()
         {
             // TODO: test on other devices. If Ok remove unused lib from droid
-#if __ANDROID__
-            byte[] data = await Veganko.Droid.MainActivity.Context.DispatchTakePictureIntent();
-            Product.ImageBase64Encoded = data;
 
+            int maxPhotoWidthInPix = 1080;
+            int maxPhotoHeightInDips = 300;
+#if __ANDROID__
+            byte[] data = await Droid.MainActivity.Context.DispatchTakePictureIntent(maxPhotoHeightInDips, maxPhotoWidthInPix);
+            Product.ImageBase64Encoded = data;
             ProductImg = ImageSource.FromStream(() => new MemoryStream(data));
 #else
         //    var initialized = await CrossMedia.Current.Initialize();
