@@ -7,7 +7,6 @@ using System.Threading.Tasks;
 using Android.App;
 using Android.Content;
 using Android.Graphics;
-using Android.Icu.Text;
 using Android.Media;
 using Android.OS;
 using Android.Provider;
@@ -16,6 +15,7 @@ using Android.Support.V4.Content;
 using Android.Util;
 using Android.Views;
 using Android.Widget;
+using Java.Text;
 using Java.Util;
 using Debug = System.Diagnostics.Debug;
 using File = Java.IO.File;
@@ -61,6 +61,7 @@ namespace Veganko.Droid
                 {
                     Uri photoUri = FileProvider.GetUriForFile(this, "com.honeybunny.Veganko.fileprovider", photoFile);
                     takePictureIntent.PutExtra(MediaStore.ExtraOutput, photoUri);
+                    takePictureIntent.AddFlags(ActivityFlags.GrantWriteUriPermission);
                     Log.Info("VEGANKO", "Starting photo picking activity with path: " + photoFile.AbsolutePath);
                     base.StartActivityForResult(takePictureIntent, REQUEST_TAKE_PHOTO);
                 }

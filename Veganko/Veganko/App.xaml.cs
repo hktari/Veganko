@@ -68,7 +68,7 @@ namespace Veganko
         }
 
         private void SetupDependencies()
-        {
+        {   
             ContainerBuilder builder = new ContainerBuilder();
             builder.RegisterType<RestService>()
                 .As<IRestService>()
