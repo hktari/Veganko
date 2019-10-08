@@ -61,6 +61,7 @@ namespace Veganko.Droid
 
             global::ZXing.Net.Mobile.Android.PermissionsHandler.OnRequestPermissionsResult(requestCode, permissions, grantResults);
             Plugin.Permissions.PermissionsImplementation.Current.OnRequestPermissionsResult(requestCode, permissions, grantResults);
+            OnRequestPermissionsResult_PhotoPicking(requestCode, permissions, grantResults);
         }
 
         #region FB_Auth

@@ -4,13 +4,16 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Android;
 using Android.App;
 using Android.Content;
+using Android.Content.PM;
 using Android.Graphics;
 using Android.Media;
 using Android.OS;
 using Android.Provider;
 using Android.Runtime;
+using Android.Support.V4.App;
 using Android.Support.V4.Content;
 using Android.Util;
 using Android.Views;
@@ -29,13 +32,48 @@ namespace Veganko.Droid
     public partial class MainActivity
     {
         const int REQUEST_TAKE_PHOTO = 1;
+        private readonly int REQUEST_CAMERA_PERMISSION = 11;
         private int maxPhotoWidthInPix;
         private int maxPhotoHeightInDips;
         private string currentPhotoPath;
         private TaskCompletionSource<byte[]> takePictureTCS;
+        private TaskCompletionSource<bool> waitForPermissionTCS;
 
-        public Task<byte[]> DispatchTakePictureIntent(int maxPhotoHeightInDips, int maxPhotoWidthInPix)
+        private void OnRequestPermissionsResult_PhotoPicking(int requestCode, string[] permissions, Permission[] grantResults)
         {
+            if (requestCode == REQUEST_CAMERA_PERMISSION)
+            {
+                bool cameraPermGranted = grantResults.Length > 0 && grantResults[0] == Permission.Granted;
+
+                Debug.Assert(waitForPermissionTCS != null, $"{nameof(waitForPermissionTCS)} can't be null");
+
+                if (!waitForPermissionTCS.TrySetResult(cameraPermGranted))
+                {
+                    Log.Debug("VEGANKO", "Camera permission request handled. But task has already completed");
+                }
+            }
+        }
+
+        public async Task<byte[]> DispatchTakePictureIntent(int maxPhotoHeightInDips, int maxPhotoWidthInPix)
+        {
+            if (Android.OS.Build.VERSION.SdkInt >= BuildVersionCodes.M)
+            {
+                if (ContextCompat.CheckSelfPermission(this, Manifest.Permission.Camera) != Permission.Granted)
+                {
+                    // No explanation needed; request the permission
+                    ActivityCompat.RequestPermissions(this,
+                            new String[] { Manifest.Permission.Camera }
+                            , REQUEST_CAMERA_PERMISSION);
+
+                    waitForPermissionTCS = new TaskCompletionSource<bool>();
+                    bool gotPermission = await waitForPermissionTCS.Task;
+                    if (!gotPermission)
+                    {
+                        return null;
+                    }
+                }
+            }
+
             this.maxPhotoWidthInPix = maxPhotoWidthInPix;
             this.maxPhotoHeightInDips = maxPhotoHeightInDips;
             takePictureTCS = new TaskCompletionSource<byte[]>();
@@ -71,7 +109,7 @@ namespace Veganko.Droid
                 throw new Exception("No camera app available.");
             }
 
-            return takePictureTCS.Task;
+            return await takePictureTCS.Task;
         }
 
         protected async override void OnActivityResult(int requestCode, Result resultCode, Intent data)
