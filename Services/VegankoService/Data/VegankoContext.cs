@@ -13,7 +13,7 @@ namespace VegankoService.Data
 {
     public class VegankoContext : IdentityDbContext<ApplicationUser>
     {
-        public VegankoContext()
+        public VegankoContext(DbContextOptions dbContextOptions) : base(dbContextOptions)
         {}
 
         public DbSet<Product> Product { get; set; }
@@ -23,12 +23,6 @@ namespace VegankoService.Data
         public DbSet<Customer> Customer { get; set; }
 
         public DbSet<OTP> OTPs { get; set; }
-
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            var connection = @"server=localhost;user=root;password=borut123;database=Veganko;";
-            optionsBuilder.UseMySql(connection);
-        }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

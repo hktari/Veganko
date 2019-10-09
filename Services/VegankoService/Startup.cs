@@ -47,7 +47,8 @@ namespace VegankoService
             //services.AddSingleton<IProductRepository, MockProductRepository>();
             services.AddScoped((sp) =>
             {
-                var dbContext = new VegankoContext();
+                var dbOptsBuilder = new DbContextOptionsBuilder().UseMySql(Configuration["DBConnection"]);
+                var dbContext = new VegankoContext(dbOptsBuilder.Options);
                 dbContext.Database.Migrate();
                 return dbContext;
             });
