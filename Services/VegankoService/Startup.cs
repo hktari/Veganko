@@ -59,7 +59,7 @@ namespace VegankoService
 
             services.AddSingleton<IJwtFactory, JwtFactory>();
 
-            services.TryAddTransient<IHttpContextAccessor, HttpContextAccessor>();
+            services.AddTransient<IHttpContextAccessor, HttpContextAccessor>();
 
             services.AddTransient<IEmailService, EmailService>();
             //services.Configure<AuthMessageSenderOptions>(Configuration); ???
