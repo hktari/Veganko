@@ -35,6 +35,9 @@
                 VerticalOptions="Center">
                 <!--TODO: Add loading and error images-->
                 <forms:CachedImage
+                    LoadingPlaceholder="img_loading.png"
+                    ErrorPlaceholder="img_error.png"
+                    DownsampleToViewSize="True"
                     Aspect="AspectFill"
                     HeightRequest="113"
                     HorizontalOptions="Center"
