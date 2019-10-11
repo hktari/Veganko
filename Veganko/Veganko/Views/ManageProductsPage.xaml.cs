@@ -25,7 +25,8 @@ namespace Veganko.Views
 
         protected override void OnAppearing()
         {
-            vm.LoadItemsCommand.Execute(null);
+            // TODO: uncomment when implementation exists on service side
+            //vm.LoadItemsCommand.Execute(null);
         }
 
         async void OnProductSelected(object sender, SelectedItemChangedEventArgs args)
