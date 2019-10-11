@@ -33,6 +33,7 @@
                 HorizontalOptions="Center"
                 IsClippedToBounds="True"
                 VerticalOptions="Center">
+                <!--TODO: Add loading and error images-->
                 <forms:CachedImage
                     Aspect="AspectFill"
                     HeightRequest="113"

@@ -66,7 +66,10 @@ namespace Veganko.Views
         {
             base.OnAppearing();
 
-            vm.LoadItemsCommand.Execute(null);
+            if (vm.SearchResult == null || vm.SearchResult.Count == 0)
+            {
+                vm.LoadItemsCommand.Execute(null);
+            }
         }
     }
 }

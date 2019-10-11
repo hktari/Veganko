@@ -227,12 +227,7 @@ namespace Veganko.ViewModels
 
         protected void SetSearchResults(IEnumerable<Product> items)
         {
-            if (SearchResult == null)
-                SearchResult = new ObservableCollection<Product>();
-
-            SearchResult.Clear();
-            foreach (var item in items)
-                SearchResult.Add(item);
+            SearchResult = new ObservableCollection<Product>(items);
         }
 
         protected void UnapplyFilters(bool notifyUIOnly = true)
