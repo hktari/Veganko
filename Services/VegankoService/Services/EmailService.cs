@@ -5,19 +5,23 @@ using MimeKit;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Mail;
 using System.Threading.Tasks;
+using SmtpClient = MailKit.Net.Smtp.SmtpClient;
 
 namespace VegankoService.Services
 {
     public class EmailService : IEmailService
     {
-        private readonly Dictionary<string, EmailProvider> knownEmailProviders = new Dictionary<string, EmailProvider>
+        private readonly List<EmailProvider?> knownEmailProviders = new List<EmailProvider?>
         {
-            { "gmail", new EmailProvider("gmail", "smtp.gmail.com", 587) },
-            { "outlook", new EmailProvider("outlook", "smtp.live.com", 587) },
-            { "yahoo", new EmailProvider("yahoo", "smtp.mail.yahoo.com", 465) },
-            { "hotmail", new EmailProvider("hotmail", "smtp.live.com", 465) },
-            { "office365", new EmailProvider("office365", "smtp.office365.com", 587) },
+            new EmailProvider("gmail.com", "smtp.gmail.com", 587),
+            new EmailProvider("outlook.com", "smtp.live.com", 587),
+            new EmailProvider("yahoo.com", "smtp.mail.yahoo.com", 465),
+            new EmailProvider("hotmail.com", "smtp.live.com", 465),
+            new EmailProvider("office365.com", "smtp.office365.com", 587),
+            new EmailProvider("gmx.com", "smtp.gmx.com", 465),
+            new EmailProvider("mail.com", "smtp.mail.com", 587),
         };
 
         private readonly IConfiguration configuration;
@@ -31,35 +35,38 @@ namespace VegankoService.Services
 
         public async Task SendEmail(string email, string subject, string message)
         {
-            string senderEmail = configuration.GetSection("EmailService")["Email"];
+            MailAddress receiverEmail = new MailAddress(email);
+
+            MailAddress senderEmail = new MailAddress(configuration.GetSection("EmailService")["Email"]);
             string senderPassword = configuration.GetSection("EmailService")["Password"];
 
             var mimeMsg = new MimeMessage();
             mimeMsg.From.Add(new MailboxAddress
                 ("Veganko",
-                senderEmail));
+                senderEmail.Address));
             mimeMsg.To.Add(new MailboxAddress
                 ("Receiver",
-                email));
+                receiverEmail.Address));
             mimeMsg.Subject = subject;
             mimeMsg.Body = new TextPart("html")
             {
                 Text = message
             };
 
-            int atSignIdx = email.IndexOf("@");
-            string targetEmailProvider = email.Substring(
-                atSignIdx + 1, email.LastIndexOf('.') - atSignIdx - 1);
-            logger.LogDebug("target email pvovider: " + targetEmailProvider);
+            logger.LogDebug("Receiver email provider: " + receiverEmail.Host);
 
-            // TODO: error handling
-            EmailProvider emProvider = knownEmailProviders[targetEmailProvider];
+            EmailProvider? emProvider = knownEmailProviders.FirstOrDefault(emp => emp.Value.Host == receiverEmail.Host);
+
+            if (emProvider == null)
+            {
+                throw new ArgumentException($"Unsupported email provider: {receiverEmail.Host}.");
+            }
 
             using (var client = new SmtpClient())
             {
-                client.Connect(emProvider.Url, emProvider.Port, emProvider.SSL);
+                client.Connect(emProvider.Value.Url, emProvider.Value.Port, emProvider.Value.SSL);
                 client.Authenticate(
-                    senderEmail,
+                    senderEmail.Address,
                     senderPassword);
 
                 await client.SendAsync(mimeMsg);
@@ -71,15 +78,15 @@ namespace VegankoService.Services
 
         private struct EmailProvider
         {
-            public EmailProvider(string name, string url, int port, bool ssl = false)
+            public EmailProvider(string host, string url, int port, bool ssl = false)
             {
-                Name = name;
+                Host = host;
                 Url = url;
                 Port = port;
                 SSL = ssl;
             }
 
-            public string Name { get; set; }
+            public string Host { get; set; }
             public string Url { get; set; }
             public int Port { get; set; }
             public bool SSL { get; set; }
