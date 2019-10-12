@@ -329,7 +329,6 @@ namespace Veganko.ViewModels
 
         public async Task AddNewProduct(Product product)
         {
-            // TODO: add bytes to product
             product = await productService.AddAsync(product);
             Products.Add(product);
             UnapplyFilters(false);

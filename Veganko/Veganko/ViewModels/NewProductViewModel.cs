@@ -74,8 +74,6 @@ namespace Veganko.ViewModels
 
         private async void TakeImage()
         {
-            // TODO: test on other devices. If Ok remove unused lib from droid
-
             int maxPhotoWidthInPix = 1080;
             int maxPhotoHeightInDips = 300;
 
