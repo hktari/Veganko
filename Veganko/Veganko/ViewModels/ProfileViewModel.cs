@@ -102,6 +102,8 @@ namespace Veganko.ViewModels
             };
 
             await userService.Edit(updatedUser);
+
+            IsDirty = false;
         }
 
         private void HandleNewData()
