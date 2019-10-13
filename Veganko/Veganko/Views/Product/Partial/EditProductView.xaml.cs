@@ -31,20 +31,7 @@ namespace Veganko.Views.Product.Partial
 
         async void Scan_Clicked(object sender, EventArgs e)
         {
-            var scanner = new ZXing.Mobile.MobileBarcodeScanner();
-
-            var result = await scanner.Scan();
-
-            if (result != null)
-            {
-                barcodeScanResult.Text = result.Text;
-                await App.Current.MainPage.DisplayAlert("Obvestilo", "Skeniranje končano !", "OK");
-            }
-            else
-            {
-                barcodeScanResult.Text = null;
-                await App.Current.MainPage.DisplayAlert("Obvestilo", "Napaka pri skeniranju !", "OK");
-            }
+          
         }
 
         private void OnCameraBtnClicked(object sender, EventArgs e)

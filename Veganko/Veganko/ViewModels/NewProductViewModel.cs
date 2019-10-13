@@ -67,6 +67,13 @@ namespace Veganko.ViewModels
             get => photoPicked;
         }
 
+        private bool barcodePicked;
+        public bool BarcodePicked
+        {
+            get => barcodePicked;
+            set => SetProperty(ref barcodePicked, value);
+        }
+
         private ObservableCollection<ProductClassifier> productClassifiers;
 
         public ObservableCollection<ProductClassifier> ProductClassifiers
@@ -78,6 +85,27 @@ namespace Veganko.ViewModels
         public Command PageAppeared => new Command(OnPageAppeared);
 
         public Command TakeImageCommand => new Command(TakeImage);
+
+        public Command TakeBarcodeCommand => new Command(
+            async () => 
+            {
+                var scanner = new ZXing.Mobile.MobileBarcodeScanner();
+
+                var result = await scanner.Scan();
+
+                if (result != null)
+                {
+                    Barcode = result.Text;
+                    BarcodePicked = true;
+                    await App.Current.MainPage.DisplayAlert("Obvestilo", "Skeniranje končano !", "OK");
+                }
+                else
+                {
+                    Barcode = null;
+                    BarcodePicked = false;
+                    await App.Current.MainPage.DisplayAlert("Obvestilo", "Napaka pri skeniranju !", "OK");
+                }
+            });
 
         private async void TakeImage()
         {
@@ -162,8 +190,8 @@ namespace Veganko.ViewModels
             };
             SelectedProductType = (ProductType)1;
             Barcode = null;
-
             PhotoPicked = false;
+            BarcodePicked = false;
         }
     }
 }

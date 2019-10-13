@@ -91,17 +91,28 @@
                 BackgroundColor="Green">
                 <Frame.Triggers>
                     <DataTrigger
-                        Binding="{Binding Barcode}"
+                        Binding="{Binding BarcodePicked}"
                         TargetType="Frame"
-                        Value="{x:Null}">
+                        Value="False">
                         <Setter Property="Opacity" Value="0.5" />
                         <Setter Property="BackgroundColor" Value="White" />
                     </DataTrigger>
                 </Frame.Triggers>
-                <ImageButton
-                    BackgroundColor="White"
-                    Clicked="Scan_Clicked"
-                    Source="barcode.jpg" />
+                <Grid>
+                    <ImageButton
+                        BackgroundColor="White"
+                        Command="{Binding TakeBarcodeCommand}"
+                        Source="barcode.png" />
+                    <Image
+                        HeightRequest="35"
+                        HorizontalOptions="Center"
+                        InputTransparent="True"
+                        IsVisible="{Binding BarcodePicked}"
+                        Opacity="0.75"
+                        Source="checkmark_2.png"
+                        VerticalOptions="Center"
+                        WidthRequest="35" />
+                </Grid>
             </Frame>
             <StackLayout Grid.Row="6" Grid.ColumnSpan="2">
                 <ContentView>
