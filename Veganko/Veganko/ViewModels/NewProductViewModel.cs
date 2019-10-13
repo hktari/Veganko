@@ -60,6 +60,13 @@ namespace Veganko.ViewModels
             }
         }
 
+        private bool photoPicked;
+        public bool PhotoPicked
+        {
+            set => SetProperty(ref photoPicked, value);
+            get => photoPicked;
+        }
+
         private ObservableCollection<ProductClassifier> productClassifiers;
 
         public ObservableCollection<ProductClassifier> ProductClassifiers
@@ -115,6 +122,8 @@ namespace Veganko.ViewModels
                 Product.ImageBase64Encoded = ms.ToArray();
             }
 #endif
+
+            PhotoPicked = true;
         }
 
         public string Barcode
@@ -148,12 +157,13 @@ namespace Veganko.ViewModels
 
             Product = new Product
             {
-                Image = "raspeberry_meringue.jpg",
                 //State = hasApprovalRights ? ProductState.Approved : ProductState.PendingApproval  // TODO: uncomment after testing
                 ProductClassifiers = new ObservableCollection<ProductClassifier>(),
             };
             SelectedProductType = (ProductType)1;
             Barcode = null;
+
+            PhotoPicked = false;
         }
     }
 }

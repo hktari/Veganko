@@ -222,6 +222,7 @@
     <Content Include="raspeberry_meringue.jpg">
       <SubType>Designer</SubType>
     </Content>
+    <Content Include="take_img_btn.png" />
     <Content Include="violetbackground6.png" />
     <Content Include="violife.jpg" />
     <Content Include="violife_mozarella.png" />

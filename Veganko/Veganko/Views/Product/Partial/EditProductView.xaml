@@ -169,7 +169,11 @@
                     Source="{Binding ProductClassifiers}"
                     VerticalOptions="Center"
                     ViewSize="63" />
-                <Frame HeightRequest="275" VerticalOptions="Start">
+                <Frame
+                    BackgroundColor="#ffe6bb"
+                    HeightRequest="275"
+                    Style="{StaticResource EntryFrameStyle}"
+                    VerticalOptions="Start">
                     <Grid>
                         <Label
                             x:Name="imageNameResult"
@@ -178,8 +182,17 @@
                         <ImageButton
                             x:Name="CameraButton"
                             Aspect="AspectFill"
-                            BackgroundColor="White"
+                            BackgroundColor="#ffe6bb"
+                            Clicked="OnCameraBtnClicked"
+                            IsVisible="{Binding PhotoPicked}"
                             Source="{Binding ProductImg}" />
+                        <ImageButton
+                            BackgroundColor="#ffe6bb"
+                            Clicked="OnCameraBtnClicked"
+                            HorizontalOptions="Center"
+                            IsVisible="{Binding PhotoPicked, Converter={StaticResource BoolInverter}}"
+                            Source="take_img_btn.png"
+                            VerticalOptions="Center" />
                     </Grid>
                 </Frame>
             </StackLayout>

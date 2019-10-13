@@ -27,11 +27,6 @@ namespace Veganko.Views.Product.Partial
         public EditProductView ()
 		{
 			InitializeComponent ();
-
-            CameraButton.Clicked += (sender, args) =>
-            {
-                TakeImageCommand?.Execute(args);
-            };
         }
 
         async void Scan_Clicked(object sender, EventArgs e)
@@ -50,6 +45,11 @@ namespace Veganko.Views.Product.Partial
                 barcodeScanResult.Text = null;
                 await App.Current.MainPage.DisplayAlert("Obvestilo", "Napaka pri skeniranju !", "OK");
             }
+        }
+
+        private void OnCameraBtnClicked(object sender, EventArgs e)
+        {
+            TakeImageCommand?.Execute(null);
         }
     }
 }
