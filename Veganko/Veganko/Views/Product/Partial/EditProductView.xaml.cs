@@ -29,11 +29,6 @@ namespace Veganko.Views.Product.Partial
 			InitializeComponent ();
         }
 
-        async void Scan_Clicked(object sender, EventArgs e)
-        {
-          
-        }
-
         private void OnCameraBtnClicked(object sender, EventArgs e)
         {
             TakeImageCommand?.Execute(null);

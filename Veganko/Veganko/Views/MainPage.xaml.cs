@@ -28,6 +28,12 @@ namespace Veganko.Views
 
         private NavigationPage lastPage;
 
+        public void SetCurrentTab(int tabIdx)
+        {
+            var page = Children.ElementAtOrDefault(tabIdx);
+            CurrentPage = page ?? throw new ArgumentException("Invalid page idx.", nameof(tabIdx));
+        }
+
         protected async override void OnCurrentPageChanged()
         {
             base.OnCurrentPageChanged();

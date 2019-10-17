@@ -6,16 +6,21 @@ using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.IO;
 using System.Text;
+using Veganko.Extensions;
 using Veganko.Models;
 using Veganko.Models.User;
 using Veganko.Other;
 using Veganko.Services;
+using Veganko.Services.Http;
+using Veganko.Views;
 using Xamarin.Forms;
 
 namespace Veganko.ViewModels
 {
     public class NewProductViewModel : BaseViewModel
     {
+        public const string ProductAddedMsg = "ProductAdded";
+
         private Product product;
         public Product Product
         {
@@ -106,6 +111,29 @@ namespace Veganko.ViewModels
                     await App.Current.MainPage.DisplayAlert("Obvestilo", "Napaka pri skeniranju !", "OK");
                 }
             });
+
+        public Command SaveCommand => new Command(
+            async () => 
+            {
+                try
+                {
+                    product.Type = selectedProductType;
+                    product = await productService.AddAsync(product);
+                    ((MainPage)App.Current.MainPage).SetCurrentTab(0);
+                    MessagingCenter.Send(this, ProductAddedMsg, product);
+                }
+                catch (ServiceException ex)
+                {
+                    await App.CurrentPage.Err("Napak pri dodajanju: " + ex.Response);
+                }
+            });
+
+        private IProductService productService;
+
+        public NewProductViewModel()
+        {
+            productService = App.IoC.Resolve<IProductService>();
+        }
 
         private async void TakeImage()
         {

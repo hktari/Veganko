@@ -159,6 +159,8 @@ namespace Veganko.ViewModels
             productService = App.IoC.Resolve<IProductService>();
             accountService = App.IoC.Resolve<IAccountService>();
 
+            MessagingCenter.Subscribe<NewProductViewModel, Product>(this, NewProductViewModel.ProductAddedMsg, OnNewProductAdded);
+
             Title = "Iskanje";
             Products = new List<Product>();
             SearchResult = new ObservableCollection<Product>();
@@ -327,9 +329,8 @@ namespace Veganko.ViewModels
             }
         }
 
-        public async Task AddNewProduct(Product product)
+        private void OnNewProductAdded(NewProductViewModel sender, Product product)
         {
-            product = await productService.AddAsync(product);
             Products.Add(product);
             UnapplyFilters(false);
         }

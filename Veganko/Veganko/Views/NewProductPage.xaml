@@ -13,12 +13,12 @@
     <ContentPage.Content>
         <ScrollView>
             <StackLayout>
-                <partials:EditProductView TakeImageCommand="{Binding TakeImageCommand}"/>
+                <partials:EditProductView TakeImageCommand="{Binding TakeImageCommand}" />
                 <Button
                     Grid.Row="9"
                     Grid.Column="0"
                     Grid.ColumnSpan="2"
-                    Clicked="Save_Clicked"
+                    Command="{Binding SaveCommand}"
                     Text="Shrani"
                     VerticalOptions="End" />
             </StackLayout>

@@ -30,26 +30,6 @@ namespace Veganko.Views
             BindingContext = vm = new NewProductViewModel();
         }
 
-        async void Save_Clicked(object sender, EventArgs e)
-        {
-            var mainPage = (TabbedPage)App.Current.MainPage;
-            var productsNavPage = mainPage.Children[0];
-
-            mainPage.CurrentPage = productsNavPage;
-
-            var productsVM = (ProductViewModel)((ProductPage)((NavigationPage)productsNavPage).CurrentPage).BindingContext;
-            vm.Product.Type = vm.SelectedProductType;
-
-            try
-            {
-                await productsVM.AddNewProduct(vm.Product);
-            }
-            catch (ServiceException ex)
-            {
-                await this.Err("Napak pri dodajanju: " + ex.Response);
-            }
-        }
-
         protected override void OnAppearing()
         {
             base.OnAppearing();

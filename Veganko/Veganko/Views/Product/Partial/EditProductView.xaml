@@ -183,9 +183,10 @@
                 <Frame
                     BackgroundColor="#ffe6bb"
                     HeightRequest="275"
+                    IsClippedToBounds="True"
                     Style="{StaticResource EntryFrameStyle}"
                     VerticalOptions="Start">
-                    <Grid>
+                    <Grid IsClippedToBounds="True">
                         <Label
                             x:Name="imageNameResult"
                             IsVisible="False"
