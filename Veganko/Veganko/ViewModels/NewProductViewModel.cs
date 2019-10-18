@@ -1,11 +1,13 @@
 ﻿using Autofac;
 using Plugin.Media;
+using Plugin.Media.Abstractions;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.IO;
 using System.Text;
+using System.Threading.Tasks;
 using Veganko.Extensions;
 using Veganko.Models;
 using Veganko.Models.User;
@@ -20,6 +22,9 @@ namespace Veganko.ViewModels
     public class NewProductViewModel : BaseViewModel
     {
         public const string ProductAddedMsg = "ProductAdded";
+
+        public const int maxPhotoWidthInPix = 1080;
+        public const int maxPhotoHeightInDips = 300;
 
         private Product product;
         public Product Product
@@ -89,7 +94,7 @@ namespace Veganko.ViewModels
 
         public Command PageAppeared => new Command(OnPageAppeared);
 
-        public Command TakeImageCommand => new Command(TakeImage);
+        public Command TakeImageCommand => new Command(HandleImageClicked);
 
         public Command TakeBarcodeCommand => new Command(
             async () => 
@@ -128,6 +133,21 @@ namespace Veganko.ViewModels
                 }
             });
 
+        public string Barcode
+        {
+            get
+            {
+                return Product?.Barcode;
+            }
+            set
+            {
+                if (Product?.Barcode == value)
+                    return;
+                Product.Barcode = value;
+                OnPropertyChanged(nameof(Barcode));
+            }
+        }
+
         private IProductService productService;
 
         public NewProductViewModel()
@@ -135,11 +155,54 @@ namespace Veganko.ViewModels
             productService = App.IoC.Resolve<IProductService>();
         }
 
-        private async void TakeImage()
+        private async void HandleImageClicked()
         {
-            int maxPhotoWidthInPix = 1080;
-            int maxPhotoHeightInDips = 300;
+            string result = await App.Current.MainPage.DisplayActionSheet("Fotografija", "Prekini", null, "Izberi iz galerije", "Slikaj");
 
+            if (result == "Prekini")
+            {
+                return;
+            }
+
+            if (result == "Slikaj")
+            {
+                await TakeImage();
+            }
+            else
+            {
+                await PickImageFromGallery();
+            }
+
+            PhotoPicked = true;
+        }
+
+        private async Task PickImageFromGallery()
+        {
+            await CrossMedia.Current.Initialize();
+
+            if (!CrossMedia.Current.IsPickPhotoSupported)
+            {
+                await App.CurrentPage.Err("Ni podpore za izbiranje fotografij");
+                return;
+            }
+
+            MediaFile mediaFile = await CrossMedia.Current.PickPhotoAsync(new PickMediaOptions
+            {
+                PhotoSize = PhotoSize.MaxWidthHeight,
+                MaxWidthHeight = maxPhotoWidthInPix,
+            });
+
+            if (mediaFile == null)
+            {
+                await App.CurrentPage.Err("Nisem uspel naložiti fotografijo.");
+                return;
+            }
+
+            LoadImage(mediaFile);
+        }
+
+        private async Task TakeImage()
+        {
 #if __ANDROID__
             byte[] data = await Droid.MainActivity.Context.DispatchTakePictureIntent(maxPhotoHeightInDips, maxPhotoWidthInPix);
             Product.ImageBase64Encoded = data;
@@ -165,35 +228,23 @@ namespace Veganko.ViewModels
             if (file == null)
                 return;
 
+            LoadImage(file);
+#endif
+        }
+
+        private void LoadImage(MediaFile file)
+        {
             ProductImg = ImageSource.FromStream(() =>
             {
                 var stream = file.GetStream();
                 return stream;
             });
 
-            using(Stream stream = file.GetStream())
+            using (Stream stream = file.GetStream())
             using (MemoryStream ms = new MemoryStream())
             {
                 stream.CopyTo(ms);
                 Product.ImageBase64Encoded = ms.ToArray();
-            }
-#endif
-
-            PhotoPicked = true;
-        }
-
-        public string Barcode
-        {
-            get
-            {
-                return Product?.Barcode;
-            }
-            set
-            {
-                if (Product?.Barcode == value)
-                    return;
-                Product.Barcode = value;
-                OnPropertyChanged(nameof(Barcode));
             }
         }
 
