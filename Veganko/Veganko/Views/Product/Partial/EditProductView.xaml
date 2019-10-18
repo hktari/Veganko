@@ -203,7 +203,7 @@
                         </Image>
                         <ImageButton
                             BackgroundColor="#ffe6bb"
-                            Clicked="OnCameraBtnClicked"
+                            Command="{Binding TakeImageCommand}"
                             HorizontalOptions="Center"
                             IsVisible="{Binding PhotoPicked, Converter={StaticResource BoolInverter}}"
                             Source="take_img_btn.png"

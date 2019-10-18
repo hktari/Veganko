@@ -13,7 +13,7 @@
     <ContentPage.Content>
         <ScrollView>
             <StackLayout>
-                <partials:EditProductView TakeImageCommand="{Binding TakeImageCommand}" />
+                <partials:EditProductView />
                 <Button
                     Grid.Row="9"
                     Grid.Column="0"
