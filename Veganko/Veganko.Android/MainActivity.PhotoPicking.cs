@@ -226,7 +226,8 @@ namespace Veganko.Droid
             // Create an image file name
             String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").Format(new Date());
             String imageFileName = timeStamp;
-            File storageDir = this.GetExternalFilesDir(Android.OS.Environment.DirectoryPictures);
+            //File storageDir = this.GetExternalFilesDir(Android.OS.Environment.DirectoryPictures);
+            File storageDir = new File(this.CacheDir, "Pictures");
             storageDir.Mkdirs();
 
             File image = File.CreateTempFile(
