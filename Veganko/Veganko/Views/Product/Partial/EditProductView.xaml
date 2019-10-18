@@ -182,7 +182,7 @@
                     ViewSize="63" />
                 <Frame
                     BackgroundColor="#ffe6bb"
-                    HeightRequest="275"
+                    HeightRequest="300"
                     IsClippedToBounds="True"
                     Style="{StaticResource EntryFrameStyle}"
                     VerticalOptions="Start">
@@ -191,13 +191,16 @@
                             x:Name="imageNameResult"
                             IsVisible="False"
                             Text="{Binding Product.ImageName}" />
-                        <ImageButton
+                        <Image
                             x:Name="CameraButton"
                             Aspect="AspectFill"
                             BackgroundColor="#ffe6bb"
-                            Clicked="OnCameraBtnClicked"
                             IsVisible="{Binding PhotoPicked}"
-                            Source="{Binding ProductImg}" />
+                            Source="{Binding ProductImg}">
+                            <Image.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding TakeImageCommand}" />
+                            </Image.GestureRecognizers>
+                        </Image>
                         <ImageButton
                             BackgroundColor="#ffe6bb"
                             Clicked="OnCameraBtnClicked"

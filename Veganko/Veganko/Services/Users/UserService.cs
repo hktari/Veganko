@@ -96,6 +96,7 @@ namespace Veganko.Services.Users
                     try
                     {
                         currentUser = JsonConvert.DeserializeObject<UserPublicInfo>(serializedCurUser);
+                        CoerceInvalidProperties(currentUser);
                     }
                     catch (JsonSerializationException ex)
                     {
@@ -107,6 +108,7 @@ namespace Veganko.Services.Users
 
         public void SetCurrentUser(UserPublicInfo user)
         {
+            CoerceInvalidProperties(user);
             currentUser = user;
             Preferences.Set("currentUser", JsonConvert.SerializeObject(user));
         }
@@ -115,6 +117,12 @@ namespace Veganko.Services.Users
         {
             Preferences.Remove("currentUser");
             currentUser = null;
+        }
+
+        private void CoerceInvalidProperties(UserPublicInfo user)
+        {
+            user.AvatarId = string.IsNullOrEmpty(user.AvatarId) ? "0" : user.AvatarId;
+            user.ProfileBackgroundId = string.IsNullOrEmpty(user.ProfileBackgroundId) ? "0" : user.ProfileBackgroundId;
         }
     }
 }
