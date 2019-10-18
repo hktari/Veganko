@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Veganko.Extensions;
 using Veganko.Services.Http;
 using Veganko.ViewModels;
+using Veganko.ViewModels.Products;
 using Veganko.Views.Product;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;

@@ -8,7 +8,7 @@ using Veganko.Views;
 using Veganko.Views.Product;
 using Xamarin.Forms;
 
-namespace Veganko.ViewModels
+namespace Veganko.ViewModels.Products
 {
     public class ManageProductsViewModel : ProductViewModel
     {

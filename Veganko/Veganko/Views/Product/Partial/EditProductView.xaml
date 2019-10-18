@@ -109,9 +109,9 @@
                         InputTransparent="True"
                         IsVisible="{Binding BarcodePicked}"
                         Opacity="0.75"
-                        Source="checkmark_2.png"
                         VerticalOptions="Center"
-                        WidthRequest="35" />
+                        WidthRequest="35"
+                        Source="checkmark_2.png" />
                 </Grid>
             </Frame>
             <StackLayout Grid.Row="6" Grid.ColumnSpan="2">
@@ -176,10 +176,10 @@
                     HorizontalAlignment="Center"
                     x:TypeArguments="models:ProductClassifier"
                     ImageSource="{x:Static local:EnumImages.ProductClassifierImages}"
-                    Selected="{Binding Product.ProductClassifiers, Mode=TwoWay}"
-                    Source="{Binding ProductClassifiers}"
                     VerticalOptions="Center"
-                    ViewSize="63" />
+                    ViewSize="63"
+                    Source="{Binding ProductClassifiers}"
+                    Selected="{Binding Product.ProductClassifiers, Mode=TwoWay}" />
                 <Frame
                     BackgroundColor="#ffe6bb"
                     HeightRequest="300"
@@ -206,8 +206,8 @@
                             Command="{Binding TakeImageCommand}"
                             HorizontalOptions="Center"
                             IsVisible="{Binding PhotoPicked, Converter={StaticResource BoolInverter}}"
-                            Source="take_img_btn.png"
-                            VerticalOptions="Center" />
+                            VerticalOptions="Center"
+                            Source="take_img_btn.png" />
                     </Grid>
                 </Frame>
             </StackLayout>

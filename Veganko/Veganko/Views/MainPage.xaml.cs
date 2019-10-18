@@ -3,6 +3,7 @@ using System.Linq;
 using Veganko.Models;
 using Veganko.Services;
 using Veganko.ViewModels;
+using Veganko.ViewModels.Products;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 

@@ -19,6 +19,18 @@ namespace Veganko.ViewModels.Products
         public const int maxPhotoWidthInPix = 1080;
         public const int maxPhotoHeightInDips = 300;
 
+        public BaseEditProductViewModel()
+        {
+        }
+
+        public BaseEditProductViewModel(Product product)
+        {
+            this.product = product;
+            productImg = ImageSource.FromStream(
+                () => new MemoryStream(product.ImageBase64Encoded));
+            SelectedProductType = product.Type;
+        }
+
         private Product product;
         public Product Product
         {
@@ -45,7 +57,7 @@ namespace Veganko.ViewModels.Products
             }
         }
 
-        private ProductType selectedProductType;
+        protected ProductType selectedProductType;
         public ProductType SelectedProductType
         {
             get
@@ -121,6 +133,11 @@ namespace Veganko.ViewModels.Products
                 Product.Barcode = value;
                 OnPropertyChanged(nameof(Barcode));
             }
+        }
+
+        protected void InitSelectedProductType(ProductType productType)
+        {
+            this.selectedProductType = productType;
         }
 
         private async void HandleImageClicked()

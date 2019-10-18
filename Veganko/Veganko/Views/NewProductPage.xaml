@@ -9,19 +9,20 @@
     xmlns:models="clr-namespace:Veganko.Models"
     xmlns:partials="clr-namespace:Veganko.Views.Product.Partial"
     xmlns:views="clr-namespace:Veganko.Views"
-    Padding="10">
+    ControlTemplate="{StaticResource LodingIndicatorTemplate}">
     <ContentPage.Content>
-        <ScrollView>
-            <StackLayout>
+        <ScrollView Padding="10">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="50" />
+                </Grid.RowDefinitions>
                 <partials:EditProductView />
                 <Button
-                    Grid.Row="9"
-                    Grid.Column="0"
-                    Grid.ColumnSpan="2"
+                    Grid.Row="1"
                     Command="{Binding SaveCommand}"
-                    Text="Shrani"
-                    VerticalOptions="End" />
-            </StackLayout>
+                    Text="Shrani" />
+            </Grid>
         </ScrollView>
     </ContentPage.Content>
 </views:BaseContentPage>

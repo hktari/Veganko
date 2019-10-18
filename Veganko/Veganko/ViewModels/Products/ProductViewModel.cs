@@ -14,7 +14,6 @@ using Veganko.Models.User;
 using Veganko.Other;
 using Veganko.Services;
 using Veganko.Services.Http;
-using Veganko.ViewModels.Product;
 using Veganko.ViewModels.Products;
 using Veganko.Views;
 using Xamarin.Forms;

@@ -51,7 +51,7 @@
                         Padding="5,0"
                         Spacing="10"
                         VerticalOptions="FillAndExpand">
-                        <ContentView
+                        <Grid
                             Grid.Row="0"
                             Grid.Column="0"
                             Grid.ColumnSpan="3">
@@ -62,7 +62,14 @@
                                     HorizontalOptions="Center"
                                     Source="{Binding Product.Image}" />
                             </Frame>
-                        </ContentView>
+                            <ImageButton
+                                Margin="10"
+                                Command="{Binding EditCommand}"
+                                HorizontalOptions="End"
+                                Source="edit.png"
+                                VerticalOptions="Start"
+                                WidthRequest="35" />
+                        </Grid>
                         <StackLayout Orientation="Horizontal">
                             <Label HorizontalOptions="StartAndExpand">
                                 <Label.FormattedText>

@@ -13,12 +13,22 @@ using Veganko.Other;
 using Autofac;
 using Veganko.Services.Comments;
 using Veganko.Views.Product.DTS;
+using Veganko.Views.Product;
 
-namespace Veganko.ViewModels
+namespace Veganko.ViewModels.Products
 {
     public class ProductDetailViewModel : BaseViewModel
     {
         public Command AddToFavoritesCommand => new Command(AddToFavorites);
+
+        public Command EditCommand => new Command(
+            async () =>
+            {
+                await App.Navigation.PushModalAsync(
+                    new NavigationPage(
+                        new EditProductPage(new EditProductViewModel(Product))));
+            });
+        
         public Product Product { get; set; }
 
         private ObservableCollection<CommentViewModel> comments;
@@ -156,7 +166,7 @@ namespace Veganko.ViewModels
             return new CommentViewModel(User)
             {
                 Rating = 1,
-                Text = ""
+                Text = "",
             };
         }
 

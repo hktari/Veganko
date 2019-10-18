@@ -7,6 +7,7 @@ using Veganko.Extensions;
 using Veganko.Models;
 using Veganko.Services.Http;
 using Veganko.ViewModels;
+using Veganko.ViewModels.Products;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 namespace Veganko.Views
