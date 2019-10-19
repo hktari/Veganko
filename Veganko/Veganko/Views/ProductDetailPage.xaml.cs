@@ -26,20 +26,7 @@ namespace Veganko.Views
         protected async override void OnAppearing()
         {
             base.OnAppearing();
-            try
-            {
-                vm.IsBusy = true;
-                await vm.RefreshComments();
-                //vm.RefreshIsFavorite(); // TODO: remove ?
-            }
-            catch (ServiceException ex)
-            {
-                await this.Err(ex.StatusDescription);
-            }
-            finally
-            {
-                vm.IsBusy = false;
-            }
+            await vm.Init();            
         }
 
         private async void OnDeleteCommentClicked(object sender, EventArgs args)

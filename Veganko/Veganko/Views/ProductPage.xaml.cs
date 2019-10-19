@@ -13,17 +13,17 @@ using Xamarin.Forms.Xaml;
 namespace Veganko.Views
 {
 	[XamlCompilation(XamlCompilationOptions.Compile)]
-	public partial class ProductPage : BaseContentPage
+	public partial class ProductListPage : BaseContentPage
 	{
-        ProductViewModel vm;
+        ProductListViewModel vm;
 
-		public ProductPage ()
+		public ProductListPage()
 		{
 			InitializeComponent ();
-            BindingContext = vm = new ProductViewModel();
+            BindingContext = vm = new ProductListViewModel();
         }
 
-        public ProductPage(ProductViewModel vm)
+        public ProductListPage(ProductListViewModel vm)
         {
             InitializeComponent();
             BindingContext = this.vm = vm;

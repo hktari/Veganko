@@ -10,7 +10,7 @@
                 <OnPlatform UWP="Products" />
             </NavigationPage.Title>
             <x:Arguments>
-                <views:ProductPage />
+                <views:ProductListPage />
             </x:Arguments>
         </NavigationPage>
         <views:NewProductPage Icon="icon.png">

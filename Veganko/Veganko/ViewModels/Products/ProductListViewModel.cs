@@ -21,7 +21,7 @@ using Xamarin.Forms.Internals;
 
 namespace Veganko.ViewModels.Products
 {
-    public class ProductViewModel : BaseViewModel
+    public class ProductListViewModel : BaseViewModel
     {
         public Command LoadItemsCommand { get; set; }
         public Command SearchClickedCommand => new Command(OnSearchClicked);
@@ -155,7 +155,7 @@ namespace Veganko.ViewModels.Products
         protected readonly IProductService productService;
         protected readonly IAccountService accountService;
 
-        public ProductViewModel()
+        public ProductListViewModel()
         {
             productService = App.IoC.Resolve<IProductService>();
             accountService = App.IoC.Resolve<IAccountService>();

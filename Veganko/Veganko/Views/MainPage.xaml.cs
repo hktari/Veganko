@@ -19,7 +19,7 @@ namespace Veganko.Views
             if (isManager)
             {
                 Children.Add(
-                    new NavigationPage(new ProductPage(new ManageProductsViewModel()))
+                    new NavigationPage(new ProductListPage(new ManageProductsViewModel()))
                     {
                         Title = Device.RuntimePlatform == Device.UWP ? "Manage" : string.Empty,
                         Icon = Device.RuntimePlatform == Device.UWP ? null : "icon.png"

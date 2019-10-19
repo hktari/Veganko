@@ -10,7 +10,7 @@ using Xamarin.Forms;
 
 namespace Veganko.ViewModels.Products
 {
-    public class ManageProductsViewModel : ProductViewModel
+    public class ManageProductsViewModel : ProductListViewModel
     {
         protected override Task OnProductSelected(Product product)
         {
