@@ -1,3 +1,9 @@
+- BUG:
+	1, edit product classifiers
+	2. move to new product page
+	3. move to product list page
+	4. duplicates
+- barcocde image no feedback
 - https://{{endpoint}}/api/users return unconirme user
 
 - if role is changed while user has sessions he/she has to relog or wait for session to expire
