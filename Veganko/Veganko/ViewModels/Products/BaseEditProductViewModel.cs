@@ -10,6 +10,7 @@ using Veganko.Extensions;
 using Veganko.Models;
 using Veganko.Other;
 using Veganko.Services;
+using Veganko.ViewModels.Products.Partial;
 using Xamarin.Forms;
 
 namespace Veganko.ViewModels.Products
@@ -23,16 +24,17 @@ namespace Veganko.ViewModels.Products
         {
         }
 
-        public BaseEditProductViewModel(Product product)
+        public BaseEditProductViewModel(ProductViewModel product)
         {
             this.product = product;
+            // TODO: use product.Image
             productImg = ImageSource.FromStream(
                 () => new MemoryStream(product.ImageBase64Encoded));
             SelectedProductType = product.Type;
         }
 
-        private Product product;
-        public Product Product
+        private ProductViewModel product;
+        public ProductViewModel Product
         {
             get
             {

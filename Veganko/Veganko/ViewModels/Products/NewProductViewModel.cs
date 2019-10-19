@@ -14,6 +14,7 @@ using Veganko.Models.User;
 using Veganko.Other;
 using Veganko.Services;
 using Veganko.Services.Http;
+using Veganko.ViewModels.Products.Partial;
 using Veganko.Views;
 using Xamarin.Forms;
 
@@ -37,9 +38,14 @@ namespace Veganko.ViewModels.Products
             {
                 try
                 {
-                    Product = await productService.AddAsync(Product);
+                    Product productModel = new Product();
+                    Product.MapToModel(productModel);
+                    productModel = await productService.AddAsync(productModel);
+                    Product.Update(productModel);
+
                     ((MainPage)App.Current.MainPage).SetCurrentTab(0);
-                    MessagingCenter.Send(this, ProductAddedMsg, Product);
+                    // TODO: pass view model, but ProductListPage has to be reworked to use ProductViewModel
+                    MessagingCenter.Send(this, ProductAddedMsg, productModel);
                 }
                 catch (ServiceException ex)
                 {
@@ -61,7 +67,7 @@ namespace Veganko.ViewModels.Products
             // TODO:
             var hasApprovalRights = (user.Role.ToUAC() & mask) == mask;
 
-            Product = new Models.Product
+            Product = new ProductViewModel
             {
                 //State = hasApprovalRights ? ProductState.Approved : ProductState.PendingApproval  // TODO: uncomment after testing
                 ProductClassifiers = new ObservableCollection<ProductClassifier>(),

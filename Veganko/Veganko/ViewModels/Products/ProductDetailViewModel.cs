@@ -14,6 +14,9 @@ using Autofac;
 using Veganko.Services.Comments;
 using Veganko.Views.Product.DTS;
 using Veganko.Views.Product;
+using Veganko.Extensions;
+using Veganko.Services.Http;
+using Veganko.ViewModels.Products.Partial;
 
 namespace Veganko.ViewModels.Products
 {
@@ -28,8 +31,19 @@ namespace Veganko.ViewModels.Products
                     new NavigationPage(
                         new EditProductPage(new EditProductViewModel(Product))));
             });
-        
-        public Product Product { get; set; }
+
+        private ProductViewModel product;
+        public ProductViewModel Product
+        {
+            get
+            {
+                return product;
+            }
+            set
+            {
+                SetProperty(ref product, value);
+            }
+        }
 
         private ObservableCollection<CommentViewModel> comments;
         public ObservableCollection<CommentViewModel> Comments
@@ -85,7 +99,7 @@ namespace Veganko.ViewModels.Products
 
         public ProductDetailViewModel(Product product)
         {
-            Product = product;
+            Product = new ProductViewModel(product);
             NewComment = CreateDefaultComment();
 
             commentDataStore = App.IoC.Resolve<ICommentsService>();
@@ -95,6 +109,19 @@ namespace Veganko.ViewModels.Products
             ProfileAvatar = Images.GetProfileAvatarById(User.AvatarId);
 
             IsUserManager = User.IsManager();
+        }
+
+        public Task Init()
+        {
+            MessagingCenter.Unsubscribe<EditProductViewModel, ProductViewModel>(this, EditProductViewModel.ProductUpdatedMsg);
+            MessagingCenter.Subscribe<EditProductViewModel, ProductViewModel>(this, EditProductViewModel.ProductUpdatedMsg, OnProductUpdated);
+
+            if (comments.Count == 0)
+            {
+                return RefreshComments();
+            }
+
+            return Task.CompletedTask;
         }
 
         public async Task RefreshIsFavorite()
@@ -154,11 +181,23 @@ namespace Veganko.ViewModels.Products
 
         public async Task RefreshComments()
         {
-            PagedList<Comment> commentsList = await commentDataStore.GetItemsAsync(Product.Id);
-            List<Comment> comments = commentsList.Items.ToList();
-            comments.Sort(new CommentDatePostedComparer());
-            Comments = new ObservableCollection<CommentViewModel>(
-                comments.Select(c => new CommentViewModel(c)));
+            IsBusy = true;
+            try
+            {
+                PagedList<Comment> commentsList = await commentDataStore.GetItemsAsync(Product.Id);
+                List<Comment> comments = commentsList.Items.ToList();
+                comments.Sort(new CommentDatePostedComparer());
+                Comments = new ObservableCollection<CommentViewModel>(
+                    comments.Select(c => new CommentViewModel(c)));
+            }
+            catch (ServiceException ex)
+            {
+                await App.CurrentPage.Err(ex.StatusDescription);
+            }
+            finally
+            {
+                IsBusy = false;
+            }
         }
         
         private CommentViewModel CreateDefaultComment()
@@ -170,6 +209,12 @@ namespace Veganko.ViewModels.Products
             };
         }
 
+        private void OnProductUpdated(EditProductViewModel sender, ProductViewModel updatedProductViewModel)
+        {
+            Product.Update(updatedProductViewModel);
+        }
+
+        #region Comparers
         private class CommentDatePostedComparer : IComparer<Comment>
         {
             public int Compare(Comment x, Comment y)
@@ -199,5 +244,6 @@ namespace Veganko.ViewModels.Products
                 return obj.UserId.GetHashCode();
             }
         }
+        #endregion
     }
 }

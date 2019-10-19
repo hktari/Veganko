@@ -7,6 +7,7 @@ using Veganko.Extensions;
 using Veganko.Models;
 using Veganko.Services;
 using Veganko.Services.Http;
+using Veganko.ViewModels.Products.Partial;
 using Xamarin.Forms;
 
 namespace Veganko.ViewModels.Products
@@ -17,9 +18,10 @@ namespace Veganko.ViewModels.Products
 
         private IProductService productService;
 
-        public EditProductViewModel(Product product)
-            : base(product)
+        public EditProductViewModel(ProductViewModel product)
+            : base(new ProductViewModel(product)) // Work on copy
         {
+
             productService = App.IoC.Resolve<IProductService>();
         }
 
@@ -31,7 +33,9 @@ namespace Veganko.ViewModels.Products
                 IsBusy = true;
                 try
                 {
-                    await productService.UpdateAsync(Product);
+                    Product updatedProduct = new Product();
+                    Product.MapToModel(updatedProduct);
+                    await productService.UpdateAsync(updatedProduct);
                     await App.Navigation.PopModalAsync();
                     MessagingCenter.Send(this, ProductUpdatedMsg, Product);
                 }
