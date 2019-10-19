@@ -7,6 +7,7 @@ using Veganko.Extensions;
 using Veganko.Services.Http;
 using Veganko.ViewModels;
 using Veganko.ViewModels.Products;
+using Veganko.ViewModels.Products.Partial;
 using Veganko.Views.Product;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
@@ -51,7 +52,7 @@ namespace Veganko.Views
                 var mi = ((MenuItem)sender);
                 try
                 {
-                    await vm.DeleteProduct((Veganko.Models.Product)mi.CommandParameter);
+                    await vm.DeleteProduct((ProductViewModel)mi.CommandParameter);
                 }
                 catch (ServiceException ex)
                 {

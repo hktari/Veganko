@@ -97,9 +97,9 @@ namespace Veganko.ViewModels.Products
         private IDataStore<Favorite> favoriteDataStore;
         private IUserService userService;
 
-        public ProductDetailViewModel(Product product)
+        public ProductDetailViewModel(ProductViewModel product)
         {
-            Product = new ProductViewModel(product);
+            Product = product;
             NewComment = CreateDefaultComment();
 
             commentDataStore = App.IoC.Resolve<ICommentsService>();

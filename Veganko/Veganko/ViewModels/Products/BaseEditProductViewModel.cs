@@ -31,6 +31,9 @@ namespace Veganko.ViewModels.Products
             productImg = ImageSource.FromStream(
                 () => new MemoryStream(product.ImageBase64Encoded));
             SelectedProductType = product.Type;
+
+            PhotoPicked = product.ImageBase64Encoded != null;
+            BarcodePicked = product.Barcode != null;
         }
 
         private ProductViewModel product;

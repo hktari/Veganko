@@ -21,7 +21,6 @@ namespace Veganko.ViewModels.Products
         public EditProductViewModel(ProductViewModel product)
             : base(new ProductViewModel(product)) // Work on copy
         {
-
             productService = App.IoC.Resolve<IProductService>();
         }
 

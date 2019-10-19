@@ -34,7 +34,8 @@ namespace Veganko.Views
             if (item == null)
                 return;
 
-            await Navigation.PushAsync(new ProductDetailPage(new ProductDetailViewModel(item)));
+            throw new NotImplementedException();
+            //await Navigation.PushAsync(new ProductDetailPage(new ProductDetailViewModel(item)));
 
             // Manually deselect item.
             ProductsListView.SelectedItem = null;

@@ -15,6 +15,7 @@ using Veganko.Other;
 using Veganko.Services;
 using Veganko.Services.Http;
 using Veganko.ViewModels.Products;
+using Veganko.ViewModels.Products.Partial;
 using Veganko.Views;
 using Xamarin.Forms;
 using Xamarin.Forms.Internals;
@@ -62,8 +63,8 @@ namespace Veganko.ViewModels.Products
             }
         }
 
-        private ObservableCollection<Product> searchResult;
-        public ObservableCollection<Product> SearchResult
+        private ObservableCollection<ProductViewModel> searchResult;
+        public ObservableCollection<ProductViewModel> SearchResult
         {
             get
             {
@@ -131,7 +132,7 @@ namespace Veganko.ViewModels.Products
             }
         }
 
-        public List<Product> Products { get; protected set; }
+        public List<ProductViewModel> Products { get; protected set; }
 
         #region TODO: make static
         private ObservableCollection<ProductClassifier> productClassifiers;
@@ -150,7 +151,7 @@ namespace Veganko.ViewModels.Products
         };
         #endregion
 
-        private List<Product> matchesByText;
+        private List<ProductViewModel> matchesByText;
         private bool ShouldNotifyUIOnly { get; set; }
         protected readonly IProductService productService;
         protected readonly IAccountService accountService;
@@ -160,11 +161,11 @@ namespace Veganko.ViewModels.Products
             productService = App.IoC.Resolve<IProductService>();
             accountService = App.IoC.Resolve<IAccountService>();
 
-            MessagingCenter.Subscribe<NewProductViewModel, Product>(this, NewProductViewModel.ProductAddedMsg, OnNewProductAdded);
+            MessagingCenter.Subscribe<NewProductViewModel, ProductViewModel>(this, NewProductViewModel.ProductAddedMsg, OnNewProductAdded);
 
             Title = "Iskanje";
-            Products = new List<Product>();
-            SearchResult = new ObservableCollection<Product>();
+            Products = new List<ProductViewModel>();
+            SearchResult = new ObservableCollection<ProductViewModel>();
             SelectedProductClassifiers = new ObservableCollection<ProductClassifier>();
             SelectedProductType = ProductType.NOT_SET;
             ShowProductClassifiers = true;
@@ -196,7 +197,7 @@ namespace Veganko.ViewModels.Products
                 }
             });
 
-            ProductSelectedCommand = new Command(async (param) => await OnProductSelected((Product)param));
+            ProductSelectedCommand = new Command(async (param) => await OnProductSelected((ProductViewModel)param));
         }
 
         #region TODO: MOVE TO EXTENSIONS
@@ -209,28 +210,31 @@ namespace Veganko.ViewModels.Products
         }
         #endregion
 
-        public async Task DeleteProduct(Product product)
+        public async Task DeleteProduct(ProductViewModel product)
         {
-            await productService.DeleteAsync(product);
+            Product productModel = new Product();
+            product.MapToModel(productModel);
+            await productService.DeleteAsync(productModel);
             Debug.Assert(Products != null);
             Products.Remove(product);
             SearchResult.Remove(product);
         }
 
-        protected virtual async Task<List<Product>> GetProducts()
+        protected virtual async Task<List<ProductViewModel>> GetProducts()
         {
-            return new List<Product>(
-                (await productService.AllAsync(forceRefresh: true)).Items);
+            PagedList<Product> products = await productService.AllAsync(forceRefresh: true);
+            return new List<ProductViewModel>(
+                products.Items.Select(m => new ProductViewModel(m)));
         }
 
-        protected virtual Task OnProductSelected(Product product)
+        protected virtual Task OnProductSelected(ProductViewModel product)
         {
             return App.Navigation.PushAsync(new ProductDetailPage(new ProductDetailViewModel(product)));
         }
 
-        protected void SetSearchResults(IEnumerable<Product> items)
+        protected void SetSearchResults(IEnumerable<ProductViewModel> items)
         {
-            SearchResult = new ObservableCollection<Product>(items);
+            SearchResult = new ObservableCollection<ProductViewModel>(items);
         }
 
         protected void UnapplyFilters(bool notifyUIOnly = true)
@@ -254,7 +258,7 @@ namespace Veganko.ViewModels.Products
             }
             else
             {
-                List<Product> matches = null;
+                List<ProductViewModel> matches = null;
                 if (!string.IsNullOrWhiteSpace(SearchText))
                 {
                     Debug.Assert(matchesByText != null);
@@ -330,7 +334,7 @@ namespace Veganko.ViewModels.Products
             }
         }
 
-        private void OnNewProductAdded(NewProductViewModel sender, Product product)
+        private void OnNewProductAdded(NewProductViewModel sender, ProductViewModel product)
         {
             Products.Add(product);
             UnapplyFilters(false);
