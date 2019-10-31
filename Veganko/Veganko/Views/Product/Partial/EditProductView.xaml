@@ -77,40 +77,32 @@
                     </Editor.Effects>
                 </Editor>
             </Frame>
-            <Label
-                x:Name="barcodeScanResult"
-                Grid.Row="0"
-                Grid.Column="1"
-                IsVisible="False"
-                Text="{Binding Barcode, Mode=TwoWay}" />
             <Frame
                 Grid.Row="1"
                 Grid.RowSpan="3"
                 Grid.Column="1"
-                Padding="7.5"
-                BackgroundColor="Green">
-                <Frame.Triggers>
-                    <DataTrigger
-                        Binding="{Binding BarcodePicked}"
-                        TargetType="Frame"
-                        Value="False">
-                        <Setter Property="Opacity" Value="0.5" />
-                        <Setter Property="BackgroundColor" Value="White" />
-                    </DataTrigger>
-                </Frame.Triggers>
+                Padding="7.5">
                 <Grid>
                     <ImageButton
                         BackgroundColor="White"
                         Command="{Binding TakeBarcodeCommand}"
-                        Source="barcode.png" />
+                        Source="barcode.png">
+                        <ImageButton.Triggers>
+                            <DataTrigger
+                                Binding="{Binding BarcodePicked}"
+                                TargetType="ImageButton"
+                                Value="True">
+                                <Setter Property="Opacity" Value="0.75" />
+                            </DataTrigger>
+                        </ImageButton.Triggers>
+                    </ImageButton>
                     <Image
-                        HeightRequest="35"
+                        HeightRequest="55"
                         HorizontalOptions="Center"
                         InputTransparent="True"
                         IsVisible="{Binding BarcodePicked}"
-                        Opacity="0.75"
                         VerticalOptions="Center"
-                        WidthRequest="35"
+                        WidthRequest="55"
                         Source="checkmark_2.png" />
                 </Grid>
             </Frame>
