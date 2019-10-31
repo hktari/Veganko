@@ -42,6 +42,9 @@ namespace Veganko.ViewModels.Products
                     Product.MapToModel(productModel);
                     productModel = await productService.AddAsync(productModel);
                     Product.Update(productModel);
+                    
+                    // Mark product to be initialized the next the page appears.
+                    Product = null;
 
                     ((MainPage)App.Current.MainPage).SetCurrentTab(0);
                     // TODO: pass view model, but ProductListPage has to be reworked to use ProductViewModel
@@ -55,21 +58,23 @@ namespace Veganko.ViewModels.Products
 
         private void OnPageAppeared(object parameter)
         {
-            InitProduct();
+            if (Product != null)
+            {
+                InitProduct();
+            }
         }
 
         private void InitProduct()
         {
-            var user = App.IoC.Resolve<IUserService>().CurrentUser;
-            var mask = UserAccessRights.ProductsDelete;
+            // TODO: When implementing member product adding functionality
+            //var user = App.IoC.Resolve<IUserService>().CurrentUser;
+            //var mask = UserAccessRights.ProductsDelete;
 
-            Debug.Assert(user != null);
-            // TODO:
-            var hasApprovalRights = (user.Role.ToUAC() & mask) == mask;
+            //Debug.Assert(user != null);
+            //var hasApprovalRights = (user.Role.ToUAC() & mask) == mask;
 
             Product = new ProductViewModel
             {
-                //State = hasApprovalRights ? ProductState.Approved : ProductState.PendingApproval  // TODO: uncomment after testing
                 ProductClassifiers = new ObservableCollection<ProductClassifier>(),
             };
             SelectedProductType = (ProductType)0;
