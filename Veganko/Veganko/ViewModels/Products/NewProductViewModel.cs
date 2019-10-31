@@ -43,12 +43,16 @@ namespace Veganko.ViewModels.Products
                     productModel = await productService.AddAsync(productModel);
                     Product.Update(productModel);
                     
+                    ((MainPage)App.Current.MainPage).SetCurrentTab(0);
+                    MessagingCenter.Send(this, ProductAddedMsg, Product);
+                    
+                    // Navigate to product detail page from the ProductList page
+                    await App.Navigation.PushAsync(
+                        new ProductDetailPage(
+                            new ProductDetailViewModel(Product)));
+                    
                     // Mark product to be initialized the next the page appears.
                     Product = null;
-
-                    ((MainPage)App.Current.MainPage).SetCurrentTab(0);
-                    // TODO: pass view model, but ProductListPage has to be reworked to use ProductViewModel
-                    MessagingCenter.Send(this, ProductAddedMsg, productModel);
                 }
                 catch (ServiceException ex)
                 {
@@ -58,7 +62,7 @@ namespace Veganko.ViewModels.Products
 
         private void OnPageAppeared(object parameter)
         {
-            if (Product != null)
+            if (Product == null)
             {
                 InitProduct();
             }

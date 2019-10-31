@@ -75,7 +75,11 @@ namespace Veganko.ViewModels.Products
                 {
                     ProductClassifiers?.Clear();
                     ProductClassifiers = new ObservableCollection<ProductClassifier>(EnumConfiguration.ClassifierDictionary[value]);
-                    Product.Type = selectedProductType;
+
+                    if (product != null)
+                    {
+                        Product.Type = selectedProductType;
+                    }
                 }
             }
         }
