@@ -15,6 +15,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Behaviors\ScrollToTopBehavior.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Controls\DroidProductTypeSpinner.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Controls\EnumImageView.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Controls\RatingsView.cs" />

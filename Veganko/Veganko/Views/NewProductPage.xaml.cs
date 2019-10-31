@@ -20,8 +20,6 @@ namespace Veganko.Views
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class NewProductPage : BaseContentPage
     {
-        public EventHandler ScanClicked;
-
         NewProductViewModel vm;
         
         public NewProductPage()

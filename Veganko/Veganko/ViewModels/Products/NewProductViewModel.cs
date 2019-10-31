@@ -60,11 +60,14 @@ namespace Veganko.ViewModels.Products
                 }
             });
 
+        public Command ScrollToTopCommand { get; set; }
+
         private void OnPageAppeared(object parameter)
         {
             if (Product == null)
             {
                 InitProduct();
+                ScrollToTopCommand?.Execute(null);
             }
         }
 
