@@ -97,7 +97,9 @@
                             Grid.Column="1"
                             HorizontalAlignment="Start"
                             x:TypeArguments="models:ProductClassifier"
+                            CascadeInputTransparent="True"
                             ImageSource="{x:Static local:EnumImages.ProductClassifierImages}"
+                            InputTransparent="False"
                             VerticalOptions="Center"
                             ViewSize="75"
                             Source="{Binding Product.ProductClassifiers}" />
