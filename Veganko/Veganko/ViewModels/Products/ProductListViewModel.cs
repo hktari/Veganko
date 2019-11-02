@@ -336,7 +336,8 @@ namespace Veganko.ViewModels.Products
 
         private void OnNewProductAdded(NewProductViewModel sender, ProductViewModel product)
         {
-            Products.Add(product);
+            Products.Insert(0, product);
+            SearchResult.Insert(0, product);
             UnapplyFilters(false);
         }
 

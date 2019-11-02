@@ -1,9 +1,15 @@
+- after product is added, apply filter to it, if it fits, add it to the top of the search list
+- napaka pri nalaganju
+- verzija aplikacije & feedback
+- search and filter requests have to be queried from the server
+- barcode search results in product detail page ?
+- BUG: add product sent twice ?
+
 - BUG:
 	1, edit product classifiers
 	2. move to new product page
 	3. move to product list page
 	4. duplicates
-- barcocde image no feedback
 - https://{{endpoint}}/api/users return unconirme user
 
 - if role is changed while user has sessions he/she has to relog or wait for session to expire
@@ -13,11 +19,7 @@
 - comment
 	- delete
 	- edit
-- sign up page
-	- change login id is email not username throughout the app
 - forgot password
 	- partial for background view
-- new product page
-	- feedback for successful / failed add 
 
 - app icon
