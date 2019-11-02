@@ -24,9 +24,10 @@ namespace Veganko.ViewModels.Products
 
         protected async override Task<List<ProductViewModel>> GetProducts()
         {
-            IEnumerable<Product> products = await productService.GetUnapprovedAsync(true);
-            return new List<ProductViewModel>(
-                products.Select(p => new ProductViewModel(p)));
+            return new List<ProductViewModel>();
+            //IEnumerable<Product> products = await productService.GetUnapprovedAsync(true);
+            //return new List<ProductViewModel>(
+                //products.Select(p => new ProductViewModel(p)));
         }
     }
 }

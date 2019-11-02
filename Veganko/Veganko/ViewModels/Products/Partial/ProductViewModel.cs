@@ -117,7 +117,16 @@ namespace Veganko.ViewModels.Products.Partial
             ProductClassifiers = product.ProductClassifiers;
             Description = product.Description;
             ImageBase64Encoded = product.ImageBase64Encoded;
-            Image = ImageSource.FromStream(() => new MemoryStream(ImageBase64Encoded));
+            
+            if (ImageBase64Encoded != null)
+            {
+                Image = ImageSource.FromStream(() => new MemoryStream(ImageBase64Encoded));
+            }
+            else 
+            {
+                Image = null;
+            }
+
             ImageName = null;
             Barcode = product.Barcode;
             Brand = product.Brand;
