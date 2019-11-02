@@ -1,9 +1,10 @@
-- after product is added, apply filter to it, if it fits, add it to the top of the search list
-- napaka pri nalaganju
+- reinstall rpi
 - verzija aplikacije & feedback
 - search and filter requests have to be queried from the server
 - barcode search results in product detail page ?
 - BUG: add product sent twice ?
+- do input checks
+- more descriptive error messages
 
 - BUG:
 	1, edit product classifiers

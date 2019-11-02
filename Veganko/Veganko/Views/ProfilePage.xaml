@@ -12,123 +12,92 @@
     </ContentPage.BindingContext>
     <ContentPage.Resources>
         <ResourceDictionary>
+            <Thickness x:Key="ViewPadding">
+                <x:Arguments>
+                    <x:Double>10</x:Double>
+                </x:Arguments>
+            </Thickness>
             <converters:IntToStarConverter x:Key="intToStarConverter" />
         </ResourceDictionary>
     </ContentPage.Resources>
     <ContentPage.Content>
-        <ListView
-            CachingStrategy="RecycleElement"
-            HasUnevenRows="True"
-            IsPullToRefreshEnabled="true"
-            IsRefreshing="{Binding IsBusy, Mode=OneWay}"
-            ItemsSource="{Binding Comments}"
-            RefreshCommand="{Binding LoadItemsCommand}"
-            VerticalOptions="FillAndExpand">
-            <ListView.Header>
-                <AbsoluteLayout
-                    BackgroundColor="LightGray"
-                    HeightRequest="250"
-                    VerticalOptions="Fill">
-                    <Image
-                        AbsoluteLayout.LayoutBounds="0, 0, 1, 1"
-                        AbsoluteLayout.LayoutFlags="All"
-                        Aspect="AspectFill"
-                        Source="{Binding BackgroundImage}" />
-                    <ImageButton
-                        AbsoluteLayout.LayoutBounds="1, 0, 25, 25"
-                        AbsoluteLayout.LayoutFlags="PositionProportional"
-                        BorderColor="Black"
-                        Clicked="OnBackgroundImageTap"
-                        Source="edit.png" />
-                    <StackLayout
-                        AbsoluteLayout.LayoutBounds="0.5, 0.5, 0.45, 1.0"
-                        AbsoluteLayout.LayoutFlags="All"
-                        Spacing="0">
-                        <StackLayout VerticalOptions="CenterAndExpand">
-                            <Grid HeightRequest="112" WidthRequest="112">
-                                <Image Aspect="AspectFit" Source="{Binding AvatarImage}" />
-                                <ImageButton
-                                    Clicked="OnEditAvatarTap"
-                                    HeightRequest="25"
-                                    HorizontalOptions="End"
-                                    Source="edit.png"
-                                    VerticalOptions="Start"
-                                    WidthRequest="25" />
-                            </Grid>
-                            <Label
-                                FontAttributes="Bold"
-                                FontSize="25"
-                                HorizontalTextAlignment="Center"
-                                Text="{Binding User.Username}"
-                                TextColor="White" />
-                            <Label
-                                Margin="0,5.0,0,0"
-                                FontSize="16"
-                                HorizontalTextAlignment="Center"
-                                Text="{Binding UserDescription}"
-                                TextColor="White" />
-                            <Label
-                                FontAttributes="Bold"
-                                FontSize="16"
-                                HorizontalTextAlignment="Center"
-                                Text="{Binding UserLabel}"
-                                TextColor="White" />
-                        </StackLayout>
-                    </StackLayout>
-                </AbsoluteLayout>
-            </ListView.Header>
-            <ListView.ItemTemplate>
-                <DataTemplate>
-                    <ViewCell>
-                        <Grid
-                            Padding="10"
-                            ColumnSpacing="10"
-                            RowSpacing="10">
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="Auto" />
-                                <RowDefinition Height="Auto" />
-                                <RowDefinition Height="Auto" />
-                            </Grid.RowDefinitions>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="Auto" />
-                                <ColumnDefinition Width="Auto" />
-                            </Grid.ColumnDefinitions>
-                            <Image
-                                Grid.RowSpan="3"
-                                HorizontalOptions="Center"
-                                Source="{Binding Product.Image}"
-                                VerticalOptions="Center" />
-                            <Label
-                                Grid.Column="1"
-                                Text="{Binding Product.Name}"
-                                VerticalOptions="EndAndExpand" />
-                            <Label
-                                Grid.Row="1"
-                                Grid.Column="1"
-                                Text="{Binding Comment.Rating, Converter={StaticResource intToStarConverter}}"
-                                VerticalOptions="Start" />
-                            <Label
-                                Grid.Row="2"
-                                Grid.Column="1"
-                                Text="{Binding Comment.Text}"
-                                VerticalOptions="Start" />
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="250" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <AbsoluteLayout BackgroundColor="LightGray">
+                <Image
+                    AbsoluteLayout.LayoutBounds="0, 0, 1, 1"
+                    AbsoluteLayout.LayoutFlags="All"
+                    Aspect="AspectFill"
+                    Source="{Binding BackgroundImage}" />
+                <ImageButton
+                    AbsoluteLayout.LayoutBounds="1, 0, 25, 25"
+                    AbsoluteLayout.LayoutFlags="PositionProportional"
+                    BorderColor="Black"
+                    Clicked="OnBackgroundImageTap"
+                    Source="edit.png" />
+                <StackLayout
+                    AbsoluteLayout.LayoutBounds="0.5, 0.5, 0.45, 1.0"
+                    AbsoluteLayout.LayoutFlags="All"
+                    Spacing="0">
+                    <StackLayout VerticalOptions="CenterAndExpand">
+                        <Grid HeightRequest="112" WidthRequest="112">
+                            <Image Aspect="AspectFit" Source="{Binding AvatarImage}" />
+                            <ImageButton
+                                Clicked="OnEditAvatarTap"
+                                HeightRequest="25"
+                                HorizontalOptions="End"
+                                VerticalOptions="Start"
+                                WidthRequest="25"
+                                Source="edit.png" />
                         </Grid>
-                    </ViewCell>
-                </DataTemplate>
-            </ListView.ItemTemplate>
-            <ListView.Footer>
-                <Grid>
-                    <Button
-                        Clicked="OnLogoutClicked"
-                        HorizontalOptions="End"
-                        Text="Logout" />
-                    <Button
-                        IsVisible="{Binding IsDirty}"
-                        Clicked="OnSaveClicked"
-                        HorizontalOptions="Start"
-                        Text="Save changes" />
-                </Grid>
-            </ListView.Footer>
-        </ListView>
+                        <Label
+                            FontAttributes="Bold"
+                            FontSize="25"
+                            HorizontalTextAlignment="Center"
+                            Text="{Binding User.Username}"
+                            TextColor="White" />
+                        <Label
+                            Margin="0,5.0,0,0"
+                            FontSize="16"
+                            HorizontalTextAlignment="Center"
+                            Text="{Binding UserDescription}"
+                            TextColor="White" />
+                        <Label
+                            FontAttributes="Bold"
+                            FontSize="16"
+                            HorizontalTextAlignment="Center"
+                            Text="{Binding UserLabel}"
+                            TextColor="White" />
+                    </StackLayout>
+                </StackLayout>
+            </AbsoluteLayout>
+            <Button
+                Grid.Row="1"
+                Margin="{StaticResource ViewPadding}"
+                Clicked="OnLogoutClicked"
+                HorizontalOptions="End"
+                Text="Logout"
+                VerticalOptions="Start" />
+            <Button
+                Grid.Row="1"
+                Margin="{StaticResource ViewPadding}"
+                Clicked="OnSaveClicked"
+                HorizontalOptions="Start"
+                IsVisible="{Binding IsDirty}"
+                Text="Shrani spremembe"
+                VerticalOptions="Start" />
+            <ImageButton
+                Grid.Row="1"
+                Margin="{StaticResource ViewPadding}"
+                Command="{Binding HelpCommand}"
+                HeightRequest="38"
+                HorizontalOptions="End"
+                VerticalOptions="End"
+                WidthRequest="38"
+                Source="ico_help.png" />
+        </Grid>
     </ContentPage.Content>
 </views:BaseContentPage>

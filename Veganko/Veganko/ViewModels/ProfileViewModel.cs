@@ -12,6 +12,7 @@ using Veganko.Services;
 using Veganko.Services.Comments;
 using Veganko.Services.Http;
 using Veganko.ViewModels.Profile;
+using Veganko.Views;
 using Xamarin.Forms;
 
 namespace Veganko.ViewModels
@@ -55,6 +56,8 @@ namespace Veganko.ViewModels
         public Command LoadItemsCommand => new Command(
             async () => await Refresh());
 
+        public Command HelpCommand => new Command(
+            async () => await App.Navigation.PushModalAsync(new NavigationPage(new HelpPage())));
         public UserPublicInfo User { get; set; }
 
         private ObservableCollection<ProfileComment> comments;
