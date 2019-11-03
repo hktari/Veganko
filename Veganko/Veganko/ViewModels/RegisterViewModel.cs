@@ -31,7 +31,7 @@ namespace Veganko.ViewModels
 
             username.Validations.Add(new IsNotNullOrEmptyRule<string> 
             { 
-                ValidationMessage = "Zahtevano"
+                ValidationMessage = "Zahtevano polje."
             });
           
             email.Validations.Add(new IsValidEmailRule()
