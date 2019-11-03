@@ -30,9 +30,9 @@
                 Grid.Column="2"
                 Grid.ColumnSpan="2"
                 HorizontalOptions="End"
-                Source="login_leaf1.png"
                 VerticalOptions="End"
-                WidthRequest="155" />
+                WidthRequest="155"
+                Source="login_leaf1.png" />
 
             <Image
                 Grid.Row="0"
@@ -40,9 +40,9 @@
                 Grid.Column="1"
                 Grid.ColumnSpan="2"
                 HorizontalOptions="Start"
-                Source="login_leaf2.png"
                 VerticalOptions="End"
-                WidthRequest="155" />
+                WidthRequest="155"
+                Source="login_leaf2.png" />
 
             <Image
                 Grid.Row="3"
@@ -51,9 +51,9 @@
                 Grid.ColumnSpan="2"
                 HorizontalOptions="Start"
                 Rotation="180"
-                Source="login_leaf1.png"
                 VerticalOptions="Start"
-                WidthRequest="155" />
+                WidthRequest="155"
+                Source="login_leaf1.png" />
 
             <Image
                 Grid.Row="3"
@@ -62,9 +62,9 @@
                 Grid.ColumnSpan="2"
                 HorizontalOptions="End"
                 Rotation="165"
-                Source="login_leaf2.png"
                 VerticalOptions="Start"
-                WidthRequest="155" />
+                WidthRequest="155"
+                Source="login_leaf2.png" />
 
             <Frame
                 Grid.Row="1"
@@ -145,7 +145,10 @@
                             Text="Ponovi geslo"
                             TextColor="Black" />
                         <Frame Style="{StaticResource EntryFrameStyle}">
-                            <Entry FontSize="16" IsPassword="True" Text="{Binding ConfirmPassword}">
+                            <Entry
+                                FontSize="16"
+                                IsPassword="True"
+                                Text="{Binding ConfirmPassword}">
                                 <Entry.Effects>
                                     <effects:CustomEntryEffect />
                                 </Entry.Effects>
@@ -155,7 +158,7 @@
                     <Grid HeightRequest="50">
                         <Button
                             BackgroundColor="White"
-                            Clicked="OnSignUpBtnClicked"
+                            Command="{Binding SignUpCommand}"
                             FontSize="24"
                             HeightRequest="50"
                             Text="SIGN UP" />

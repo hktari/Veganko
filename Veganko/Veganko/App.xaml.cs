@@ -14,6 +14,7 @@ using Autofac;
 using Veganko.Services.Users;
 using Veganko.Services.Comments;
 using Veganko.Services.Auth;
+using Veganko.Services.Logging;
 
 namespace Veganko
 {
@@ -74,6 +75,8 @@ namespace Veganko
                 .As<IRestService>()
                 .SingleInstance()
                 .PropertiesAutowired(PropertyWiringOptions.AllowCircularDependencies);
+
+            builder.RegisterType<Logger>().As<ILogger>().SingleInstance();
 
             builder.RegisterType<AccountService>().As<IAccountService>().SingleInstance();
             builder.RegisterType<ProductDataStore>().As<IProductService>().SingleInstance();

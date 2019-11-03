@@ -4,15 +4,13 @@ using System.Text;
 
 namespace Veganko.Validations
 {
-    public class MinLengthRule : IValidationRule<string>
+    public class ValueMatchesRule : IValidationRule<string>
     {
-        private readonly int minLength;
+        private readonly ValidatableObject<string> objectToMatch;
 
-        public MinLengthRule(int minLength)
+        public ValueMatchesRule(ValidatableObject<string> objectToMatch)
         {
-            this.minLength = minLength;
-
-            ValidationMessage = $"Nepravilna dolžina. Vsebovati mora najmanj {minLength} znakov.";
+            this.objectToMatch = objectToMatch;
         }
 
         public string ValidationMessage { get; set; }
@@ -24,7 +22,7 @@ namespace Veganko.Validations
                 return false;
             }
 
-            return value.Length >= minLength;
+            return value.Equals(objectToMatch.Value);
         }
     }
 }

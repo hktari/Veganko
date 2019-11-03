@@ -47,6 +47,8 @@
     <Compile Include="$(MSBuildThisFileDirectory)Services\Http\RestService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\Http\Token.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\Auth\IAuthService.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Services\Logging\ILogger.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Services\Logging\Logger.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\Users\IUserService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\Users\MockUserService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\Users\UserService.cs" />
@@ -56,6 +58,8 @@
     <Compile Include="$(MSBuildThisFileDirectory)Validations\IValidity.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Validations\MinLengthRule.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Validations\ValidatableObject.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Validations\ValueMatchesRule.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ViewModels\Account\PasswordInputViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\CommentViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\HelpViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\Images\SelectableImageId.cs" />

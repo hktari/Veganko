@@ -21,24 +21,5 @@ namespace Veganko.Views
 			InitializeComponent ();
             BindingContext = this.vm = new RegisterViewModel();
 		}
-
-        private async void OnSignUpBtnClicked(object sender, EventArgs args)
-        {
-            try
-            {
-                if (vm.Password != vm.ConfirmPassword)
-                {
-                    await this.Err("Gesla se ne ujemata.");
-                }
-
-                await vm.RegisterUser();
-                await Navigation.PopAsync();
-            }
-            catch (ServiceException ex)
-            {
-
-                await this.Err("Napaka pri registraciji: " + ex.Response);
-            }
-        }
 	}
 }
