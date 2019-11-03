@@ -10,6 +10,8 @@ namespace Veganko.ViewModels.Account
         public PasswordInputViewModel()
         {
             password.Validations.Add(new MinLengthRule(6));
+            password.Validations.Add(new PasswordRequirementRule(true, true, true, true));
+
             confirmPassword.Validations.Add(new ValueMatchesRule(password)
             {
                 ValidationMessage = "Se ne ujema z geslom."
