@@ -50,6 +50,10 @@
     <Compile Include="$(MSBuildThisFileDirectory)Services\Users\IUserService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\Users\MockUserService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\Users\UserService.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Validations\IsNotNullOrEmptyRule.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Validations\IValidationRule.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Validations\IValidity.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Validations\ValidatableObject.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\CommentViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\HelpViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\Images\SelectableImageId.cs" />
