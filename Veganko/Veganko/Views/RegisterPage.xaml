@@ -67,13 +67,14 @@
                 Source="login_leaf2.png" />
 
             <Frame
-                Grid.Row="1"
-                Grid.RowSpan="3"
+                Grid.Row="0"
+                Grid.RowSpan="5"
                 Grid.Column="2"
                 Padding="3"
                 BackgroundColor="White"
                 IsClippedToBounds="True"
-                Style="{StaticResource EntryFrameStyle}">
+                Style="{StaticResource EntryFrameStyle}"
+                VerticalOptions="Center">
                 <StackLayout IsClippedToBounds="True">
                     <ContentView HeightRequest="50">
                         <BoxView
@@ -91,12 +92,16 @@
                             Text="Email"
                             TextColor="Black" />
                         <Frame Style="{StaticResource EntryFrameStyle}">
-                            <Entry FontSize="16" Text="{Binding Email}">
+                            <Entry FontSize="16" Text="{Binding Email.Value}">
                                 <Entry.Effects>
                                     <effects:CustomEntryEffect />
                                 </Entry.Effects>
                             </Entry>
                         </Frame>
+                        <Label
+                            IsVisible="{Binding Email.IsValid, Converter={StaticResource BoolInverter}}"
+                            Style="{StaticResource LabelErrorMessageStyle}"
+                            Text="{Binding Email.Errors, Converter={StaticResource FirstValidationErrorConverter}}" />
                     </StackLayout>
                     <StackLayout
                         Margin="30,0"
@@ -108,12 +113,16 @@
                             Text="Uporabniško ime"
                             TextColor="Black" />
                         <Frame Style="{StaticResource EntryFrameStyle}">
-                            <Entry FontSize="16" Text="{Binding Username}">
+                            <Entry FontSize="16" Text="{Binding Username.Value}">
                                 <Entry.Effects>
                                     <effects:CustomEntryEffect />
                                 </Entry.Effects>
                             </Entry>
                         </Frame>
+                        <Label
+                            IsVisible="{Binding Username.IsValid, Converter={StaticResource BoolInverter}}"
+                            Style="{StaticResource LabelErrorMessageStyle}"
+                            Text="{Binding Username.Errors, Converter={StaticResource FirstValidationErrorConverter}}" />
                     </StackLayout>
                     <StackLayout
                         Margin="30,0"
@@ -128,12 +137,16 @@
                             <Entry
                                 FontSize="16"
                                 IsPassword="True"
-                                Text="{Binding Password}">
+                                Text="{Binding PasswordInput.Password.Value}">
                                 <Entry.Effects>
                                     <effects:CustomEntryEffect />
                                 </Entry.Effects>
                             </Entry>
                         </Frame>
+                        <Label
+                            IsVisible="{Binding PasswordInput.Password.IsValid, Converter={StaticResource BoolInverter}}"
+                            Style="{StaticResource LabelErrorMessageStyle}"
+                            Text="{Binding PasswordInput.Password.Errors, Converter={StaticResource FirstValidationErrorConverter}}" />
                     </StackLayout>
                     <StackLayout
                         Margin="30,0"
@@ -148,12 +161,16 @@
                             <Entry
                                 FontSize="16"
                                 IsPassword="True"
-                                Text="{Binding ConfirmPassword}">
+                                Text="{Binding PasswordInput.ConfirmPassword.Value}">
                                 <Entry.Effects>
                                     <effects:CustomEntryEffect />
                                 </Entry.Effects>
                             </Entry>
                         </Frame>
+                        <Label
+                            IsVisible="{Binding PasswordInput.ConfirmPassword.IsValid, Converter={StaticResource BoolInverter}}"
+                            Style="{StaticResource LabelErrorMessageStyle}"
+                            Text="{Binding PasswordInput.ConfirmPassword.Errors, Converter={StaticResource FirstValidationErrorConverter}}" />
                     </StackLayout>
                     <Grid HeightRequest="50">
                         <Button

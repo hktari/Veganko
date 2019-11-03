@@ -15,6 +15,12 @@
             <Color x:Key="LightTextColor">#999999</Color>
 
             <converters:BoolInverter x:Key="BoolInverter" />
+            <converters:FirstValidationErrorConverter x:Key="FirstValidationErrorConverter" />
+
+            <Style x:Key="LabelErrorMessageStyle" TargetType="Label">
+                <Setter Property="TextColor" Value="IndianRed" />
+                <Setter Property="FontSize" Value="Small" />
+            </Style>
 
             <Style TargetType="NavigationPage">
                 <Setter Property="BarBackgroundColor" Value="{StaticResource Primary}" />
