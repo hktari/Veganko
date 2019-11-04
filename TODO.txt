@@ -1,8 +1,8 @@
+- add linker
+
 - https://{{endpoint}}/api/users return unconirme user
 
 - if role is changed while user has sessions he/she has to relog or wait for session to expire
-
-																																															
 
 - comment
 	- delete
