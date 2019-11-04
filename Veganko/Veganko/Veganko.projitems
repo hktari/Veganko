@@ -15,11 +15,14 @@
     <Compile Include="$(MSBuildThisFileDirectory)App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Behaviors\EntryEnforceCapsBehavior.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Behaviors\ScrollToTopBehavior.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Controls\DroidProductTypeSpinner.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Controls\EnumImageView.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Controls\RatingsView.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Controls\SelectableEnumImageView.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Converters\BoolInverter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Converters\FirstValidationErrorConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Converters\IntToEnumConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Converters\IntToStarConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Converters\StringCaseFormatter.cs" />
@@ -45,10 +48,22 @@
     <Compile Include="$(MSBuildThisFileDirectory)Services\Http\RestService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\Http\Token.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\Auth\IAuthService.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Services\Logging\ILogger.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Services\Logging\Logger.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\Users\IUserService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\Users\MockUserService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\Users\UserService.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Validations\IsNotNullOrEmptyRule.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Validations\IsValidEmailRule.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Validations\IValidationRule.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Validations\IValidity.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Validations\MinLengthRule.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Validations\PasswordRequirementRule.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Validations\ValidatableObject.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Validations\ValueMatchesRule.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ViewModels\Account\PasswordInputViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\CommentViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ViewModels\HelpViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\Images\SelectableImageId.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\JsonConverters\DecimalProductClassifierListConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\Product.cs" />
@@ -77,12 +92,15 @@
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\FavoritesViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\LoginViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\MainPageViewModel.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)ViewModels\ManageProductsViewModel.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)ViewModels\NewProductViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ViewModels\Products\ManageProductsViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ViewModels\Products\EditProductViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ViewModels\Products\NewProductViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\EnumImageItemViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\PasswordRecovery\ForgotPasswordViewModel.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)ViewModels\ProductDetailViewModel.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)ViewModels\ProductViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ViewModels\Products\Partial\ProductViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ViewModels\Products\ProductDetailViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ViewModels\Products\ProductListViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ViewModels\Products\BaseEditProductViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\ProfileViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\Profile\BackgroundImageViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\Profile\SelectAvatarViewModel.cs" />
@@ -93,6 +111,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Views\ForgotPasswordPage.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Views\HelpPage.xaml.cs">
+      <DependentUpon>HelpPage.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Views\ManageProductsPage.xaml.cs">
@@ -110,6 +132,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Views\Product\DTS\CommentDataTemplateSelector.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Views\Product\EditProductPage.xaml.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Views\Product\Partial\CommentView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -255,6 +278,9 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
+    <Compile Update="C:\Source\Veganko\Veganko\Veganko\Views\Product\EditProductPage.xaml.cs">
+      <DependentUpon>EditProductPage.xaml</DependentUpon>
+    </Compile>
     <Compile Update="D:\Sources\Veganko\Veganko\Veganko\Views\ForgotPasswordPage.xaml.cs">
       <DependentUpon>ForgotPasswordPage.xaml</DependentUpon>
     </Compile>
@@ -282,6 +308,18 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="$(MSBuildThisFileDirectory)Views\Product\Partial\CommentView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Views\Product\EditProductPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Views\HelpPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </EmbeddedResource>

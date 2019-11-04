@@ -3,6 +3,7 @@
     x:Class="Veganko.Views.Product.Partial.EditProductView"
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:behaviors="clr-namespace:Veganko.Behaviors"
     xmlns:controls="clr-namespace:Veganko.Controls"
     xmlns:converters="clr-namespace:Veganko.Converters"
     xmlns:effects="clr-namespace:Veganko.Effects"
@@ -39,6 +40,9 @@
                     Margin="0"
                     FontSize="Medium"
                     Text="{Binding Product.Name}">
+                    <Entry.Behaviors>
+                        <behaviors:EntryEnforceCapsBehavior />
+                    </Entry.Behaviors>
                     <Entry.Effects>
                         <effects:CustomEntryEffect />
                     </Entry.Effects>
@@ -51,6 +55,9 @@
                 Text="Znamka:" />
             <Frame Grid.Row="3" Grid.Column="0">
                 <Entry FontSize="Medium" Text="{Binding Product.Brand}">
+                    <Entry.Behaviors>
+                        <behaviors:EntryEnforceCapsBehavior />
+                    </Entry.Behaviors>
                     <Entry.Effects>
                         <effects:CustomEntryEffect />
                     </Entry.Effects>
@@ -77,41 +84,33 @@
                     </Editor.Effects>
                 </Editor>
             </Frame>
-            <Label
-                x:Name="barcodeScanResult"
-                Grid.Row="0"
-                Grid.Column="1"
-                IsVisible="False"
-                Text="{Binding Barcode, Mode=TwoWay}" />
             <Frame
                 Grid.Row="1"
                 Grid.RowSpan="3"
                 Grid.Column="1"
-                Padding="7.5"
-                BackgroundColor="Green">
-                <Frame.Triggers>
-                    <DataTrigger
-                        Binding="{Binding BarcodePicked}"
-                        TargetType="Frame"
-                        Value="False">
-                        <Setter Property="Opacity" Value="0.5" />
-                        <Setter Property="BackgroundColor" Value="White" />
-                    </DataTrigger>
-                </Frame.Triggers>
+                Padding="7.5">
                 <Grid>
                     <ImageButton
                         BackgroundColor="White"
                         Command="{Binding TakeBarcodeCommand}"
-                        Source="barcode.png" />
+                        Source="barcode.png">
+                        <ImageButton.Triggers>
+                            <DataTrigger
+                                Binding="{Binding BarcodePicked}"
+                                TargetType="ImageButton"
+                                Value="True">
+                                <Setter Property="Opacity" Value="0.75" />
+                            </DataTrigger>
+                        </ImageButton.Triggers>
+                    </ImageButton>
                     <Image
-                        HeightRequest="35"
+                        HeightRequest="55"
                         HorizontalOptions="Center"
                         InputTransparent="True"
                         IsVisible="{Binding BarcodePicked}"
-                        Opacity="0.75"
-                        Source="checkmark_2.png"
                         VerticalOptions="Center"
-                        WidthRequest="35" />
+                        WidthRequest="55"
+                        Source="checkmark_2.png" />
                 </Grid>
             </Frame>
             <StackLayout Grid.Row="6" Grid.ColumnSpan="2">
@@ -176,10 +175,10 @@
                     HorizontalAlignment="Center"
                     x:TypeArguments="models:ProductClassifier"
                     ImageSource="{x:Static local:EnumImages.ProductClassifierImages}"
-                    Selected="{Binding Product.ProductClassifiers, Mode=TwoWay}"
-                    Source="{Binding ProductClassifiers}"
                     VerticalOptions="Center"
-                    ViewSize="63" />
+                    ViewSize="63"
+                    Source="{Binding ProductClassifiers}"
+                    Selected="{Binding Product.ProductClassifiers, Mode=TwoWay}" />
                 <Frame
                     BackgroundColor="#ffe6bb"
                     HeightRequest="300"
@@ -203,11 +202,11 @@
                         </Image>
                         <ImageButton
                             BackgroundColor="#ffe6bb"
-                            Clicked="OnCameraBtnClicked"
+                            Command="{Binding TakeImageCommand}"
                             HorizontalOptions="Center"
                             IsVisible="{Binding PhotoPicked, Converter={StaticResource BoolInverter}}"
-                            Source="take_img_btn.png"
-                            VerticalOptions="Center" />
+                            VerticalOptions="Center"
+                            Source="take_img_btn.png" />
                     </Grid>
                 </Frame>
             </StackLayout>

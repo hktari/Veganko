@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="Veganko.Views.Product.EditProductPage"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:partial="clr-namespace:Veganko.Views.Product.Partial"
+    ControlTemplate="{StaticResource LodingIndicatorTemplate}"
+    NavigationPage.HasNavigationBar="True">
+    <NavigationPage.TitleView>
+        <Grid VerticalOptions="Center">
+            <Button
+                Command="{Binding CancelCommand}"
+                HorizontalOptions="Start"
+                Text="Prekliči"
+                TextColor="IndianRed" />
+            <Button
+                Grid.Column="1"
+                Command="{Binding SaveCommand}"
+                HorizontalOptions="End"
+                Text="Shrani" />
+        </Grid>
+    </NavigationPage.TitleView>
+    <ContentPage.Content>
+        <ScrollView>
+            <partial:EditProductView Margin="10" />
+        </ScrollView>
+    </ContentPage.Content>
+</ContentPage>

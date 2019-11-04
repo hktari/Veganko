@@ -3,9 +3,14 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
+using Veganko.Extensions;
 using Veganko.Models.User;
 using Veganko.Other;
 using Veganko.Services;
+using Veganko.Services.Http;
+using Veganko.Services.Logging;
+using Veganko.Validations;
+using Veganko.ViewModels.Account;
 using Xamarin.Forms;
 
 namespace Veganko.ViewModels
@@ -13,39 +18,39 @@ namespace Veganko.ViewModels
     public class RegisterViewModel : BaseViewModel
     {
         private IAccountService accountService;
+        private ILogger logger;
         private static Random r = new Random();
 
         public RegisterViewModel()
         {
             accountService = App.IoC.Resolve<IAccountService>();
+            logger = App.IoC.Resolve<ILogger>();
 
             ProfileBackgroundImage = Images.BackgroundImageSource[r.Next(Images.BackgroundImageSource.Count)];
             AvatarImage = Images.AvatarImageSource[r.Next(Images.AvatarImageSource.Count)];
+
+            username.Validations.Add(new IsNotNullOrEmptyRule<string> 
+            { 
+                ValidationMessage = "Zahtevano polje."
+            });
+          
+            email.Validations.Add(new IsValidEmailRule()
+            {
+                ValidationMessage = "Nepravilen email."
+            });
         }
 
-        private string username;
-        public string Username
+        public PasswordInputViewModel PasswordInput { get; } = new PasswordInputViewModel();
+
+        private ValidatableObject<string> username = new ValidatableObject<string>();
+        public ValidatableObject<string> Username
         {
             get => username;
             set => SetProperty(ref username, value);
         }
 
-        private string password;
-        public string Password
-        {
-            get => password;
-            set => SetProperty(ref password, value);
-        }
-
-        private string confirmPassword;
-        public string ConfirmPassword
-        {
-            get => confirmPassword;
-            set => SetProperty(ref confirmPassword, value);
-        }
-
-        private string email;
-        public string Email
+        private ValidatableObject<string> email = new ValidatableObject<string>();
+        public ValidatableObject<string> Email
         {
             get => email;
             set => SetProperty(ref email, value);
@@ -71,18 +76,41 @@ namespace Veganko.ViewModels
             get => profileBackgroundImage;
             set => SetProperty(ref profileBackgroundImage, value);
         }
-        public async Task RegisterUser()
-        {
-            UserPublicInfo user = new UserPublicInfo
-            {
-                Username = username,
-                Email = email,
-                Label = label,
-                AvatarId = avatarImage.Id,
-                ProfileBackgroundId = profileBackgroundImage.Id
-            };
 
-            await accountService.CreateAccount(user, Password);
-        }
+        public Command SignUpCommand => new Command(
+            async () =>
+            {
+                bool validInput = true;
+                validInput &= username.Validate();
+                validInput &= PasswordInput.Password.Validate();
+                validInput &= PasswordInput.ConfirmPassword.Validate();
+                validInput &= email.Validate();
+
+                if (!validInput)
+                {
+                    return;
+                }
+
+                try
+                {
+                    UserPublicInfo user = new UserPublicInfo
+                    {
+                        Username = username.Value,
+                        Email = email.Value,
+                        Label = label,
+                        AvatarId = avatarImage.Id,
+                        ProfileBackgroundId = profileBackgroundImage.Id
+                    };
+
+                    await accountService.CreateAccount(user, PasswordInput.Password.Value);
+                    await App.Navigation.PopAsync();
+                }
+                catch (ServiceException ex)
+                {
+                    logger.LogException(ex);
+                    // TODO: duplicate user ?
+                    await App.CurrentPage.Err("Neznana pri registraciji: " + ex.StatusDescription);
+                }
+            });
     }
 }

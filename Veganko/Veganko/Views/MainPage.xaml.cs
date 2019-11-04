@@ -3,6 +3,7 @@ using System.Linq;
 using Veganko.Models;
 using Veganko.Services;
 using Veganko.ViewModels;
+using Veganko.ViewModels.Products;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -18,7 +19,7 @@ namespace Veganko.Views
             if (isManager)
             {
                 Children.Add(
-                    new NavigationPage(new ProductPage(new ManageProductsViewModel()))
+                    new NavigationPage(new ProductListPage(new ManageProductsViewModel()))
                     {
                         Title = Device.RuntimePlatform == Device.UWP ? "Manage" : string.Empty,
                         Icon = Device.RuntimePlatform == Device.UWP ? null : "icon.png"

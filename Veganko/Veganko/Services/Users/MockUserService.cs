@@ -26,7 +26,7 @@ namespace Veganko.Services
                 Username = "Zala",
                 AvatarId = "2",
                 Description = "inside me - a monster - a cookie monster !",
-                ProfileBackgroundId = "5",
+                ProfileBackgroundId = "3",
                 Label = "bun manager #2"
             },
             new UserPublicInfo
@@ -35,7 +35,7 @@ namespace Veganko.Services
                 Username = "Magda",
                 AvatarId = "1",
                 Description = "ni sreče ! življenje je strm klanc povn mehkih kurcov !!?!?!",
-                ProfileBackgroundId = "4",
+                ProfileBackgroundId = "2",
                 Label = "..."
             },
         };

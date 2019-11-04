@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Veganko.Extensions;
 using Veganko.Services.Http;
 using Veganko.ViewModels;
+using Veganko.ViewModels.Products;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -25,20 +26,7 @@ namespace Veganko.Views
         protected async override void OnAppearing()
         {
             base.OnAppearing();
-            try
-            {
-                vm.IsBusy = true;
-                await vm.RefreshComments();
-                //vm.RefreshIsFavorite(); // TODO: remove ?
-            }
-            catch (ServiceException ex)
-            {
-                await this.Err(ex.StatusDescription);
-            }
-            finally
-            {
-                vm.IsBusy = false;
-            }
+            await vm.Init();            
         }
 
         private async void OnDeleteCommentClicked(object sender, EventArgs args)

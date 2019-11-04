@@ -13,13 +13,37 @@ using Veganko.Other;
 using Autofac;
 using Veganko.Services.Comments;
 using Veganko.Views.Product.DTS;
+using Veganko.Views.Product;
+using Veganko.Extensions;
+using Veganko.Services.Http;
+using Veganko.ViewModels.Products.Partial;
 
-namespace Veganko.ViewModels
+namespace Veganko.ViewModels.Products
 {
     public class ProductDetailViewModel : BaseViewModel
     {
         public Command AddToFavoritesCommand => new Command(AddToFavorites);
-        public Product Product { get; set; }
+
+        public Command EditCommand => new Command(
+            async () =>
+            {
+                await App.Navigation.PushModalAsync(
+                    new NavigationPage(
+                        new EditProductPage(new EditProductViewModel(Product))));
+            });
+
+        private ProductViewModel product;
+        public ProductViewModel Product
+        {
+            get
+            {
+                return product;
+            }
+            set
+            {
+                SetProperty(ref product, value);
+            }
+        }
 
         private ObservableCollection<CommentViewModel> comments;
         public ObservableCollection<CommentViewModel> Comments
@@ -73,7 +97,7 @@ namespace Veganko.ViewModels
         private IDataStore<Favorite> favoriteDataStore;
         private IUserService userService;
 
-        public ProductDetailViewModel(Product product)
+        public ProductDetailViewModel(ProductViewModel product)
         {
             Product = product;
             NewComment = CreateDefaultComment();
@@ -85,6 +109,19 @@ namespace Veganko.ViewModels
             ProfileAvatar = Images.GetProfileAvatarById(User.AvatarId);
 
             IsUserManager = User.IsManager();
+        }
+
+        public Task Init()
+        {
+            MessagingCenter.Unsubscribe<EditProductViewModel, ProductViewModel>(this, EditProductViewModel.ProductUpdatedMsg);
+            MessagingCenter.Subscribe<EditProductViewModel, ProductViewModel>(this, EditProductViewModel.ProductUpdatedMsg, OnProductUpdated);
+
+            if (comments.Count == 0)
+            {
+                return RefreshComments();
+            }
+
+            return Task.CompletedTask;
         }
 
         public async Task RefreshIsFavorite()
@@ -144,11 +181,23 @@ namespace Veganko.ViewModels
 
         public async Task RefreshComments()
         {
-            PagedList<Comment> commentsList = await commentDataStore.GetItemsAsync(Product.Id);
-            List<Comment> comments = commentsList.Items.ToList();
-            comments.Sort(new CommentDatePostedComparer());
-            Comments = new ObservableCollection<CommentViewModel>(
-                comments.Select(c => new CommentViewModel(c)));
+            IsBusy = true;
+            try
+            {
+                PagedList<Comment> commentsList = await commentDataStore.GetItemsAsync(Product.Id);
+                List<Comment> comments = commentsList.Items.ToList();
+                comments.Sort(new CommentDatePostedComparer());
+                Comments = new ObservableCollection<CommentViewModel>(
+                    comments.Select(c => new CommentViewModel(c)));
+            }
+            catch (ServiceException ex)
+            {
+                await App.CurrentPage.Err(ex.StatusDescription);
+            }
+            finally
+            {
+                IsBusy = false;
+            }
         }
         
         private CommentViewModel CreateDefaultComment()
@@ -156,10 +205,16 @@ namespace Veganko.ViewModels
             return new CommentViewModel(User)
             {
                 Rating = 1,
-                Text = ""
+                Text = "",
             };
         }
 
+        private void OnProductUpdated(EditProductViewModel sender, ProductViewModel updatedProductViewModel)
+        {
+            Product.Update(updatedProductViewModel);
+        }
+
+        #region Comparers
         private class CommentDatePostedComparer : IComparer<Comment>
         {
             public int Compare(Comment x, Comment y)
@@ -189,5 +244,6 @@ namespace Veganko.ViewModels
                 return obj.UserId.GetHashCode();
             }
         }
+        #endregion
     }
 }

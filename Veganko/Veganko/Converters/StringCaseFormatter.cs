@@ -12,12 +12,15 @@ namespace Veganko.Converters
 
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            if (value is string str)
+            string str = (string)value;
+            if (!string.IsNullOrEmpty(str))
             {
                 return ToUpperCase ? str.ToUpper() : str.ToLower();
             }
-
-            throw new Exception("Invalid value type!");
+            else 
+            {
+                return str;
+            }
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

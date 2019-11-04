@@ -44,6 +44,8 @@ namespace Veganko.Models
         [EnumMember(Value = "COSMETIC")]
         Kozmetika
     }
+
+    // TODO: remove view model specific properties.
     public class Product
     {
         public string Id { get; set; }

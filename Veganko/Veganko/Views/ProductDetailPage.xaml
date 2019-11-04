@@ -51,26 +51,35 @@
                         Padding="5,0"
                         Spacing="10"
                         VerticalOptions="FillAndExpand">
-                        <ContentView
+                        <Grid
                             Grid.Row="0"
                             Grid.Column="0"
                             Grid.ColumnSpan="3">
                             <Frame Padding="1" CornerRadius="0">
                                 <Image
                                     Aspect="AspectFill"
+                                    BindingContext="{Binding Product}"
                                     HeightRequest="300"
                                     HorizontalOptions="Center"
-                                    Source="{Binding Product.Image}" />
+                                    Source="{Binding Image}" />
                             </Frame>
-                        </ContentView>
+                            <ImageButton
+                                Margin="10"
+                                Command="{Binding EditCommand}"
+                                HorizontalOptions="End"
+                                VerticalOptions="Start"
+                                WidthRequest="35"
+                                Source="edit.png" />
+                        </Grid>
                         <StackLayout Orientation="Horizontal">
                             <Label HorizontalOptions="StartAndExpand">
                                 <Label.FormattedText>
                                     <FormattedString>
                                         <Span
+                                            BindingContext="{Binding Product}"
                                             FontAttributes="Bold"
                                             FontSize="Large"
-                                            Text="{Binding Product.Name, Mode=OneWay}" />
+                                            Text="{Binding Name, Mode=OneWay}" />
                                         <Span Text="&#10;" />
                                         <Span FontSize="Large" Text="{Binding Product.Rating, Converter={StaticResource IntToStarConverter}, Mode=OneWay}" />
                                     </FormattedString>
@@ -88,10 +97,12 @@
                             Grid.Column="1"
                             HorizontalAlignment="Start"
                             x:TypeArguments="models:ProductClassifier"
+                            CascadeInputTransparent="True"
                             ImageSource="{x:Static local:EnumImages.ProductClassifierImages}"
-                            Source="{Binding Product.ProductClassifiers}"
+                            InputTransparent="False"
                             VerticalOptions="Center"
-                            ViewSize="75" />
+                            ViewSize="75"
+                            Source="{Binding Product.ProductClassifiers}" />
                     </StackLayout>
                     <Grid
                         Margin="0,0,0,15"
@@ -114,9 +125,9 @@
                             BorderThickness="1"
                             HeightRequest="66"
                             HorizontalOptions="CenterAndExpand"
-                            Source="{Binding ProfileAvatar}"
                             VerticalOptions="CenterAndExpand"
-                            WidthRequest="66" />
+                            WidthRequest="66"
+                            Source="{Binding ProfileAvatar}" />
                         <controls:RatingsView
                             Grid.Row="0"
                             Grid.Column="1"

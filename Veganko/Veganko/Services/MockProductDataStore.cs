@@ -176,8 +176,7 @@ namespace Veganko.Services
 
         public Task<IEnumerable<Product>> GetUnapprovedAsync(bool forceRefresh)
         {
-            IEnumerable<Product> result = items.Where(p => p.State == ProductState.PendingApproval);
-            return Task.FromResult(result);
+            throw new NotImplementedException();
         }
 
         Task<Product> IProductService.AddAsync(Product item)

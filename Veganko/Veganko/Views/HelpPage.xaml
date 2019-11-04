@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="Veganko.Views.HelpPage"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Command="{Binding CloseCommand}" Text="Zapri" />
+    </ContentPage.ToolbarItems>
+    <ContentPage.Content>
+        <StackLayout Padding="10,5">
+            <Label
+                FontSize="17"
+                LineBreakMode="WordWrap"
+                Text="Si našel kakšno napako ali želiš dati feedback ? Piši nam na email : ) Če prijavljaš napako prosim dodaj številko verzije Vegankona, ki jo vidiš spodaj." />
+            <TableView Intent="Data" VerticalOptions="StartAndExpand">
+                <TableRoot>
+                    <TableSection>
+                        <TextCell Detail="{Binding ContactEmail}" Text="Kontakt" />
+                        <TextCell Detail="{Binding VersionCode}" Text="Verzija" />
+                    </TableSection>
+                </TableRoot>
+            </TableView>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

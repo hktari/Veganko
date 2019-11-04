@@ -1,33 +1,43 @@
-﻿using Autofac;
-using Plugin.Media;
+﻿using Plugin.Media;
 using Plugin.Media.Abstractions;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Diagnostics;
 using System.IO;
 using System.Text;
 using System.Threading.Tasks;
 using Veganko.Extensions;
 using Veganko.Models;
-using Veganko.Models.User;
 using Veganko.Other;
 using Veganko.Services;
-using Veganko.Services.Http;
-using Veganko.Views;
+using Veganko.ViewModels.Products.Partial;
 using Xamarin.Forms;
 
-namespace Veganko.ViewModels
+namespace Veganko.ViewModels.Products
 {
-    public class NewProductViewModel : BaseViewModel
+    public class BaseEditProductViewModel : BaseViewModel
     {
-        public const string ProductAddedMsg = "ProductAdded";
-
         public const int maxPhotoWidthInPix = 1080;
         public const int maxPhotoHeightInDips = 300;
 
-        private Product product;
-        public Product Product
+        public BaseEditProductViewModel()
+        {
+        }
+
+        public BaseEditProductViewModel(ProductViewModel product)
+        {
+            this.product = product;
+            // TODO: use product.Image
+            productImg = ImageSource.FromStream(
+                () => new MemoryStream(product.ImageBase64Encoded));
+            SelectedProductType = product.Type;
+
+            PhotoPicked = product.ImageBase64Encoded != null;
+            BarcodePicked = product.Barcode != null;
+        }
+
+        private ProductViewModel product;
+        public ProductViewModel Product
         {
             get
             {
@@ -52,7 +62,7 @@ namespace Veganko.ViewModels
             }
         }
 
-        private ProductType selectedProductType;
+        protected ProductType selectedProductType;
         public ProductType SelectedProductType
         {
             get
@@ -65,7 +75,11 @@ namespace Veganko.ViewModels
                 {
                     ProductClassifiers?.Clear();
                     ProductClassifiers = new ObservableCollection<ProductClassifier>(EnumConfiguration.ClassifierDictionary[value]);
-                    Product.Type = selectedProductType;
+
+                    if (product != null)
+                    {
+                        Product.Type = selectedProductType;
+                    }
                 }
             }
         }
@@ -92,12 +106,10 @@ namespace Veganko.ViewModels
             set => SetProperty(ref productClassifiers, value);
         }
 
-        public Command PageAppeared => new Command(OnPageAppeared);
-
         public Command TakeImageCommand => new Command(HandleImageClicked);
 
         public Command TakeBarcodeCommand => new Command(
-            async () => 
+            async () =>
             {
                 var scanner = new ZXing.Mobile.MobileBarcodeScanner();
 
@@ -117,22 +129,6 @@ namespace Veganko.ViewModels
                 }
             });
 
-        public Command SaveCommand => new Command(
-            async () => 
-            {
-                try
-                {
-                    product.Type = selectedProductType;
-                    product = await productService.AddAsync(product);
-                    ((MainPage)App.Current.MainPage).SetCurrentTab(0);
-                    MessagingCenter.Send(this, ProductAddedMsg, product);
-                }
-                catch (ServiceException ex)
-                {
-                    await App.CurrentPage.Err("Napak pri dodajanju: " + ex.Response);
-                }
-            });
-
         public string Barcode
         {
             get
@@ -148,11 +144,9 @@ namespace Veganko.ViewModels
             }
         }
 
-        private IProductService productService;
-
-        public NewProductViewModel()
+        protected void InitSelectedProductType(ProductType productType)
         {
-            productService = App.IoC.Resolve<IProductService>();
+            this.selectedProductType = productType;
         }
 
         private async void HandleImageClicked()
@@ -246,31 +240,6 @@ namespace Veganko.ViewModels
                 stream.CopyTo(ms);
                 Product.ImageBase64Encoded = ms.ToArray();
             }
-        }
-
-        private void OnPageAppeared(object parameter)
-        {
-            InitProduct();
-        }
-
-        private void InitProduct()
-        {
-            var user = App.IoC.Resolve<IUserService>().CurrentUser;
-            var mask = UserAccessRights.ProductsDelete;
-
-            Debug.Assert(user != null);
-            // TODO:
-            var hasApprovalRights = (user.Role.ToUAC() & mask) == mask;
-
-            Product = new Product
-            {
-                //State = hasApprovalRights ? ProductState.Approved : ProductState.PendingApproval  // TODO: uncomment after testing
-                ProductClassifiers = new ObservableCollection<ProductClassifier>(),
-            };
-            SelectedProductType = (ProductType)1;
-            Barcode = null;
-            PhotoPicked = false;
-            BarcodePicked = false;
         }
     }
 }

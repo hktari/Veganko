@@ -50,6 +50,7 @@ namespace Veganko.Droid.Renderers
                 spinner.Adapter = adapter;
 
                 SetNativeControl(spinner);
+                UpdateSelectedProductType(e.NewElement.SelectedProductType);
             }
         }
 
@@ -64,15 +65,19 @@ namespace Veganko.Droid.Renderers
 
             if (e.PropertyName == DroidProductTypeSpinner.SelectedProductTypeProperty.PropertyName)
             {
-                var ptName = Enum.GetName(typeof(ProductType), Element.SelectedProductType);
-                // Get the idx of ptName in adapter.Items
-                var selectedIdx = adapter.Items.Select((item, idx) => item == ptName ? idx : -1).First(i => i != -1);
+                UpdateSelectedProductType(Element.SelectedProductType);
+            }
+        }
 
-                if (Control.SelectedItemPosition != selectedIdx)
-                {
-                    Control.SetSelection(selectedIdx);
-                }
+        private void UpdateSelectedProductType(ProductType productType)
+        {
+            var ptName = Enum.GetName(typeof(ProductType), productType);
+            // Get the idx of ptName in adapter.Items
+            var selectedIdx = adapter.Items.Select((item, idx) => item == ptName ? idx : -1).First(i => i != -1);
 
+            if (Control.SelectedItemPosition != selectedIdx)
+            {
+                Control.SetSelection(selectedIdx);
             }
         }
     }

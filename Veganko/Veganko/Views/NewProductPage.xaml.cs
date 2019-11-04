@@ -13,14 +13,13 @@ using Plugin.Media;
 using XamarinImageUploader;
 using Veganko.Other;
 using Veganko.Services.Http;
+using Veganko.ViewModels.Products;
 
 namespace Veganko.Views
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class NewProductPage : BaseContentPage
     {
-        public EventHandler ScanClicked;
-
         NewProductViewModel vm;
         
         public NewProductPage()

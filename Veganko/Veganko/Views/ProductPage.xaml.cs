@@ -7,22 +7,24 @@ using Veganko.Extensions;
 using Veganko.Models;
 using Veganko.Services.Http;
 using Veganko.ViewModels;
+using Veganko.ViewModels.Products;
+using Veganko.ViewModels.Products.Partial;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 namespace Veganko.Views
 {
 	[XamlCompilation(XamlCompilationOptions.Compile)]
-	public partial class ProductPage : BaseContentPage
+	public partial class ProductListPage : BaseContentPage
 	{
-        ProductViewModel vm;
+        ProductListViewModel vm;
 
-		public ProductPage ()
+		public ProductListPage()
 		{
 			InitializeComponent ();
-            BindingContext = vm = new ProductViewModel();
+            BindingContext = vm = new ProductListViewModel();
         }
 
-        public ProductPage(ProductViewModel vm)
+        public ProductListPage(ProductListViewModel vm)
         {
             InitializeComponent();
             BindingContext = this.vm = vm;
@@ -30,11 +32,10 @@ namespace Veganko.Views
 
         void OnProductSelected(object sender, SelectedItemChangedEventArgs args)
         {
-            var item = args.SelectedItem as Veganko.Models.Product;
-            if (item == null)
+            if (args.SelectedItem == null)
                 return;
 
-            vm.ProductSelectedCommand.Execute(item);
+            vm.ProductSelectedCommand.Execute((ProductViewModel)args.SelectedItem);
 
             // Manually deselect item.
             ProductsListView.SelectedItem = null;
@@ -48,7 +49,7 @@ namespace Veganko.Views
                 var mi = ((MenuItem)sender);
                 try
                 {
-                    await vm.DeleteProduct((Veganko.Models.Product)mi.CommandParameter);
+                    await vm.DeleteProduct((ProductViewModel)mi.CommandParameter);
                 }
                 catch (ServiceException ex)
                 {

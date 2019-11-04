@@ -21,21 +21,27 @@ namespace Veganko.Services.Comments
                     ProductId = "0",
                     UtcDatePosted = DateTime.Now,
                     Rating = 1, Text = "Very good product !",
-                    UserId = "0"
+                    UserId = "0",
+                    UserAvatarId = "0",
+                    UserProfileBackgroundId = "0",
                 },
                 new Comment
                 {
                     ProductId = "0",
                     UtcDatePosted = DateTime.Now,
                     Rating = 3, Text = "Idd !",
-                    UserId = "0"
+                    UserId = "0",
+                    UserAvatarId = "0",
+                    UserProfileBackgroundId = "0",
                 },
                 new Comment
                 {
                     ProductId = "0",
                     UtcDatePosted = DateTime.Now,
                     Rating = 1, Text = "Boka jedi čaj naret !",
-                    UserId = "1"
+                    UserId = "1",
+                    UserAvatarId = "0",
+                    UserProfileBackgroundId = "0",
                 },
                 new Comment
                 {
@@ -43,6 +49,8 @@ namespace Veganko.Services.Comments
                     Rating = 4,
                     UtcDatePosted = DateTime.Now,
                     Text = "Res ful dobro... Močno priporočam.",
+                    UserAvatarId = "0",
+                    UserProfileBackgroundId = "0",
                     UserId = "2",
                 },
                 new Comment
@@ -51,6 +59,8 @@ namespace Veganko.Services.Comments
                     UserId = "2",
                     Rating = 3,
                     UtcDatePosted = DateTime.Now,
+                    UserAvatarId = "0",
+                    UserProfileBackgroundId = "0",
                     Text = "Sreča je kot metulj."
                 },
                 new Comment
@@ -59,6 +69,8 @@ namespace Veganko.Services.Comments
                     UserId = "1",
                     Rating = 2,
                     UtcDatePosted = DateTime.Now,
+                    UserAvatarId = "0",
+                    UserProfileBackgroundId = "0",
                     Text = "Nima točno takšnega okusa kot nutella :/"
                 },
                 new Comment
@@ -67,6 +79,8 @@ namespace Veganko.Services.Comments
                     UserId = "0",
                     Rating = 5,
                     UtcDatePosted = DateTime.Now,
+                    UserAvatarId = "0",
+                    UserProfileBackgroundId = "0",
                     Text = "Real great stuff ! I should write a song about it..."
                 },
                 new Comment
@@ -75,6 +89,8 @@ namespace Veganko.Services.Comments
                     UserId = "1",
                     Rating = 5,
                     UtcDatePosted = DateTime.Now,
+                    UserAvatarId = "0",
+                    UserProfileBackgroundId = "0",
                     Text = "Čokolada je life. In seveda mačke..."
                 }
             };

@@ -133,6 +133,7 @@
     <Content Include="home_icon.png">
       <SubType>Designer</SubType>
     </Content>
+    <Content Include="ico_help.png" />
     <Content Include="ico_beverages.png">
       <SubType>Designer</SubType>
     </Content>

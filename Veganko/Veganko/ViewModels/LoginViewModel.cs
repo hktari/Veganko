@@ -11,7 +11,6 @@ using Veganko.Views;
 using Xamarin.Forms;
 using Autofac;
 using System.Threading.Tasks;
-using Xamarin.Essentials;
 using Veganko.Services.Auth;
 
 namespace Veganko.ViewModels
