@@ -78,17 +78,17 @@ namespace Veganko
 
             builder.RegisterType<Logger>().As<ILogger>().SingleInstance();
 
-            builder.RegisterType<AccountService>().As<IAccountService>().SingleInstance();
-            builder.RegisterType<ProductDataStore>().As<IProductService>().SingleInstance();
-            builder.RegisterType<CommentsService>().As<ICommentsService>().SingleInstance();
-            builder.RegisterType<UserService>().As<IUserService>().SingleInstance();
-            builder.RegisterType<AuthService>().As<IAuthService>().SingleInstance();
+            //builder.RegisterType<AccountService>().As<IAccountService>().SingleInstance();
+            //builder.RegisterType<ProductDataStore>().As<IProductService>().SingleInstance();
+            //builder.RegisterType<CommentsService>().As<ICommentsService>().SingleInstance();
+            //builder.RegisterType<UserService>().As<IUserService>().SingleInstance();
+            //builder.RegisterType<AuthService>().As<IAuthService>().SingleInstance();
 
-            //builder.RegisterType<MockAccountService>().As<IAccountService>().SingleInstance();
-            //builder.RegisterType<MockProductDataStore>().As<IProductService>().SingleInstance();
-            //builder.RegisterType<MockCommentsService>().As<ICommentsService>().SingleInstance();
-            //builder.RegisterType<MockUserService>().As<IUserService>().SingleInstance();
-            //builder.RegisterType<MockAuthService>().As<IAuthService>().SingleInstance();
+            builder.RegisterType<MockAccountService>().As<IAccountService>().SingleInstance();
+            builder.RegisterType<MockProductDataStore>().As<IProductService>().SingleInstance();
+            builder.RegisterType<MockCommentsService>().As<ICommentsService>().SingleInstance();
+            builder.RegisterType<MockUserService>().As<IUserService>().SingleInstance();
+            builder.RegisterType<MockAuthService>().As<IAuthService>().SingleInstance();
 
             IoC = builder.Build();
         }

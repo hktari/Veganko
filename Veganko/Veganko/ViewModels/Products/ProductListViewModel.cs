@@ -18,6 +18,7 @@ using Veganko.ViewModels.Products;
 using Veganko.ViewModels.Products.Partial;
 using Veganko.Views;
 using Xamarin.Forms;
+using Xamarin.Forms.Extended;
 using Xamarin.Forms.Internals;
 
 namespace Veganko.ViewModels.Products
@@ -63,8 +64,8 @@ namespace Veganko.ViewModels.Products
             }
         }
 
-        private ObservableCollection<ProductViewModel> searchResult;
-        public ObservableCollection<ProductViewModel> SearchResult
+        private InfiniteScrollCollection<ProductViewModel> searchResult;
+        public InfiniteScrollCollection<ProductViewModel> SearchResult
         {
             get
             {
@@ -165,7 +166,19 @@ namespace Veganko.ViewModels.Products
 
             Title = "Iskanje";
             Products = new List<ProductViewModel>();
-            SearchResult = new ObservableCollection<ProductViewModel>();
+            SearchResult = new InfiniteScrollCollection<ProductViewModel>()
+            {
+                OnLoadMore = async () =>
+                {
+                    // load the next page
+                    var page = SearchResult.Count / 5;
+                    var items = await productService.AllAsync(page + 1, 5);
+
+                    // return the items that need to be added
+                    return items?.Items.Select(p => new ProductViewModel(p));
+                }
+            };
+
             SelectedProductClassifiers = new ObservableCollection<ProductClassifier>();
             SelectedProductType = ProductType.NOT_SET;
             ShowProductClassifiers = true;
@@ -180,11 +193,12 @@ namespace Veganko.ViewModels.Products
 
                 try
                 {
-                    SearchText = string.Empty;
-                    UnapplyFilters();
-                    // TODO: handle pages
-                    Products = await GetProducts();
-                    SetSearchResults(Products);
+                    await searchResult.LoadMoreAsync();
+                    //SearchText = string.Empty;
+                    //UnapplyFilters();
+                    //// TODO: handle pages
+                    //Products = await GetProducts();
+                    //SetSearchResults(Products);
                 }
                 catch (Exception ex)
                 {
@@ -234,7 +248,7 @@ namespace Veganko.ViewModels.Products
 
         protected void SetSearchResults(IEnumerable<ProductViewModel> items)
         {
-            SearchResult = new ObservableCollection<ProductViewModel>(items);
+            //SearchResult = new InfiniteScrollCollection<ProductViewModel>(items);
         }
 
         protected void UnapplyFilters(bool notifyUIOnly = true)

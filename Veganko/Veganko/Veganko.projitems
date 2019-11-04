@@ -31,6 +31,12 @@
     <Compile Include="$(MSBuildThisFileDirectory)Effects\CustomEntryEffect.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\ContentPageExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\StringExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)InfiniteScrolling\IInfiniteScrollDetector.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)InfiniteScrolling\IInfiniteScrollLoader.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)InfiniteScrolling\IInfiniteScrollLoading.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)InfiniteScrolling\InfiniteScrollBehavior.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)InfiniteScrolling\InfiniteScrollCollection.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)InfiniteScrolling\LoadingMoreEventArgs.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\Comment.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\FacebookProfile.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\Favorite.cs" />
@@ -323,6 +329,9 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="$(MSBuildThisFileDirectory)InfiniteScrolling\InfiniteScrolling.csproj" />
   </ItemGroup>
   <!--#if (CreateBackendProject)
     <Compile Include="$(MSBuildThisFileDirectory)Services\AzureDataStore.cs" />
