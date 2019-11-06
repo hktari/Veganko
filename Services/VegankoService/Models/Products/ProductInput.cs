@@ -6,7 +6,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using VegankoService.Models.Converters;
 
-namespace VegankoService.Models
+namespace VegankoService.Models.Products
 {
     public class ProductInput
     {

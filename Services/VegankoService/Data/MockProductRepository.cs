@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using VegankoService.Models;
+using VegankoService.Models.Products;
 
 namespace VegankoService.Data
 {
@@ -45,6 +46,11 @@ namespace VegankoService.Data
         }
 
         public void Update(Product product)
+        {
+            throw new NotImplementedException();
+        }
+
+        public PagedList<Product> GetAll(int page, int count = 10, ProductQuery query = null)
         {
             throw new NotImplementedException();
         }

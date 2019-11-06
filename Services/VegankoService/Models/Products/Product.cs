@@ -7,7 +7,7 @@ using Newtonsoft.Json.Converters;
 using System.Runtime.Serialization;
 using System.ComponentModel.DataAnnotations;
 
-namespace VegankoService.Models
+namespace VegankoService.Models.Products
 {
     public enum ProductState
     {

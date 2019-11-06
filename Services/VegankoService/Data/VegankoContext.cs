@@ -8,6 +8,7 @@ using VegankoService.Models;
 using VegankoService.Models.User;
 using VegankoService.Models.Comments;
 using Microsoft.AspNetCore.Identity;
+using VegankoService.Models.Products;
 
 namespace VegankoService.Data
 {

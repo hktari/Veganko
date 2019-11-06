@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using VegankoService.Models;
+using VegankoService.Models.Products;
 
 namespace VegankoService.Data
 {
@@ -34,7 +35,7 @@ namespace VegankoService.Data
             return context.Product.FirstOrDefault(p => p.Id == id);
         }
 
-        public PagedList<Product> GetAll(int page, int pageSize = 10)
+        public PagedList<Product> GetAll(int page, int pageSize = 10, ProductQuery query = null)
         {
             int pageIdx = page - 1;
             if (pageIdx < 0)
@@ -42,12 +43,39 @@ namespace VegankoService.Data
                 throw new ArgumentException("Page idx < 0 !");
             }
 
+            IEnumerable<Product> products = context.Product;
+            if (query != null)
+            {
+                products = products.Where(
+                    p =>
+                    {
+                        bool isMatch = true;
+                        if (!string.IsNullOrWhiteSpace(query.Text))
+                        {
+                            isMatch &= p.Name.ToLower().Contains(query.Text.ToLower());
+                        }
+
+                        if (query.Type != null)
+                        {
+                            isMatch &= p.Type.ToLower() == query.Type.ToLower();
+                        }
+
+                        if (query.Classifiers != null)
+                        {
+                            // Intersection == match
+                            isMatch &= (p.ProductClassifiers & query.Classifiers) > 0;
+                        }
+
+                        return isMatch;
+                    });
+            }
+
             return new PagedList<Product>
             {
-                Items = context.Product.Skip(pageSize * pageIdx).Take(pageSize),
+                Items = products.Skip(pageSize * pageIdx).Take(pageSize),
                 Page = page,
                 PageSize = pageSize,
-                TotalCount = context.Product.Count(),
+                TotalCount = products.Count(),
             };
         }
 

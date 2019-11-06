@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using VegankoService.Data;
 using VegankoService.Helpers;
 using VegankoService.Models;
+using VegankoService.Models.Products;
 
 namespace VegankoService.Controllers
 {
@@ -71,9 +72,9 @@ namespace VegankoService.Controllers
         }
 
         [HttpGet]
-        public ActionResult<PagedList<Product>> GetAll(int page = 1, int pageSize = 10)
+        public ActionResult<PagedList<Product>> GetAll(int page = 1, int pageSize = 10, [FromQuery]ProductQuery query = null)
         {
-            return productRepository.GetAll(page, pageSize);
+            return productRepository.GetAll(page, pageSize, query);
         }
 
         [HttpGet("{id}")]
