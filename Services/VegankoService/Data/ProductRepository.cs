@@ -50,6 +50,12 @@ namespace VegankoService.Data
                     p =>
                     {
                         bool isMatch = true;
+
+                        if (!string.IsNullOrWhiteSpace(query.Barcode))
+                        {
+                            isMatch &= p.Barcode == query.Barcode;
+                        }
+
                         if (!string.IsNullOrWhiteSpace(query.Text))
                         {
                             isMatch &= p.Name.ToLower().Contains(query.Text.ToLower());
