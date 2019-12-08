@@ -2,15 +2,17 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using VegankoService.Data;
 
 namespace VegankoService.Migrations
 {
     [DbContext(typeof(VegankoContext))]
-    partial class VegankoContextModelSnapshot : ModelSnapshot
+    [Migration("20191208180605_Removes-ImageBase64")]
+    partial class RemovesImageBase64
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

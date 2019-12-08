@@ -20,15 +20,6 @@ namespace VegankoService.Models
 
         public string Barcode { get; set; }
 
-        //[Required]
-        //public string ImageBase64Encoded { get; set; }
-
-        ////[Required]
-        //public IFormFile DetailImage { get; set; }
-
-        //[Required]
-        //public IFormFile ThumbImage { get; set; }
-
         public string Description { get; set; }
 
         [Required]
@@ -42,7 +33,6 @@ namespace VegankoService.Models
             product.Name = Name;
             product.Brand = Brand;
             product.Barcode = Barcode;
-            //product.ImageBase64Encoded = ImageBase64Encoded;
             product.Description = Description;
             product.ProductClassifiers = ProductClassifiers;
             product.Type = Type;
