@@ -27,8 +27,6 @@ namespace Veganko.ViewModels.Products.Partial
 
         public string Id { get; set; }
 
-        public byte[] ImageBase64Encoded { get; set; }
-
         // ??
         public ProductState State { get; set; }
 
@@ -53,18 +51,24 @@ namespace Veganko.ViewModels.Products.Partial
             set => SetProperty(ref barcode, value);
         }
 
-        public string imageName;
-        public string ImageName
-        {
-            get => imageName;
-            set => SetProperty(ref imageName, value);
-        }
-
         public ImageSource image;
         public ImageSource Image
         {
             get => image;
             set => SetProperty(ref image, value);
+        }
+
+        private ImageSource thumbnailImage;
+        public ImageSource ThumbnailImage
+        {
+            get
+            {
+                return thumbnailImage;
+            }
+            set
+            {
+                SetProperty(ref thumbnailImage, value);
+            }
         }
 
         public string description;
@@ -101,9 +105,6 @@ namespace Veganko.ViewModels.Products.Partial
             Type = productViewModel.Type;
             ProductClassifiers = new ObservableCollection<ProductClassifier>(productViewModel.ProductClassifiers);
             Description = productViewModel.Description;
-            ImageBase64Encoded = productViewModel.ImageBase64Encoded;
-            Image = productViewModel.Image;
-            ImageName = productViewModel.ImageName;
             Barcode = productViewModel.Barcode;
             Brand = productViewModel.Brand;
             Name = productViewModel.Name;
@@ -116,31 +117,25 @@ namespace Veganko.ViewModels.Products.Partial
             Type = product.Type;
             ProductClassifiers = product.ProductClassifiers;
             Description = product.Description;
-            ImageBase64Encoded = product.ImageBase64Encoded;
-            
-            if (ImageBase64Encoded != null)
-            {
-                Image = ImageSource.FromStream(() => new MemoryStream(ImageBase64Encoded));
-            }
-            else 
-            {
-                Image = null;
-            }
-
-            ImageName = null;
+            Image = product.DetailImageUrl;
+            ThumbnailImage = product.ThumbImageUrl;
             Barcode = product.Barcode;
             Brand = product.Brand;
             Name = product.Name;
             Id = product.Id;
         }
 
+        /// <summary>
+        /// Updates the product with the view model data. Image is not updated,
+        /// since it there's a seperate api for updating images.
+        /// </summary>
+        /// <param name="product"></param>
         public void MapToModel(Product product)
         {
             product.Rating = Rating;
             product.Type = Type;
             product.ProductClassifiers = ProductClassifiers;
             product.Description = Description;
-            product.ImageBase64Encoded = ImageBase64Encoded;
             product.Barcode = Barcode;
             product.Brand = Brand;
             product.Name = Name;

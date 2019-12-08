@@ -58,14 +58,16 @@ namespace Veganko.Models
 
         public string Barcode { get; set; }
 
-        [JsonIgnore]
         public string ImageName { get; set; }
 
         [JsonIgnore]
-        public ImageSource Image { get; set; }
+        public string DetailImageUrl { get; set; }
 
-        [JsonConverter(typeof(Base64StringToByteArrayConverter))]
-        public byte[] ImageBase64Encoded { get; set; }
+        [JsonIgnore]
+        public string ThumbImageUrl { get; set; }
+
+        [JsonIgnore]
+        public ImageSource Image { get; set; }
 
         public string Description { get; set; }
 

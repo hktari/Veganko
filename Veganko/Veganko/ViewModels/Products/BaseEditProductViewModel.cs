@@ -27,12 +27,10 @@ namespace Veganko.ViewModels.Products
         public BaseEditProductViewModel(ProductViewModel product)
         {
             this.product = product;
-            // TODO: use product.Image
-            productImg = ImageSource.FromStream(
-                () => new MemoryStream(product.ImageBase64Encoded));
+            productImg = product.Image;
             SelectedProductType = product.Type;
 
-            PhotoPicked = product.ImageBase64Encoded != null;
+            PhotoPicked = product.Image != null;
             BarcodePicked = product.Barcode != null;
         }
 
@@ -144,6 +142,10 @@ namespace Veganko.ViewModels.Products
             }
         }
 
+        protected byte[] ProductDetailImageData { get; private set; }
+        
+        protected byte[] ProductThumbImageData { get; private set; }
+
         protected void InitSelectedProductType(ProductType productType)
         {
             this.selectedProductType = productType;
@@ -199,7 +201,7 @@ namespace Veganko.ViewModels.Products
         {
 #if __ANDROID__
             byte[] data = await Droid.MainActivity.Context.DispatchTakePictureIntent(maxPhotoHeightInDips, maxPhotoWidthInPix);
-            Product.ImageBase64Encoded = data;
+            ProductDetailImageData = data;
             ProductImg = ImageSource.FromStream(() => new MemoryStream(data));
 #else
             var initialized = await CrossMedia.Current.Initialize();
@@ -238,7 +240,7 @@ namespace Veganko.ViewModels.Products
             using (MemoryStream ms = new MemoryStream())
             {
                 stream.CopyTo(ms);
-                Product.ImageBase64Encoded = ms.ToArray();
+                ProductDetailImageData = ms.ToArray();
             }
         }
     }

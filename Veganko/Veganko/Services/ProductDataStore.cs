@@ -14,16 +14,21 @@ namespace Veganko.Services
     public class ProductDataStore : IProductService
     {
         private readonly IRestService restService;
+        private const string DetailImageEndpoint = "products/{id}/images/detail/";
+        private const string ThumbImageEndpoint = "products/{id}/images/thumb/";
 
         public ProductDataStore(IRestService restService)
         {
             this.restService = restService;
         }
-        public Task<Product> AddAsync(Product item)
+        public async Task<Product> AddAsync(Product item)
         {
             RestRequest request = new RestRequest("products", Method.POST);
             request.AddJsonBody(item);
-            return restService.ExecuteAsync<Product>(request);
+            Product product = await restService.ExecuteAsync<Product>(request);
+            AddImageUrls(product);
+
+            return product;
         }
 
         public Task DeleteAsync(Product item)
@@ -32,10 +37,46 @@ namespace Veganko.Services
             return restService.ExecuteAsync(request);
         }
 
-        public Task<Product> GetAsync(string id)
+        public async Task<Product> GetAsync(string id)
         {
             RestRequest request = new RestRequest($"products/{id}", Method.GET);
-            return restService.ExecuteAsync<Product>(request);
+
+            Product product = await restService.ExecuteAsync<Product>(request);
+            AddImageUrls(product);
+
+            return product;
+        }
+
+        /// <summary>
+        /// Constructs the urls for the detail and thumb images from the image name and endpoint.
+        /// </summary>
+        private void AddImageUrls(Product product)
+        {
+            if (product.ImageName == null)
+            {
+                return;
+            }
+
+            string endpoint = RestService.Endpoint;
+            if (!endpoint.EndsWith("/"))
+            {
+                endpoint += "/";
+            }
+
+            product.DetailImageUrl = 
+                new Uri(
+                    new Uri(
+                        new Uri(endpoint),
+                        DetailImageEndpoint.Replace("{id}", product.Id)),
+                    product.ImageName)
+                .AbsoluteUri;
+
+            product.ThumbImageUrl = new Uri(
+                    new Uri(
+                        new Uri(endpoint),
+                        ThumbImageEndpoint.Replace("{id}", product.Id)),
+                    product.ImageName)
+                .AbsoluteUri;
         }
 
         public async Task<PagedList<Product>> AllAsync(int page = 1, int pageSize = 10, bool forceRefresh = false, bool includeUnapproved = false)
@@ -44,21 +85,23 @@ namespace Veganko.Services
             request.AddParameter("page", page, ParameterType.QueryString);
             request.AddParameter("pageSize", pageSize, ParameterType.QueryString);
 
-            var items = await restService.ExecuteAsync<PagedList<Product>>(request);
-            foreach (var item in items.Items)
+            var productPage = await restService.ExecuteAsync<PagedList<Product>>(request);
+            foreach (var product in productPage.Items)
             {
-                item.Image = ImageSource.FromStream(
-                    () => item.ImageBase64Encoded != null ? new MemoryStream(item.ImageBase64Encoded) : null);
+                AddImageUrls(product);
             }
 
-            return items;
+            return productPage;
         }
         
-        public Task<Product> UpdateAsync(Product item)
+        public async Task<Product> UpdateAsync(Product item)
         {
             RestRequest request = new RestRequest($"products/{item.Id}", Method.PUT);
             request.AddJsonBody(item);
-            return restService.ExecuteAsync<Product>(request);
+            Product product = await restService.ExecuteAsync<Product>(request);
+            AddImageUrls(product);
+
+            return product;
         }
 
         public Task<IEnumerable<Product>> GetUnapprovedAsync(bool forceRefresh = false)
