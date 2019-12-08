@@ -1,6 +1,7 @@
 ﻿using Autofac;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Text;
 using Veganko.Extensions;
@@ -34,12 +35,24 @@ namespace Veganko.ViewModels.Products
                 {
                     Product updatedProduct = new Product();
                     Product.MapToModel(updatedProduct);
-                    await productService.UpdateAsync(updatedProduct);
+                    
+                    updatedProduct = await productService.UpdateAsync(updatedProduct);
+                    updatedProduct = await productService.UpdateImagesAsync(updatedProduct, ProductDetailImageData, ProductThumbnailImageData);
+                    
+                    if (HasImageBeenChanged)
+                    {
+                        await GenerateThumbnail();
+                        await productService.UpdateImagesAsync(updatedProduct, ProductDetailImageData, ProductThumbnailImageData);
+                    }
+
+                    Product.Update(updatedProduct);
+                    
                     await App.Navigation.PopModalAsync();
                     MessagingCenter.Send(this, ProductUpdatedMsg, Product);
                 }
-                catch (ServiceException)
+                catch (ServiceException ex)
                 {
+                    Debug.WriteLine(ex.Message + " " + ex.StackTrace);
                     await App.CurrentPage.Err("Posodobitev produkta ni uspela.");
                 }
                 finally

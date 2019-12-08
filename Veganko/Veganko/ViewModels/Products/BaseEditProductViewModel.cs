@@ -1,4 +1,5 @@
-﻿using Plugin.Media;
+﻿using Autofac;
+using Plugin.Media;
 using Plugin.Media.Abstractions;
 using System;
 using System.Collections.Generic;
@@ -10,6 +11,7 @@ using Veganko.Extensions;
 using Veganko.Models;
 using Veganko.Other;
 using Veganko.Services;
+using Veganko.Services.ImageManager;
 using Veganko.ViewModels.Products.Partial;
 using Xamarin.Forms;
 
@@ -19,12 +21,18 @@ namespace Veganko.ViewModels.Products
     {
         public const int maxPhotoWidthInPix = 1080;
         public const int maxPhotoHeightInDips = 300;
+        public const int thumbnailPhotoWidthInPix = 400;
+        public const int thumbnailPhotoHeightInPix = 400;
+
+        private readonly IImageProcessor imageProcessor;
 
         public BaseEditProductViewModel()
         {
+            imageProcessor = App.IoC.Resolve<IImageProcessor>();
         }
 
         public BaseEditProductViewModel(ProductViewModel product)
+            : this()
         {
             this.product = product;
             productImg = product.Image;
@@ -97,7 +105,6 @@ namespace Veganko.ViewModels.Products
         }
 
         private ObservableCollection<ProductClassifier> productClassifiers;
-
         public ObservableCollection<ProductClassifier> ProductClassifiers
         {
             get => productClassifiers;
@@ -142,13 +149,28 @@ namespace Veganko.ViewModels.Products
             }
         }
 
+        protected bool HasImageBeenChanged => ProductDetailImageData != null;
+
         protected byte[] ProductDetailImageData { get; private set; }
         
-        protected byte[] ProductThumbImageData { get; private set; }
+        protected byte[] ProductThumbnailImageData { get; private set; }
 
         protected void InitSelectedProductType(ProductType productType)
         {
             this.selectedProductType = productType;
+        }
+
+        protected async Task GenerateThumbnail()
+        {
+            if (ProductDetailImageData == null)
+            {
+                throw new Exception("Can't generate thumbnail. Product image data is null.");
+            }
+
+            ProductThumbnailImageData = await imageProcessor.GenerateThumbnail(
+                ProductDetailImageData,
+                thumbnailPhotoHeightInPix,
+                thumbnailPhotoWidthInPix);
         }
 
         private async void HandleImageClicked()

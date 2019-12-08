@@ -48,6 +48,8 @@
     <Compile Include="$(MSBuildThisFileDirectory)Services\Http\RestService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\Http\Token.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\Auth\IAuthService.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Services\ImageManager\IImageProcessor.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Services\ImageManager\ImageProcessor.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\Logging\ILogger.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\Logging\Logger.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\Users\IUserService.cs" />
