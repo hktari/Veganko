@@ -29,6 +29,7 @@ using Microsoft.AspNetCore.Diagnostics;
 using System.IdentityModel.Tokens.Jwt;
 using VegankoService.Services;
 using VegankoService.Data.Users;
+using Microsoft.AspNetCore.Http.Features;
 
 namespace VegankoService
 {
@@ -127,6 +128,12 @@ namespace VegankoService
             //builder = new IdentityBuilder(builder.UserType, typeof(IdentityRole), builder.Services);
             builder.AddEntityFrameworkStores<VegankoContext>().AddDefaultTokenProviders();
 
+            services.Configure<FormOptions>(options =>
+            {
+                // Set the limit to 17 MB
+                options.MultipartBodyLengthLimit = 16383000;
+            });
+
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }
 
@@ -141,7 +148,7 @@ namespace VegankoService
             {
                 app.UseHsts();
             }
-
+            app.UseStaticFiles();
             app.UseHttpsRedirection();
 
             app.UseAuthentication();
