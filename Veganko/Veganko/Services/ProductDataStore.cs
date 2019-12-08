@@ -21,6 +21,7 @@ namespace Veganko.Services
         {
             this.restService = restService;
         }
+
         public async Task<Product> AddAsync(Product item)
         {
             RestRequest request = new RestRequest("products", Method.POST);
@@ -101,6 +102,18 @@ namespace Veganko.Services
             Product product = await restService.ExecuteAsync<Product>(request);
             AddImageUrls(product);
 
+            return product;
+        }
+
+        public async Task<Product> UpdateImagesAsync(Product product, byte[] detailImageData, byte[] thumbImageData)
+        {
+            RestRequest request = new RestRequest($"products/{product.Id}/images", Method.POST);
+            request.AddFile("DetailImage", detailImageData, "DetailImage");
+            request.AddFile("ThumbImage", thumbImageData, "ThumbImage");
+
+            product = await restService.ExecuteAsync<Product>(request);
+            AddImageUrls(product);
+            
             return product;
         }
 

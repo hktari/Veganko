@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -212,6 +213,13 @@ namespace Veganko.Services
         Task<Product> IProductService.GetAsync(string id)
         {
             return Task.FromResult(items.First(p => p.Id == id));
+        }
+
+        public Task<Product> UpdateImagesAsync(Product product, byte[] detailImageData, byte[] thumbImageData)
+        {
+            product.DetailImage = ImageSource.FromStream(() => new MemoryStream(detailImageData));
+            product.ThumbImage = ImageSource.FromStream(() => new MemoryStream(thumbImageData));
+            return Task.FromResult(product);
         }
     }
 }

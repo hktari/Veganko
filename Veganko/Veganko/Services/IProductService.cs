@@ -13,6 +13,7 @@ namespace Veganko.Services
         Task DeleteAsync(Product item);
         Task<Product> GetAsync(string id);
         Task<PagedList<Product>> AllAsync(int page = 1, int pageSize = 10, bool forceRefresh = false, bool includeUnapproved = false);
-        Task<IEnumerable<Product>> GetUnapprovedAsync(bool forceRefresh = false); 
+        Task<IEnumerable<Product>> GetUnapprovedAsync(bool forceRefresh = false);
+        Task<Product> UpdateImagesAsync(Product product, byte[] detailImageData, byte[] thumbImageData);
     }
 }
