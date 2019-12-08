@@ -50,7 +50,6 @@ namespace VegankoService.Models
         public string Brand { get; set; }
         public string Barcode { get; set; }
         public string ImageName { get; set; }
-        public string ImageBase64Encoded { get; set; }
         public string Description { get; set; }
         public int ProductClassifiers { get; set; }
         public string Type { get; set; }

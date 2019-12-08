@@ -16,6 +16,10 @@ namespace VegankoService.Data
         public VegankoContext(DbContextOptions dbContextOptions) : base(dbContextOptions)
         {}
 
+        public VegankoContext()
+        {
+        }
+
         public DbSet<Product> Product { get; set; }
 
         public DbSet<Comment> Comment { get; set; } 

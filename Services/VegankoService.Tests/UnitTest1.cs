@@ -14,7 +14,8 @@ namespace VegankoService.Tests
         [TestInitialize]
         public void Init()
         {
-            pController = new ProductsController(new MockProductRepository());
+            // TODO: add mock logger ?
+            pController = new ProductsController(new MockProductRepository(), null);
         }
 
         //[TestMethod]
