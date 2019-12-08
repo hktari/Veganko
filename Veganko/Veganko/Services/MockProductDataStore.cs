@@ -23,7 +23,7 @@ namespace Veganko.Services
                 {
                     Id = "0",
                     Name = "Violife Original Flavor", Description = "With coconut oil and vitamin B12",
-                    Image = "violife.jpg", Rating = 5,
+                    DetailImage = "violife.jpg", Rating = 5,
                     Type = ProductType.Hrana,
                     ProductClassifiers = new ObservableCollection<ProductClassifier>
                     {
@@ -35,7 +35,7 @@ namespace Veganko.Services
                 {
                     Id = "1",
                     Name = "Olivella hranilna krema", Description = "Lahka naravna nočna hranilna krema se dobro vpija. Kože ne pušča mastne, temveč jo izjemno hrani in neguje, poživi, ter koži daje mehak in zdrav občutek. Primerna tudi za dnevno nego.",
-                    Image = "Olivella_hranilna_krema_r.jpg", Rating = 5,
+                    DetailImage = "Olivella_hranilna_krema_r.jpg", Rating = 5,
                     Type = ProductType.Kozmetika,
                     ProductClassifiers = new ObservableCollection<ProductClassifier>
                     {
@@ -50,7 +50,7 @@ namespace Veganko.Services
                     Id = "2",
                     Name = "Violife Mozzarella flavour Grated", Description = "Try making your own pizza and use our vegan mozzarella flavour grated cheese with fresh tomato puree. For the perfect family meal.",
                     Brand = "Violife",
-                    Image = "violife_mozarella.png", Rating = 5,
+                    DetailImage = "violife_mozarella.png", Rating = 5,
                     Type = ProductType.Hrana,
                     ProductClassifiers = new ObservableCollection<ProductClassifier>
                     {
@@ -62,7 +62,7 @@ namespace Veganko.Services
                 {
                     Id = "3",
                     Name = "Flow kosmetiikka karitejevo maslo in ognjič", Description = "Organsko karitejevo maslo je primerno za zaščito, nego in vlaženje kože celega telesa. Učinkovito tudi pri negi nog – zmehča trdo in popokano kožo pet.",
-                    Image = "Olivella_hranilna_krema_r.jpg",
+                    DetailImage = "Olivella_hranilna_krema_r.jpg",
                     Type = ProductType.Kozmetika,
                     ProductClassifiers = new ObservableCollection<ProductClassifier>
                     {
@@ -74,7 +74,7 @@ namespace Veganko.Services
                 {
                     Id = "4",
                     Name = "Čokoladni namaz", Description = "Kdo pa nima rad nutelle... Še posebej, če je vegan.",
-                    Image = "evrokrem.jpg",
+                    DetailImage = "evrokrem.jpg",
                     Type = ProductType.Hrana,
                     ProductClassifiers = new ObservableCollection<ProductClassifier>
                     {
@@ -87,7 +87,7 @@ namespace Veganko.Services
                 {
                     Id = "5",
                     Name = "Knusprige Vollkornwaffeln", Description = "100% Vollkorn und weniger Zucker !",
-                    Image = "manner.jpg",
+                    DetailImage = "manner.jpg",
                     Type = ProductType.Hrana,
                     ProductClassifiers = new ObservableCollection<ProductClassifier>
                     {
@@ -99,7 +99,7 @@ namespace Veganko.Services
                 {
                     Id = "6",
                     Name = "Sensitiv After Shave Balsam", Description = "MEN",
-                    Image = "alverde_after_shave.jpg",
+                    DetailImage = "alverde_after_shave.jpg",
                     Type = ProductType.Kozmetika,
                     ProductClassifiers = new ObservableCollection<ProductClassifier>
                     {
@@ -113,7 +113,7 @@ namespace Veganko.Services
                     Id = "7",
                     Name = "Valsoia la crema", Description = "Kremni namaz z lešniki, kakavom in sojo",
                     Brand = "VALSOIA",
-                    Image = "evrokrem.jpg",
+                    DetailImage = "evrokrem.jpg",
                     Type = ProductType.Hrana,
                     ProductClassifiers = new ObservableCollection<ProductClassifier>
                     {
@@ -127,7 +127,7 @@ namespace Veganko.Services
                     Id = "8",
                     Name = "Gourmet Arašidov Namaz s koščki",
                     Brand = "GOURMET",
-                    Image = "arasidovo_maslo.jpg",
+                    DetailImage = "arasidovo_maslo.jpg",
                     Type = ProductType.Hrana,
                     ProductClassifiers = new ObservableCollection<ProductClassifier>
                     {
@@ -141,7 +141,7 @@ namespace Veganko.Services
                     Id = "9",
                     Name = "BIO Pomarančni sok",
                     Brand = "DM",
-                    Image = "dmbio_orangensaft.jpg",
+                    DetailImage = "dmbio_orangensaft.jpg",
                     Type = ProductType.Pijaca,
                     ProductClassifiers = new ObservableCollection<ProductClassifier>
                     {
@@ -158,7 +158,7 @@ namespace Veganko.Services
                     Name = "Adez Almond Drink",
                     Description = " With its unique proposition of blended plant ingredients AdeZ is bringing great taste to plant-based beverages for the first time and is a nutritious and tasty option for the morning and throughout the day. Enjoy as a drink, with cereals, in a smoothie, in tea or coffee, even for cooking. AdeZ, nourish your potential.",
                     Brand = "Adez",
-                    Image = "adez_almond.jpg",
+                    DetailImage = "adez_almond.jpg",
                     Type = ProductType.Pijaca,
                     ProductClassifiers = new ObservableCollection<ProductClassifier>
                     {

@@ -63,7 +63,7 @@ namespace Veganko.Services
                 endpoint += "/";
             }
 
-            product.DetailImageUrl = 
+            product.DetailImage = 
                 new Uri(
                     new Uri(
                         new Uri(endpoint),
@@ -71,7 +71,7 @@ namespace Veganko.Services
                     product.ImageName)
                 .AbsoluteUri;
 
-            product.ThumbImageUrl = new Uri(
+            product.ThumbImage = new Uri(
                     new Uri(
                         new Uri(endpoint),
                         ThumbImageEndpoint.Replace("{id}", product.Id)),

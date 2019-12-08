@@ -61,13 +61,10 @@ namespace Veganko.Models
         public string ImageName { get; set; }
 
         [JsonIgnore]
-        public string DetailImageUrl { get; set; }
+        public ImageSource DetailImage { get; set; }
 
         [JsonIgnore]
-        public string ThumbImageUrl { get; set; }
-
-        [JsonIgnore]
-        public ImageSource Image { get; set; }
+        public ImageSource ThumbImage { get; set; }
 
         public string Description { get; set; }
 

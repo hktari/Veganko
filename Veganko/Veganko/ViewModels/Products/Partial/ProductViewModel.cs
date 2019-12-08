@@ -117,8 +117,8 @@ namespace Veganko.ViewModels.Products.Partial
             Type = product.Type;
             ProductClassifiers = product.ProductClassifiers;
             Description = product.Description;
-            Image = product.DetailImageUrl;
-            ThumbnailImage = product.ThumbImageUrl;
+            Image = product.DetailImage;
+            ThumbnailImage = product.ThumbImage;
             Barcode = product.Barcode;
             Brand = product.Brand;
             Name = product.Name;
