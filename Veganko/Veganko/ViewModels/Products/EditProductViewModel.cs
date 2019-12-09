@@ -28,6 +28,8 @@ namespace Veganko.ViewModels.Products
         public Command SaveCommand => new Command(
             async () =>
             {
+                // TODO: validation in base, since required properties are the same for posting and putting
+
                 IsBusy = true;
                 try
                 {

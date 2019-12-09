@@ -5,9 +5,9 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:controls="clr-namespace:Veganko.Controls"
     xmlns:converters="clr-namespace:Veganko.Converters"
+    xmlns:forms="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
     xmlns:local="clr-namespace:Veganko"
-    xmlns:models="clr-namespace:Veganko.Models"
-    xmlns:forms="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms">
+    xmlns:models="clr-namespace:Veganko.Models">
     <ContentView.Resources>
         <converters:StringCaseFormatter x:Key="StringCaseConverter" ToUpperCase="True" />
     </ContentView.Resources>
@@ -33,17 +33,16 @@
                 HorizontalOptions="Center"
                 IsClippedToBounds="True"
                 VerticalOptions="Center">
-                <!--TODO: Add loading and error images-->
                 <forms:CachedImage
-                    LoadingPlaceholder="img_loading.png"
-                    ErrorPlaceholder="img_error.png"
-                    DownsampleToViewSize="True"
                     Aspect="AspectFill"
+                    DownsampleToViewSize="False"
+                    ErrorPlaceholder="img_error.png"
                     HeightRequest="113"
                     HorizontalOptions="Center"
-                    Source="{Binding Image}"
+                    LoadingPlaceholder="img_loading.png"
                     VerticalOptions="Center"
-                    WidthRequest="113" />
+                    WidthRequest="113"
+                    Source="{Binding ThumbnailImage}" />
             </Frame>
             <Label Grid.Column="1" MaxLines="3">
                 <Label.FormattedText>
@@ -56,12 +55,12 @@
             </Label>
             <controls:EnumImageView
                 Grid.Row="1"
-                Grid.Column="1" 
+                Grid.Column="1"
                 HorizontalAlignment="Start"
                 x:TypeArguments="models:ProductClassifier"
                 ImageSource="{x:Static local:EnumImages.ProductClassifierImages}"
-                Source="{Binding ProductClassifiers}"
-                ViewSize="45">
+                ViewSize="45"
+                Source="{Binding ProductClassifiers}">
                 <x:Arguments>
                     <x:Boolean>false</x:Boolean>
                 </x:Arguments>
