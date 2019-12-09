@@ -19,7 +19,7 @@ namespace Veganko.ViewModels.Products
 {
     public class BaseEditProductViewModel : BaseViewModel
     {
-        public const int maxPhotoWidthInPix = 1080;
+        public const int maxPhotoWidthInPix = 2160;
         public const int maxPhotoHeightInDips = 300;
         public const int thumbnailPhotoWidthInPix = 400;
         public const int thumbnailPhotoHeightInPix = 400;
