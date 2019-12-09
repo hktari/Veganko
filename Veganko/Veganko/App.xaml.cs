@@ -15,6 +15,7 @@ using Veganko.Services.Users;
 using Veganko.Services.Comments;
 using Veganko.Services.Auth;
 using Veganko.Services.Logging;
+using Veganko.Services.ImageManager;
 
 namespace Veganko
 {
@@ -83,6 +84,7 @@ namespace Veganko
             builder.RegisterType<CommentsService>().As<ICommentsService>().SingleInstance();
             builder.RegisterType<UserService>().As<IUserService>().SingleInstance();
             builder.RegisterType<AuthService>().As<IAuthService>().SingleInstance();
+            builder.RegisterType<ImageProcessor>().As<IImageProcessor>().SingleInstance();
 
             //builder.RegisterType<MockAccountService>().As<IAccountService>().SingleInstance();
             //builder.RegisterType<MockProductDataStore>().As<IProductService>().SingleInstance();
