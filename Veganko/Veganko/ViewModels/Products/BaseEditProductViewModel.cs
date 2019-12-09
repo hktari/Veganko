@@ -25,15 +25,19 @@ namespace Veganko.ViewModels.Products
         public const int thumbnailPhotoHeightInPix = 400;
 
         private readonly IImageProcessor imageProcessor;
+        protected readonly IProductService productService;
 
         public BaseEditProductViewModel()
         {
             imageProcessor = App.IoC.Resolve<IImageProcessor>();
+            productService = App.IoC.Resolve<IProductService>();
         }
 
         public BaseEditProductViewModel(ProductViewModel product)
-            : this()
         {
+            imageProcessor = App.IoC.Resolve<IImageProcessor>();
+            productService = App.IoC.Resolve<IProductService>();
+
             this.product = product;
             productImg = product.Image;
             SelectedProductType = product.Type;
@@ -158,6 +162,12 @@ namespace Veganko.ViewModels.Products
         protected void InitSelectedProductType(ProductType productType)
         {
             this.selectedProductType = productType;
+        }
+
+        protected async Task<Product> PostProductImages(Product product)
+        {
+            await GenerateThumbnail();
+            return await productService.UpdateImagesAsync(product, ProductDetailImageData, ProductThumbnailImageData);
         }
 
         protected async Task GenerateThumbnail()

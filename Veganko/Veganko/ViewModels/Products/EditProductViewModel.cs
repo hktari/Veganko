@@ -28,8 +28,6 @@ namespace Veganko.ViewModels.Products
         public Command SaveCommand => new Command(
             async () =>
             {
-                // TODO: Validation
-
                 IsBusy = true;
                 try
                 {
@@ -37,16 +35,14 @@ namespace Veganko.ViewModels.Products
                     Product.MapToModel(updatedProduct);
                     
                     updatedProduct = await productService.UpdateAsync(updatedProduct);
-                    updatedProduct = await productService.UpdateImagesAsync(updatedProduct, ProductDetailImageData, ProductThumbnailImageData);
-                    
+
                     if (HasImageBeenChanged)
                     {
-                        await GenerateThumbnail();
-                        await productService.UpdateImagesAsync(updatedProduct, ProductDetailImageData, ProductThumbnailImageData);
+                        updatedProduct = await PostProductImages(updatedProduct);
                     }
 
                     Product.Update(updatedProduct);
-                    
+
                     await App.Navigation.PopModalAsync();
                     MessagingCenter.Send(this, ProductUpdatedMsg, Product);
                 }

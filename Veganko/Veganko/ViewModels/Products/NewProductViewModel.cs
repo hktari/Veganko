@@ -36,13 +36,22 @@ namespace Veganko.ViewModels.Products
         public Command SaveCommand => new Command(
             async () =>
             {
+                if (!HasImageBeenChanged)
+                {
+                    await App.CurrentPage.Err("Prosim dodaj sliko");
+                    return;
+                }
+
                 try
                 {
                     IsBusy = true;
 
                     Product productModel = new Product();
                     Product.MapToModel(productModel);
+
                     productModel = await productService.AddAsync(productModel);
+                    productModel = await PostProductImages(productModel);
+
                     Product.Update(productModel);
 
                     ((MainPage)App.Current.MainPage).SetCurrentTab(0);
