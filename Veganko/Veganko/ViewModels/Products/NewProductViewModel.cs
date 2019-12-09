@@ -24,13 +24,6 @@ namespace Veganko.ViewModels.Products
     {
         public const string ProductAddedMsg = "ProductAdded";
 
-        private IProductService productService;
-
-        public NewProductViewModel()
-        {
-            productService = App.IoC.Resolve<IProductService>();
-        }
-
         public Command PageAppeared => new Command(OnPageAppeared);
 
         public Command SaveCommand => new Command(
