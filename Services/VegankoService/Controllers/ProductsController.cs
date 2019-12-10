@@ -157,7 +157,7 @@ namespace VegankoService.Controllers
                 return false;
             }
 
-            targetFilePath = Path.Combine("wwwroot", "images", folder, trustedFileNameForStorage + ext);
+            targetFilePath = Path.Combine(Directory.GetCurrentDirectory(), "..", "images", folder, trustedFileNameForStorage + ext);
             return true;
         }
 

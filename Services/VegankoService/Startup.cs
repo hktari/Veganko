@@ -30,6 +30,8 @@ using System.IdentityModel.Tokens.Jwt;
 using VegankoService.Services;
 using VegankoService.Data.Users;
 using Microsoft.AspNetCore.Http.Features;
+using Microsoft.Extensions.FileProviders;
+using System.IO;
 
 namespace VegankoService
 {
@@ -148,9 +150,16 @@ namespace VegankoService
             {
                 // TODO: turn on after certificate and domain 
                 //app.UseHsts();
-            }
-            app.UseStaticFiles();
 
+            }
+            string imagesFolder = Path.Combine(Directory.GetCurrentDirectory(), @"..", @"images");
+            Directory.CreateDirectory(imagesFolder);
+            app.UseStaticFiles(new StaticFileOptions()
+            {
+
+                FileProvider = new PhysicalFileProvider(imagesFolder),
+                RequestPath = new PathString("/images")
+            });
             // TODO: turn on after certificate and domain 
             //app.UseHttpsRedirection();
 
