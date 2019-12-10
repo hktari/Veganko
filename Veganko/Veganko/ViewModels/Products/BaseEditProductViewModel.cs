@@ -250,7 +250,7 @@ namespace Veganko.ViewModels.Products
                 PhotoSize = Plugin.Media.Abstractions.PhotoSize.MaxWidthHeight,
                 MaxWidthHeight = maxPhotoHeightInDips,
                 CompressionQuality = 100,
-                Name = Guid.NewGuid().ToString() + ".png"
+                Name = Guid.NewGuid().ToString() + ".jpg"
             });
 
             if (file == null)

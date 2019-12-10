@@ -16,7 +16,9 @@ namespace Veganko.Services.Http
     {
 #if __ANDROID__
 #if DEBUG
-        public const string Endpoint = "https://10.0.2.2:5001/api";
+
+        public const string Endpoint = "https://77.38.119.234:5001/api";
+        //public const string Endpoint = "https://10.0.2.2:5001/api";
 #else
         public const string Endpoint = "https://77.38.119.234:5001/api";
 #endif

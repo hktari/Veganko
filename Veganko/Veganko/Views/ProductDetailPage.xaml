@@ -7,6 +7,7 @@
     xmlns:controls="clr-namespace:Veganko.Controls"
     xmlns:converter="clr-namespace:Veganko.Converters"
     xmlns:dts="clr-namespace:Veganko.Views.Product.DTS"
+    xmlns:forms="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
     xmlns:local="clr-namespace:Veganko"
     xmlns:models="clr-namespace:Veganko.Models"
     xmlns:partials="clr-namespace:Veganko.Views.Product.Partial"
@@ -56,7 +57,7 @@
                             Grid.Column="0"
                             Grid.ColumnSpan="3">
                             <Frame Padding="1" CornerRadius="0">
-                                <Image
+                                <forms:CachedImage
                                     Aspect="AspectFill"
                                     BindingContext="{Binding Product}"
                                     HeightRequest="300"

@@ -14,8 +14,8 @@ namespace Veganko.Services
     public class ProductDataStore : IProductService
     {
         private readonly IRestService restService;
-        private const string DetailImageEndpoint = "products/{id}/images/detail/";
-        private const string ThumbImageEndpoint = "products/{id}/images/thumb/";
+        private const string DetailImageEndpoint = "images/detail/";
+        private const string ThumbImageEndpoint = "images/thumb/";
 
         public ProductDataStore(IRestService restService)
         {
@@ -58,7 +58,8 @@ namespace Veganko.Services
                 return;
             }
 
-            string endpoint = RestService.Endpoint;
+            // TODO: take only hostname; no relative paths
+            string endpoint = RestService.Endpoint.Replace("api", string.Empty);
             if (!endpoint.EndsWith("/"))
             {
                 endpoint += "/";
@@ -68,14 +69,14 @@ namespace Veganko.Services
                 new Uri(
                     new Uri(
                         new Uri(endpoint),
-                        DetailImageEndpoint.Replace("{id}", product.Id)),
+                        DetailImageEndpoint),
                     product.ImageName)
                 .AbsoluteUri;
 
             product.ThumbImage = new Uri(
                     new Uri(
                         new Uri(endpoint),
-                        ThumbImageEndpoint.Replace("{id}", product.Id)),
+                        ThumbImageEndpoint),
                     product.ImageName)
                 .AbsoluteUri;
         }
@@ -107,9 +108,9 @@ namespace Veganko.Services
 
         public async Task<Product> UpdateImagesAsync(Product product, byte[] detailImageData, byte[] thumbImageData)
         {
-            RestRequest request = new RestRequest($"products/{product.Id}/images", Method.POST);
-            request.AddFile("DetailImage", detailImageData, "DetailImage");
-            request.AddFile("ThumbImage", thumbImageData, "ThumbImage");
+            RestRequest request = new RestRequest($"products/{product.Id}/image", Method.POST);
+            request.AddFile("DetailImage", detailImageData, "DetailImage.jpg");
+            request.AddFile("ThumbImage", thumbImageData, "ThumbImage.jpg");
 
             product = await restService.ExecuteAsync<Product>(request);
             AddImageUrls(product);
