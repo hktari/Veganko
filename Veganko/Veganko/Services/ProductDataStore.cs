@@ -59,7 +59,11 @@ namespace Veganko.Services
             }
 
             // TODO: take only hostname; no relative paths
-            string endpoint = RestService.Endpoint.Replace("api", string.Empty);
+            string endpoint = RestService.Endpoint
+                .Replace("https", "http")
+                .Replace("5001", "5000")
+                .Replace("api", string.Empty);
+
             if (!endpoint.EndsWith("/"))
             {
                 endpoint += "/";

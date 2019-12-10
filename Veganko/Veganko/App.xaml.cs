@@ -70,11 +70,11 @@ namespace Veganko
             MainPage = new NavigationPage(new Loginpage());
 
             // TODO: remove after certificates have been fixed
-            HttpClientHandler handler = new HttpClientHandler();
-            handler.ServerCertificateCustomValidationCallback = (message, cert, chain, errors) => true;
-            HttpClient client = new HttpClient(handler);
-            FFImageLoading.ImageService.Instance.Config.HttpClient = client;
-            ServicePointManager.ServerCertificateValidationCallback += (sender, certificate, chain, sslPolicyErrors) => { return true; };
+            //HttpClientHandler handler = new HttpClientHandler();
+            //handler.ServerCertificateCustomValidationCallback = (message, cert, chain, errors) => true;
+            //HttpClient client = new HttpClient(handler);
+            //FFImageLoading.ImageService.Instance.Config.HttpClient = client;
+            //ServicePointManager.ServerCertificateValidationCallback += (sender, certificate, chain, sslPolicyErrors) => { return true; };
         }
 
         private void SetupDependencies()
