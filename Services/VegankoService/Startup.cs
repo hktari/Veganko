@@ -146,10 +146,13 @@ namespace VegankoService
             }
             else
             {
-                app.UseHsts();
+                // TODO: turn on after certificate and domain 
+                //app.UseHsts();
             }
             app.UseStaticFiles();
-            app.UseHttpsRedirection();
+
+            // TODO: turn on after certificate and domain 
+            //app.UseHttpsRedirection();
 
             app.UseAuthentication();
 
