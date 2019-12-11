@@ -110,6 +110,7 @@
     <Content Include="avatar_bear.png" />
     <Content Include="avatar_cat.png" />
     <Content Include="avatar_fox.png" />
+    <Content Include="avatar_panda.png" />
     <Content Include="barcode.png">
       <SubType>Designer</SubType>
     </Content>
@@ -124,6 +125,7 @@
     <Content Include="coniferous_forest.jpg">
       <SubType>Designer</SubType>
     </Content>
+    <Content Include="cosmetics.png" />
     <Content Include="delete.png" />
     <Content Include="dmbio_orangensaft.jpg" />
     <Content Include="edit.png" />
@@ -173,6 +175,7 @@
     <Content Include="icon.png">
       <SubType>Designer</SubType>
     </Content>
+    <Content Include="ico_where_to_buy.png" />
     <Content Include="img_error.png" />
     <Content Include="img_loading.png" />
     <Content Include="img_product_tmp_2.jpg">

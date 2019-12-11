@@ -72,7 +72,11 @@
                                 WidthRequest="35"
                                 Source="edit.png" />
                         </Grid>
-                        <StackLayout Orientation="Horizontal">
+                        <Grid Margin="5,0,12.5,0" ColumnSpacing="30">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="45" />
+                            </Grid.ColumnDefinitions>
                             <Label HorizontalOptions="StartAndExpand">
                                 <Label.FormattedText>
                                     <FormattedString>
@@ -86,7 +90,17 @@
                                     </FormattedString>
                                 </Label.FormattedText>
                             </Label>
-                        </StackLayout>
+                            <ImageButton
+                                Grid.Column="1"
+                                BackgroundColor="{StaticResource LightBackgroundColor}"
+                                Command="{Binding WhereToBuyCommand}"
+                                IsEnabled="False"
+                                Source="ico_where_to_buy.png">
+                                <ImageButton.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding WhereToBuyCommand}" />
+                                </ImageButton.GestureRecognizers>
+                            </ImageButton>
+                        </Grid>
                         <Label
                             Grid.Row="3"
                             Grid.Column="1"

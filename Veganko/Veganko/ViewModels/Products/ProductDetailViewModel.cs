@@ -124,6 +124,12 @@ namespace Veganko.ViewModels.Products
             return Task.CompletedTask;
         }
 
+        public Command WhereToBuyCommand => new Command(
+            () => 
+            {
+                App.CurrentPage.Inform("Funkcija še ni podprta.");
+            });
+
         public async Task RefreshIsFavorite()
         {
             // TODO: GetItem(ID)
