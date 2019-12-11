@@ -105,6 +105,8 @@ namespace Veganko.ViewModels.Products.Partial
             Type = productViewModel.Type;
             ProductClassifiers = new ObservableCollection<ProductClassifier>(productViewModel.ProductClassifiers);
             Description = productViewModel.Description;
+            Image = productViewModel.Image;
+            ThumbnailImage = productViewModel.ThumbnailImage;
             Barcode = productViewModel.Barcode;
             Brand = productViewModel.Brand;
             Name = productViewModel.Name;
@@ -127,7 +129,7 @@ namespace Veganko.ViewModels.Products.Partial
 
         /// <summary>
         /// Updates the product with the view model data. Image is not updated,
-        /// since it there's a seperate api for updating images.
+        /// since there's a seperate api for updating images.
         /// </summary>
         /// <param name="product"></param>
         public void MapToModel(Product product)
