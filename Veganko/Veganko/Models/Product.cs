@@ -69,7 +69,7 @@ namespace Veganko.Models
         public string Description { get; set; }
 
         [JsonConverter(typeof(DecimalProductClassifierListConverter))]
-        public ObservableCollection<ProductClassifier> ProductClassifiers { get; set; }
+        public List<ProductClassifier> ProductClassifiers { get; set; }
 
         public ProductType Type { get; set; }
 

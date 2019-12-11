@@ -26,7 +26,7 @@ namespace Veganko.Services
                     Name = "Violife Original Flavor", Description = "With coconut oil and vitamin B12",
                     DetailImage = "violife.jpg", Rating = 5,
                     Type = ProductType.Hrana,
-                    ProductClassifiers = new ObservableCollection<ProductClassifier>
+                    ProductClassifiers = new List<ProductClassifier>
                     {
                         ProductClassifier.Vegansko,
                     },
@@ -38,7 +38,7 @@ namespace Veganko.Services
                     Name = "Olivella hranilna krema", Description = "Lahka naravna nočna hranilna krema se dobro vpija. Kože ne pušča mastne, temveč jo izjemno hrani in neguje, poživi, ter koži daje mehak in zdrav občutek. Primerna tudi za dnevno nego.",
                     DetailImage = "Olivella_hranilna_krema_r.jpg", Rating = 5,
                     Type = ProductType.Kozmetika,
-                    ProductClassifiers = new ObservableCollection<ProductClassifier>
+                    ProductClassifiers = new List<ProductClassifier>
                     {
                         ProductClassifier.CrueltyFree,
                         ProductClassifier.Vegansko,
@@ -53,7 +53,7 @@ namespace Veganko.Services
                     Brand = "Violife",
                     DetailImage = "violife_mozarella.png", Rating = 5,
                     Type = ProductType.Hrana,
-                    ProductClassifiers = new ObservableCollection<ProductClassifier>
+                    ProductClassifiers = new List<ProductClassifier>
                     {
                         ProductClassifier.Vegansko
                     },
@@ -65,7 +65,7 @@ namespace Veganko.Services
                     Name = "Flow kosmetiikka karitejevo maslo in ognjič", Description = "Organsko karitejevo maslo je primerno za zaščito, nego in vlaženje kože celega telesa. Učinkovito tudi pri negi nog – zmehča trdo in popokano kožo pet.",
                     DetailImage = "Olivella_hranilna_krema_r.jpg",
                     Type = ProductType.Kozmetika,
-                    ProductClassifiers = new ObservableCollection<ProductClassifier>
+                    ProductClassifiers = new List<ProductClassifier>
                     {
                         ProductClassifier.Vegansko,
                     },
@@ -77,7 +77,7 @@ namespace Veganko.Services
                     Name = "Čokoladni namaz", Description = "Kdo pa nima rad nutelle... Še posebej, če je vegan.",
                     DetailImage = "evrokrem.jpg",
                     Type = ProductType.Hrana,
-                    ProductClassifiers = new ObservableCollection<ProductClassifier>
+                    ProductClassifiers = new List<ProductClassifier>
                     {
                         ProductClassifier.Vegansko,
                         ProductClassifier.GlutenFree
@@ -90,7 +90,7 @@ namespace Veganko.Services
                     Name = "Knusprige Vollkornwaffeln", Description = "100% Vollkorn und weniger Zucker !",
                     DetailImage = "manner.jpg",
                     Type = ProductType.Hrana,
-                    ProductClassifiers = new ObservableCollection<ProductClassifier>
+                    ProductClassifiers = new List<ProductClassifier>
                     {
                         ProductClassifier.Vegansko
                     },
@@ -102,7 +102,7 @@ namespace Veganko.Services
                     Name = "Sensitiv After Shave Balsam", Description = "MEN",
                     DetailImage = "alverde_after_shave.jpg",
                     Type = ProductType.Kozmetika,
-                    ProductClassifiers = new ObservableCollection<ProductClassifier>
+                    ProductClassifiers = new List<ProductClassifier>
                     {
                         ProductClassifier.CrueltyFree,
                         ProductClassifier.Vegansko
@@ -116,7 +116,7 @@ namespace Veganko.Services
                     Brand = "VALSOIA",
                     DetailImage = "evrokrem.jpg",
                     Type = ProductType.Hrana,
-                    ProductClassifiers = new ObservableCollection<ProductClassifier>
+                    ProductClassifiers = new List<ProductClassifier>
                     {
                         ProductClassifier.Vegansko,
                         ProductClassifier.GlutenFree
@@ -130,7 +130,7 @@ namespace Veganko.Services
                     Brand = "GOURMET",
                     DetailImage = "arasidovo_maslo.jpg",
                     Type = ProductType.Hrana,
-                    ProductClassifiers = new ObservableCollection<ProductClassifier>
+                    ProductClassifiers = new List<ProductClassifier>
                     {
                         ProductClassifier.Vegansko,
                         ProductClassifier.GlutenFree
@@ -144,7 +144,7 @@ namespace Veganko.Services
                     Brand = "DM",
                     DetailImage = "dmbio_orangensaft.jpg",
                     Type = ProductType.Pijaca,
-                    ProductClassifiers = new ObservableCollection<ProductClassifier>
+                    ProductClassifiers = new List<ProductClassifier>
                     {
                         ProductClassifier.Vegansko,
                         ProductClassifier.GlutenFree,
@@ -161,7 +161,7 @@ namespace Veganko.Services
                     Brand = "Adez",
                     DetailImage = "adez_almond.jpg",
                     Type = ProductType.Pijaca,
-                    ProductClassifiers = new ObservableCollection<ProductClassifier>
+                    ProductClassifiers = new List<ProductClassifier>
                     {
                         ProductClassifier.Vegeterijansko,
                     },

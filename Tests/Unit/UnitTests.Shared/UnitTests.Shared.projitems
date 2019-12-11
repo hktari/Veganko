@@ -13,5 +13,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)Converters\DecimalProductClassifierListConverterTests.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Converters\UACConverterTests.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Validations\PasswordRequirementRuleTests.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ViewModels\Products\Partial\ProductViewModelTests.cs" />
   </ItemGroup>
 </Project>

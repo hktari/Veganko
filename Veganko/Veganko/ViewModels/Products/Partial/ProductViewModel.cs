@@ -30,28 +30,28 @@ namespace Veganko.ViewModels.Products.Partial
         // ??
         public ProductState State { get; set; }
 
-        public string name;
+        private string name;
         public string Name
         {
             get => name;
             set => SetProperty(ref name, value);
         }
 
-        public string brand;
+        private string brand;
         public string Brand
         {
             get => brand;
             set => SetProperty(ref brand, value);
         }
 
-        public string barcode;
+        private string barcode;
         public string Barcode
         {
             get => barcode;
             set => SetProperty(ref barcode, value);
         }
 
-        public ImageSource image;
+        private ImageSource image;
         public ImageSource Image
         {
             get => image;
@@ -71,28 +71,28 @@ namespace Veganko.ViewModels.Products.Partial
             }
         }
 
-        public string description;
+        private string description;
         public string Description
         {
             get => description;
             set => SetProperty(ref description, value);
         }
 
-        public ObservableCollection<ProductClassifier> productClassifiers;
+        private ObservableCollection<ProductClassifier> productClassifiers;
         public ObservableCollection<ProductClassifier> ProductClassifiers
         {
             get => productClassifiers;
             set => SetProperty(ref productClassifiers, value);
         }
 
-        public ProductType type;
+        private ProductType type;
         public ProductType Type
         {
             get => type;
             set => SetProperty(ref type, value);
         }
 
-        public int rating;
+        private int rating;
         public int Rating
         {
             get => rating;
@@ -117,7 +117,7 @@ namespace Veganko.ViewModels.Products.Partial
         {
             Rating = product.Rating;
             Type = product.Type;
-            ProductClassifiers = product.ProductClassifiers;
+            ProductClassifiers = new ObservableCollection<ProductClassifier>(product.ProductClassifiers);
             Description = product.Description;
             Image = product.DetailImage;
             ThumbnailImage = product.ThumbImage;
@@ -136,7 +136,7 @@ namespace Veganko.ViewModels.Products.Partial
         {
             product.Rating = Rating;
             product.Type = Type;
-            product.ProductClassifiers = ProductClassifiers;
+            product.ProductClassifiers = new List<ProductClassifier>(ProductClassifiers);
             product.Description = Description;
             product.Barcode = Barcode;
             product.Brand = Brand;
