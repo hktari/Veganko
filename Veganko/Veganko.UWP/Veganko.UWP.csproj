@@ -125,7 +125,7 @@
     <Content Include="coniferous_forest.jpg">
       <SubType>Designer</SubType>
     </Content>
-    <Content Include="cosmetics.png" />
+    <Content Include="ico_cosmetics.png" />
     <Content Include="delete.png" />
     <Content Include="dmbio_orangensaft.jpg" />
     <Content Include="edit.png" />
@@ -140,9 +140,6 @@
       <SubType>Designer</SubType>
     </Content>
     <Content Include="ico_bio.png" />
-    <Content Include="ico_cosmetics.png">
-      <SubType>Designer</SubType>
-    </Content>
     <Content Include="ico_cruelty_free.png">
       <SubType>Designer</SubType>
     </Content>

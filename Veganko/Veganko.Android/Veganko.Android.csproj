@@ -195,9 +195,6 @@
     <AndroidResource Include="Resources\drawable\ico_cruelty_free.png" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\drawable\ico_cosmetics.png" />
-  </ItemGroup>
-  <ItemGroup>
     <AndroidResource Include="Resources\xml\file_paths.xml" />
   </ItemGroup>
   <ItemGroup>
@@ -471,22 +468,22 @@
     <AndroidResource Include="Resources\drawable\avatar_panda.png" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\drawable-xxxhdpi\cosmetics.png" />
+    <AndroidResource Include="Resources\drawable-xxxhdpi\ico_cosmetics.png" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\drawable-hdpi\cosmetics.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\ico_cosmetics.png" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\drawable-ldpi\cosmetics.png" />
+    <AndroidResource Include="Resources\drawable-ldpi\ico_cosmetics.png" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\drawable-mdpi\cosmetics.png" />
+    <AndroidResource Include="Resources\drawable-mdpi\ico_cosmetics.png" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\drawable-xhdpi\cosmetics.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\ico_cosmetics.png" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\drawable-xxhdpi\cosmetics.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\ico_cosmetics.png" />
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\drawable\ico_where_to_buy.png" />

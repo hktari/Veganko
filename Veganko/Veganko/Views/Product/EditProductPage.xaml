@@ -9,15 +9,18 @@
     <NavigationPage.TitleView>
         <Grid VerticalOptions="Center">
             <Button
+                BackgroundColor="{StaticResource PrimaryDark}"
                 Command="{Binding CancelCommand}"
                 HorizontalOptions="Start"
                 Text="Prekliči"
-                TextColor="IndianRed" />
+                TextColor="LightGray" />
             <Button
                 Grid.Column="1"
+                BackgroundColor="{StaticResource PrimaryDark}"
                 Command="{Binding SaveCommand}"
                 HorizontalOptions="End"
-                Text="Shrani" />
+                Text="Shrani"
+                TextColor="White" />
         </Grid>
     </NavigationPage.TitleView>
     <ContentPage.Content>

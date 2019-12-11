@@ -93,13 +93,13 @@
                             <ImageButton
                                 Grid.Column="1"
                                 BackgroundColor="{StaticResource LightBackgroundColor}"
-                                Command="{Binding WhereToBuyCommand}"
                                 IsEnabled="False"
-                                Source="ico_where_to_buy.png">
-                                <ImageButton.GestureRecognizers>
+                                Source="ico_where_to_buy.png" />
+                            <ContentView Grid.Column="1">
+                                <ContentView.GestureRecognizers>
                                     <TapGestureRecognizer Command="{Binding WhereToBuyCommand}" />
-                                </ImageButton.GestureRecognizers>
-                            </ImageButton>
+                                </ContentView.GestureRecognizers>
+                            </ContentView>
                         </Grid>
                         <Label
                             Grid.Row="3"
@@ -116,7 +116,7 @@
                             ImageSource="{x:Static local:EnumImages.ProductClassifierImages}"
                             InputTransparent="False"
                             VerticalOptions="Center"
-                            ViewSize="75"
+                            ViewSize="60"
                             Source="{Binding Product.ProductClassifiers}" />
                     </StackLayout>
                     <Grid
