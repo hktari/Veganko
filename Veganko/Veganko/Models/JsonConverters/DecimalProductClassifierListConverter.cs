@@ -21,7 +21,7 @@ namespace Veganko.Models.JsonConverters
             int? flag = int.Parse(reader.Value.ToString());
             if (flag == null)
                 throw new ArgumentException($"Invalid flag value '{reader.Value}'", "reader.Value");
-            IList<ProductClassifier> classifiers = new ObservableCollection<ProductClassifier>();
+            IList<ProductClassifier> classifiers = new List<ProductClassifier>();
             int curFlag = 1;
             while (flag > 0)
             {

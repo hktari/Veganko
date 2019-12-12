@@ -9,6 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Veganko.Models.User;
 using Veganko.Services.Auth;
+using Veganko.Services.Logging;
 
 namespace Veganko.Services.Http
 {
@@ -28,12 +29,14 @@ namespace Veganko.Services.Http
 #endif
 
         private readonly IRestClient client;
-        
-        public RestService()
+        private readonly ILogger logger;
+
+        public RestService(ILogger logger)
         {
             client = new RestClient(Endpoint)
-                .UseSerializer(() => new JsonNetSerializer());
+                .UseSerializer(() => new JsonNetSerializer(logger));
             client.RemoteCertificateValidationCallback = (p1, p2, p3, p4) => true;
+            this.logger = logger;
         }
 
         public IAuthService AuthService { get; set; }
@@ -104,15 +107,32 @@ namespace Veganko.Services.Http
 
         public class JsonNetSerializer : IRestSerializer
         {
+            private ILogger logger;
+
+            public JsonNetSerializer(ILogger logger)
+            {
+                this.logger = logger;
+            }
+
             public string Serialize(object obj) =>
                 JsonConvert.SerializeObject(obj);
 
             public string Serialize(Parameter parameter) =>
                 JsonConvert.SerializeObject(parameter.Value);
 
-            public T Deserialize<T>(IRestResponse response) =>
-                JsonConvert.DeserializeObject<T>(response.Content);
-
+            public T Deserialize<T>(IRestResponse response)
+            {
+                try
+                {
+                    return JsonConvert.DeserializeObject<T>(response.Content);
+                }
+                catch (JsonSerializationException jse)
+                {
+                    logger.LogException(jse);
+                    throw jse;
+                }
+            }
+                
             public string[] SupportedContentTypes { get; } =
             {
                 "application/json", "text/json", "text/x-json", "text/javascript", "*+json"
