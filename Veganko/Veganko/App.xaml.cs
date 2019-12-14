@@ -33,7 +33,7 @@ namespace Veganko
         {
             get
             {
-                return (App.Current.MainPage as TabbedPage)?.CurrentPage?.Navigation
+                return CurrentPage.Navigation
                     ?? throw new Exception("No navigation available on current page.");
             }
         }
@@ -42,17 +42,24 @@ namespace Veganko
         {
             get
             {
-                Page tabPage = (App.Current.MainPage as TabbedPage)?.CurrentPage;
-                ContentPage curPage;
-                if (tabPage is NavigationPage navigationPage)
-                {
-                    curPage = navigationPage?.CurrentPage as ContentPage;
-                }
-                else
-                {
-                    curPage = tabPage as ContentPage;
-                }
+                ContentPage curPage = null;
 
+                if (App.Current.MainPage is TabbedPage tabbedPage)
+                {
+                    if (tabbedPage.CurrentPage is NavigationPage navigationPage)
+                    {
+                        curPage = navigationPage?.CurrentPage as ContentPage;
+                    }
+                    else
+                    {
+                        curPage = tabbedPage.CurrentPage as ContentPage;
+                    }
+                }
+                else if (App.Current.MainPage is NavigationPage navPage)
+                {
+                    curPage = navPage.CurrentPage as ContentPage;
+                }
+                
                 return curPage ?? throw new Exception("Failed to get current page.");
             }
         }
