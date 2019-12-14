@@ -37,7 +37,7 @@ namespace Veganko.ViewModels.Products.Partial
             set => SetProperty(ref name, value);
         }
 
-        private string brand;
+        private string brand = string.Empty;
         public string Brand
         {
             get => brand;
@@ -71,7 +71,7 @@ namespace Veganko.ViewModels.Products.Partial
             }
         }
 
-        private string description;
+        private string description = string.Empty;
         public string Description
         {
             get => description;
@@ -118,12 +118,12 @@ namespace Veganko.ViewModels.Products.Partial
             Rating = product.Rating;
             Type = product.Type;
             ProductClassifiers = new ObservableCollection<ProductClassifier>(product.ProductClassifiers);
-            Description = product.Description;
+            Description = product.Description ?? string.Empty;
             Image = product.DetailImage;
             ThumbnailImage = product.ThumbImage;
             Barcode = product.Barcode;
-            Brand = product.Brand;
-            Name = product.Name;
+            Brand = product.Brand ?? string.Empty;
+            Name = product.Name ?? string.Empty;
             Id = product.Id;
         }
 
