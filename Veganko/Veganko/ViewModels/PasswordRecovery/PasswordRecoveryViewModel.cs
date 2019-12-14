@@ -12,13 +12,13 @@ using Xamarin.Forms;
 
 namespace Veganko.ViewModels.PasswordRecovery
 {
-    public class ForgotPasswordViewModel : EditAccountViewModel
+    public class PasswordRecoveryViewModel : EditAccountViewModel
     {
         private readonly IAccountService accountService;
 
         private string passwordResetToken;
 
-        public ForgotPasswordViewModel()
+        public PasswordRecoveryViewModel()
         {
             accountService = App.IoC.Resolve<IAccountService>();
         }

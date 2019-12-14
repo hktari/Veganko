@@ -14,9 +14,9 @@ namespace Veganko.Views.PasswordRecovery
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class ValidateOTPPage : ContentPage
     {
-        private readonly ForgotPasswordViewModel vm;
+        private readonly PasswordRecoveryViewModel vm;
 
-        public ValidateOTPPage(ForgotPasswordViewModel vm)
+        public ValidateOTPPage(PasswordRecoveryViewModel vm)
         {
             InitializeComponent();
             BindingContext = this.vm = vm;

@@ -15,12 +15,12 @@ namespace Veganko.Views.PasswordRecovery
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class ForgotPasswordPage : ContentPage
     {
-        private ForgotPasswordViewModel vm;
+        private PasswordRecoveryViewModel vm;
 
         public ForgotPasswordPage()
         {
             InitializeComponent();
-            BindingContext = this.vm = new ForgotPasswordViewModel();
+            BindingContext = this.vm = new PasswordRecoveryViewModel();
         }
     }
 }

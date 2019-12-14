@@ -99,7 +99,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\Products\EditProductViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\Products\NewProductViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\EnumImageItemViewModel.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)ViewModels\PasswordRecovery\ForgotPasswordViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ViewModels\PasswordRecovery\PasswordRecoveryViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\Products\Partial\ProductViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\Products\ProductDetailViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\Products\ProductListViewModel.cs" />
