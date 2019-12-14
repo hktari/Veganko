@@ -11,11 +11,12 @@ using Veganko.Services.Http;
 using Veganko.Services.Logging;
 using Veganko.Validations;
 using Veganko.ViewModels.Account;
+using Veganko.ViewModels.PasswordRecovery;
 using Xamarin.Forms;
 
 namespace Veganko.ViewModels
 {
-    public class RegisterViewModel : BaseViewModel
+    public class RegisterViewModel : EditAccountViewModel
     {
         private IAccountService accountService;
         private ILogger logger;
@@ -77,7 +78,7 @@ namespace Veganko.ViewModels
             set => SetProperty(ref profileBackgroundImage, value);
         }
 
-        public Command SignUpCommand => new Command(
+        public override Command SubmitCommand => new Command(
             async () =>
             {
                 bool validInput = true;
@@ -112,5 +113,7 @@ namespace Veganko.ViewModels
                     await App.CurrentPage.Err("Neznana pri registraciji: " + ex.StatusDescription);
                 }
             });
+
+        public override string SubmitBtnText => "PRIJAVI ME";
     }
 }

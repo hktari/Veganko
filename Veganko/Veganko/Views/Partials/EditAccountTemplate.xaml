@@ -1,0 +1,100 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<ContentView
+    x:Class="Veganko.Views.Partials.EditAccountTemplate"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    BindingContext="{TemplateBinding BindingContext}"
+    ControlTemplate="{StaticResource LodingIndicatorTemplate}"
+    mc:Ignorable="d">
+    <ContentView.Resources>
+        <Style TargetType="Label">
+            <Setter Property="TextColor" Value="Black" />
+        </Style>
+    </ContentView.Resources>
+    <ContentView.Content>
+        <Grid BackgroundColor="#e1edd1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="5*" />
+                <ColumnDefinition Width="2.3*" />
+                <ColumnDefinition Width="85.4*" />
+                <ColumnDefinition Width="7.3*" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="13*" />
+                <RowDefinition Height="5.5*" />
+                <RowDefinition Height="60*" />
+                <RowDefinition Height="5.5*" />
+                <RowDefinition Height="13*" />
+            </Grid.RowDefinitions>
+            <Image
+                Grid.Row="0"
+                Grid.RowSpan="2"
+                Grid.Column="2"
+                Grid.ColumnSpan="2"
+                HorizontalOptions="End"
+                Source="login_leaf1.png"
+                VerticalOptions="End"
+                WidthRequest="155" />
+
+            <Image
+                Grid.Row="0"
+                Grid.RowSpan="2"
+                Grid.Column="1"
+                Grid.ColumnSpan="2"
+                HorizontalOptions="Start"
+                Source="login_leaf2.png"
+                VerticalOptions="End"
+                WidthRequest="155" />
+
+            <Image
+                Grid.Row="3"
+                Grid.RowSpan="2"
+                Grid.Column="1"
+                Grid.ColumnSpan="2"
+                HorizontalOptions="Start"
+                Rotation="180"
+                Source="login_leaf1.png"
+                VerticalOptions="Start"
+                WidthRequest="155" />
+
+            <Image
+                Grid.Row="3"
+                Grid.RowSpan="2"
+                Grid.Column="2"
+                Grid.ColumnSpan="2"
+                HorizontalOptions="End"
+                Rotation="165"
+                Source="login_leaf2.png"
+                VerticalOptions="Start"
+                WidthRequest="155" />
+            <Frame
+                Grid.Row="1"
+                Grid.RowSpan="3"
+                Grid.Column="2"
+                Padding="3"
+                BackgroundColor="White"
+                IsClippedToBounds="True"
+                Style="{StaticResource EntryFrameStyle}">
+                <Grid IsClippedToBounds="True" RowSpacing="0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="1" />
+                        <RowDefinition Height="50" />
+                    </Grid.RowDefinitions>
+                    <ScrollView>
+                        <ContentPresenter Padding="30,0" IsClippedToBounds="True" />
+                    </ScrollView>
+                    <BoxView Grid.Row="1" Color="Black" />
+                    <Button
+                        Grid.Row="2"
+                        BackgroundColor="White"
+                        Command="{Binding SubmitCommand}"
+                        FontSize="24"
+                        Text="{Binding SubmitBtnText}" />
+                </Grid>
+            </Frame>
+        </Grid>
+    </ContentView.Content>
+</ContentView>

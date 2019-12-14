@@ -4,11 +4,15 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Text;
 using System.Threading.Tasks;
+using Veganko.Extensions;
 using Veganko.Services;
+using Veganko.Services.Http;
+using Veganko.Views.PasswordRecovery;
+using Xamarin.Forms;
 
 namespace Veganko.ViewModels.PasswordRecovery
 {
-    public class ForgotPasswordViewModel : BaseViewModel
+    public class ForgotPasswordViewModel : EditAccountViewModel
     {
         private readonly IAccountService accountService;
 
@@ -18,6 +22,8 @@ namespace Veganko.ViewModels.PasswordRecovery
         {
             accountService = App.IoC.Resolve<IAccountService>();
         }
+
+        public PasswordRecoveryStage CurrentStage { get; private set; }
 
         private string email;
         public string Email
@@ -47,28 +53,135 @@ namespace Veganko.ViewModels.PasswordRecovery
             set => SetProperty(ref confirmNewPassword, value);
         }
 
-        public Task SendForgotPasswordRequest()
+        public override Command SubmitCommand => new Command(
+            async () =>
+            {
+                switch (CurrentStage)
+                {
+                    case PasswordRecoveryStage.EnterEmail:
+                        await SendForgotPasswordRequest();
+                        break;
+                    case PasswordRecoveryStage.ValidateOTP:
+                        await ValidateOTP();
+                        break;
+                    case PasswordRecoveryStage.EnterNewPassword:
+                        await ResetPassword();
+                        break;
+                    default:
+                        throw new NotImplementedException();
+                }
+            });
+
+        public override string SubmitBtnText
         {
-            return accountService.ForgotPassword(email);
+            get
+            {
+                switch (CurrentStage)
+                {
+                    case PasswordRecoveryStage.EnterEmail:
+                    case PasswordRecoveryStage.ValidateOTP:
+                        return "POŠLJI";
+                    case PasswordRecoveryStage.EnterNewPassword:
+                        return "RESETIRAJ";
+                    default:
+                        throw new NotImplementedException();
+                }
+            }
+        }
+
+        public async Task SendForgotPasswordRequest()
+        {
+            if (string.IsNullOrWhiteSpace(Email))
+            {
+                await App.CurrentPage.Err("Prosim vnesi email");
+                return;
+            }
+
+            try
+            {
+                IsBusy = true;
+                await accountService.ForgotPassword(email);
+                CurrentStage = PasswordRecoveryStage.ValidateOTP;
+                await App.Navigation.PushAsync(new ValidateOTPPage(this));
+            }
+            catch (ServiceException ex)
+            {
+                await App.CurrentPage.Err(ex.StatusDescription);
+            }
+            finally
+            {
+                IsBusy = false;
+            }
         }
 
         public async Task ValidateOTP()
         {
-            bool validOTP = int.TryParse(otp, out int otpParsed);
-            Debug.Assert(validOTP);
+            if (string.IsNullOrWhiteSpace(OTP))
+            {
+                await App.CurrentPage.Err("Prosim izpolni polje.");
+                return;
+            }
 
-            passwordResetToken = await accountService.ValidateOTP(email, otpParsed);
+            try
+            {
+                IsBusy = true;
+
+                bool validOTP = int.TryParse(otp, out int otpParsed);
+                Debug.Assert(validOTP);
+
+                passwordResetToken = await accountService.ValidateOTP(email, otpParsed);
+                CurrentStage = PasswordRecoveryStage.EnterNewPassword;
+                
+                await App.Navigation.PushAsync(new PasswordResetPage(this));
+            }
+            catch (ServiceException ex)
+            {
+                await App.CurrentPage.Err(ex.StatusDescription);
+            }
+            finally
+            {
+                IsBusy = false;
+            }
         }
 
-        public Task ResetPassword()
+        public async Task ResetPassword()
         {
-            Debug.Assert(!string.IsNullOrWhiteSpace(newPassword));
-            Debug.Assert(!string.IsNullOrWhiteSpace(confirmNewPassword));
-            Debug.Assert(!string.IsNullOrWhiteSpace(email));
-            Debug.Assert(!string.IsNullOrWhiteSpace(passwordResetToken));
+            if (string.IsNullOrWhiteSpace(NewPassword))
+            {
+                await App.CurrentPage.Err("Prosim izpolni polja.");
+                return;
+            }
+            else if (NewPassword != ConfirmNewPassword)
+            {
+                await App.CurrentPage.Err("Gesla se ne ujemata.");
+                return;
+            }
 
-            // TODO: handle password errors
-            return accountService.ResetPassword(email, passwordResetToken, newPassword);
+            try
+            {
+                IsBusy = true;
+                
+                // TODO: handle password errors
+                await accountService.ResetPassword(email, passwordResetToken, newPassword);
+
+                await App.CurrentPage.Inform("Geslo je spremenjeno.");
+                await App.Navigation.PopToRootAsync();
+            }
+            catch (ServiceException ex)
+            {
+                await App.CurrentPage.Err(ex.Response);
+            }
+            finally
+            {
+                IsBusy = false;
+            }
+        }
+
+        public enum PasswordRecoveryStage
+        {
+            EnterEmail,
+            ValidateOTP,
+            EnterNewPassword,
         }
     }
 }

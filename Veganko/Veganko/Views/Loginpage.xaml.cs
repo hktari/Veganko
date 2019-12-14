@@ -8,6 +8,7 @@ using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 using Veganko.Extensions;
 using Veganko.Services.Http;
+using Veganko.Views.PasswordRecovery;
 
 namespace Veganko.Views
 {

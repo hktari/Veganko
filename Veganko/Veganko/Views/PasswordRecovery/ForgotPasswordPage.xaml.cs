@@ -6,20 +6,21 @@ using System.Threading.Tasks;
 using Veganko.Extensions;
 using Veganko.Services.Http;
 using Veganko.ViewModels.PasswordRecovery;
+using Veganko.Views.PasswordRecovery;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
 namespace Veganko.Views.PasswordRecovery
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class ValidateOTPPage : ContentPage
+    public partial class ForgotPasswordPage : ContentPage
     {
-        private readonly ForgotPasswordViewModel vm;
+        private ForgotPasswordViewModel vm;
 
-        public ValidateOTPPage(ForgotPasswordViewModel vm)
+        public ForgotPasswordPage()
         {
             InitializeComponent();
-            BindingContext = this.vm = vm;
+            BindingContext = this.vm = new ForgotPasswordViewModel();
         }
     }
 }

@@ -94,6 +94,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\FavoritesViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\LoginViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\MainPageViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ViewModels\PasswordRecovery\EditAccountViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\Products\ManageProductsViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\Products\EditProductViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\Products\NewProductViewModel.cs" />
@@ -112,7 +113,11 @@
       <DependentUpon>FavoritesPage.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="$(MSBuildThisFileDirectory)Views\ForgotPasswordPage.xaml.cs">
+    <Compile Include="$(MSBuildThisFileDirectory)Views\Partials\EditAccountTemplate.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Views\PasswordRecovery\ForgotPasswordPage.xaml.cs">
+      <DependentUpon>ForgotPasswordPage.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Views\HelpPage.xaml.cs">
@@ -258,7 +263,6 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="$(MSBuildThisFileDirectory)Views\Partials\" />
     <Folder Include="$(MSBuildThisFileDirectory)Views\Profile\Partial\" />
   </ItemGroup>
   <ItemGroup>
@@ -274,7 +278,7 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Views\ForgotPasswordPage.xaml">
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Views\PasswordRecovery\ForgotPasswordPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </EmbeddedResource>
@@ -285,6 +289,9 @@
     </Compile>
     <Compile Update="D:\Sources\Veganko\Veganko\Veganko\Views\ForgotPasswordPage.xaml.cs">
       <DependentUpon>ForgotPasswordPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="D:\Sources\Veganko\Veganko\Veganko\Views\Partials\EditAccountTemplate.xaml.cs">
+      <DependentUpon>EditAccountTemplate.xaml</DependentUpon>
     </Compile>
     <Compile Update="D:\Sources\Veganko\Veganko\Veganko\Views\PasswordRecovery\PasswordResetPage.xaml.cs">
       <DependentUpon>PasswordResetPage.xaml</DependentUpon>
@@ -322,6 +329,12 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="$(MSBuildThisFileDirectory)Views\HelpPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Views\Partials\EditAccountTemplate.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </EmbeddedResource>
