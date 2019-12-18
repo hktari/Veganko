@@ -25,7 +25,7 @@ namespace Veganko.Behaviors
 
         private void OnTextChanged(object sender, TextChangedEventArgs e)
         {
-            entry.Text = e.NewTextValue.ToUpperInvariant();
+            entry.Text = e.NewTextValue?.ToUpperInvariant();
         }
     }
 }

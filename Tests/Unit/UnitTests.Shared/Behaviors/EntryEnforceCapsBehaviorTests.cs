@@ -10,16 +10,31 @@ namespace UnitTests.Shared.Behaviors
     [TestClass]
     public class EntryEnforceCapsBehaviorTests
     {
+        private Entry entry;
+
+        [TestInitialize]
+        public void Init()
+        {
+            var entryBehav = new EntryEnforceCapsBehavior();
+            entry = new Entry();
+            entry.Behaviors.Add(entryBehav);
+        }
+
         [TestMethod]
         public void TestOnTextChanged()
         {
-            var entryBehav = new EntryEnforceCapsBehavior();
-            Entry entry = new Entry();
-            entry.Behaviors.Add(entryBehav);
-
             entry.Text = "test";
 
             Assert.AreEqual("TEST", entry.Text);
+        }
+
+        [TestMethod]
+        public void TestOnTextChangedToNull()
+        {
+            entry.Text = "text";
+            entry.Text = null;
+
+            Assert.AreEqual(null, entry.Text);
         }
     }
 }
