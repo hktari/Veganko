@@ -14,13 +14,11 @@
         </ControlTemplate>
     </TemplatedPage.ControlTemplate>
     <ContentPage.Content>
-        <StackLayout
-            Spacing="5"
-            VerticalOptions="Center">
+        <StackLayout Spacing="5" VerticalOptions="Center">
             <Label
                 FontSize="24"
                 HorizontalOptions="Center"
-                Text="Prosim vnesi 5-mestno številko, ki je bila poslana na vaš email."
+                Text="Prosim vnesi 6-mestno številko, ki je bila poslana na tvoj email."
                 TextColor="Black" />
             <Frame Style="{StaticResource EntryFrameStyle}">
                 <Entry

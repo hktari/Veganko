@@ -222,7 +222,7 @@ namespace Veganko.ViewModels.Products
 
         protected virtual async Task<List<ProductViewModel>> GetProducts()
         {
-            PagedList<Product> products = await productService.AllAsync(forceRefresh: true);
+            PagedList<Product> products = await productService.AllAsync(pageSize: 1000, forceRefresh: true);
             return new List<ProductViewModel>(
                 products.Items.Select(m => new ProductViewModel(m)));
         }

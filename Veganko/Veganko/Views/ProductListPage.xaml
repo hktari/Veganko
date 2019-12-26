@@ -48,9 +48,9 @@
                             BackgroundColor="LightGray"
                             Command="{Binding SearchBarcodeCommand}"
                             HorizontalOptions="Start"
-                            Source="barcode.jpg"
                             VerticalOptions="Center"
-                            WidthRequest="40" />
+                            WidthRequest="40"
+                            Source="barcode.jpg" />
                     </Frame>
                     <StackLayout
                         Padding="5,0"
@@ -60,6 +60,8 @@
                         <Frame HorizontalOptions="FillAndExpand" Style="{StaticResource EntryFrameStyle}">
                             <Entry
                                 Completed="OnSearchTextInputCompleted"
+                                IsSpellCheckEnabled="False"
+                                IsTextPredictionEnabled="False"
                                 Text="{Binding SearchText}"
                                 TextColor="Black">
                                 <Entry.Effects>
@@ -71,8 +73,8 @@
                             BackgroundColor="White"
                             Command="{Binding SearchClickedCommand}"
                             HeightRequest="40"
-                            Source="ico_search.png"
-                            VerticalOptions="Center" />
+                            VerticalOptions="Center"
+                            Source="ico_search.png" />
                     </StackLayout>
                 </StackLayout>
                 <StackLayout Orientation="Vertical">
@@ -137,10 +139,10 @@
                         x:TypeArguments="models:ProductClassifier"
                         ImageSource="{x:Static local:EnumImages.ProductClassifierImages}"
                         IsVisible="{Binding ShowProductClassifiers}"
-                        Selected="{Binding SelectedProductClassifiers}"
-                        Source="{Binding ProductClassifiers}"
                         VerticalOptions="Center"
-                        ViewSize="63" />
+                        ViewSize="63"
+                        Source="{Binding ProductClassifiers}"
+                        Selected="{Binding SelectedProductClassifiers}" />
                 </StackLayout>
             </StackLayout>
 
