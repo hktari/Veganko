@@ -82,9 +82,15 @@
                                     <FormattedString>
                                         <Span
                                             BindingContext="{Binding Product}"
-                                            FontAttributes="Bold"
+                                            FontFamily="{StaticResource VarelaRoundFont}"
                                             FontSize="Large"
                                             Text="{Binding Name, Mode=OneWay}" />
+                                        <Span Text="&#10;" />
+                                        <Span
+                                            FontAttributes="Italic"
+                                            FontFamily="{StaticResource QuicksandFont}"
+                                            FontSize="Small"
+                                            Text="{Binding Product.Brand}" />
                                         <Span Text="&#10;" />
                                         <Span FontSize="Large" Text="{Binding Product.Rating, Converter={StaticResource IntToStarConverter}, Mode=OneWay}" />
                                     </FormattedString>
@@ -104,6 +110,7 @@
                         <Label
                             Grid.Row="3"
                             Grid.Column="1"
+                            FontFamily="{StaticResource RalewayRegularFont}"
                             FontSize="Small"
                             LineBreakMode="WordWrap"
                             Text="{Binding Product.Description}" />

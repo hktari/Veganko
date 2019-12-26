@@ -5,6 +5,7 @@ using System.Text;
 
 using Android.App;
 using Android.Content;
+using Android.Graphics;
 using Android.OS;
 using Android.Runtime;
 using Android.Views;
@@ -15,12 +16,14 @@ namespace Veganko.Droid.CustomSpinner
 {
     public class CustomSpinnerAdapter : BaseAdapter, AdapterView.IOnItemSelectedListener
     {
+        private readonly Context applicationContext;
         int[] images;
         List<string> fruit;
         LayoutInflater inflter;
 
         public CustomSpinnerAdapter(Context applicationContext, int[] flags, List<string> fruit) 
         {
+            this.applicationContext = applicationContext;
             this.images = flags;
             this.fruit = fruit;
             inflter = (LayoutInflater.From(applicationContext));
@@ -49,6 +52,7 @@ namespace Veganko.Droid.CustomSpinner
             TextView names = (TextView)view.FindViewById(Resource.Id.textView);
             icon.SetImageResource(images[i]);
             names.SetText(fruit[i], TextView.BufferType.Normal);
+            names.Typeface = Typeface.CreateFromAsset(applicationContext.Assets, "Raleway-Light.ttf");
             return view;
         }
 

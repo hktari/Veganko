@@ -125,6 +125,15 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <AndroidAsset Include="Assets\Quicksand-VariableFont_wght.ttf" />
+    <AndroidAsset Include="Assets\VarelaRound-Regular.ttf" />
+    <AndroidAsset Include="Assets\Montserrat-ExtraLight.ttf" />
+    <AndroidAsset Include="Assets\Montserrat-Light.ttf" />
+    <AndroidAsset Include="Assets\Montserrat-Medium.ttf" />
+    <AndroidAsset Include="Assets\Montserrat-Regular.ttf" />
+    <AndroidAsset Include="Assets\Raleway-Light.ttf" />
+    <AndroidAsset Include="Assets\Raleway-Medium.ttf" />
+    <AndroidAsset Include="Assets\Raleway-Regular.ttf" />
     <None Include="Resources\AboutResources.txt" />
     <None Include="Assets\AboutAssets.txt" />
   </ItemGroup>

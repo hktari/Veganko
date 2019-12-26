@@ -24,6 +24,7 @@ namespace Veganko.Services
                 {
                     Id = "0",
                     Name = "Violife Original Flavor", Description = "With coconut oil and vitamin B12",
+                    Brand = "Violife",
                     DetailImage = "violife.jpg", Rating = 5,
                     Type = ProductType.Hrana,
                     ProductClassifiers = new List<ProductClassifier>
@@ -35,6 +36,7 @@ namespace Veganko.Services
               new Product
                 {
                     Id = "1",
+                    Brand = "A rather long brand name which does cosmetics and stuff.",
                     Name = "Olivella hranilna krema", Description = "Lahka naravna nočna hranilna krema se dobro vpija. Kože ne pušča mastne, temveč jo izjemno hrani in neguje, poživi, ter koži daje mehak in zdrav občutek. Primerna tudi za dnevno nego.",
                     DetailImage = "Olivella_hranilna_krema_r.jpg", Rating = 5,
                     Type = ProductType.Kozmetika,

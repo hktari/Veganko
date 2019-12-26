@@ -6,6 +6,41 @@
     xmlns:converters="clr-namespace:Veganko.Converters">
     <Application.Resources>
         <ResourceDictionary>
+            <OnPlatform
+                x:Key="QuicksandFont"
+                x:TypeArguments="x:String"
+                Android="Quicksand-VariableFont_wght.ttf#Quicksand"
+                Default="null"
+                iOS="Quicksand" />
+            <OnPlatform
+                x:Key="VarelaRoundFont"
+                x:TypeArguments="x:String"
+                Android="VarelaRound-Regular.ttf#Varela Round"
+                Default="null"
+                iOS="Varela Round" />
+            <!--  TODO: add iOS  -->
+            <OnPlatform
+                x:Key="RalewayRegularFont"
+                x:TypeArguments="x:String"
+                Android="Raleway-Regular.ttf#Raleway"
+                Default="null"
+                iOS="Varela Round" />
+
+            <!--  TODO: add iOS  -->
+            <OnPlatform
+                x:Key="RalewayMediumFont"
+                x:TypeArguments="x:String"
+                Android="Raleway-Medium.ttf#Raleway Medium"
+                Default="null"
+                iOS="Varela Round" />
+            <!--  TODO: add iOS  -->
+            <OnPlatform
+                x:Key="MontserratRegularFont"
+                x:TypeArguments="x:String"
+                Android="Montserrat-Regular.ttf#Montserrat"
+                Default="null"
+                iOS="Varela Round" />
+
             <Color x:Key="Primary">#5eaa00</Color>
             <Color x:Key="PrimaryDark">#448e00</Color>
             <Color x:Key="Accent">#96d1ff</Color>

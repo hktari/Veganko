@@ -33,11 +33,13 @@
             <Label
                 Grid.Row="0"
                 Grid.Column="0"
+                FontFamily="{StaticResource RalewayMediumFont}"
                 FontSize="Medium"
                 Text="Ime izdelka:" />
             <Frame Grid.Row="1" Grid.Column="0">
                 <Entry
                     Margin="0"
+                    FontFamily="{StaticResource RalewayRegularFont}"
                     FontSize="Medium"
                     Text="{Binding Product.Name}">
                     <Entry.Behaviors>
@@ -51,10 +53,14 @@
             <Label
                 Grid.Row="2"
                 Grid.Column="0"
+                FontFamily="{StaticResource RalewayMediumFont}"
                 FontSize="Medium"
                 Text="Znamka:" />
             <Frame Grid.Row="3" Grid.Column="0">
-                <Entry FontSize="Medium" Text="{Binding Product.Brand}">
+                <Entry
+                    FontFamily="{StaticResource RalewayRegularFont}"
+                    FontSize="Medium"
+                    Text="{Binding Product.Brand}">
                     <Entry.Behaviors>
                         <behaviors:EntryEnforceCapsBehavior />
                     </Entry.Behaviors>
@@ -67,6 +73,7 @@
                 Grid.Row="4"
                 Grid.Column="0"
                 Grid.ColumnSpan="2"
+                FontFamily="{StaticResource RalewayMediumFont}"
                 FontSize="Medium"
                 Text="Opis:" />
             <Frame
@@ -77,6 +84,7 @@
                 Style="{StaticResource EntryFrameStyle}">
                 <Editor
                     Margin="0"
+                    FontFamily="{StaticResource RalewayRegularFont}"
                     FontSize="Medium"
                     Text="{Binding Product.Description}">
                     <Editor.Effects>

@@ -33,9 +33,9 @@
                 BorderThickness="1"
                 HeightRequest="66"
                 HorizontalOptions="CenterAndExpand"
-                Source="{Binding UserAvatar}"
                 VerticalOptions="CenterAndExpand"
-                WidthRequest="66" />
+                WidthRequest="66"
+                Source="{Binding UserAvatar}" />
             <Label
                 Grid.Column="1"
                 Text="{Binding Username}"
@@ -55,6 +55,7 @@
             <Label
                 Grid.Row="1"
                 Grid.Column="1"
+                FontFamily="{StaticResource RalewayRegularFont}"
                 Text="{Binding Text}"
                 VerticalOptions="Start" />
         </Grid>

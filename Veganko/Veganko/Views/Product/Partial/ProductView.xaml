@@ -47,9 +47,12 @@
             <Label Grid.Column="1" MaxLines="3">
                 <Label.FormattedText>
                     <FormattedString>
-                        <Span FontAttributes="Bold" Text="{Binding Name, Converter={StaticResource StringCaseConverter}, Mode=OneWay}" />
+                        <Span
+                            FontAttributes="Bold"
+                            FontFamily="{StaticResource VarelaRoundFont}"
+                            Text="{Binding Name, Converter={StaticResource StringCaseConverter}, Mode=OneWay}" />
                         <Span Text="&#10;" />
-                        <Span Text="{Binding Description, Mode=OneWay}" />
+                        <Span FontFamily="Raleway-Light.ttf#Raleway Light" Text="{Binding Description, Mode=OneWay}" />
                     </FormattedString>
                 </Label.FormattedText>
             </Label>

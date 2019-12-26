@@ -60,6 +60,7 @@
                         <Frame HorizontalOptions="FillAndExpand" Style="{StaticResource EntryFrameStyle}">
                             <Entry
                                 Completed="OnSearchTextInputCompleted"
+                                FontFamily="{StaticResource VarelaRoundFont}"
                                 IsSpellCheckEnabled="False"
                                 IsTextPredictionEnabled="False"
                                 Text="{Binding SearchText}"
