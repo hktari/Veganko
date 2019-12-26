@@ -8,6 +8,7 @@ using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Text.Encodings.Web;
 using System.Threading.Tasks;
 using VegankoService.Data;
@@ -113,18 +114,37 @@ namespace VegankoService.Controllers
         {
             var user = await userManager.FindByIdAsync(userId);
 
+            string errorMessage = null;
+            
             if (user == null)
             {
-                return BadRequest();
+                errorMessage = "Neznana napaka.";
+            }
+            else 
+            { 
+                IdentityResult confirmEmailResult = await userManager.ConfirmEmailAsync(user, code);
+                if (!confirmEmailResult.Succeeded)
+                {
+                    errorMessage = "\n" + confirmEmailResult.Errors;
+                }
             }
 
-            IdentityResult result = await userManager.ConfirmEmailAsync(user, code);
-            if (!result.Succeeded)
+            var result = new ContentResult
             {
-                return BadRequest(result.Errors);
+                ContentType = "text/html",
+                StatusCode = (int)HttpStatusCode.OK
+            };
+
+            if (errorMessage != null)
+            {
+                result.Content = "<html><body><h4>Email je bil uspešno potrjen !</h4></body></html>";
+            }
+            else 
+            {
+                result.Content = $"<html><body><h4>Emaila ni bilo mogoče potrditi.</h4></br>{errorMessage}</body></html>";
             }
 
-            return Ok();
+            return result;
         }
        
         [HttpPost("ChangePassword")]
