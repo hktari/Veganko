@@ -100,8 +100,9 @@ namespace VegankoService.Controllers
 
             var callbackUrl = Url.Action("confirm_email", "account",
                    new { userId = user.Id, code = code }, protocol: HttpContext.Request.Scheme);
-            await emailService.SendEmail(input.Email, "Confirm your email", 
-                $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
+
+            string confirmEmailBody = $"<h2>Potrebna je potrditev</h2></br> <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>Prosim potrdi svoj email tukaj.</a>";
+            await emailService.SendEmail(input.Email, "Potrdi email.", confirmEmailBody);
 
             return new OkObjectResult("Account created");
         }
