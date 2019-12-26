@@ -1,0 +1,6 @@
+mkdir veganko/migrate_db
+cd veganko/migrate_db 
+mysqldump -u root -p Veganko > veganko_db.sql
+scp pi@192.168.1.149:veganko/migrate_db/veganko_db.sql .
+scp back
+mysql -u root -p Veganko < veganko_db.sql 
