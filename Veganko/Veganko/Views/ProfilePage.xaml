@@ -12,6 +12,7 @@
     </ContentPage.BindingContext>
     <ContentPage.Resources>
         <ResourceDictionary>
+           
             <Thickness x:Key="ViewPadding">
                 <x:Arguments>
                     <x:Double>10</x:Double>
@@ -21,81 +22,97 @@
         </ResourceDictionary>
     </ContentPage.Resources>
     <ContentPage.Content>
-        <Grid>
+        <Grid ColumnSpacing="0" RowSpacing="0">
             <Grid.RowDefinitions>
-                <RowDefinition Height="250" />
+                <RowDefinition Height="140" />
+                <RowDefinition Height="45" />
+                <RowDefinition Height="130" />
                 <RowDefinition Height="*" />
             </Grid.RowDefinitions>
-            <AbsoluteLayout BackgroundColor="LightGray">
-                <Image
-                    AbsoluteLayout.LayoutBounds="0, 0, 1, 1"
-                    AbsoluteLayout.LayoutFlags="All"
-                    Aspect="AspectFill"
-                    Source="{Binding BackgroundImage}" />
-                <ImageButton
-                    AbsoluteLayout.LayoutBounds="1, 0, 25, 25"
-                    AbsoluteLayout.LayoutFlags="PositionProportional"
-                    BorderColor="Black"
-                    Clicked="OnBackgroundImageTap"
-                    Source="edit.png" />
-                <StackLayout
-                    AbsoluteLayout.LayoutBounds="0.5, 0.5, 0.45, 1.0"
-                    AbsoluteLayout.LayoutFlags="All"
-                    Spacing="0">
-                    <StackLayout VerticalOptions="CenterAndExpand">
-                        <Grid HeightRequest="112" WidthRequest="112">
-                            <Image Aspect="AspectFit" Source="{Binding AvatarImage}" />
-                            <ImageButton
-                                Clicked="OnEditAvatarTap"
-                                HeightRequest="25"
-                                HorizontalOptions="End"
-                                VerticalOptions="Start"
-                                WidthRequest="25"
-                                Source="edit.png" />
-                        </Grid>
-                        <Label
-                            FontAttributes="Bold"
-                            FontSize="25"
-                            HorizontalTextAlignment="Center"
-                            Text="{Binding User.Username}"
-                            TextColor="White" />
-                        <Label
-                            Margin="0,5.0,0,0"
-                            FontSize="16"
-                            HorizontalTextAlignment="Center"
-                            Text="{Binding UserDescription}"
-                            TextColor="White" />
-                        <Label
-                            FontAttributes="Bold"
-                            FontSize="16"
-                            HorizontalTextAlignment="Center"
-                            Text="{Binding UserLabel}"
-                            TextColor="White" />
-                    </StackLayout>
-                </StackLayout>
-            </AbsoluteLayout>
-            <Button
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="140" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <Image
+                Grid.RowSpan="3"
+                Grid.ColumnSpan="3"
+                AbsoluteLayout.LayoutBounds="0, 0, 1, 1"
+                AbsoluteLayout.LayoutFlags="All"
+                Aspect="AspectFill"
+                Source="{Binding BackgroundImage}" />
+            <ImageButton
+                Grid.ColumnSpan="3"
+                BorderColor="Black"
+                Clicked="OnBackgroundImageTap"
+                HorizontalOptions="End"
+                VerticalOptions="Start"
+                WidthRequest="25"
+                Source="edit.png" />
+            <Image
+                Grid.Row="0"
+                Grid.Column="1"
+                Margin="0,35,0,0"
+                Aspect="AspectFit"
+                HeightRequest="112"
+                VerticalOptions="Center"
+                WidthRequest="112"
+                Source="{Binding AvatarImage}" />
+            <ImageButton
+                Grid.Row="0"
+                Grid.Column="1"
+                Margin="0,20,0,0"
+                Clicked="OnEditAvatarTap"
+                HeightRequest="25"
+                HorizontalOptions="End"
+                VerticalOptions="Start"
+                WidthRequest="25"
+                Source="edit.png" />
+            <Label
                 Grid.Row="1"
+                Grid.ColumnSpan="3"
+                FontFamily="{StaticResource VarelaRoundFont}"
+                FontSize="25"
+                HorizontalTextAlignment="Center"
+                Text="{Binding User.Username}"
+                TextColor="White" />
+            <Label
+                Grid.Row="2"
+                Grid.ColumnSpan="3"
+                Margin="10,0"
+                FontFamily="{StaticResource RalewayRegularFont}"
+                FontSize="14"
+                HorizontalTextAlignment="Center"
+                LineBreakMode="TailTruncation"
+                MaxLines="7"
+                Text="This is my desciption. Find more about me on my youtube channgel: http://myyoutubome.com/helloThis is my desciption. Find more about me on my youtube channgel: http://myyoutubome.com/helloThis is my desciption. Find more about me on my youtube channgel: http://myyoutubome.com/helloThis is my desciption. Find more about me on my youtube channgel: http://myyoutubome.com/hello"
+                TextColor="#fff" />
+            <Button
+                Grid.Row="3"
+                Grid.ColumnSpan="3"
                 Margin="{StaticResource ViewPadding}"
                 Clicked="OnLogoutClicked"
                 HorizontalOptions="End"
+                Style="{StaticResource NeutralBtn}"
                 Text="Logout"
-                VerticalOptions="Start" />
+                VerticalOptions="End" />
             <Button
-                Grid.Row="1"
+                Grid.Row="3"
+                Grid.ColumnSpan="3"
                 Margin="{StaticResource ViewPadding}"
                 Clicked="OnSaveClicked"
                 HorizontalOptions="Start"
-                IsVisible="{Binding IsDirty}"
+                Style="{StaticResource PositiveBtn}"
                 Text="Shrani spremembe"
-                VerticalOptions="Start" />
+                VerticalOptions="End" />
             <ImageButton
-                Grid.Row="1"
+                Grid.Row="3"
+                Grid.Column="2"
                 Margin="{StaticResource ViewPadding}"
                 Command="{Binding HelpCommand}"
                 HeightRequest="38"
                 HorizontalOptions="End"
-                VerticalOptions="End"
+                VerticalOptions="Start"
                 WidthRequest="38"
                 Source="ico_help.png" />
         </Grid>

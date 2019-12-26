@@ -7,18 +7,20 @@
     ControlTemplate="{StaticResource LodingIndicatorTemplate}"
     NavigationPage.HasNavigationBar="True">
     <NavigationPage.TitleView>
-        <Grid VerticalOptions="Center">
+        <Grid Padding="10,5" VerticalOptions="Center">
             <Button
-                BackgroundColor="{StaticResource PrimaryDark}"
+                BackgroundColor="{StaticResource Primary}"
                 Command="{Binding CancelCommand}"
                 HorizontalOptions="Start"
+                Style="{StaticResource NeutralBtn}"
                 Text="Prekliči"
-                TextColor="LightGray" />
+                TextColor="Black" />
             <Button
                 Grid.Column="1"
-                BackgroundColor="{StaticResource PrimaryDark}"
+                BackgroundColor="{StaticResource Primary}"
                 Command="{Binding SaveCommand}"
                 HorizontalOptions="End"
+                Style="{StaticResource PositiveBtn}"
                 Text="Shrani"
                 TextColor="White" />
         </Grid>

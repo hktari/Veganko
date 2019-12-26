@@ -21,9 +21,9 @@
                 <RowDefinition Height="*" />
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto" />
-                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="66" />
                 <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="66" />
             </Grid.ColumnDefinitions>
 
             <circleImageControl:CircleImage
@@ -38,25 +38,28 @@
                 Source="{Binding UserAvatar}" />
             <Label
                 Grid.Column="1"
+                FontFamily="{StaticResource VarelaRoundFont}"
                 Text="{Binding Username}"
                 VerticalOptions="EndAndExpand" />
             <Label
                 Grid.Row="0"
                 Grid.Column="2"
-                HorizontalOptions="End"
+                HorizontalTextAlignment="End"
                 Text="{Binding Rating, Converter={StaticResource IntToStarConverter}}" />
             <Label
                 Grid.Row="1"
                 Grid.Column="2"
+                FontFamily="{StaticResource QuicksandFont}"
                 FontSize="Small"
-                HorizontalOptions="End"
+                HorizontalTextAlignment="End"
+                MaxLines="1"
                 Text="{Binding DatePosted, StringFormat='{}{0:dd.MM.yyyy}'}"
-                TextColor="LightGray" />
+                VerticalTextAlignment="End" />
             <Label
                 Grid.Row="1"
                 Grid.Column="1"
                 FontFamily="{StaticResource RalewayRegularFont}"
-                Text="{Binding Text}"
+                Text="alksdaklsjdlasjdklasjdlkasjdlkasjdklajsdlkasjdklasjdlkasjdklasjdlkasjdkasjdlkasjdklajsdklajsdkljasdčlkasčdlkasčldkasldkasldksalčdksaldk"
                 VerticalOptions="Start" />
         </Grid>
     </ContentView.Content>

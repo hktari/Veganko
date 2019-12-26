@@ -18,6 +18,7 @@ namespace Veganko.Services.Comments
             {
                 new Comment
                 {
+                    Username = "hktari",
                     ProductId = "0",
                     UtcDatePosted = DateTime.Now,
                     Rating = 1, Text = "Very good product !",
@@ -27,6 +28,7 @@ namespace Veganko.Services.Comments
                 },
                 new Comment
                 {
+                    Username = "hktari",
                     ProductId = "0",
                     UtcDatePosted = DateTime.Now,
                     Rating = 3, Text = "Idd !",
@@ -36,6 +38,7 @@ namespace Veganko.Services.Comments
                 },
                 new Comment
                 {
+                    Username = "hktari",
                     ProductId = "0",
                     UtcDatePosted = DateTime.Now,
                     Rating = 1, Text = "Boka jedi čaj naret !",
@@ -45,6 +48,7 @@ namespace Veganko.Services.Comments
                 },
                 new Comment
                 {
+                    Username = "hktari",
                     ProductId = "1",
                     Rating = 4,
                     UtcDatePosted = DateTime.Now,
@@ -55,6 +59,7 @@ namespace Veganko.Services.Comments
                 },
                 new Comment
                 {
+                    Username = "hktari",
                     ProductId = "1",
                     UserId = "2",
                     Rating = 3,
@@ -65,6 +70,7 @@ namespace Veganko.Services.Comments
                 },
                 new Comment
                 {
+                    Username = "hktari",
                     ProductId = "2",
                     UserId = "1",
                     Rating = 2,
@@ -75,6 +81,7 @@ namespace Veganko.Services.Comments
                 },
                 new Comment
                 {
+                    Username = "hktari",
                     ProductId = "2",
                     UserId = "0",
                     Rating = 5,
@@ -85,6 +92,7 @@ namespace Veganko.Services.Comments
                 },
                 new Comment
                 {
+                    Username = "hktari",
                     ProductId = "2",
                     UserId = "1",
                     Rating = 5,

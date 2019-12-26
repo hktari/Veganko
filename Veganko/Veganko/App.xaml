@@ -6,6 +6,19 @@
     xmlns:converters="clr-namespace:Veganko.Converters">
     <Application.Resources>
         <ResourceDictionary>
+            <Style x:Key="PositiveBtn" TargetType="Button">
+                <Setter Property="BackgroundColor" Value="{StaticResource PrimaryDark}" />
+                <Setter Property="TextColor" Value="#fff" />
+                <Setter Property="Padding" Value="7,0" />
+                <Setter Property="FontFamily" Value="{StaticResource RalewayMediumFont}" />
+            </Style>
+            <Style x:Key="NeutralBtn" TargetType="Button">
+                <Setter Property="BackgroundColor" Value="#eee" />
+                <Setter Property="TextColor" Value="{StaticResource PrimaryDark}" />
+                <Setter Property="Padding" Value="7,0" />
+                <Setter Property="FontFamily" Value="{StaticResource RalewayMediumFont}" />
+            </Style>
+
             <OnPlatform
                 x:Key="QuicksandFont"
                 x:TypeArguments="x:String"
