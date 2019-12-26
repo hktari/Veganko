@@ -14,6 +14,7 @@ namespace Veganko.ViewModels.PasswordRecovery
 {
     public class PasswordRecoveryViewModel : EditAccountViewModel
     {
+        private const int requiredOTPLength = 6;
         private readonly IAccountService accountService;
 
         private string passwordResetToken;
@@ -119,6 +120,12 @@ namespace Veganko.ViewModels.PasswordRecovery
             if (string.IsNullOrWhiteSpace(OTP))
             {
                 await App.CurrentPage.Err("Prosim izpolni polje.");
+                return;
+            }
+
+            if (OTP.Length != requiredOTPLength)
+            {
+                await App.CurrentPage.Err("Pričakujem 6-mestno številko.");
                 return;
             }
 

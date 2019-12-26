@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="Veganko.Views.Account.FinishRegistrationInstructPage"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:views="clr-namespace:Veganko.Views"
+    Padding="15"
+    mc:Ignorable="d">
+    <ContentPage.Content>
+        <StackLayout Spacing="20">
+            <Label
+                FontAttributes="Bold"
+                FontSize="Large"
+                Text="Aktivacija računa." />
+            <Label
+                FontSize="Body"
+                HorizontalOptions="Start"
+                Text="Poslal sem ti email z navodili kako aktivirati svoj račun. Prosim poglej tudi pod vsiljeno pošto, če ga slučajno ne najdeš."
+                VerticalOptions="Start" />
+            <Button
+                Command="{Binding ContinueCommand}"
+                HorizontalOptions="End"
+                Text="OK" />
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

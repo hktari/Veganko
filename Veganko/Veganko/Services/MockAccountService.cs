@@ -23,12 +23,11 @@ namespace Veganko.Services
             if (userDatabase.Exists(u => u.Username == user.Username))
                 throw new Exception("Exists !");
 
-            var hashedPassword = Helper.CalculateBase64Sha256Hash(password);
             var curId = IdCounter.ToString();
             IdCounter++;
             
             userDatabase.Add(user);
-            userPasswords.Add(user.Id, hashedPassword);
+            userPasswords.Add(user.Username, password);
 
             return Task.CompletedTask;
         }
@@ -36,7 +35,7 @@ namespace Veganko.Services
         public Task Login(string username, string password)
         {
             var user = userDatabase.Find(u => u.Username == username);
-            if (user == null || Helper.CalculateBase64Sha256Hash(password) != userPasswords[user.Id])
+            if (user == null || password != userPasswords[username])
             {
                 throw new Exception("Invalid credentials.");
             }

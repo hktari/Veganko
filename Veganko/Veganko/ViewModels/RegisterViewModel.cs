@@ -12,6 +12,7 @@ using Veganko.Services.Logging;
 using Veganko.Validations;
 using Veganko.ViewModels.Account;
 using Veganko.ViewModels.PasswordRecovery;
+using Veganko.Views.Account;
 using Xamarin.Forms;
 
 namespace Veganko.ViewModels
@@ -104,13 +105,14 @@ namespace Veganko.ViewModels
                     };
 
                     await accountService.CreateAccount(user, PasswordInput.Password.Value);
-                    await App.Navigation.PopAsync();
+                    await App.Navigation.PopToRootAsync();
+                    await App.Navigation.PushAsync(new FinishRegistrationInstructPage());
                 }
                 catch (ServiceException ex)
                 {
                     logger.LogException(ex);
                     // TODO: duplicate user ?
-                    await App.CurrentPage.Err("Neznana pri registraciji: " + ex.StatusDescription);
+                    await App.CurrentPage.Err("Neznana napaka pri registraciji: " + ex.StatusDescription);
                 }
             });
 
