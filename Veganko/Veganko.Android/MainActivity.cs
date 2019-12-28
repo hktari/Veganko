@@ -64,8 +64,34 @@ namespace Veganko.Droid
             OnRequestPermissionsResult_PhotoPicking(requestCode, permissions, grantResults);
         }
 
+        public override void OnBackPressed()
+        {
+            // Prevent users from accidentally closing the app via android back button.
+            // This is handled only when TabbedPage is shown and there is either only the root page on the nav stack
+            // Special handling is done for root pages which have no nav stack and use modals.
+            if (App.Current.MainPage is Views.MainPage && 
+                (App.Navigation.NavigationStack.Count < 2 && App.Navigation.ModalStack.Count == 0))
+            {
+                AlertDialog.Builder alert = new AlertDialog.Builder(this);
+                alert.SetTitle("Sporočilo");
+                alert.SetMessage("Želiš zapustiti vegankona ?");
+                alert.SetPositiveButton("Ja", (senderAlert, args) =>
+                {
+                    this.FinishAffinity();
+                });
+
+                alert.SetNegativeButton("Ostani", (s, args) => { });
+
+                alert.Show();
+            }
+            else 
+            {
+                base.OnBackPressed();
+            }
+        }
+
         #region FB_Auth
-        // Define a authenticated user.
+            // Define a authenticated user.
         private MobileServiceUser user;
         
         public async Task<bool> Authenticate()
