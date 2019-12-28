@@ -138,7 +138,7 @@
                     <Grid HeightRequest="50" VerticalOptions="EndAndExpand">
                         <Button
                             BackgroundColor="White"
-                            Clicked="OnLoginBtnClicked"
+                            Command="{Binding LoginCommand}"
                             FontFamily="{StaticResource VarelaRoundFont}"
                             FontSize="24"
                             HeightRequest="50"

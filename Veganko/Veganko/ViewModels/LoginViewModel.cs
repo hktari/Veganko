@@ -12,12 +12,16 @@ using Xamarin.Forms;
 using Autofac;
 using System.Threading.Tasks;
 using Veganko.Services.Auth;
+using Veganko.Extensions;
+using Veganko.Services.Http;
+using Veganko.Services.Logging;
 
 namespace Veganko.ViewModels
 {
     public class LoginViewModel : BaseViewModel
     {
         private readonly IUserService userService;
+        private readonly ILogger logger;
 
         public string SelectedUserType { get; set; } = "user";
 
@@ -28,6 +32,7 @@ namespace Veganko.ViewModels
         public LoginViewModel()
         {
             userService = App.IoC.Resolve<IUserService>();
+            logger = App.IoC.Resolve<ILogger>();
 
 #if DEBUG
             Email = "bkamnik1995@gmail.com";
@@ -69,32 +74,34 @@ namespace Veganko.ViewModels
             return true;
         }
 
-        public async Task Login()
+        public Command LoginCommand => new Command(async () =>
         {
-            IAuthService authService = App.IoC.Resolve<IAuthService>();
-
-            if (SelectedUserType == "admin")
+            if (string.IsNullOrWhiteSpace(email) || string.IsNullOrWhiteSpace(password))
             {
-                // TODO: rework
-
-                //string username = null;
-                //string password = null;
-                //UserAccessRights uac;
-                //bool adminAccess = false;
-
-                //username = password = "admin";
-                //uac = UserAccessRights.All;
-                //adminAccess = true;
-                //await accountService.CreateAccount(new UserPublicInfo { Username = username }, password);
-                //await accountService.Login(username, password);
-                //accountService.User.AccessRights = uac;
+                await App.CurrentPage.Err("Izpolni vsa polja prosim :)");
+                return;
             }
-            else
+
+            try
             {
+                IsBusy = true;
+                IAuthService authService = App.IoC.Resolve<IAuthService>();
+
                 await authService.Login(email, password);
                 SetupCurrentUser();
+
+                App.Current.MainPage = new MainPage(IsManager);
             }
-        }
+            catch (ServiceException ex)
+            {
+                logger.WriteLine<LoginViewModel>(ex.Message);
+                await App.CurrentPage.Err($"Nepravilen email ali geslo.");
+            }
+            finally
+            {
+                IsBusy = false;
+            }
+        });
 
         private void SetupCurrentUser()
         {
