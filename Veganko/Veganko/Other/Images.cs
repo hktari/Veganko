@@ -40,6 +40,11 @@ namespace Veganko.Other
                 Id = "5",
                 Image = "violetbackground6.png"
             },
+            new ImageId
+            { 
+                Id = "6",
+                Image = "lightblue.png"
+            }
         };
 
         public static List<ImageId> AvatarImageSource => new List<ImageId>
@@ -63,6 +68,16 @@ namespace Veganko.Other
             { 
                 Id = "3",
                 Image = "avatar_panda.png"
+            },
+            new ImageId
+            { 
+                Id = "4",
+                Image = "avatar_pig.png"
+            },
+            new ImageId
+            {
+                Id = "5",
+                Image = "avatar_cow.png"
             }
         };
 

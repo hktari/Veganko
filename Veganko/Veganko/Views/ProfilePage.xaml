@@ -85,7 +85,7 @@
                 HorizontalTextAlignment="Center"
                 LineBreakMode="TailTruncation"
                 MaxLines="7"
-                Text="This is my desciption. Find more about me on my youtube channgel: http://myyoutubome.com/helloThis is my desciption. Find more about me on my youtube channgel: http://myyoutubome.com/helloThis is my desciption. Find more about me on my youtube channgel: http://myyoutubome.com/helloThis is my desciption. Find more about me on my youtube channgel: http://myyoutubome.com/hello"
+                Text="{Binding User.Description}"
                 TextColor="#fff" />
             <Button
                 Grid.Row="3"

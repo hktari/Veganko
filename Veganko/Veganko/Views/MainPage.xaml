@@ -13,7 +13,7 @@
                 <views:ProductListPage />
             </x:Arguments>
         </NavigationPage>
-        <views:NewProductPage Icon="icon.png">
+        <views:NewProductPage Icon="ico_add_yellow.png">
             <Page.Title>
                 <OnPlatform UWP="New" />
             </Page.Title>

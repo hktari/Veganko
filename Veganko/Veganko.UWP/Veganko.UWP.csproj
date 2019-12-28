@@ -109,8 +109,10 @@
     <Content Include="arasidovo_maslo.jpg" />
     <Content Include="avatar_bear.png" />
     <Content Include="avatar_cat.png" />
+    <Content Include="avatar_cow.png" />
     <Content Include="avatar_fox.png" />
     <Content Include="avatar_panda.png" />
+    <Content Include="avatar_pig.png" />
     <Content Include="barcode.png">
       <SubType>Designer</SubType>
     </Content>
@@ -125,6 +127,7 @@
     <Content Include="coniferous_forest.jpg">
       <SubType>Designer</SubType>
     </Content>
+    <AndroidResource Include="ico_add_yellow.png" />
     <Content Include="ico_cosmetics.png" />
     <Content Include="delete.png" />
     <Content Include="dmbio_orangensaft.jpg" />
@@ -178,6 +181,7 @@
     <Content Include="img_product_tmp_2.jpg">
       <SubType>Designer</SubType>
     </Content>
+    <Content Include="lightblue.png" />
     <Content Include="login_leaf1.png" />
     <Content Include="login_leaf2.png" />
     <Content Include="login_sign_up.png" />
