@@ -6,6 +6,14 @@
     xmlns:converters="clr-namespace:Veganko.Converters">
     <Application.Resources>
         <ResourceDictionary>
+            <Color x:Key="Primary">#5eaa00</Color>
+            <Color x:Key="PrimaryDark">#448e00</Color>
+            <Color x:Key="Accent">#96d1ff</Color>
+            <Color x:Key="LightBackgroundColor">#FAFAFA</Color>
+            <Color x:Key="DarkBackgroundColor">#C0C0C0</Color>
+            <Color x:Key="MediumGrayTextColor">#4d4d4d</Color>
+            <Color x:Key="LightTextColor">#999999</Color>
+
             <Style x:Key="PositiveBtn" TargetType="Button">
                 <Setter Property="BackgroundColor" Value="{StaticResource PrimaryDark}" />
                 <Setter Property="TextColor" Value="#fff" />
@@ -54,13 +62,6 @@
                 Default="null"
                 iOS="Varela Round" />
 
-            <Color x:Key="Primary">#5eaa00</Color>
-            <Color x:Key="PrimaryDark">#448e00</Color>
-            <Color x:Key="Accent">#96d1ff</Color>
-            <Color x:Key="LightBackgroundColor">#FAFAFA</Color>
-            <Color x:Key="DarkBackgroundColor">#C0C0C0</Color>
-            <Color x:Key="MediumGrayTextColor">#4d4d4d</Color>
-            <Color x:Key="LightTextColor">#999999</Color>
 
             <converters:BoolInverter x:Key="BoolInverter" />
             <converters:FirstValidationErrorConverter x:Key="FirstValidationErrorConverter" />

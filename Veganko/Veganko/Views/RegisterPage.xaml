@@ -14,12 +14,16 @@
         <StackLayout>
             <StackLayout Spacing="5" VerticalOptions="CenterAndExpand">
                 <Label
+                    FontFamily="{StaticResource RalewayMediumFont}"
                     FontSize="24"
                     HorizontalOptions="Center"
                     Text="Email"
                     TextColor="Black" />
                 <Frame Style="{StaticResource EntryFrameStyle}">
-                    <Entry FontSize="16" Text="{Binding Email.Value}">
+                    <Entry
+                        FontFamily="{StaticResource RalewayRegularFont}"
+                        FontSize="16"
+                        Text="{Binding Email.Value}">
                         <Entry.Effects>
                             <effects:CustomEntryEffect />
                         </Entry.Effects>
@@ -32,12 +36,16 @@
             </StackLayout>
             <StackLayout Spacing="7" VerticalOptions="CenterAndExpand">
                 <Label
+                    FontFamily="{StaticResource RalewayMediumFont}"
                     FontSize="24"
                     HorizontalOptions="Center"
                     Text="Uporabniško ime"
                     TextColor="Black" />
                 <Frame Style="{StaticResource EntryFrameStyle}">
-                    <Entry FontSize="16" Text="{Binding Username.Value}">
+                    <Entry
+                        FontFamily="{StaticResource RalewayRegularFont}"
+                        FontSize="16"
+                        Text="{Binding Username.Value}">
                         <Entry.Effects>
                             <effects:CustomEntryEffect />
                         </Entry.Effects>
@@ -50,12 +58,14 @@
             </StackLayout>
             <StackLayout Spacing="7" VerticalOptions="CenterAndExpand">
                 <Label
+                    FontFamily="{StaticResource RalewayMediumFont}"
                     FontSize="24"
                     HorizontalOptions="Center"
                     Text="Geslo"
                     TextColor="Black" />
                 <Frame Style="{StaticResource EntryFrameStyle}">
                     <Entry
+                        FontFamily="{StaticResource RalewayRegularFont}"
                         FontSize="16"
                         IsPassword="True"
                         Text="{Binding PasswordInput.Password.Value}">
@@ -71,12 +81,14 @@
             </StackLayout>
             <StackLayout Spacing="7" VerticalOptions="CenterAndExpand">
                 <Label
+                    FontFamily="{StaticResource RalewayMediumFont}"
                     FontSize="24"
                     HorizontalOptions="Center"
                     Text="Ponovi geslo"
                     TextColor="Black" />
                 <Frame Style="{StaticResource EntryFrameStyle}">
                     <Entry
+                        FontFamily="{StaticResource RalewayRegularFont}"
                         FontSize="16"
                         IsPassword="True"
                         Text="{Binding PasswordInput.ConfirmPassword.Value}">

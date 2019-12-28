@@ -34,9 +34,9 @@
                 Grid.Column="2"
                 Grid.ColumnSpan="2"
                 HorizontalOptions="End"
-                Source="login_leaf1.png"
                 VerticalOptions="End"
-                WidthRequest="155" />
+                WidthRequest="155"
+                Source="login_leaf1.png" />
 
             <Image
                 Grid.Row="0"
@@ -44,9 +44,9 @@
                 Grid.Column="1"
                 Grid.ColumnSpan="2"
                 HorizontalOptions="Start"
-                Source="login_leaf2.png"
                 VerticalOptions="End"
-                WidthRequest="155" />
+                WidthRequest="155"
+                Source="login_leaf2.png" />
 
             <Image
                 Grid.Row="3"
@@ -55,9 +55,9 @@
                 Grid.ColumnSpan="2"
                 HorizontalOptions="Start"
                 Rotation="180"
-                Source="login_leaf1.png"
                 VerticalOptions="Start"
-                WidthRequest="155" />
+                WidthRequest="155"
+                Source="login_leaf1.png" />
 
             <Image
                 Grid.Row="3"
@@ -66,9 +66,9 @@
                 Grid.ColumnSpan="2"
                 HorizontalOptions="End"
                 Rotation="165"
-                Source="login_leaf2.png"
                 VerticalOptions="Start"
-                WidthRequest="155" />
+                WidthRequest="155"
+                Source="login_leaf2.png" />
             <Frame
                 Grid.Row="1"
                 Grid.RowSpan="3"
@@ -91,6 +91,7 @@
                         Grid.Row="2"
                         BackgroundColor="White"
                         Command="{Binding SubmitCommand}"
+                        FontFamily="{StaticResource VarelaRoundFont}"
                         FontSize="24"
                         Text="{Binding SubmitBtnText}" />
                 </Grid>

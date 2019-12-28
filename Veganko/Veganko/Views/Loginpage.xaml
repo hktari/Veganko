@@ -94,7 +94,7 @@
                     </ContentView>
                     <StackLayout Margin="30,0" Spacing="5">
                         <Label
-                            FontFamily="{StaticResource VarelaRoundFont}"
+                            FontFamily="{StaticResource RalewayMediumFont}"
                             FontSize="24"
                             HorizontalOptions="Center"
                             Text="Email"
@@ -112,7 +112,7 @@
                     </StackLayout>
                     <StackLayout Margin="30,0" Spacing="7">
                         <Label
-                            FontFamily="{StaticResource VarelaRoundFont}"
+                            FontFamily="{StaticResource RalewayMediumFont}"
                             FontSize="24"
                             HorizontalOptions="Center"
                             Text="Geslo"
@@ -150,21 +150,6 @@
                     </Grid>
                 </StackLayout>
             </Frame>
-
-            <Picker
-                Grid.ColumnSpan="4"
-                BackgroundColor="DarkGray"
-                HorizontalOptions="End"
-                SelectedItem="{Binding SelectedUserType}"
-                TextColor="White"
-                VerticalOptions="Start">
-                <Picker.ItemsSource>
-                    <x:Array Type="{x:Type x:String}">
-                        <x:String>user</x:String>
-                        <x:String>admin</x:String>
-                    </x:Array>
-                </Picker.ItemsSource>
-            </Picker>
         </Grid>
     </ContentPage.Content>
 </ContentPage>

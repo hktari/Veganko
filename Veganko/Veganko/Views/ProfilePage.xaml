@@ -12,7 +12,7 @@
     </ContentPage.BindingContext>
     <ContentPage.Resources>
         <ResourceDictionary>
-           
+
             <Thickness x:Key="ViewPadding">
                 <x:Arguments>
                     <x:Double>10</x:Double>
@@ -102,6 +102,7 @@
                 Margin="{StaticResource ViewPadding}"
                 Clicked="OnSaveClicked"
                 HorizontalOptions="Start"
+                IsVisible="{Binding IsDirty}"
                 Style="{StaticResource PositiveBtn}"
                 Text="Shrani spremembe"
                 VerticalOptions="End" />

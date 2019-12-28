@@ -8,6 +8,6 @@ namespace Veganko.ViewModels.Account
     public class FinishRegistrationInstructViewModel : BaseViewModel
     {
         public Command ContinueCommand => new Command(
-            async () => await App.Navigation.PopToRootAsync());
+            async () => await App.Navigation.PopModalAsync());
     }
 }

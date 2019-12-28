@@ -14,16 +14,19 @@
         </ControlTemplate>
     </TemplatedPage.ControlTemplate>
     <ContentPage.Content>
-        <StackLayout Spacing="5" VerticalOptions="Center">
+        <StackLayout Spacing="15" VerticalOptions="Center">
             <Label
+                FontFamily="{StaticResource RalewayRegularFont}"
                 FontSize="24"
                 HorizontalOptions="Center"
                 Text="Prosim vnesi 6-mestno številko, ki je bila poslana na tvoj email."
                 TextColor="Black" />
             <Frame Style="{StaticResource EntryFrameStyle}">
                 <Entry
+                    FontFamily="{StaticResource RalewayRegularFont}"
                     FontSize="16"
                     Keyboard="Numeric"
+                    MaxLength="6"
                     Text="{Binding OTP}">
                     <Entry.Effects>
                         <effects:CustomEntryEffect />

@@ -6,23 +6,52 @@
     xmlns:d="http://xamarin.com/schemas/2014/forms/design"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
-    <ContentPage.ToolbarItems>
-        <ToolbarItem Command="{Binding CloseCommand}" Text="Zapri" />
-    </ContentPage.ToolbarItems>
+    <NavigationPage.TitleView>
+        <ContentView>
+            <Button
+                BackgroundColor="{StaticResource Primary}"
+                Command="{Binding CloseCommand}"
+                HorizontalOptions="End"
+                Style="{StaticResource NeutralBtn}"
+                Text="Zapri"
+                TextColor="White" />
+        </ContentView>
+    </NavigationPage.TitleView>
     <ContentPage.Content>
-        <StackLayout Padding="10,5">
+        <StackLayout Padding="10,5" Spacing="20">
             <Label
+                FontFamily="{StaticResource RalewayRegularFont}"
                 FontSize="17"
                 LineBreakMode="WordWrap"
                 Text="Si našel kakšno napako ali želiš dati feedback ? Piši nam na email : ) Če prijavljaš napako prosim dodaj številko verzije Vegankona, ki jo vidiš spodaj." />
-            <TableView Intent="Data" VerticalOptions="StartAndExpand">
-                <TableRoot>
-                    <TableSection>
-                        <TextCell Detail="{Binding ContactEmail}" Text="Kontakt" />
-                        <TextCell Detail="{Binding VersionCode}" Text="Verzija" />
-                    </TableSection>
-                </TableRoot>
-            </TableView>
+            <Grid RowSpacing="0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="25" />
+                    <RowDefinition Height="25" />
+                    <RowDefinition Height="0.75" />
+                    <RowDefinition Height="5" />
+                    <RowDefinition Height="25" />
+                    <RowDefinition Height="25" />
+                </Grid.RowDefinitions>
+                <Label
+                    FontFamily="{StaticResource RalewayMediumFont}"
+                    Text="Kontakt"
+                    TextColor="{StaticResource Primary}" />
+                <Label
+                    Grid.Row="1"
+                    FontFamily="{StaticResource RalewayRegularFont}"
+                    Text="{Binding ContactEmail}" />
+                <BoxView Grid.Row="2" Color="LightGray" />
+                <Label
+                    Grid.Row="4"
+                    FontFamily="{StaticResource RalewayMediumFont}"
+                    Text="Verzija"
+                    TextColor="{StaticResource Primary}" />
+                <Label
+                    Grid.Row="5"
+                    FontFamily="{StaticResource RalewayRegularFont}"
+                    Text="{Binding VersionCode}" />
+            </Grid>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

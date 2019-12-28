@@ -106,7 +106,7 @@ namespace Veganko.ViewModels
 
                     await accountService.CreateAccount(user, PasswordInput.Password.Value);
                     await App.Navigation.PopToRootAsync();
-                    await App.Navigation.PushAsync(new FinishRegistrationInstructPage());
+                    await App.Navigation.PushModalAsync(new FinishRegistrationInstructPage());
                 }
                 catch (ServiceException ex)
                 {

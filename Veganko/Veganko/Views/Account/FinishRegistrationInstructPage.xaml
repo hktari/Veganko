@@ -12,9 +12,11 @@
         <StackLayout Spacing="20">
             <Label
                 FontAttributes="Bold"
+                FontFamily="{StaticResource RalewayMediumFont}"
                 FontSize="Large"
                 Text="Aktivacija računa." />
             <Label
+                FontFamily="{StaticResource RalewayRegularFont}"
                 FontSize="Body"
                 HorizontalOptions="Start"
                 Text="Poslal sem ti email z navodili kako aktivirati svoj račun. Prosim poglej tudi pod vsiljeno pošto, če ga slučajno ne najdeš."
@@ -22,6 +24,7 @@
             <Button
                 Command="{Binding ContinueCommand}"
                 HorizontalOptions="End"
+                Style="{StaticResource PositiveBtn}"
                 Text="OK" />
         </StackLayout>
     </ContentPage.Content>
