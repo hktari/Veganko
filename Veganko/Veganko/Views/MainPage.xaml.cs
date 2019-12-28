@@ -16,15 +16,16 @@ namespace Veganko.Views
         {
             InitializeComponent();
 
-            if (isManager)
-            {
-                Children.Add(
-                    new NavigationPage(new ProductListPage(new ManageProductsViewModel()))
-                    {
-                        Title = Device.RuntimePlatform == Device.UWP ? "Manage" : string.Empty,
-                        Icon = Device.RuntimePlatform == Device.UWP ? null : "icon.png"
-                    });
-            }
+            // TODO: uncomment this when members are going to be introduced
+            //if (isManager)
+            //{
+            //    Children.Add(
+            //        new NavigationPage(new ProductListPage(new ManageProductsViewModel()))
+            //        {
+            //            Title = Device.RuntimePlatform == Device.UWP ? "Manage" : string.Empty,
+            //            Icon = Device.RuntimePlatform == Device.UWP ? null : "icon.png"
+            //        });
+            //}
         }
 
         private NavigationPage lastPage;
