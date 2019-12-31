@@ -45,6 +45,7 @@
                 Grid.Row="0"
                 Grid.Column="2"
                 HorizontalTextAlignment="End"
+                IsVisible="{Binding HasRating}"
                 Text="{Binding Rating, Converter={StaticResource IntToStarConverter}}" />
             <Label
                 Grid.Row="1"
@@ -59,7 +60,7 @@
                 Grid.Row="1"
                 Grid.Column="1"
                 FontFamily="{StaticResource RalewayRegularFont}"
-                Text="alksdaklsjdlasjdklasjdlkasjdlkasjdklajsdlkasjdklasjdlkasjdklasjdlkasjdkasjdlkasjdklajsdklajsdkljasdčlkasčdlkasčldkasldkasldksalčdksaldk"
+                Text="{Binding Text}"
                 VerticalOptions="Start" />
         </Grid>
     </ContentView.Content>

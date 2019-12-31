@@ -65,6 +65,7 @@
 
             <converters:BoolInverter x:Key="BoolInverter" />
             <converters:FirstValidationErrorConverter x:Key="FirstValidationErrorConverter" />
+            <converters:IntToStarConverter x:Key="IntToStarConverter" />
 
             <Style x:Key="LabelErrorMessageStyle" TargetType="Label">
                 <Setter Property="TextColor" Value="IndianRed" />

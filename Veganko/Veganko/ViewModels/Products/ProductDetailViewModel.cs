@@ -207,6 +207,7 @@ namespace Veganko.ViewModels.Products
                 PagedList<Comment> commentsList = await commentDataStore.GetItemsAsync(Product.Id, pageSize: 1000);
                 List<Comment> comments = commentsList.Items.ToList();
                 comments.Sort(new CommentDatePostedComparer());
+                ProductRating = CalculateAvgRating(comments);
                 Comments = new ObservableCollection<CommentViewModel>(
                     comments.Select(c => new CommentViewModel(c)));
             }
@@ -219,7 +220,23 @@ namespace Veganko.ViewModels.Products
                 IsBusy = false;
             }
         }
-        
+
+        private int CalculateAvgRating(List<Comment> comments)
+        {
+            int allRatings = 0;
+            double ratingsSummed = 0;
+            foreach (var comment in comments)
+            {
+                if (comment.Rating != null)
+                {
+                    allRatings++;
+                    ratingsSummed += comment.Rating.Value;
+                }
+            }
+
+            return (int)(ratingsSummed / allRatings);
+        }
+
         private CommentViewModel CreateDefaultComment()
         {
             return new CommentViewModel(User)

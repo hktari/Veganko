@@ -72,12 +72,18 @@
                                 WidthRequest="35"
                                 Source="edit.png" />
                         </Grid>
-                        <Grid Margin="5,0,12.5,0" ColumnSpacing="30">
+                        <Grid
+                            Margin="5,0,12.5,0"
+                            ColumnSpacing="30"
+                            RowSpacing="5">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="*" />
                                 <ColumnDefinition Width="45" />
                             </Grid.ColumnDefinitions>
-                            <Label HorizontalOptions="StartAndExpand">
+                            <Label>
                                 <Label.FormattedText>
                                     <FormattedString>
                                         <Span
@@ -86,13 +92,13 @@
                                             FontSize="Large"
                                             Text="{Binding Name, Mode=OneWay}" />
                                         <Span Text="&#10;" />
+                                        <Span FontSize="15" Text="{Binding ProductRating, Converter={StaticResource IntToStarConverter}" />
+                                        <Span Text="&#10;" />
                                         <Span
                                             FontAttributes="Italic"
                                             FontFamily="{StaticResource QuicksandFont}"
                                             FontSize="Small"
                                             Text="{Binding Product.Brand}" />
-                                        <Span Text="&#10;" />
-                                        <Span FontSize="Large" Text="{Binding Product.Rating, Converter={StaticResource IntToStarConverter}, Mode=OneWay}" />
                                     </FormattedString>
                                 </Label.FormattedText>
                             </Label>

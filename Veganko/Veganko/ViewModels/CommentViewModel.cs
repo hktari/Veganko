@@ -23,7 +23,8 @@ namespace Veganko.ViewModels
             UserAvatar = Images.GetProfileAvatarById(comment.UserAvatarId);
             Text = comment.Text;
             DatePosted = comment.UtcDatePosted.ToLocalTime();
-            Rating = comment.Rating;
+            Rating = comment.Rating.GetValueOrDefault();
+            HasRating = comment.Rating != null;
         }
 
         public string Id { get; set; }
@@ -31,6 +32,7 @@ namespace Veganko.ViewModels
         public string Username { get; set; }
         public string UserAvatar { get; set; }
         public int Rating { get; set; }
+        public bool HasRating { get; set; }
         public string Text { get; set; }
         public DateTime DatePosted { get; set; }
     }
