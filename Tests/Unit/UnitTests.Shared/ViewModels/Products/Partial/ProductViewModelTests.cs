@@ -62,7 +62,6 @@ namespace UnitTests.Shared.ViewModels.Products.Partial
             Assert.AreEqual(updatedProdVM.Id, productVM.Id);
             Assert.AreEqual(updatedProdVM.Image, productVM.Image);
             Assert.AreEqual(updatedProdVM.Name, productVM.Name);
-            Assert.AreEqual(updatedProdVM.Rating, productVM.Rating);
             Assert.AreEqual(updatedProdVM.ThumbnailImage, productVM.ThumbnailImage);
             Assert.AreEqual(updatedProdVM.Type, productVM.Type);
 
@@ -79,7 +78,6 @@ namespace UnitTests.Shared.ViewModels.Products.Partial
             Assert.AreEqual(updatedProdVM.Description, product.Description);
             Assert.AreEqual(updatedProdVM.Id, product.Id);
             Assert.AreEqual(updatedProdVM.Name, product.Name);
-            Assert.AreEqual(updatedProdVM.Rating, product.Rating);
             Assert.AreEqual(updatedProdVM.Type, product.Type);
 
             Assert.AreNotEqual(updatedProdVM.ProductClassifiers, product.ProductClassifiers);
@@ -97,7 +95,6 @@ namespace UnitTests.Shared.ViewModels.Products.Partial
                 Brand = "brand",
                 Id = "some-id",
                 Name = "prod-name",
-                Rating = 4,
                 Type = ProductType.Hrana,
                 ProductClassifiers = new ObservableCollection<ProductClassifier> { ProductClassifier.Bio },
                 Image = "detail-image-url",
@@ -114,7 +111,6 @@ namespace UnitTests.Shared.ViewModels.Products.Partial
                 Brand = "brand",
                 Id = "some-id",
                 Name = "prod-name",
-                Rating = 4,
                 Type = ProductType.Hrana,
                 ProductClassifiers = new List<ProductClassifier> { ProductClassifier.Bio },
                 DetailImage = "detail-image-url",

@@ -25,7 +25,7 @@ namespace Veganko.Services
                     Id = "0",
                     Name = "Violife Original Flavor", Description = "With coconut oil and vitamin B12",
                     Brand = "Violife",
-                    DetailImage = "violife.jpg", Rating = 5,
+                    DetailImage = "violife.jpg",
                     Type = ProductType.Hrana,
                     ProductClassifiers = new List<ProductClassifier>
                     {
@@ -38,7 +38,7 @@ namespace Veganko.Services
                     Id = "1",
                     Brand = "A rather long brand name which does cosmetics and stuff.",
                     Name = "Olivella hranilna krema", Description = "Lahka naravna nočna hranilna krema se dobro vpija. Kože ne pušča mastne, temveč jo izjemno hrani in neguje, poživi, ter koži daje mehak in zdrav občutek. Primerna tudi za dnevno nego.",
-                    DetailImage = "Olivella_hranilna_krema_r.jpg", Rating = 5,
+                    DetailImage = "Olivella_hranilna_krema_r.jpg",
                     Type = ProductType.Kozmetika,
                     ProductClassifiers = new List<ProductClassifier>
                     {
@@ -53,7 +53,7 @@ namespace Veganko.Services
                     Id = "2",
                     Name = "Violife Mozzarella flavour Grated", Description = "Try making your own pizza and use our vegan mozzarella flavour grated cheese with fresh tomato puree. For the perfect family meal.",
                     Brand = "Violife",
-                    DetailImage = "violife_mozarella.png", Rating = 5,
+                    DetailImage = "violife_mozarella.png",
                     Type = ProductType.Hrana,
                     ProductClassifiers = new List<ProductClassifier>
                     {

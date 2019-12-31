@@ -85,6 +85,19 @@ namespace Veganko.ViewModels.Products
             set => SetProperty(ref profileAvatar, value);
         }
 
+        private int productRating;
+        public int ProductRating
+        {
+            get
+            {
+                return productRating;
+            }
+            set
+            {
+                SetProperty(ref productRating, value);
+            }
+        }
+
         //public CommentDataTemplateSelector CommentDTS { get; set; }
 
         public UserPublicInfo User => App.IoC.Resolve<IUserService>().CurrentUser;
@@ -190,7 +203,8 @@ namespace Veganko.ViewModels.Products
             IsBusy = true;
             try
             {
-                PagedList<Comment> commentsList = await commentDataStore.GetItemsAsync(Product.Id);
+                // Get all comments
+                PagedList<Comment> commentsList = await commentDataStore.GetItemsAsync(Product.Id, pageSize: 1000);
                 List<Comment> comments = commentsList.Items.ToList();
                 comments.Sort(new CommentDatePostedComparer());
                 Comments = new ObservableCollection<CommentViewModel>(

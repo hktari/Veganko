@@ -92,16 +92,8 @@ namespace Veganko.ViewModels.Products.Partial
             set => SetProperty(ref type, value);
         }
 
-        private int rating;
-        public int Rating
-        {
-            get => rating;
-            set => SetProperty(ref rating, value);
-        }
-
         public void Update(ProductViewModel productViewModel)
         {
-            Rating = productViewModel.Rating;
             Type = productViewModel.Type;
             ProductClassifiers = new ObservableCollection<ProductClassifier>(productViewModel.ProductClassifiers);
             Description = productViewModel.Description;
@@ -115,7 +107,6 @@ namespace Veganko.ViewModels.Products.Partial
 
         public void Update(Product product)
         {
-            Rating = product.Rating;
             Type = product.Type;
             ProductClassifiers = new ObservableCollection<ProductClassifier>(product.ProductClassifiers);
             Description = product.Description ?? string.Empty;
@@ -134,7 +125,6 @@ namespace Veganko.ViewModels.Products.Partial
         /// <param name="product"></param>
         public void MapToModel(Product product)
         {
-            product.Rating = Rating;
             product.Type = Type;
             product.ProductClassifiers = new List<ProductClassifier>(ProductClassifiers);
             product.Description = Description;

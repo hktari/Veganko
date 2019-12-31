@@ -29,7 +29,6 @@ namespace UnitTests.Shared.Models
             Assert.AreEqual("A relatively cute cup.\\n", product.Description);
             Assert.AreEqual(128, product.ProductClassifiers.Aggregate(0, (f, cl) => f | (int)cl));
             Assert.AreEqual(ProductType.Pijaca, product.Type);
-            Assert.AreEqual(0, product.Rating);
         }
     }
 }
