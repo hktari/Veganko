@@ -75,7 +75,6 @@ namespace VegankoService.Controllers
             comment.UtcDatePosted = DateTime.UtcNow;
             input.MapToComment(comment);
             comment.UserId = customer.Id;
-
             commentRepository.Create(comment);
             return CreatedAtAction(
                 nameof(CommentsController.Get), "comments", new { id = comment.Id }, comment);
