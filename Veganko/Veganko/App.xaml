@@ -14,19 +14,6 @@
             <Color x:Key="MediumGrayTextColor">#4d4d4d</Color>
             <Color x:Key="LightTextColor">#999999</Color>
 
-            <Style x:Key="PositiveBtn" TargetType="Button">
-                <Setter Property="BackgroundColor" Value="{StaticResource PrimaryDark}" />
-                <Setter Property="TextColor" Value="#fff" />
-                <Setter Property="Padding" Value="7,0" />
-                <Setter Property="FontFamily" Value="{StaticResource RalewayMediumFont}" />
-            </Style>
-            <Style x:Key="NeutralBtn" TargetType="Button">
-                <Setter Property="BackgroundColor" Value="#eee" />
-                <Setter Property="TextColor" Value="{StaticResource PrimaryDark}" />
-                <Setter Property="Padding" Value="7,0" />
-                <Setter Property="FontFamily" Value="{StaticResource RalewayMediumFont}" />
-            </Style>
-
             <OnPlatform
                 x:Key="QuicksandFont"
                 x:TypeArguments="x:String"
@@ -62,6 +49,19 @@
                 Default="null"
                 iOS="Varela Round" />
 
+            <!--  The referenced resources need to be defined before this. Otherwise app crashes on droid with "Optimize Code" enabled.  -->
+            <Style x:Key="PositiveBtn" TargetType="Button">
+                <Setter Property="BackgroundColor" Value="{StaticResource PrimaryDark}" />
+                <Setter Property="TextColor" Value="#fff" />
+                <Setter Property="Padding" Value="7,0" />
+                <Setter Property="FontFamily" Value="{StaticResource RalewayMediumFont}" />
+            </Style>
+            <Style x:Key="NeutralBtn" TargetType="Button">
+                <Setter Property="BackgroundColor" Value="#eee" />
+                <Setter Property="TextColor" Value="{StaticResource PrimaryDark}" />
+                <Setter Property="Padding" Value="7,0" />
+                <Setter Property="FontFamily" Value="{StaticResource RalewayMediumFont}" />
+            </Style>
 
             <converters:BoolInverter x:Key="BoolInverter" />
             <converters:FirstValidationErrorConverter x:Key="FirstValidationErrorConverter" />
