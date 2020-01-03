@@ -172,7 +172,7 @@
                                 Text="{Binding NewComment.Text}" />
                             <Button
                                 BackgroundColor="Transparent"
-                                Clicked="OnSendCommentClicked"
+                                Command="{Binding SendCommentCommand}"
                                 HorizontalOptions="End"
                                 Text="Send" />
                         </StackLayout>

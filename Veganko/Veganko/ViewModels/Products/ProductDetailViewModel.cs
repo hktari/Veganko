@@ -17,6 +17,7 @@ using Veganko.Views.Product;
 using Veganko.Extensions;
 using Veganko.Services.Http;
 using Veganko.ViewModels.Products.Partial;
+using Veganko.Services.Logging;
 
 namespace Veganko.ViewModels.Products
 {
@@ -107,6 +108,7 @@ namespace Veganko.ViewModels.Products
         private Favorite favoriteEntry;
 
         private ICommentsService commentDataStore;
+        private ILogger logger;
         private IDataStore<Favorite> favoriteDataStore;
         private IUserService userService;
 
@@ -116,6 +118,7 @@ namespace Veganko.ViewModels.Products
             NewComment = CreateDefaultComment();
 
             commentDataStore = App.IoC.Resolve<ICommentsService>();
+            logger = App.IoC.Resolve<ILogger>();
             favoriteDataStore = DependencyService.Get<IDataStore<Favorite>>();
             userService = App.IoC.Resolve<IUserService>();
             Comments = new ObservableCollection<CommentViewModel>();
@@ -178,25 +181,46 @@ namespace Veganko.ViewModels.Products
             Comments.Remove(commentVM);
         }
 
-        public async Task SendComment()
-        {
-            Debug.Assert(User != null);
-            Debug.Assert(newComment.Rating > 0);
-            Debug.Assert(!string.IsNullOrWhiteSpace(newComment.Text));
-
-            var comment = new Comment
+        public Command SendCommentCommand => new Command(
+            async () =>
             {
-                ProductId = Product.Id,
-                Rating = NewComment.Rating,
-                Text = NewComment.Text,
-                UserId = User.Id,
-            };
+                if (string.IsNullOrWhiteSpace(NewComment.Text))
+                {
+                    await App.CurrentPage.Err("Prosim vnesi text.");
+                    return;
+                }
 
-            await commentDataStore.AddItemAsync(comment);
-            await RefreshComments();
+                try
+                {
+                    IsBusy = true; 
+                    var comment = new Comment
+                    {
+                        ProductId = Product.Id,
+                        Text = NewComment.Text,
+                        UserId = User.Id,
+                    };
+                    
+                    // 0 means no rating was added. This translates to null for backend.
+                    if (NewComment.Rating != 0)
+                    {
+                        comment.Rating = NewComment.Rating;
+                    }
 
-            NewComment = CreateDefaultComment();
-        }
+                    await commentDataStore.AddItemAsync(comment);
+                    await RefreshComments();
+
+                    NewComment = CreateDefaultComment();
+                }
+                catch (ServiceException ex)
+                {
+                    logger.LogException(ex);
+                    await App.CurrentPage.Err("komentar ni bil poslan");
+                }
+                finally
+                {
+                    IsBusy = false;
+                }
+           });
 
         public async Task RefreshComments()
         {
@@ -241,7 +265,7 @@ namespace Veganko.ViewModels.Products
         {
             return new CommentViewModel(User)
             {
-                Rating = 1,
+                Rating = 0,
                 Text = "",
             };
         }

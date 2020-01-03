@@ -46,28 +46,5 @@ namespace Veganko.Views
                 vm.IsBusy = false;
             }
         }
-
-        private async void OnSendCommentClicked(object sender, EventArgs args)
-        {
-            if (string.IsNullOrWhiteSpace(vm.NewComment.Text) || vm.NewComment.Rating == 0)
-            {
-                await this.Err("Prosim vnesi text in oceno.");
-                return;
-            }
-
-            try
-            {
-                vm.IsBusy = true;
-                await vm.SendComment();
-            }
-            catch (ServiceException ex)
-            {
-                await this.Err(ex.Response);
-            }
-            finally
-            {
-                vm.IsBusy = false;
-            }
-        }
     }
 }

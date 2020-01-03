@@ -40,22 +40,20 @@ namespace Veganko.Services
             },
         };
 
-        private UserPublicInfo curUser = new UserPublicInfo
+        public UserPublicInfo CurrentUser { get; private set; } = new UserPublicInfo
         {
             Username = "test", Email = "test@email.com", ProfileBackgroundId = "0", AvatarId = "0", Role = UserRole.Admin
         };
 
-        public UserPublicInfo CurrentUser => curUser;
-
         public void ClearCurrentUser()
         {
-            curUser = null;
+            CurrentUser = null;
         }
 
         public Task<UserPublicInfo> Edit(UserPublicInfo user)
         {
-            curUser = user;
-            return Task.FromResult(curUser);
+            CurrentUser = user;
+            return Task.FromResult(CurrentUser);
         }
 
         public void EnsureCurrentUserIsSet()
@@ -84,7 +82,7 @@ namespace Veganko.Services
 
         public void SetCurrentUser(UserPublicInfo user)
         {
-            curUser = user;
+            CurrentUser = user;
         }
     }
 }

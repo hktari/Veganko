@@ -10,7 +10,7 @@ namespace Veganko.Controls
 	public class RatingsView : ContentView
 	{
         public static readonly BindableProperty RatingProperty = 
-            BindableProperty.Create(nameof(Rating), typeof(int), typeof(RatingsView), 1, propertyChanged: OnRatingPropertyChanged, coerceValue: CoerceRatingPropertyValue);
+            BindableProperty.Create(nameof(Rating), typeof(int), typeof(RatingsView), 0, propertyChanged: OnRatingPropertyChanged, coerceValue: CoerceRatingPropertyValue);
 
         public int Rating
         {
@@ -43,7 +43,7 @@ namespace Veganko.Controls
         private static object CoerceRatingPropertyValue(BindableObject bindable, object value)
         {
             var val = (int)value;
-            return Math.Max(1, Math.Min(val, 5)); // clamp value
+            return Math.Max(0, Math.Min(val, 5)); // clamp value
         }
 
         private static void OnRatingPropertyChanged(BindableObject bindable, object oldValue, object newValue)
@@ -55,12 +55,12 @@ namespace Veganko.Controls
         private void CreateStars()
         {
             stars = new List<Label>();
-            int count = 5;
+            int count = 6;
             for (int i = 0; i < count; i++)
             {
                 var label = new Label
                 {
-                    Text = "" + IntToStarConverter.StarUnicode,
+                    Text = i == 0 ? " " : "" + IntToStarConverter.StarUnicode,
                     FontSize = Device.GetNamedSize(NamedSize.Medium, typeof(Label))
                 };
                 label.GestureRecognizers.Add(
@@ -72,15 +72,14 @@ namespace Veganko.Controls
         private void OnButtonClicked(object sender, EventArgs e)
         {
             var idx = stars.IndexOf(sender as Label);
-            Rating = idx + 1;
+            Rating = idx;
         }
 
         public void UpdateView(int rating)
         {
-            var idx = rating - 1;
             for (int i = 0; i < stars.Count; i++)
             {
-                if (i <= idx)
+                if (i <= rating)
                     stars[i].Opacity = 1.0d;
                 else
                     stars[i].Opacity = 0.5d;
