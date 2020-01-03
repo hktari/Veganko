@@ -8,6 +8,7 @@ namespace VegankoService.Models.Comments
     public class CommentInput
     {
         public string ProductId { get; set; }
+        // Not being used
         public string UserId { get; set; }
         public int? Rating { get; set; }
         public string Text { get; set; }
