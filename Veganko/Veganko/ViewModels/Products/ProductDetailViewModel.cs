@@ -247,8 +247,15 @@ namespace Veganko.ViewModels.Products
 
         private int CalculateAvgRating(List<Comment> comments)
         {
+            // Prevent division by 0
+            if (comments.Count == 0)
+            {
+                return 0;
+            }
+            
             int allRatings = 0;
             double ratingsSummed = 0;
+            
             foreach (var comment in comments)
             {
                 if (comment.Rating != null)
