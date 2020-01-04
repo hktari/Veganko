@@ -73,17 +73,18 @@
                                 Source="edit.png" />
                         </Grid>
                         <Grid
-                            Margin="5,0,12.5,0"
+                            Margin="5,0,12.5,15"
                             ColumnSpacing="30"
-                            RowSpacing="5">
+                            RowSpacing="15">
                             <Grid.RowDefinitions>
+                                <RowDefinition Height="*" />
                                 <RowDefinition Height="Auto" />
                             </Grid.RowDefinitions>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="*" />
                                 <ColumnDefinition Width="45" />
                             </Grid.ColumnDefinitions>
-                            <Label>
+                            <Label VerticalOptions="Start">
                                 <Label.FormattedText>
                                     <FormattedString>
                                         <Span
@@ -102,10 +103,20 @@
                                     </FormattedString>
                                 </Label.FormattedText>
                             </Label>
+
+                            <Label
+                                Grid.Row="1"
+                                Grid.ColumnSpan="2"
+                                FontFamily="{StaticResource RalewayRegularFont}"
+                                FontSize="Small"
+                                LineBreakMode="WordWrap"
+                                Text="{Binding Product.Description}" />
+
                             <ImageButton
                                 Grid.Column="1"
                                 BackgroundColor="{StaticResource LightBackgroundColor}"
                                 IsEnabled="False"
+                                VerticalOptions="Start"
                                 Source="ico_where_to_buy.png" />
                             <ContentView Grid.Column="1">
                                 <ContentView.GestureRecognizers>
@@ -113,13 +124,6 @@
                                 </ContentView.GestureRecognizers>
                             </ContentView>
                         </Grid>
-                        <Label
-                            Grid.Row="3"
-                            Grid.Column="1"
-                            FontFamily="{StaticResource RalewayRegularFont}"
-                            FontSize="Small"
-                            LineBreakMode="WordWrap"
-                            Text="{Binding Product.Description}" />
                         <controls:EnumImageView
                             Grid.Row="4"
                             Grid.Column="1"

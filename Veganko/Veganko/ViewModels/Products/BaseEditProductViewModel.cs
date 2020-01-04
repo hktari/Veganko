@@ -19,8 +19,8 @@ namespace Veganko.ViewModels.Products
 {
     public class BaseEditProductViewModel : BaseViewModel
     {
-        public const int maxPhotoWidthInPix = 2160;
-        public const int maxPhotoHeightInDips = 300;
+        public const int maxPhotoWidthHeightInPix = 2160;
+        //public const int maxPhotoHeightInDips = 300;
         public const int thumbnailPhotoWidthInPix = 400;
         public const int thumbnailPhotoHeightInPix = 400;
 
@@ -217,7 +217,7 @@ namespace Veganko.ViewModels.Products
             MediaFile mediaFile = await CrossMedia.Current.PickPhotoAsync(new PickMediaOptions
             {
                 PhotoSize = PhotoSize.MaxWidthHeight,
-                MaxWidthHeight = maxPhotoWidthInPix,
+                MaxWidthHeight = maxPhotoWidthHeightInPix,
             });
 
             if (mediaFile == null)
@@ -232,7 +232,7 @@ namespace Veganko.ViewModels.Products
         private async Task TakeImage()
         {
 #if __ANDROID__
-            byte[] data = await Droid.MainActivity.Context.DispatchTakePictureIntent(maxPhotoHeightInDips, maxPhotoWidthInPix);
+            byte[] data = await Droid.MainActivity.Context.DispatchTakePictureIntent(maxPhotoWidthHeightInPix);
             ProductDetailImageData = data;
             ProductImg = ImageSource.FromStream(() => new MemoryStream(data));
 #else
@@ -248,7 +248,7 @@ namespace Veganko.ViewModels.Products
             {
                 Directory = "Pictures",
                 PhotoSize = Plugin.Media.Abstractions.PhotoSize.MaxWidthHeight,
-                MaxWidthHeight = maxPhotoHeightInDips,
+                MaxWidthHeight = maxPhotoWidthHeightInPix,
                 CompressionQuality = 100,
                 Name = Guid.NewGuid().ToString() + ".jpg"
             });
