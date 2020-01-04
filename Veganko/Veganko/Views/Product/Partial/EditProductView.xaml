@@ -191,18 +191,14 @@
                     Margin="0,20,0,0"
                     BackgroundColor="#ffe6bb"
                     HeightRequest="300"
-                    IsClippedToBounds="True"
                     Style="{StaticResource EntryFrameStyle}"
                     VerticalOptions="Start">
                     <Grid IsClippedToBounds="True">
-                        <Label
-                            x:Name="imageNameResult"
-                            IsVisible="False"
-                            Text="{Binding Product.ImageName}" />
                         <Image
                             x:Name="CameraButton"
                             Aspect="AspectFill"
                             BackgroundColor="#ffe6bb"
+                            HorizontalOptions="Center"
                             IsVisible="{Binding PhotoPicked}"
                             Source="{Binding ProductImg}">
                             <Image.GestureRecognizers>
