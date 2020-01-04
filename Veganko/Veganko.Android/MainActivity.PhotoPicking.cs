@@ -33,8 +33,7 @@ namespace Veganko.Droid
     {
         const int REQUEST_TAKE_PHOTO = 1;
         private readonly int REQUEST_CAMERA_PERMISSION = 11;
-        private int maxPhotoWidthInPix;
-        private int maxPhotoHeightInDips;
+        private int maxPhotoWidthHeightInPix;
         private string currentPhotoPath;
         private TaskCompletionSource<byte[]> takePictureTCS;
         private TaskCompletionSource<bool> waitForPermissionTCS;
@@ -54,7 +53,7 @@ namespace Veganko.Droid
             }
         }
 
-        public async Task<byte[]> DispatchTakePictureIntent(int maxPhotoHeightInDips, int maxPhotoWidthInPix)
+        public async Task<byte[]> DispatchTakePictureIntent(int maxPhotoWidthHeightInPix)
         {
             if (Android.OS.Build.VERSION.SdkInt >= BuildVersionCodes.M)
             {
@@ -74,8 +73,7 @@ namespace Veganko.Droid
                 }
             }
 
-            this.maxPhotoWidthInPix = maxPhotoWidthInPix;
-            this.maxPhotoHeightInDips = maxPhotoHeightInDips;
+            this.maxPhotoWidthHeightInPix = maxPhotoWidthHeightInPix;
             takePictureTCS = new TaskCompletionSource<byte[]>();
 
             Intent takePictureIntent = new Intent(MediaStore.ActionImageCapture);
@@ -140,18 +138,9 @@ namespace Veganko.Droid
                 bmOptions.InJustDecodeBounds = true;
                 BitmapFactory.DecodeFile(currentPhotoPath, bmOptions);
 
-                DisplayMetrics metrics = new DisplayMetrics();
-                WindowManager.DefaultDisplay.GetMetrics(metrics);
-
-                // Get the dimensions of the View
-                int targetW = ToDps(maxPhotoWidthInPix, metrics.Xdpi);
-                int targetH = maxPhotoHeightInDips;
-
-                int photoW = ToDps(bmOptions.OutWidth, metrics.Xdpi);
-                int photoH = ToDps(bmOptions.OutHeight, metrics.Ydpi);
-
                 // Determine how much to scale down the image
-                int scaleFactor = Math.Min(photoW / targetW, photoH / targetH);
+                int scaleFactor = Math.Min(
+                    bmOptions.OutWidth / maxPhotoWidthHeightInPix, bmOptions.OutHeight / maxPhotoWidthHeightInPix);
 
                 Log.Debug("VEGANKO", $"Scale factor: {scaleFactor}");
 
