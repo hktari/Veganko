@@ -23,11 +23,7 @@ namespace Veganko.ViewModels
         private readonly IUserService userService;
         private readonly ILogger logger;
 
-        public string SelectedUserType { get; set; } = "user";
-
         public bool IsManager { get; private set; }
-
-        bool authenticated = false;
 
         public LoginViewModel()
         {
@@ -55,23 +51,35 @@ namespace Veganko.ViewModels
             set => SetProperty(ref email, value);
         }
 
-        public async Task<bool> TryAutoLogin()
+        public async Task TryAutoLogin()
         {
-            IAuthService authService = App.IoC.Resolve<IAuthService>();
-
-            if (!await authService.CredentialsExist())
+            IsBusy = true;
+            try
             {
-                return false;
-            }
+                IAuthService authService = App.IoC.Resolve<IAuthService>();
 
-            if (!await authService.IsTokenValid())
+                if (!await authService.CredentialsExist())
+                {
+                    return;
+                }
+
+                if (!await authService.IsTokenValid())
+                {
+                    await authService.RefreshToken();
+                }
+
+                SetupCurrentUser();
+                NavigateToMainPage();
+            }
+            catch (Exception ex)
             {
-                await authService.RefreshToken();
+                logger.LogException(
+                    new Exception("Error while logging in automatically.", ex));
             }
-
-            SetupCurrentUser();
-
-            return true;
+            finally
+            {
+                IsBusy = false;
+            }
         }
 
         public Command LoginCommand => new Command(async () =>
@@ -89,19 +97,23 @@ namespace Veganko.ViewModels
 
                 await authService.Login(email, password);
                 SetupCurrentUser();
-
-                App.Current.MainPage = new MainPage(IsManager);
+                NavigateToMainPage();
             }
             catch (ServiceException ex)
             {
                 logger.WriteLine<LoginViewModel>(ex.Message);
-                await App.CurrentPage.Err($"Nepravilen email ali geslo.");
+                await App.CurrentPage.Err($"Nepravilen email ali geslo.", ex);
             }
             finally
             {
                 IsBusy = false;
             }
         });
+
+        private void NavigateToMainPage()
+        {
+            App.Current.MainPage = new MainPage(IsManager);
+        }
 
         private void SetupCurrentUser()
         {

@@ -24,32 +24,12 @@ namespace Veganko.Views
 
         protected async override void OnAppearing()
         {
-            vm.IsBusy = true;
-            try
-            {
-                if (await vm.TryAutoLogin())
-                {
-                    NavigateToMainPage();
-                }
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine("Error while logging in automatically. " + ex.Message);
-            }
-            finally
-            {
-                vm.IsBusy = false;
-            }
+            await vm.TryAutoLogin();
         }
 
         private async void OnSignUpBtnClicked(object sender, EventArgs args)
         {
             await Navigation.PushAsync(new RegisterPage());
-        }
-
-        private void NavigateToMainPage()
-        {
-            App.Current.MainPage = new MainPage(vm.IsManager);
         }
 
         private void OnForgotPasswordClicked(object sender, EventArgs args)
