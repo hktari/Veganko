@@ -60,7 +60,7 @@ namespace Veganko.Views
             }
             catch (ServiceException ex)
             {
-                await this.Err(ex.StatusDescription);
+                await this.Err(ex.StatusCodeDescription);
             }
         }
     }

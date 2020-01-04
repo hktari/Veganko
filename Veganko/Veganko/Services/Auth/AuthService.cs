@@ -39,14 +39,14 @@ namespace Veganko.Services.Auth
 
             if (!response.IsSuccessful)
             {
-                throw new ServiceException(response.ErrorMessage, response.StatusDescription, loginRequest.Resource, loginRequest.Method.ToString(), response.ErrorException);
+                throw new ServiceException(response.ErrorMessage, response);
             }
 
             LoginResponse responseData = JsonConvert.DeserializeObject<LoginResponse>(response.Content);
 
             if (responseData.Error != null)
             {
-                throw new ServiceException(responseData.Error, response.StatusDescription, loginRequest.Resource, loginRequest.Method.ToString());
+                throw new ServiceException(responseData.Error, response);
             }
 
             Token curToken = responseData.Token;

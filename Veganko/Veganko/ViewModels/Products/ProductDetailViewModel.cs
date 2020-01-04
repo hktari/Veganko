@@ -237,7 +237,7 @@ namespace Veganko.ViewModels.Products
             }
             catch (ServiceException ex)
             {
-                await App.CurrentPage.Err(ex.StatusDescription);
+                await App.CurrentPage.Err(ex.StatusCodeDescription);
             }
             finally
             {

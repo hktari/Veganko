@@ -107,7 +107,7 @@ namespace Veganko.ViewModels.PasswordRecovery
             }
             catch (ServiceException ex)
             {
-                await App.CurrentPage.Err(ex.StatusDescription);
+                await App.CurrentPage.Err(ex.StatusCodeDescription);
             }
             finally
             {
@@ -143,7 +143,7 @@ namespace Veganko.ViewModels.PasswordRecovery
             }
             catch (ServiceException ex)
             {
-                await App.CurrentPage.Err(ex.StatusDescription);
+                await App.CurrentPage.Err(ex.StatusCodeDescription);
             }
             finally
             {

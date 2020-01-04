@@ -56,7 +56,7 @@ namespace Veganko.Services.Http
             }
             catch (Exception ex)
             {
-                throw new ServiceException("Neznana napaka.", null, request.Resource, request.Method.ToString(), ex);
+                throw new ServiceException(false, "Neznana napaka.", null, request.Resource, request.Method.ToString(), ex);
             }
 
             AssertResponseSuccess(response);
@@ -99,9 +99,15 @@ namespace Veganko.Services.Http
         {
             if (!response.IsSuccessful)
             {
-                string debugMsg = $"Http request failed: \n{response.Request.Resource}\n{response.Request.Method}\n{response.StatusCode}: {response.StatusDescription}";
-                Console.WriteLine(debugMsg);
-                throw new ServiceException(response.Content, response.StatusDescription, response.Request.Resource, response.Request.Method.ToString());
+                var serviceEx = new ServiceException(response);
+
+                // Log transport layer errors
+                if (response.ResponseStatus != ResponseStatus.Completed)
+                {
+                    logger.LogException(serviceEx);
+                }
+
+                throw serviceEx;
             }
         }
 

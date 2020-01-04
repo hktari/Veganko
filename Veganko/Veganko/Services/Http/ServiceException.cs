@@ -5,33 +5,41 @@ using System.Text;
 
 namespace Veganko.Services.Http
 {
-    class ServiceException : Exception
+    public class ServiceException : Exception
     {
         public ServiceException(IRestResponse response)
-            : this(response.Content, response.StatusDescription, response.Request.Resource, response.Request.Method.ToString(), response.ErrorException)
+            : this(response.ResponseStatus == ResponseStatus.Completed, response.Content, response.StatusDescription, response.Request.Resource, response.Request.Method.ToString(), response.ErrorException)
+        {
+        }
+        
+        public ServiceException(string message, IRestResponse response)
+            : this(response.ResponseStatus == ResponseStatus.Completed, message, response.StatusDescription, response.Request.Resource, response.Request.Method.ToString(), response.ErrorException)
         {
         }
 
-        public ServiceException(string response, string statusDescription, string resource, string method)
-            : this(response, statusDescription, resource, method, null)
+        public ServiceException(bool hasRemoteBeenReached, string response, string statusCodeDescription, string resource, string method)
+            : this(hasRemoteBeenReached, response, statusCodeDescription, resource, method, null)
         {
+            HasRemoteBeenReached = hasRemoteBeenReached;
             Response = response;
-            StatusDescription = statusDescription;
+            StatusCodeDescription = statusCodeDescription;
             Resource = resource;
             Method = method;
         }
 
-        public ServiceException(string response, string statusDescription, string resource, string method, Exception innerException)
-            : base($"HTTP request failed: {statusDescription}", innerException)
+        public ServiceException(bool hasRemoteBeenReached, string response, string statusCodeDescription, string resource, string method, Exception innerException)
+            : base($"HTTP request failed: {statusCodeDescription}", innerException)
         {
+            HasRemoteBeenReached = hasRemoteBeenReached;
             Response = response;
-            StatusDescription = statusDescription;
+            StatusCodeDescription = statusCodeDescription;
             Resource = resource;
             Method = method;
         }
 
+        public bool HasRemoteBeenReached { get; }
         public string Response { get; }
-        public string StatusDescription { get; }
+        public string StatusCodeDescription { get; }
         public string Resource { get; }
         public string Method { get; }
     }

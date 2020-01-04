@@ -112,7 +112,7 @@ namespace Veganko.ViewModels
                 {
                     logger.LogException(ex);
                     // TODO: duplicate user ?
-                    await App.CurrentPage.Err("Neznana napaka pri registraciji: " + ex.StatusDescription);
+                    await App.CurrentPage.Err("Neznana napaka pri registraciji: " + ex.StatusCodeDescription);
                 }
             });
 
