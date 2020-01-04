@@ -74,7 +74,6 @@
                 Grid.RowSpan="3"
                 Grid.Column="2"
                 Padding="3"
-                BackgroundColor="White"
                 IsClippedToBounds="True"
                 Style="{StaticResource EntryFrameStyle}">
                 <Grid IsClippedToBounds="True" RowSpacing="0">
@@ -83,8 +82,8 @@
                         <RowDefinition Height="1" />
                         <RowDefinition Height="50" />
                     </Grid.RowDefinitions>
-                    <ScrollView>
-                        <ContentPresenter Padding="30,0" IsClippedToBounds="True" />
+                    <ScrollView Padding="30,10">
+                        <ContentPresenter IsClippedToBounds="True" />
                     </ScrollView>
                     <BoxView Grid.Row="1" Color="Black" />
                     <Button

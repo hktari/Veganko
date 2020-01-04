@@ -56,15 +56,22 @@
                 VerticalOptions="Start"
                 WidthRequest="155"
                 Source="login_leaf1.png" />
-            <ImageButton
+
+            <Button
                 Grid.Row="3"
                 Grid.RowSpan="2"
                 Grid.Column="2"
+                BackgroundColor="#FFE8EABB"
+                BorderColor="Black"
+                BorderWidth="3"
                 Clicked="OnSignUpBtnClicked"
+                CornerRadius="4"
+                FontFamily="{StaticResource VarelaRoundFont}"
+                FontSize="23"
                 HorizontalOptions="Start"
+                Text="sign up"
                 VerticalOptions="Center"
-                WidthRequest="120"
-                Source="login_sign_up.png" />
+                WidthRequest="115" />
 
             <Image
                 Grid.Row="3"
