@@ -1,16 +1,11 @@
 ﻿using Autofac;
-using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using Veganko.Models;
 using Veganko.Models.User;
 using Veganko.Other;
 using Veganko.Services;
 using Veganko.Services.Comments;
-using Veganko.Services.Http;
 using Veganko.ViewModels.Profile;
 using Veganko.Views;
 using Xamarin.Forms;
@@ -63,8 +58,8 @@ namespace Veganko.ViewModels
         private ObservableCollection<ProfileComment> comments;
         public ObservableCollection<ProfileComment> Comments
         {
-            get { return comments; }
-            set { SetProperty(ref comments, value); }
+            get => comments;
+            set => SetProperty(ref comments, value);
         }
 
         private bool isDirty;
@@ -94,6 +89,41 @@ namespace Veganko.ViewModels
             productDataStore = App.IoC.Resolve<IProductService>();
         }
 
+        private bool shouldShowDescriptionPlaceholder;
+        public bool ShouldShowDescriptionPlaceholder
+        {
+            get
+            {
+                return shouldShowDescriptionPlaceholder;
+            }
+            set
+            {
+                SetProperty(ref shouldShowDescriptionPlaceholder, value);
+            }
+        }
+
+        private bool isEditingDescription;
+        public bool IsEditingDescription
+        {
+            get => isEditingDescription;
+            set => SetProperty(ref isEditingDescription, value);
+        }
+
+        public Command StartEditingDescriptionCommand => new Command(
+            () =>
+            {
+                IsEditingDescription = true;
+                ShouldShowDescriptionPlaceholder = false;
+            });
+
+        public Command StopEditingDescriptionCommand => new Command(
+            () =>
+            {
+                IsEditingDescription = false;
+                UpdateDescPlaceholderVisibility();
+                UpdateIsDirty();
+            });
+
         public async Task SaveProfile()
         {
             UserPublicInfo updatedUser = new UserPublicInfo(userService.CurrentUser)
@@ -104,17 +134,9 @@ namespace Veganko.ViewModels
                 ProfileBackgroundId = Images.GetProfileBackgroundImageId(BackgroundImage),
             };
 
-            await userService.Edit(updatedUser);
-
-            IsDirty = false;
-        }
-
-        private void HandleNewData()
-        {
-            UserDescription = User.Description;
-            UserLabel = User.Label;
-            AvatarImage = Images.GetProfileAvatarById(User.AvatarId);
-            BackgroundImage = Images.GetProfileBackgroundImageById(User.ProfileBackgroundId);
+            User = await userService.Edit(updatedUser);
+            HandleNewData();
+            UpdateIsDirty();
         }
 
         public async Task Refresh()
@@ -158,6 +180,20 @@ namespace Veganko.ViewModels
             //{
             //    IsBusy = false;
             //}
+        }
+
+        private void HandleNewData()
+        {
+            UserDescription = User.Description;
+            UserLabel = User.Label;
+            AvatarImage = Images.GetProfileAvatarById(User.AvatarId);
+            BackgroundImage = Images.GetProfileBackgroundImageById(User.ProfileBackgroundId);
+            UpdateDescPlaceholderVisibility();
+        }
+
+        private void UpdateDescPlaceholderVisibility()
+        {
+            ShouldShowDescriptionPlaceholder = string.IsNullOrWhiteSpace(UserDescription);
         }
 
         private void OnBackgroundImageChanged(BackgroundImageViewModel arg1, string newBackgroundId)

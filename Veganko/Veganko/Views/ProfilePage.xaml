@@ -3,6 +3,7 @@
     x:Class="Veganko.Views.ProfilePage"
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:behaviors="clr-namespace:Veganko.Behaviors"
     xmlns:circleImageControl="clr-namespace:ImageCircle.Forms.Plugin.Abstractions;assembly=ImageCircle.Forms.Plugin.Abstractions"
     xmlns:converters="clr-namespace:Veganko.Converters"
     xmlns:views="clr-namespace:Veganko.Views"
@@ -76,6 +77,7 @@
                 HorizontalTextAlignment="Center"
                 Text="{Binding User.Username}"
                 TextColor="White" />
+
             <Label
                 Grid.Row="2"
                 Grid.ColumnSpan="3"
@@ -83,10 +85,40 @@
                 FontFamily="{StaticResource RalewayRegularFont}"
                 FontSize="14"
                 HorizontalTextAlignment="Center"
+                IsVisible="{Binding IsEditingDescription, Converter={StaticResource BoolInverter}}"
                 LineBreakMode="TailTruncation"
                 MaxLines="7"
-                Text="{Binding User.Description}"
-                TextColor="#fff" />
+                Text="{Binding UserDescription}"
+                TextColor="#fff">
+                <Label.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding StartEditingDescriptionCommand}" />
+                </Label.GestureRecognizers>
+            </Label>
+            <Editor
+                Grid.Row="2"
+                Grid.ColumnSpan="3"
+                Margin="10,0"
+                FontFamily="{StaticResource RalewayRegularFont}"
+                FontSize="14"
+                IsTextPredictionEnabled="False"
+                IsVisible="{Binding IsEditingDescription}"
+                MaxLength="255"
+                Text="{Binding UserDescription, Mode=TwoWay}">
+                <Editor.Behaviors>
+                    <behaviors:EventToCommandBehavior Command="{Binding StopEditingDescriptionCommand}" EventName="Completed" />
+                    <behaviors:EventToCommandBehavior Command="{Binding StopEditingDescriptionCommand}" EventName="Unfocused" />
+                </Editor.Behaviors>
+            </Editor>
+            <Label
+                Grid.Row="2"
+                Grid.ColumnSpan="3"
+                Margin="10,0"
+                FontFamily="{StaticResource QuicksandFont}"
+                FontSize="13"
+                InputTransparent="True"
+                IsVisible="{Binding ShouldShowDescriptionPlaceholder}"
+                Text="Tapni tukaj in dodaj opis :)"
+                TextColor="#eee" />
             <Button
                 Grid.Row="3"
                 Grid.ColumnSpan="3"
