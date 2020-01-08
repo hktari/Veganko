@@ -112,7 +112,9 @@
     <Content Include="avatar_cow.png" />
     <Content Include="avatar_fox.png" />
     <Content Include="avatar_panda.png" />
-    <Content Include="avatar_pig.png" />
+    <Content Include="avatar_pig.png">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="barcode.png">
       <SubType>Designer</SubType>
     </Content>
