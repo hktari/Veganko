@@ -129,7 +129,7 @@
     <Content Include="coniferous_forest.jpg">
       <SubType>Designer</SubType>
     </Content>
-    <AndroidResource Include="ico_add_yellow.png" />
+    <Content Include="ico_add_yellow.png" />
     <Content Include="delete.png" />
     <Content Include="dmbio_orangensaft.jpg" />
     <Content Include="edit.png" />
