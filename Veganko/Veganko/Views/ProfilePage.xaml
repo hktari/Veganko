@@ -107,6 +107,7 @@
                 <Editor.Behaviors>
                     <behaviors:EventToCommandBehavior Command="{Binding StopEditingDescriptionCommand}" EventName="Completed" />
                     <behaviors:EventToCommandBehavior Command="{Binding StopEditingDescriptionCommand}" EventName="Unfocused" />
+                    <behaviors:FocusVisualElementBehavior FocusCommand="{Binding FocusEditorCommand}" />
                 </Editor.Behaviors>
             </Editor>
             <Label

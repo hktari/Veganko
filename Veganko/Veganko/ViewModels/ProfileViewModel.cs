@@ -73,6 +73,7 @@ namespace Veganko.ViewModels
         private IProductService productDataStore;
         private readonly IAccountService accountService;
         private readonly IUserService userService;
+        private Command focusEditorCommand;
 
         public ProfileViewModel()
         {
@@ -113,6 +114,7 @@ namespace Veganko.ViewModels
             () =>
             {
                 IsEditingDescription = true;
+                FocusEditorCommand?.Execute(null);
                 ShouldShowDescriptionPlaceholder = false;
             });
 
@@ -123,6 +125,18 @@ namespace Veganko.ViewModels
                 UpdateDescPlaceholderVisibility();
                 UpdateIsDirty();
             });
+
+        public Command FocusEditorCommand
+        {
+            get
+            {
+                return focusEditorCommand;
+            }
+            set
+            {
+                SetProperty(ref focusEditorCommand, value);
+            }
+        }
 
         public async Task SaveProfile()
         {
