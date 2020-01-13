@@ -33,11 +33,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Client", "Client", "{45BB8F
 EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
-		Tests\Unit\UnitTests.Shared\UnitTests.Shared.projitems*{46484f11-6620-4b73-a220-0f9025882b73}*SharedItemsImports = 4
-		Veganko\Veganko\Veganko.projitems*{46484f11-6620-4b73-a220-0f9025882b73}*SharedItemsImports = 4
+		Veganko\Veganko\Veganko.projitems*{04157ac5-92b8-461b-86de-006af2acd6a5}*SharedItemsImports = 4
 		Veganko\Veganko\Veganko.projitems*{490dbbc7-a144-4351-9086-582dfce5ba00}*SharedItemsImports = 4
 		Veganko\Veganko\Veganko.projitems*{5fa59065-c093-4b74-8142-5e3d5e56a30d}*SharedItemsImports = 13
-		Tests\Unit\UnitTests.Shared\UnitTests.Shared.projitems*{6d761d9a-24cd-48ec-bf03-54c9f283896f}*SharedItemsImports = 13
 		Veganko\Veganko\Veganko.projitems*{c6f5190e-9b83-44f2-aa8b-2ae3685ef8b3}*SharedItemsImports = 4
 	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
