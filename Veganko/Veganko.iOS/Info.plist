@@ -54,5 +54,13 @@
     <string>This app needs access to photos.</string>
     <key>NSPhotoLibraryAddUsageDescription</key>
     <string>This app needs access to the photo gallery.</string>
+    <key>UIAppFonts</key>
+    <array>
+      <string>Montserrat-Regular.ttf</string>
+      <string>Quicksand-VariableFont_wght.ttf</string>
+      <string>Raleway-Medium.ttf</string>
+      <string>Raleway-Regular.ttf</string>
+      <string>VarelaRound-Regular.ttf</string>
+    </array>
   </dict>
 </plist>

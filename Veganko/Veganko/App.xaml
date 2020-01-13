@@ -19,20 +19,20 @@
                 x:TypeArguments="x:String"
                 Android="Quicksand-VariableFont_wght.ttf#Quicksand"
                 Default="null"
-                iOS="Quicksand" />
+                iOS="Quicksand-VariableFont_wght" />
             <OnPlatform
                 x:Key="VarelaRoundFont"
                 x:TypeArguments="x:String"
                 Android="VarelaRound-Regular.ttf#Varela Round"
                 Default="null"
-                iOS="Varela Round" />
+                iOS="VarelaRound-Regular" />
             <!--  TODO: add iOS  -->
             <OnPlatform
                 x:Key="RalewayRegularFont"
                 x:TypeArguments="x:String"
                 Android="Raleway-Regular.ttf#Raleway"
                 Default="null"
-                iOS="Varela Round" />
+                iOS="Raleway-Regular" />
 
             <!--  TODO: add iOS  -->
             <OnPlatform
@@ -40,14 +40,14 @@
                 x:TypeArguments="x:String"
                 Android="Raleway-Medium.ttf#Raleway Medium"
                 Default="null"
-                iOS="Varela Round" />
+                iOS="Raleway-Medium" />
             <!--  TODO: add iOS  -->
             <OnPlatform
                 x:Key="MontserratRegularFont"
                 x:TypeArguments="x:String"
                 Android="Montserrat-Regular.ttf#Montserrat"
                 Default="null"
-                iOS="Varela Round" />
+                iOS="Montserrat-Regular" />
 
             <!--  The referenced resources need to be defined before this. Otherwise app crashes on droid with "Optimize Code" enabled.  -->
             <Style x:Key="PositiveBtn" TargetType="Button">
