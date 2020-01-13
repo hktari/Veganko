@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-
+using FFImageLoading.Forms.Platform;
 using Foundation;
 using ImageCircle.Forms.Plugin.iOS;
 using UIKit;
@@ -26,6 +26,7 @@ namespace Veganko.iOS
             global::Xamarin.Forms.Forms.Init();
             ImageCircleRenderer.Init();
             ZXing.Net.Mobile.Forms.iOS.Platform.Init();
+            CachedImageRenderer.Init();
             LoadApplication(new App());
 
             return base.FinishedLaunching(app, options);
