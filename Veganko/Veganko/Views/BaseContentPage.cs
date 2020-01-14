@@ -9,17 +9,24 @@ namespace Veganko.Views
     {
         public BaseContentPage()
         {
-            NavigationPage.SetHasNavigationBar(this, false);
+            if (Device.RuntimePlatform == Device.Android)
+            {
+                NavigationPage.SetHasNavigationBar(this, false);
+            }
+            else if (Device.RuntimePlatform == Device.iOS)
+            {
+                Padding = new Thickness(0, 34, 0, 0);
+            }
         }
 
-        new public void SendAppearing()
-        {
-            OnAppearing();
-        }
+        //new public void SendAppearing()
+        //{
+        //    OnAppearing();
+        //}
 
-        new public void SendDisappearing()
-        {   
-            OnDisappearing();
-        }
+        //new public void SendDisappearing()
+        //{   
+        //    OnDisappearing();
+        //}
     }
 }
