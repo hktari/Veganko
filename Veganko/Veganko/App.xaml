@@ -92,6 +92,7 @@
                 <Setter Property="Padding" Value="0" />
                 <Setter Property="CornerRadius" Value="9" />
                 <Setter Property="BorderColor" Value="Black" />
+                <Setter Property="HasShadow" Value="{OnPlatform iOS=False, Default=True}" />
             </Style>
 
             <ControlTemplate x:Key="LodingIndicatorTemplate">

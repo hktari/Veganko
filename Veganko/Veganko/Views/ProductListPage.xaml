@@ -50,7 +50,7 @@
                             HorizontalOptions="Start"
                             VerticalOptions="Center"
                             WidthRequest="40"
-                            Source="barcode.jpg" />
+                            Source="barcode.png" />
                     </Frame>
                     <StackLayout
                         Padding="5,0"
