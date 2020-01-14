@@ -56,11 +56,13 @@
 	<string>This app needs access to the photo gallery.</string>
 	<key>UIAppFonts</key>
 	<array>
-		<string>Montserrat-Regular.ttf</string>
-		<string>Quicksand-VariableFont_wght.ttf</string>
-		<string>Raleway-Medium.ttf</string>
-		<string>Raleway-Regular.ttf</string>
-		<string>VarelaRound-Regular.ttf</string>
+		<string>Fonts/Montserrat-Regular.ttf</string>
+		<string>Fonts/Quicksand-VariableFont_wght.ttf</string>
+		<string>Fonts/Raleway-Medium.ttf</string>
+		<string>Fonts/Raleway-Regular.ttf</string>
+		<string>Fonts/VarelaRound-Regular.ttf</string>
 	</array>
+	<key>UIStatusBarHidden</key>
+	<true/>
 </dict>
 </plist>
