@@ -33,6 +33,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Client", "Client", "{45BB8F
 EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
+		Veganko\Veganko\Veganko.projitems*{04157ac5-92b8-461b-86de-006af2acd6a5}*SharedItemsImports = 4
 		Tests\Unit\UnitTests.Shared\UnitTests.Shared.projitems*{46484f11-6620-4b73-a220-0f9025882b73}*SharedItemsImports = 4
 		Veganko\Veganko\Veganko.projitems*{46484f11-6620-4b73-a220-0f9025882b73}*SharedItemsImports = 4
 		Veganko\Veganko\Veganko.projitems*{490dbbc7-a144-4351-9086-582dfce5ba00}*SharedItemsImports = 4

@@ -48,6 +48,12 @@
                 Android="Montserrat-Regular.ttf#Montserrat"
                 Default="null"
                 iOS="Varela Round" />
+            <OnPlatform
+                x:Key="RalewayLightFont"
+                x:TypeArguments="x:String"
+                Android="Raleway-Light.ttf#Raleway Light"
+                Default="null"
+                iOS="Raleway Light" />
 
             <!--  The referenced resources need to be defined before this. Otherwise app crashes on droid with "Optimize Code" enabled.  -->
             <Style x:Key="PositiveBtn" TargetType="Button">
@@ -89,7 +95,7 @@
                 <Setter Property="IsSpellCheckEnabled" Value="False" />
             </Style>
             <Style x:Key="EntryFrameStyle" TargetType="Frame">
-                <Setter Property="Padding" Value="0" />
+                <Setter Property="Padding" Value="10, 0" />
                 <Setter Property="CornerRadius" Value="9" />
                 <Setter Property="BorderColor" Value="Black" />
             </Style>

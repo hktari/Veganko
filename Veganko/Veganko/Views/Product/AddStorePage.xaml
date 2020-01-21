@@ -1,0 +1,111 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="Veganko.Views.Product.AddStorePage"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:behaviors="clr-namespace:Veganko.Behaviors"
+    xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+    xmlns:effects="clr-namespace:Veganko.Droid.Effects"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:views="clr-namespace:Veganko.Views"
+    Padding="10"
+    ControlTemplate="{StaticResource LodingIndicatorTemplate}"
+    mc:Ignorable="d">
+    <NavigationPage.TitleView>
+        <Grid Padding="10,5" VerticalOptions="Center">
+            <Button
+                BackgroundColor="{StaticResource Primary}"
+                Command="{Binding CancelCommand}"
+                HorizontalOptions="Start"
+                Style="{StaticResource NeutralBtn}"
+                Text="Prekliči"
+                TextColor="Black" />
+            <Button
+                Grid.Column="1"
+                BackgroundColor="{StaticResource Primary}"
+                Command="{Binding SubmitCommand}"
+                HorizontalOptions="End"
+                Style="{StaticResource PositiveBtn}"
+                Text="Shrani"
+                TextColor="White" />
+        </Grid>
+    </NavigationPage.TitleView>
+    <ContentPage.Content>
+        <ScrollView>
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="25" />
+                    <RowDefinition Height="50" />
+                    <RowDefinition Height="25" />
+                    <RowDefinition Height="50" />
+                    <RowDefinition Height="25" />
+                    <RowDefinition Height="50" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Label
+                    FontFamily="{StaticResource RalewayMediumFont}"
+                    FontSize="Medium"
+                    Text="Ime" />
+                <Frame Grid.Row="1" Style="{StaticResource EntryFrameStyle}">
+                    <Entry
+                        FontFamily="{StaticResource RalewayRegularFont}"
+                        FontSize="Medium"
+                        Text="{Binding StoreName.Value, Mode=TwoWay}">
+                        <Entry.Effects>
+                            <effects:CustomEntryEffect />
+                        </Entry.Effects>
+                    </Entry>
+                </Frame>
+                <ContentView Grid.Row="1">
+                    <ContentView.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding OpenStorePickerCommand}" />
+                    </ContentView.GestureRecognizers>
+                </ContentView>
+
+                <Label
+                    Grid.Row="2"
+                    FontFamily="{StaticResource RalewayMediumFont}"
+                    FontSize="Medium"
+                    Text="Naslov" />
+                <Frame Grid.Row="3" Style="{StaticResource EntryFrameStyle}">
+                    <Entry
+                        FontFamily="{StaticResource RalewayRegularFont}"
+                        FontSize="Medium"
+                        IsEnabled="False"
+                        Text="{Binding StoreAddress.Value, Mode=TwoWay}">
+                        <Entry.Effects>
+                            <effects:CustomEntryEffect />
+                        </Entry.Effects>
+                    </Entry>
+                </Frame>
+
+                <Label
+                    Grid.Row="4"
+                    FontFamily="{StaticResource RalewayMediumFont}"
+                    FontSize="Medium"
+                    Text="Cena" />
+                <Frame Grid.Row="5" Style="{StaticResource EntryFrameStyle}">
+                    <StackLayout Orientation="Horizontal" VerticalOptions="Center">
+                        <Entry
+                            FontFamily="{StaticResource RalewayRegularFont}"
+                            FontSize="Medium"
+                            HorizontalOptions="FillAndExpand"
+                            Keyboard="Numeric"
+                            Text="{Binding ProductPrice.Value}">
+                            <Entry.Effects>
+                                <effects:CustomEntryEffect />
+                            </Entry.Effects>
+                        </Entry>
+                        <Label
+                            FontFamily="{StaticResource RalewayRegularFont}"
+                            FontSize="Medium"
+                            Text="€"
+                            VerticalTextAlignment="Center" />
+                    </StackLayout>
+                </Frame>
+            </Grid>
+        </ScrollView>
+    </ContentPage.Content>
+</ContentPage>

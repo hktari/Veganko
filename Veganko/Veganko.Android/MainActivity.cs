@@ -25,6 +25,7 @@ using System.IO;
 using Java.Nio;
 using System.Runtime.InteropServices;
 using Android.Media;
+using System.Collections.Generic;
 
 namespace Veganko.Droid
 {
@@ -90,8 +91,26 @@ namespace Veganko.Droid
             }
         }
 
+        //#region LocationPicking
+        //int AUTOCOMPLETE_REQUEST_CODE = 1;
+        //public void StartLocationPicking()
+        //{ 
+        
+        //    // Set the fields to specify which types of place data to
+        //    // return after the user has made a selection.
+        //    List<Place.Field> fields = Arrays.AsList(Place.Field.ID, Place.Field.NAME);     
+
+        //    // Start the autocomplete intent.
+        //    Intent intent = new Autocomplete.IntentBuilder(
+        //            AutocompleteActivityMode.FULLSCREEN, fields)
+        //            .build(this);
+        //    startActivityForResult(intent, AUTOCOMPLETE_REQUEST_CODE);
+        //}
+
+        //#endregion
+
         #region FB_Auth
-            // Define a authenticated user.
+        // Define a authenticated user.
         private MobileServiceUser user;
         
         public async Task<bool> Authenticate()

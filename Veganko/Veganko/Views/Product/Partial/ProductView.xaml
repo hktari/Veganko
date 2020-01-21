@@ -52,7 +52,7 @@
                             FontFamily="{StaticResource VarelaRoundFont}"
                             Text="{Binding Name, Converter={StaticResource StringCaseConverter}, Mode=OneWay}" />
                         <Span Text="&#10;" />
-                        <Span FontFamily="Raleway-Light.ttf#Raleway Light" Text="{Binding Description, Mode=OneWay}" />
+                        <Span FontFamily="{StaticResource RalewayLightFont}" Text="{Binding Description, Mode=OneWay}" />
                     </FormattedString>
                 </Label.FormattedText>
             </Label>
