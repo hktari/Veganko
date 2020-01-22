@@ -59,6 +59,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Services\Logging\Logger.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\Products\Stores\IStoresService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\Products\Stores\MockStoresService.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Services\Products\Stores\StoresService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\Users\IUserService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\Users\MockUserService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\Users\UserService.cs" />

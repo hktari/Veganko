@@ -58,7 +58,7 @@ namespace Veganko.Services.Products.Stores
             throw new NotImplementedException();
         }
 
-        public Task<Store> Update(Store store)
+        public Task Update(Store store)
         {
             throw new NotImplementedException();
         }

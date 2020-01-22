@@ -11,7 +11,7 @@ namespace Veganko.Services.Products.Stores
     {
         Task<Store> Add(Store store);
 
-        Task<Store> Update(Store store);
+        Task Update(Store store);
 
         Task Remove(Store store);
 
