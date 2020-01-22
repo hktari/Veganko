@@ -336,7 +336,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"userName\": \"banbanthedestroyer\",\n\t\"password\": \"@veg5399_*\"\n}"
+							"raw": ""
 						},
 						"url": {
 							"raw": "https://localhost:5001/api/auth/login",
