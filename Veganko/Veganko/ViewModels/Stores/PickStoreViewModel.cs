@@ -10,11 +10,11 @@ using System.Reflection;
 using System.Security.Cryptography;
 using System.Text;
 using Veganko.Extensions;
-using Veganko.Models.Products.Stores;
 using Veganko.Services.Logging;
 using Xamarin.Forms;
+using Veganko.Models.Stores;
 
-namespace Veganko.ViewModels.Products.Stores
+namespace Veganko.ViewModels.Stores
 {
     public class PickStoreViewModel : BaseViewModel
     {

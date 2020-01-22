@@ -2,13 +2,13 @@
 using System;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
-using Veganko.Models.Products.Stores;
+using Veganko.Models.Stores;
 using Veganko.Services.Logging;
 using Veganko.Services.Products.Stores;
-using Veganko.Views.Product;
+using Veganko.Views.Stores;
 using Xamarin.Forms;
 
-namespace Veganko.ViewModels.Products.Stores
+namespace Veganko.ViewModels.Stores
 {
     public class StoreListViewModel : BaseViewModel
     {

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Veganko.Models.Products.Stores;
+using Veganko.Models.Stores;
 
 namespace Veganko.Services.Products.Stores
 {

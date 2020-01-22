@@ -1,18 +1,14 @@
-﻿using GooglePlacesApi.Models;
-using System;
-using System.Collections.Generic;
-using System.Text;
-using Veganko.Validations;
-using Veganko.Views.Product.Store;
+﻿using Veganko.Validations;
+using Veganko.Views.Stores;
 using Xamarin.Forms;
-using Veganko.Models.Products.Stores;
 using Autofac;
 using Veganko.Services.Products.Stores;
 using Veganko.Extensions;
 using Veganko.Services.Http;
 using Veganko.Services.Logging;
+using Veganko.Models.Stores;
 
-namespace Veganko.ViewModels.Products.Stores
+namespace Veganko.ViewModels.Stores
 {
     public class AddStoreViewModel : BaseViewModel
     {

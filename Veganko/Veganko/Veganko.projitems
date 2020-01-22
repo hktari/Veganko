@@ -39,8 +39,8 @@
     <Compile Include="$(MSBuildThisFileDirectory)Models\Favorite.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\JsonConverters\Base64StringToByteArrayConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\PagedList.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Models\Products\Stores\Address.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Models\Products\Stores\Store.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\Stores\Address.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\Stores\Store.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\User\UserAccessRights.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\User\UserPublicInfo.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\User\UserRole.cs" />
@@ -114,9 +114,9 @@
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\Products\ProductDetailViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\Products\ProductListViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\Products\BaseEditProductViewModel.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)ViewModels\Products\Stores\AddStoreViewModel.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)ViewModels\Products\Stores\PickStoreViewModel.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)ViewModels\Products\Stores\StoreListViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ViewModels\Stores\AddStoreViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ViewModels\Stores\PickStoreViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ViewModels\Stores\StoreListViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\ProfileViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\Profile\BackgroundImageViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\Profile\SelectAvatarViewModel.cs" />
@@ -151,7 +151,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Views\PasswordRecovery\ValidateOTPPage.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="$(MSBuildThisFileDirectory)Views\Product\AddStorePage.xaml.cs">
+    <Compile Include="$(MSBuildThisFileDirectory)Views\Stores\AddStorePage.xaml.cs">
       <DependentUpon>AddStorePage.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
@@ -172,11 +172,11 @@
       <DependentUpon>ProductView.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="$(MSBuildThisFileDirectory)Views\Product\StoreListPage.xaml.cs">
+    <Compile Include="$(MSBuildThisFileDirectory)Views\Stores\StoreListPage.xaml.cs">
       <DependentUpon>StoreListPage.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="$(MSBuildThisFileDirectory)Views\Product\Store\PickStorePage.xaml.cs">
+    <Compile Include="$(MSBuildThisFileDirectory)Views\Stores\PickStorePage.xaml.cs">
       <DependentUpon>PickStorePage.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
@@ -292,6 +292,8 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="$(MSBuildThisFileDirectory)Models\Products\" />
+    <Folder Include="$(MSBuildThisFileDirectory)Views\Stores\" />
     <Folder Include="$(MSBuildThisFileDirectory)Views\Profile\Partial\" />
   </ItemGroup>
   <ItemGroup>
@@ -375,19 +377,19 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Views\Product\StoreListPage.xaml">
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Views\Stores\StoreListPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Views\Product\AddStorePage.xaml">
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Views\Stores\AddStorePage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Views\Product\Store\PickStorePage.xaml">
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Views\Stores\PickStorePage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </EmbeddedResource>
