@@ -6,9 +6,8 @@
     xmlns:behaviors="clr-namespace:Veganko.Behaviors"
     xmlns:d="http://xamarin.com/schemas/2014/forms/design"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:places="clr-namespace:SearchPlaces;assembly=SearchPlaces"
-    xmlns:searchplaces="clr-namespace:SearchPlaces"
     xmlns:views="clr-namespace:Veganko.Views"
+    Padding="10"
     mc:Ignorable="d">
     <ContentPage.Content>
         <Grid>
@@ -16,7 +15,10 @@
                 <RowDefinition Height="50" />
                 <RowDefinition Height="*" />
             </Grid.RowDefinitions>
-            <SearchBar SearchCommand="{Binding StartSearchCommand}" Text="{Binding SearchText, Mode=OneWayToSource}" />
+            <SearchBar
+                FontFamily="{StaticResource VarelaRoundFont}"
+                SearchCommand="{Binding StartSearchCommand}"
+                Text="{Binding SearchText, Mode=OneWayToSource}" />
             <!--<Entry Text="{Binding StoreName}">
                 <Entry.Behaviors>
                     <behaviors:EventToCommandBehavior Command="{Binding SearchByStoreNameCommand}" EventName="Completed" />
@@ -32,8 +34,8 @@
                 </ListView.Behaviors>
                 <ListView.ItemTemplate>
                     <DataTemplate>
-                        <ViewCell>
-                            <Label>
+                        <ViewCell Height="50">
+                            <Label FontFamily="{StaticResource RalewayRegularFont}" VerticalTextAlignment="Center">
                                 <Label.FormattedText>
                                     <FormattedString>
                                         <Span Text="{Binding ID}" />
