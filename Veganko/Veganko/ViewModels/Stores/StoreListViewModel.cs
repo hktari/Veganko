@@ -50,7 +50,9 @@ namespace Veganko.ViewModels.Stores
                     return;
                 }
 
-                await App.Navigation.PushModalAsync(new EditStorePage(new EditStoreViewModel(SelectedStore)));
+                await App.Navigation.PushModalAsync(
+                    new NavigationPage(
+                        new EditStorePage(new EditStoreViewModel(SelectedStore))));
                 SelectedStore = null;
             });
 
