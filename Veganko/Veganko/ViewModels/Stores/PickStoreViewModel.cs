@@ -126,7 +126,7 @@ namespace Veganko.ViewModels.Stores
                         ?? GetNameForAddressCompType("locality", addrComp)
                     };
 
-                    Store store = new Store
+                    PickStoreResult store = new PickStoreResult
                     {
                         Name = placeDetails.Place.Name,
                         Address = address,
@@ -161,6 +161,15 @@ namespace Veganko.ViewModels.Stores
         private static string GetNameForAddressCompType(string type, List<AddressComponent> addrComp)
         {
             return addrComp?.FirstOrDefault(adr => adr.Types?.Contains(type) ?? false)?.LongName;
+        }
+
+        public struct PickStoreResult
+        {
+            public string Name { get; set; }
+            
+            public Address Address { get; set; }
+
+            public Coordinates? Coordinates { get; set; }
         }
     }
 }

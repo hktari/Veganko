@@ -13,40 +13,30 @@ namespace Veganko.ViewModels.Stores
     public class AddStoreViewModel : BaseViewModel
     {
         public const string StoreAddedMsg = "StoreAddedMsg";
-        private readonly string productId;
         private readonly IStoresService storesService;
         private readonly ILogger logger;
         private PickStoreViewModel pickStoreVM;
-        private Store store;
 
         public AddStoreViewModel(string productId)
         {
-            this.productId = productId;
             storesService = App.IoC.Resolve<IStoresService>();
             logger = App.IoC.Resolve<ILogger>();
-            StoreName = new ValidatableObject<string>();
-            StoreAddress = new ValidatableObject<string>();
-            ProductPrice = new ValidatableObject<double>();
-
-            StoreName.Validations.Add(new IsNotNullOrEmptyRule<string>() { ValidationMessage = "Polje je obvezno" });
-            StoreAddress.Validations.Add(new IsNotNullOrEmptyRule<string>() { ValidationMessage = "Polje je obvezno" });
-            ProductPrice.Validations.Add(new IsDoubleInRange(0.01) { ValidationMessage = "Dodaj še ceno" });
+            Store = new StoreViewModel(productId);
 
             pickStoreVM = new PickStoreViewModel();
-            MessagingCenter.Subscribe<PickStoreViewModel, Store>(
+            MessagingCenter.Subscribe<PickStoreViewModel, PickStoreViewModel.PickStoreResult>(
                 this,
                 PickStoreViewModel.StorePickedMsg,
                 OnStorePicked,
                 pickStoreVM);
         }
 
-        private void OnStorePicked(PickStoreViewModel sender, Store storeData)
+        private void OnStorePicked(PickStoreViewModel sender, PickStoreViewModel.PickStoreResult storeData)
         {
-            store = storeData;
-            StoreName.Value = storeData.Name;
-            StoreAddress.Value = storeData.Address.FormattedAddress;
-            CoordinatesFound = storeData.Coordinates != null;
+            Store.Update(storeData);
         }
+
+        public StoreViewModel Store { get; }
 
         public Command OpenStorePickerCommand => new Command(
             async () => await App.Navigation.PushModalAsync(new PickStorePage(pickStoreVM)));
@@ -55,7 +45,7 @@ namespace Veganko.ViewModels.Stores
         public Command SubmitCommand => submitCommand ?? (submitCommand = new Command(
             async () =>
             {
-                bool isValid = StoreName.Validate() && StoreAddress.Validate() && ProductPrice.Validate();
+                bool isValid = Store.Name.Validate() && Store.FormattedAddress.Validate() && Store.Price.Validate();
                 if (!isValid)
                 {
                     return;
@@ -65,21 +55,15 @@ namespace Veganko.ViewModels.Stores
                 {
                     IsBusy = true;
 
-                    if (store == null)
-                    {
-                        store = new Store();
-                        store.Address = new Address();
-                    }
+                    var storeModel = new Store();
+                    Store.MapToModel(storeModel);
 
-                    store.Address.FormattedAddress = StoreAddress.Value;
-                    store.Name = StoreName.Value;
-                    store.Price = ProductPrice.Value;
-
-                    store = await storesService.Add(store);
+                    storeModel = await storesService.Add(storeModel);
+                    Store.Update(storeModel);
 
                     await App.Navigation.PopModalAsync();
 
-                    MessagingCenter.Send(this, StoreAddedMsg, store);
+                    MessagingCenter.Send(this, StoreAddedMsg, Store);
                 }
                 catch (ServiceException se)
                 {
@@ -95,27 +79,5 @@ namespace Veganko.ViewModels.Stores
         private Command cancelCommand;
         public Command CancelCommand => cancelCommand ?? (cancelCommand = new Command(
             () => App.Navigation.PopModalAsync())); 
-
-        public ValidatableObject<string> StoreName { get; }
-
-        public ValidatableObject<string> StoreAddress { get; }
-
-        public ValidatableObject<double> ProductPrice { get; }
-
-        private bool coordinatesFound;
-
-        public bool CoordinatesFound
-        {
-            get
-            {
-                return coordinatesFound;
-            }
-            set
-            {
-                SetProperty(ref coordinatesFound, value);
-            }
-        }
-        
-        public Coordinates StoreCoordinates { get; private set; }
     }
 }
