@@ -14,10 +14,13 @@
             <Grid.RowDefinitions>
                 <RowDefinition Height="25" />
                 <RowDefinition Height="50" />
+                <RowDefinition Height="Auto" />
                 <RowDefinition Height="25" />
                 <RowDefinition Height="50" />
+                <RowDefinition Height="Auto" />
                 <RowDefinition Height="25" />
                 <RowDefinition Height="50" />
+                <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" />
@@ -27,6 +30,14 @@
                 FontSize="Medium"
                 Text="Ime" />
             <Frame Grid.Row="1" Style="{StaticResource EntryFrameStyle}">
+                <Frame.Triggers>
+                    <DataTrigger
+                        Binding="{Binding Store.Name.IsValid}"
+                        TargetType="Frame"
+                        Value="False">
+                        <Setter Property="BorderColor" Value="{StaticResource TransparentErrorColor}" />
+                    </DataTrigger>
+                </Frame.Triggers>
                 <Entry
                     FontFamily="{StaticResource RalewayRegularFont}"
                     FontSize="Medium"
@@ -41,13 +52,26 @@
                     <TapGestureRecognizer Command="{Binding OpenStorePickerCommand}" />
                 </ContentView.GestureRecognizers>
             </ContentView>
-
             <Label
                 Grid.Row="2"
+                IsVisible="{Binding Store.Name.IsValid, Converter={StaticResource BoolInverter}}"
+                Style="{StaticResource LabelErrorMessageStyle}"
+                Text="{Binding Store.Name.Errors, Converter={StaticResource FirstValidationErrorConverter}}" />
+
+            <Label
+                Grid.Row="3"
                 FontFamily="{StaticResource RalewayMediumFont}"
                 FontSize="Medium"
                 Text="Naslov" />
-            <Frame Grid.Row="3" Style="{StaticResource EntryFrameStyle}">
+            <Frame Grid.Row="4" Style="{StaticResource EntryFrameStyle}">
+                <Frame.Triggers>
+                    <DataTrigger
+                        Binding="{Binding Store.FormattedAddress.IsValid}"
+                        TargetType="Frame"
+                        Value="False">
+                        <Setter Property="BorderColor" Value="{StaticResource TransparentErrorColor}" />
+                    </DataTrigger>
+                </Frame.Triggers>
                 <Entry
                     FontFamily="{StaticResource RalewayRegularFont}"
                     FontSize="Medium"
@@ -58,13 +82,26 @@
                     </Entry.Effects>
                 </Entry>
             </Frame>
+            <Label
+                Grid.Row="5"
+                IsVisible="{Binding Store.FormattedAddress.IsValid, Converter={StaticResource BoolInverter}}"
+                Style="{StaticResource LabelErrorMessageStyle}"
+                Text="{Binding Store.FormattedAddress.Errors, Converter={StaticResource FirstValidationErrorConverter}}" />
 
             <Label
-                Grid.Row="4"
+                Grid.Row="6"
                 FontFamily="{StaticResource RalewayMediumFont}"
                 FontSize="Medium"
                 Text="Cena" />
-            <Frame Grid.Row="5" Style="{StaticResource EntryFrameStyle}">
+            <Frame Grid.Row="7" Style="{StaticResource EntryFrameStyle}">
+                <Frame.Triggers>
+                    <DataTrigger
+                        Binding="{Binding Store.Price.IsValid}"
+                        TargetType="Frame"
+                        Value="False">
+                        <Setter Property="BorderColor" Value="{StaticResource TransparentErrorColor}" />
+                    </DataTrigger>
+                </Frame.Triggers>
                 <StackLayout Orientation="Horizontal" VerticalOptions="Center">
                     <Entry
                         FontFamily="{StaticResource RalewayRegularFont}"
@@ -83,6 +120,12 @@
                         VerticalTextAlignment="Center" />
                 </StackLayout>
             </Frame>
+            <Label
+                Grid.Row="8"
+                IsVisible="{Binding Store.Price.IsValid, Converter={StaticResource BoolInverter}}"
+                Style="{StaticResource LabelErrorMessageStyle}"
+                Text="{Binding Store.Price.Errors, Converter={StaticResource FirstValidationErrorConverter}}" />
+
         </Grid>
     </ContentView.Content>
 </ContentView>

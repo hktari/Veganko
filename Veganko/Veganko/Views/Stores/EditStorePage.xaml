@@ -11,37 +11,38 @@
     ControlTemplate="{StaticResource LodingIndicatorTemplate}"
     mc:Ignorable="d">
     <NavigationPage.TitleView>
-        <StackLayout
-            Padding="10,5"
-            Orientation="Horizontal"
-            Spacing="10"
-            VerticalOptions="Center">
-            <Button
-                BackgroundColor="{StaticResource Primary}"
-                Command="{Binding CancelCommand}"
-                HorizontalOptions="Start"
-                Style="{StaticResource NeutralBtn}"
-                Text="Prekliči"
-                TextColor="Black" />
-            <Button
-                BackgroundColor="{StaticResource Primary}"
-                Command="{Binding RemoveStoreCommand}"
-                HorizontalOptions="Start"
-                Style="{StaticResource NeutralBtn}"
-                Text="Izbriši"
-                TextColor="White" />
-            <Button
-                BackgroundColor="{StaticResource Primary}"
-                Command="{Binding SaveStoreCommand}"
-                HorizontalOptions="EndAndExpand"
-                Style="{StaticResource PositiveBtn}"
-                Text="Shrani"
-                TextColor="White" />
-        </StackLayout>
+        <Button
+            BackgroundColor="{StaticResource Primary}"
+            Command="{Binding CancelCommand}"
+            HorizontalOptions="Start"
+            Style="{StaticResource NeutralBtn}"
+            Text="Prekliči"
+            TextColor="Black" />
     </NavigationPage.TitleView>
     <ContentPage.Content>
         <ScrollView>
-            <partial:EditStoreView />
+            <StackLayout Spacing="25">
+                <partial:EditStoreView />
+                <StackLayout
+                    Padding="10,5"
+                    Orientation="Horizontal"
+                    Spacing="2.5"
+                    VerticalOptions="Center">
+                    <ImageButton
+                        BackgroundColor="White"
+                        Command="{Binding RemoveStoreCommand}"
+                        HorizontalOptions="Start"
+                        WidthRequest="40"
+                        Source="delete.png" />
+
+                    <ImageButton
+                        BackgroundColor="White"
+                        Command="{Binding SaveStoreCommand}"
+                        HorizontalOptions="EndAndExpand"
+                        WidthRequest="40"
+                        Source="checkmark_2.png" />
+                </StackLayout>
+            </StackLayout>
         </ScrollView>
     </ContentPage.Content>
 </views:BaseContentPage>

@@ -13,6 +13,7 @@ namespace Veganko.Views.Stores
     public partial class EditStorePage : BaseContentPage
     {
         public EditStorePage(ViewModels.Stores.EditStoreViewModel editStoreViewModel)
+            : base(true)
         {
             InitializeComponent();
             BindingContext = editStoreViewModel;
