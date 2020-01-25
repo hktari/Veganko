@@ -60,6 +60,15 @@ namespace Veganko.ViewModels.Stores
 
         public Coordinates StoreCoordinates { get; private set; }
 
+        public bool Validate()
+        {
+            bool isValid = true;
+            isValid &= Name.Validate();
+            isValid &= FormattedAddress.Validate();
+            isValid &= Price.Validate();
+            return isValid;
+        }
+
         public void Update(PickStoreViewModel.PickStoreResult storeData)
         {
             Name.Value = storeData.Name;

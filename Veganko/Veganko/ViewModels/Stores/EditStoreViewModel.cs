@@ -51,6 +51,11 @@ namespace Veganko.ViewModels.Stores
         public Command SaveStoreCommand => new Command(
             async () =>
             {
+                if (!Store.Validate())
+                {
+                    return;
+                }
+
                 try
                 {
                     IsBusy = true;

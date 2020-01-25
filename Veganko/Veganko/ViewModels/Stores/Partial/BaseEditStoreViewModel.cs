@@ -26,6 +26,7 @@ namespace Veganko.ViewModels.Stores.Partial
         private void OnStorePicked(PickStoreViewModel sender, PickStoreViewModel.PickStoreResult storeData)
         {
             Store.Update(storeData);
+            Store.Validate();
         }
 
         public Command OpenStorePickerCommand => new Command(

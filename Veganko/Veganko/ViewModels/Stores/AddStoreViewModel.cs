@@ -28,8 +28,7 @@ namespace Veganko.ViewModels.Stores
         public Command SubmitCommand => submitCommand ?? (submitCommand = new Command(
             async () =>
             {
-                bool isValid = Store.Name.Validate() && Store.FormattedAddress.Validate() && Store.Price.Validate();
-                if (!isValid)
+                if (!Store.Validate())
                 {
                     return;
                 }

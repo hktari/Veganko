@@ -10,6 +10,7 @@
     xmlns:vm="clr-namespace:Veganko.ViewModels.Products.Stores"
     x:Name="root"
     Padding="0"
+    ControlTemplate="{StaticResource LodingIndicatorTemplate}"
     mc:Ignorable="d">
     <ContentPage.Content>
         <Grid>
