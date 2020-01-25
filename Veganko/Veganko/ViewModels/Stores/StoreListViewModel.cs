@@ -3,6 +3,7 @@ using System;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using Veganko.Models.Stores;
+using Veganko.Services;
 using Veganko.Services.Logging;
 using Veganko.Services.Products.Stores;
 using Veganko.Views.Stores;
@@ -21,7 +22,9 @@ namespace Veganko.ViewModels.Stores
             this.productId = productId;
             storesService = App.IoC.Resolve<IStoresService>();
             logger = App.IoC.Resolve<ILogger>();
+            HasEditingRights = App.IoC.Resolve<IUserService>().CurrentUser.IsManager();
             MessagingCenter.Subscribe<AddStoreViewModel, Store>(this, AddStoreViewModel.StoreAddedMsg, OnStoreAdded);
+            MessagingCenter.Subscribe<EditStoreViewModel, Store>(this, EditStoreViewModel.StoreRemovedMsg, OnStoreRemoved);
         }
 
         private ObservableCollection<Store> productStores;
@@ -35,6 +38,44 @@ namespace Veganko.ViewModels.Stores
             async () => await App.Navigation.PushModalAsync(
                 new NavigationPage(
                     new AddStorePage(new AddStoreViewModel(productId)))));
+
+        public Command StoreSelectedCommand => new Command(
+            async () =>
+            {
+                if (SelectedStore == null)
+                {
+                    return;
+                }
+
+                await App.Navigation.PushModalAsync(new EditStorePage(new EditStoreViewModel(SelectedStore)));
+                SelectedStore = null;
+            });
+
+        private Store selectedStore;
+        public Store SelectedStore
+        {
+            get
+            {
+                return selectedStore;
+            }
+            set
+            {
+                SetProperty(ref selectedStore, value);
+            }
+        }
+
+        private bool hasEditingRights;
+        public bool HasEditingRights
+        {
+            get
+            {
+                return hasEditingRights;
+            }
+            set
+            {
+                SetProperty(ref hasEditingRights, value);
+            }
+        }
 
         public async Task LoadStores()
         {
@@ -57,6 +98,11 @@ namespace Veganko.ViewModels.Stores
         private void OnStoreAdded(AddStoreViewModel sender, Store newStore)
         {
             productStores?.Insert(0, newStore);
+        }
+
+        private void OnStoreRemoved(EditStoreViewModel sender, Store removedStore)
+        {
+            ProductStores.Remove(removedStore);
         }
     }
 }
