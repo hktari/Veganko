@@ -1,6 +1,9 @@
 ﻿using Autofac;
 using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Threading.Tasks;
 using Veganko.Models.Stores;
 using Veganko.Services;
@@ -23,12 +26,12 @@ namespace Veganko.ViewModels.Stores
             storesService = App.IoC.Resolve<IStoresService>();
             logger = App.IoC.Resolve<ILogger>();
             HasEditingRights = App.IoC.Resolve<IUserService>().CurrentUser.IsManager();
-            MessagingCenter.Subscribe<AddStoreViewModel, Store>(this, AddStoreViewModel.StoreAddedMsg, OnStoreAdded);
-            MessagingCenter.Subscribe<EditStoreViewModel, Store>(this, EditStoreViewModel.StoreRemovedMsg, OnStoreRemoved);
+            MessagingCenter.Subscribe<AddStoreViewModel, StoreViewModel>(this, AddStoreViewModel.StoreAddedMsg, OnStoreAdded);
+            MessagingCenter.Subscribe<EditStoreViewModel, StoreViewModel>(this, EditStoreViewModel.StoreRemovedMsg, OnStoreRemoved);
         }
 
-        private ObservableCollection<Store> productStores;
-        public ObservableCollection<Store> ProductStores
+        private ObservableCollection<StoreViewModel> productStores;
+        public ObservableCollection<StoreViewModel> ProductStores
         {
             get => productStores;
             set => SetProperty(ref productStores, value);
@@ -51,8 +54,8 @@ namespace Veganko.ViewModels.Stores
                 SelectedStore = null;
             });
 
-        private Store selectedStore;
-        public Store SelectedStore
+        private StoreViewModel selectedStore;
+        public StoreViewModel SelectedStore
         {
             get
             {
@@ -82,8 +85,10 @@ namespace Veganko.ViewModels.Stores
             try
             {
                 IsBusy = true;
-                ProductStores = new ObservableCollection<Store>(
-                    await storesService.All(productId));
+
+                IEnumerable<Store> storeModels = await storesService.All(productId);
+                ProductStores = new ObservableCollection<StoreViewModel>(
+                    storeModels.Select(sm => new StoreViewModel(sm)));
             }
             catch (Exception ex)
             {
@@ -95,12 +100,12 @@ namespace Veganko.ViewModels.Stores
             }
         }
 
-        private void OnStoreAdded(AddStoreViewModel sender, Store newStore)
+        private void OnStoreAdded(AddStoreViewModel sender, StoreViewModel newStore)
         {
             productStores?.Insert(0, newStore);
         }
 
-        private void OnStoreRemoved(EditStoreViewModel sender, Store removedStore)
+        private void OnStoreRemoved(EditStoreViewModel sender, StoreViewModel removedStore)
         {
             ProductStores.Remove(removedStore);
         }

@@ -15,7 +15,7 @@
         <Grid>
             <ListView
                 Margin="15,15,15,25"
-                HasUnevenRows="False"
+                HasUnevenRows="True"
                 ItemsSource="{Binding ProductStores}"
                 SelectedItem="{Binding SelectedStore, Mode=TwoWay}"
                 SelectionMode="None"
@@ -73,24 +73,15 @@
                                             <Span
                                                 FontFamily="{StaticResource VarelaRoundFont}"
                                                 FontSize="Medium"
-                                                Text="{Binding Name}" />
+                                                Text="{Binding Name.Value}" />
                                             <Span Text="&#10;" />
                                             <Span
                                                 FontFamily="{StaticResource RalewayLightFont}"
                                                 FontSize="Small"
-                                                Text="{Binding Address.FormattedAddress}" />
+                                                Text="{Binding FormattedAddress.Value}" />
                                         </FormattedString>
                                     </Label.FormattedText>
                                 </Label>
-                                <ImageButton
-                                    Grid.Row="1"
-                                    Grid.Column="2"
-                                    BackgroundColor="White"
-                                    HorizontalOptions="Center"
-                                    IsVisible="False"
-                                    VerticalOptions="Center"
-                                    WidthRequest="30"
-                                    Source="edit.png" />
                                 <Label
                                     Grid.Row="1"
                                     Grid.Column="1"
@@ -98,7 +89,7 @@
                                     Margin="7.5"
                                     FontFamily="{StaticResource VarelaRoundFont}"
                                     FontSize="Medium"
-                                    Text="{Binding Price, StringFormat='{}{0:0.00}€'}"
+                                    Text="{Binding Price.Value, StringFormat='{}{0:0.00}€'}"
                                     VerticalTextAlignment="Center" />
                                 <BoxView
                                     Grid.Row="1"

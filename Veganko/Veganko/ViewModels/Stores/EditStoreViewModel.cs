@@ -6,22 +6,21 @@ using Veganko.Extensions;
 using Veganko.Models.Stores;
 using Veganko.Services.Http;
 using Veganko.Services.Products.Stores;
+using Veganko.ViewModels.Stores.Partial;
 using Xamarin.Forms;
 
 namespace Veganko.ViewModels.Stores
 {
-    public class EditStoreViewModel : BaseViewModel
+    public class EditStoreViewModel : BaseEditStoreViewModel
     {
         public const string StoreRemovedMsg = "StoreRemovedMsg";
         private IStoresService storeService;
 
-        public EditStoreViewModel(Store store)
+        public EditStoreViewModel(StoreViewModel store)
+            : base(store)
         {
-            Store = store;
             storeService = App.IoC.Resolve<IStoresService>();
         }
-
-        public Store Store { get; }
 
         public Command RemoveStoreCommand => new Command(
             async () =>
@@ -29,13 +28,42 @@ namespace Veganko.ViewModels.Stores
                 try
                 {
                     IsBusy = true;
-                    await storeService.Remove(Store);
+
+                    Store storeModel = new Store();
+                    Store.MapToModel(storeModel);
+
+                    await storeService.Remove(storeModel);
                     MessagingCenter.Send(this, StoreRemovedMsg, Store);
                     await App.Navigation.PopModalAsync();
                 }
                 catch (ServiceException se)
                 {
                     await App.CurrentPage.Err("Brisanje ni uspelo.", se).ConfigureAwait(false);
+                }
+                finally
+                {
+                    IsBusy = false;
+                }
+            });
+
+        public Command CancelCommand => new Command(() => App.Navigation.PopModalAsync());
+
+        public Command SaveStoreCommand => new Command(
+            async () =>
+            {
+                try
+                {
+                    IsBusy = true;
+
+                    Store storeModel = new Store();
+                    Store.MapToModel(storeModel);
+
+                    await storeService.Update(storeModel);
+                    await App.Navigation.PopModalAsync();
+                }
+                catch (ServiceException se)
+                {
+                    await App.CurrentPage.Err("Spremembe niso bile shranjene.", se);
                 }
                 finally
                 {

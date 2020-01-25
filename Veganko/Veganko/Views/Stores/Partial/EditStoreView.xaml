@@ -1,0 +1,88 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<ContentView
+    x:Class="Veganko.Views.Stores.Partial.EditStoreView"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:behaviors="clr-namespace:Veganko.Behaviors"
+    xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+    xmlns:effects="clr-namespace:Veganko.Effects"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:views="clr-namespace:Veganko.Views"
+    mc:Ignorable="d">
+    <ContentView.Content>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="25" />
+                <RowDefinition Height="50" />
+                <RowDefinition Height="25" />
+                <RowDefinition Height="50" />
+                <RowDefinition Height="25" />
+                <RowDefinition Height="50" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <Label
+                FontFamily="{StaticResource RalewayMediumFont}"
+                FontSize="Medium"
+                Text="Ime" />
+            <Frame Grid.Row="1" Style="{StaticResource EntryFrameStyle}">
+                <Entry
+                    FontFamily="{StaticResource RalewayRegularFont}"
+                    FontSize="Medium"
+                    Text="{Binding Store.Name.Value, Mode=TwoWay}">
+                    <Entry.Effects>
+                        <effects:CustomEntryEffect />
+                    </Entry.Effects>
+                </Entry>
+            </Frame>
+            <ContentView Grid.Row="1">
+                <ContentView.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding OpenStorePickerCommand}" />
+                </ContentView.GestureRecognizers>
+            </ContentView>
+
+            <Label
+                Grid.Row="2"
+                FontFamily="{StaticResource RalewayMediumFont}"
+                FontSize="Medium"
+                Text="Naslov" />
+            <Frame Grid.Row="3" Style="{StaticResource EntryFrameStyle}">
+                <Entry
+                    FontFamily="{StaticResource RalewayRegularFont}"
+                    FontSize="Medium"
+                    IsEnabled="False"
+                    Text="{Binding Store.FormattedAddress.Value, Mode=TwoWay}">
+                    <Entry.Effects>
+                        <effects:CustomEntryEffect />
+                    </Entry.Effects>
+                </Entry>
+            </Frame>
+
+            <Label
+                Grid.Row="4"
+                FontFamily="{StaticResource RalewayMediumFont}"
+                FontSize="Medium"
+                Text="Cena" />
+            <Frame Grid.Row="5" Style="{StaticResource EntryFrameStyle}">
+                <StackLayout Orientation="Horizontal" VerticalOptions="Center">
+                    <Entry
+                        FontFamily="{StaticResource RalewayRegularFont}"
+                        FontSize="Medium"
+                        HorizontalOptions="FillAndExpand"
+                        Keyboard="Numeric"
+                        Text="{Binding Store.Price.Value}">
+                        <Entry.Effects>
+                            <effects:CustomEntryEffect />
+                        </Entry.Effects>
+                    </Entry>
+                    <Label
+                        FontFamily="{StaticResource RalewayRegularFont}"
+                        FontSize="Medium"
+                        Text="€"
+                        VerticalTextAlignment="Center" />
+                </StackLayout>
+            </Frame>
+        </Grid>
+    </ContentView.Content>
+</ContentView>

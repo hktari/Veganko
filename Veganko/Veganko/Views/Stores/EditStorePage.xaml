@@ -1,16 +1,21 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<ContentPage
-    x:Class="Veganko.Views.Stores.AddStorePage"
+<views:BaseContentPage
+    x:Class="Veganko.Views.Stores.EditStorePage"
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:d="http://xamarin.com/schemas/2014/forms/design"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:partial="clr-namespace:Veganko.Views.Stores.Partial"
+    xmlns:views="clr-namespace:Veganko.Views"
     Padding="10"
     ControlTemplate="{StaticResource LodingIndicatorTemplate}"
     mc:Ignorable="d">
     <NavigationPage.TitleView>
-        <Grid Padding="10,5" VerticalOptions="Center">
+        <StackLayout
+            Padding="10,5"
+            Orientation="Horizontal"
+            Spacing="10"
+            VerticalOptions="Center">
             <Button
                 BackgroundColor="{StaticResource Primary}"
                 Command="{Binding CancelCommand}"
@@ -19,18 +24,24 @@
                 Text="Prekliči"
                 TextColor="Black" />
             <Button
-                Grid.Column="1"
                 BackgroundColor="{StaticResource Primary}"
-                Command="{Binding SubmitCommand}"
-                HorizontalOptions="End"
+                Command="{Binding RemoveStoreCommand}"
+                HorizontalOptions="Start"
+                Style="{StaticResource NeutralBtn}"
+                Text="Izbriši"
+                TextColor="White" />
+            <Button
+                BackgroundColor="{StaticResource Primary}"
+                Command="{Binding SaveStoreCommand}"
+                HorizontalOptions="EndAndExpand"
                 Style="{StaticResource PositiveBtn}"
                 Text="Shrani"
                 TextColor="White" />
-        </Grid>
+        </StackLayout>
     </NavigationPage.TitleView>
     <ContentPage.Content>
         <ScrollView>
             <partial:EditStoreView />
         </ScrollView>
     </ContentPage.Content>
-</ContentPage>
+</views:BaseContentPage>

@@ -116,12 +116,14 @@
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\Products\BaseEditProductViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\Stores\AddStoreViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\Stores\EditStoreViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ViewModels\Stores\Partial\BaseEditStoreViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\Stores\PickStoreViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\Stores\StoreListViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\ProfileViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\Profile\BackgroundImageViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\Profile\SelectAvatarViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\RegisterViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ViewModels\Stores\StoreViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Views\Account\FinishRegistrationInstructPage.xaml.cs">
       <DependentUpon>FinishRegistrationInstructPage.xaml</DependentUpon>
       <SubType>Code</SubType>
@@ -171,6 +173,14 @@
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Views\Product\Partial\ProductView.xaml.cs">
       <DependentUpon>ProductView.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Views\Stores\EditStorePage.xaml.cs">
+      <DependentUpon>EditStorePage.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Views\Stores\Partial\EditStoreView.xaml.cs">
+      <DependentUpon>EditStoreView.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Views\Stores\StoreListPage.xaml.cs">
@@ -294,7 +304,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="$(MSBuildThisFileDirectory)Models\Products\" />
-    <Folder Include="$(MSBuildThisFileDirectory)Views\Stores\" />
     <Folder Include="$(MSBuildThisFileDirectory)Views\Profile\Partial\" />
   </ItemGroup>
   <ItemGroup>
@@ -397,6 +406,18 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="$(MSBuildThisFileDirectory)google_places_api_key.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Views\Stores\EditStorePage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Views\Stores\Partial\EditStoreView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </EmbeddedResource>
   </ItemGroup>
   <!--#if (CreateBackendProject)
     <Compile Include="$(MSBuildThisFileDirectory)Services\AzureDataStore.cs" />

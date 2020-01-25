@@ -7,39 +7,22 @@ using Veganko.Extensions;
 using Veganko.Services.Http;
 using Veganko.Services.Logging;
 using Veganko.Models.Stores;
+using Veganko.ViewModels.Stores.Partial;
 
 namespace Veganko.ViewModels.Stores
 {
-    public class AddStoreViewModel : BaseViewModel
+    public class AddStoreViewModel : BaseEditStoreViewModel
     {
         public const string StoreAddedMsg = "StoreAddedMsg";
         private readonly IStoresService storesService;
         private readonly ILogger logger;
-        private PickStoreViewModel pickStoreVM;
 
         public AddStoreViewModel(string productId)
+            : base(new StoreViewModel(productId))
         {
             storesService = App.IoC.Resolve<IStoresService>();
             logger = App.IoC.Resolve<ILogger>();
-            Store = new StoreViewModel(productId);
-
-            pickStoreVM = new PickStoreViewModel();
-            MessagingCenter.Subscribe<PickStoreViewModel, PickStoreViewModel.PickStoreResult>(
-                this,
-                PickStoreViewModel.StorePickedMsg,
-                OnStorePicked,
-                pickStoreVM);
         }
-
-        private void OnStorePicked(PickStoreViewModel sender, PickStoreViewModel.PickStoreResult storeData)
-        {
-            Store.Update(storeData);
-        }
-
-        public StoreViewModel Store { get; }
-
-        public Command OpenStorePickerCommand => new Command(
-            async () => await App.Navigation.PushModalAsync(new PickStorePage(pickStoreVM)));
 
         private Command submitCommand;
         public Command SubmitCommand => submitCommand ?? (submitCommand = new Command(
