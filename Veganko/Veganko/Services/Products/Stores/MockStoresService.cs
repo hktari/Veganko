@@ -55,12 +55,18 @@ namespace Veganko.Services.Products.Stores
 
         public Task Remove(Store store)
         {
-            throw new NotImplementedException();
+            stores.Remove(store);
+            return Task.CompletedTask;
         }
 
         public Task Update(Store store)
         {
-            throw new NotImplementedException();
+            stores.Remove(
+                stores.First(s => s.Id == store.Id));
+
+            stores.Add(store);
+
+            return Task.CompletedTask;
         }
     }
 }
