@@ -43,6 +43,7 @@ namespace Veganko.Services.Products.Stores
         public Task Update(Store store)
         {
             RestRequest request = new RestRequest($"{StoresUri}/{store.Id}", Method.PUT);
+            request.AddJsonBody(store);
             return restService.ExecuteAsync(request);
         }
     }
