@@ -79,7 +79,7 @@
                                             <Span
                                                 FontFamily="{StaticResource RalewayLightFont}"
                                                 FontSize="Small"
-                                                Text="{Binding FormattedAddress.Value}" />
+                                                Text="{Binding Address.FormattedAddress.Value}" />
                                         </FormattedString>
                                     </Label.FormattedText>
                                 </Label>

@@ -34,25 +34,13 @@
         <ScrollView>
             <StackLayout Spacing="25">
                 <partial:EditStoreView />
-                <StackLayout
-                    Padding="10,5"
-                    Orientation="Horizontal"
-                    Spacing="2.5"
-                    VerticalOptions="Center">
-                    <ImageButton
-                        BackgroundColor="White"
-                        Command="{Binding RemoveStoreCommand}"
-                        HorizontalOptions="Start"
-                        WidthRequest="40"
-                        Source="delete.png" />
-
-                    <ImageButton
-                        BackgroundColor="White"
-                        Command="{Binding SaveStoreCommand}"
-                        HorizontalOptions="EndAndExpand"
-                        WidthRequest="40"
-                        Source="checkmark_2.png" />
-                </StackLayout>
+                <ImageButton
+                    Margin="10,5"
+                    BackgroundColor="White"
+                    Command="{Binding RemoveStoreCommand}"
+                    HorizontalOptions="End"
+                    WidthRequest="40"
+                    Source="delete.png" />
             </StackLayout>
         </ScrollView>
     </ContentPage.Content>

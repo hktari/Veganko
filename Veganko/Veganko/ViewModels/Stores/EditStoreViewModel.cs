@@ -32,13 +32,16 @@ namespace Veganko.ViewModels.Stores
         public override void OnPageAppearing()
         {
             base.OnPageAppearing();
-            Store.PropertyChanged += OnStorePropertyChanged;
+            Store.Name.PropertyChanged += OnStorePropertyChanged;
+            Store.Price.PropertyChanged += OnStorePropertyChanged;
+
             UpdateIsDirty();
         }
         
         public override void OnPageDisappearing()
         {
-            Store.PropertyChanged -= OnStorePropertyChanged;
+            Store.Name.PropertyChanged -= OnStorePropertyChanged;
+            Store.Price.PropertyChanged -= OnStorePropertyChanged;
             base.OnPageDisappearing();
         }
 
@@ -50,8 +53,12 @@ namespace Veganko.ViewModels.Stores
         private void UpdateIsDirty()
         {
             IsDirty = storeBackup.Name != Store.Name.Value
-                || storeBackup.Price != Store.Price.Value
-                || storeBackup.Address.FormattedAddress != Store.Address.FormattedAddress.Value;
+                || storeBackup.Price != Store.Price.Value;
+
+            if (storeBackup.Address != null)
+            {
+                IsDirty |= storeBackup.Address.FormattedAddress != Store.Address.FormattedAddress.Value;
+            }
         }
 
         private bool isDirty;

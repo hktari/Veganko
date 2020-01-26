@@ -25,7 +25,7 @@ namespace Veganko.Views
             BindingContext = vm = new ManageProductsViewModel();
         }
 
-        protected override void OnAppearing()
+        protected override void CustomOnAppearing()
         {
             // TODO: uncomment when implementation exists on service side
             //vm.LoadItemsCommand.Execute(null);

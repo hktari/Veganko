@@ -91,7 +91,10 @@ namespace Veganko.ViewModels.Stores
             store.ProductId = ProductId;
             store.Name = Name.Value;
             store.Price = Price.Value;
-            Address.MapToModel(store.Address);
+            if(store.Address != null)
+            {
+                Address.MapToModel(store.Address);
+            }
             store.Coordinates = Coordinates;
         }
     }

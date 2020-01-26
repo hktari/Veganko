@@ -63,10 +63,8 @@ namespace Veganko.Views
             vm.SearchClickedCommand.Execute(null);
         }
 
-        protected override void OnAppearing()
+        protected override void CustomOnAppearing()
         {
-            base.OnAppearing();
-
             if (vm.SearchResult == null || vm.SearchResult.Count == 0)
             {
                 vm.LoadItemsCommand.Execute(null);

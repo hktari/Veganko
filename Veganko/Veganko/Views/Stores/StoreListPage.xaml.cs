@@ -21,10 +21,8 @@ namespace Veganko.Views.Stores
             this.vm = vm;
         }
 
-        protected async override void OnAppearing()
+        protected async override void CustomOnAppearing()
         {
-            base.OnAppearing();
-
             if (vm.ProductStores == null)
             {
                 await vm.LoadStores().ConfigureAwait(false);
