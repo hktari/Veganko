@@ -82,7 +82,11 @@ namespace Veganko.ViewModels.Stores
             Name.Value = store.Name;
             Price.Value = store.Price;
             Coordinates = store.Coordinates;
-            Address.Update(store.Address);
+
+            if (store.Address != null)
+            {
+                Address.Update(store.Address);
+            }
         }
 
         public void MapToModel(Store store)
@@ -91,11 +95,14 @@ namespace Veganko.ViewModels.Stores
             store.ProductId = ProductId;
             store.Name = Name.Value;
             store.Price = Price.Value;
-            if(store.Address != null)
-            {
-                Address.MapToModel(store.Address);
-            }
             store.Coordinates = Coordinates;
+
+            if (store.Address == null)
+            {
+                store.Address = new Address();
+            }
+            
+            Address.MapToModel(store.Address);
         }
     }
 }
