@@ -18,7 +18,7 @@ namespace VegankoService.Data.Stores
 
         public Task Create(Store store)
         {
-            context.Add(store);
+            context.Store.Add(store);
             return context.SaveChangesAsync();
         }
 
