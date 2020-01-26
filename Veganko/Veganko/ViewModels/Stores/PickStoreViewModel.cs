@@ -104,6 +104,9 @@ namespace Veganko.ViewModels.Stores
                 }
             });
 
+        public Command CancelSearchCommand => new Command(
+            async () => await App.Navigation.PopModalAsync().ConfigureAwait(false));
+
         public Command<ItemTappedEventArgs> LocationPickedCommand => new Command<ItemTappedEventArgs>(
             async (_) =>
             {

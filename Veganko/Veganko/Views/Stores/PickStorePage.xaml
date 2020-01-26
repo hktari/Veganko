@@ -9,6 +9,16 @@
     xmlns:views="clr-namespace:Veganko.Views"
     Padding="10"
     mc:Ignorable="d">
+    <NavigationPage.TitleView>
+        <Button
+            BackgroundColor="{StaticResource Primary}"
+            Command="{Binding CancelSearchCommand}"
+            HorizontalOptions="Start"
+            Style="{StaticResource NeutralBtn}"
+            Text="Prekliči"
+            TextColor="Black"
+            VerticalOptions="Center" />
+    </NavigationPage.TitleView>
     <ContentPage.Content>
         <Grid>
             <Grid.RowDefinitions>

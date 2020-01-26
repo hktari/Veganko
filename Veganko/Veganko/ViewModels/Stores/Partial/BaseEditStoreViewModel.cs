@@ -30,6 +30,8 @@ namespace Veganko.ViewModels.Stores.Partial
         }
 
         public Command OpenStorePickerCommand => new Command(
-            async () => await App.Navigation.PushModalAsync(new PickStorePage(pickStoreVM)));
+            async () => await App.Navigation.PushModalAsync(
+                new NavigationPage(
+                    new PickStorePage(pickStoreVM))));
     }
 }

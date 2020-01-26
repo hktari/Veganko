@@ -13,6 +13,7 @@ namespace Veganko.Views.Stores
     public partial class PickStorePage : BaseContentPage
     {
         public PickStorePage(PickStoreViewModel pickStoreVM)
+            : base(true)
         {
             InitializeComponent();
             BindingContext = pickStoreVM;
