@@ -1,2 +1,2 @@
-dotnet publish -c Release -r linux-arm --self-contained true
+dotnet publish -c Release -r linux-arm 
 pause
