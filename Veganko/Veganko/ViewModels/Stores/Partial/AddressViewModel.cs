@@ -11,6 +11,7 @@ namespace Veganko.ViewModels.Stores.Partial
         public AddressViewModel(Address address)
         {
             FormattedAddress = new ValidatableObject<string>();
+            FormattedAddress.Validations.Add(new IsNotNullOrEmptyRule<string>() { ValidationMessage = "Polje je obvezno" });
             Update(address);
         }
 

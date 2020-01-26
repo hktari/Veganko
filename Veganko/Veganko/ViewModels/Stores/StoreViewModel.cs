@@ -13,7 +13,6 @@ namespace Veganko.ViewModels.Stores
             : this()
         {
             ProductId = productId;
-            Address = new AddressViewModel(new Address());
         }
 
         public StoreViewModel(Store store)
@@ -25,11 +24,10 @@ namespace Veganko.ViewModels.Stores
         private StoreViewModel()
         {
             Name = new ValidatableObject<string>();
-            FormattedAddress = new ValidatableObject<string>();
             Price = new ValidatableObject<double>();
+            Address = new AddressViewModel(new Address());
 
             Name.Validations.Add(new IsNotNullOrEmptyRule<string>() { ValidationMessage = "Polje je obvezno" });
-            FormattedAddress.Validations.Add(new IsNotNullOrEmptyRule<string>() { ValidationMessage = "Polje je obvezno" });
             Price.Validations.Add(new IsDoubleInRange(0.01) { ValidationMessage = "Dodaj še ceno" });
         }
 
@@ -73,9 +71,8 @@ namespace Veganko.ViewModels.Stores
         {
             Name.Value = storeData.Name;
             Coordinates = storeData.Coordinates;
-            Address = storeData.Address;
+            Address.Update(storeData.Address);
             CoordinatesFound = storeData.Coordinates != null;
-            FormattedAddress.Value = storeData.Address?.FormattedAddress;
         }
 
         public void Update(Store store)
