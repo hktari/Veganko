@@ -29,6 +29,8 @@ namespace Veganko
         public const string AssemblyNamespacePrefix = "Veganko.iOS.";
 #elif WINDOWS_UWP
         public const string AssemblyNamespacePrefix = "Veganko.UWP.";
+#else 
+        public const string AssemblyNamespacePrefix = "UnitTests.UWP";
 #endif
 
         public static MobileServiceClient MobileService =
@@ -93,7 +95,7 @@ namespace Veganko
             //ServicePointManager.ServerCertificateValidationCallback += (sender, certificate, chain, sslPolicyErrors) => { return true; };
         }
 
-        private void SetupDependencies()
+        public static void SetupDependencies()
         {   
             ContainerBuilder builder = new ContainerBuilder();
             builder.RegisterType<RestService>()

@@ -18,7 +18,8 @@ using Veganko.Extensions;
 using Veganko.Services.Http;
 using Veganko.ViewModels.Products.Partial;
 using Veganko.Services.Logging;
-using Veganko.ViewModels.Products.Stores;
+using Veganko.ViewModels.Stores;
+using Veganko.Views.Stores;
 
 namespace Veganko.ViewModels.Products
 {

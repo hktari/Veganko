@@ -21,10 +21,12 @@ namespace VegankoService.Controllers
         // Every authorized user can add stores. Only moderators can delete.
         private const string RestrictedAccessRoles = Constants.Strings.Roles.Admin + ", " + Constants.Strings.Roles.Manager + ", " + Constants.Strings.Roles.Moderator;
         private readonly IStoresRepository storesRepository;
+        private readonly IProductRepository productRepository;
 
-        public StoresController(IStoresRepository storesRepository)
+        public StoresController(IStoresRepository storesRepository, IProductRepository productRepository)
         {
             this.storesRepository = storesRepository;
+            this.productRepository = productRepository;
         }
 
         // GET: api/Stores
@@ -95,6 +97,11 @@ namespace VegankoService.Controllers
                 return BadRequest(ModelState);
             }
 
+            if (productRepository.Get(store.ProductId) == null)
+            {
+                return BadRequest("Product not found.");
+            }
+
             await storesRepository.Create(store);
             
             return CreatedAtAction("GetStore", new { id = store.Id }, store);
@@ -118,7 +125,7 @@ namespace VegankoService.Controllers
 
             await storesRepository.Delete(store);
             
-            return Ok(store);
+            return Ok();
         }
 
         private bool StoreExists(string id)

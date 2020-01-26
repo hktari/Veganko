@@ -1,0 +1,47 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<views:BaseContentPage
+    x:Class="Veganko.Views.Stores.EditStorePage"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:partial="clr-namespace:Veganko.Views.Stores.Partial"
+    xmlns:views="clr-namespace:Veganko.Views"
+    Padding="10"
+    ControlTemplate="{StaticResource LodingIndicatorTemplate}"
+    mc:Ignorable="d">
+    <NavigationPage.TitleView>
+        <Grid Padding="10,5" VerticalOptions="Center">
+            <Button
+                BackgroundColor="{StaticResource Primary}"
+                Command="{Binding CancelCommand}"
+                HorizontalOptions="Start"
+                Style="{StaticResource NeutralBtn}"
+                Text="Prekliči"
+                TextColor="Black" />
+            <Button
+                Grid.Column="1"
+                BackgroundColor="{StaticResource Primary}"
+                Command="{Binding SaveStoreCommand}"
+                HorizontalOptions="End"
+                IsVisible="{Binding IsDirty}"
+                Style="{StaticResource PositiveBtn}"
+                Text="Shrani"
+                TextColor="White" />
+        </Grid>
+    </NavigationPage.TitleView>
+    <ContentPage.Content>
+        <ScrollView>
+            <StackLayout Spacing="25">
+                <partial:EditStoreView />
+                <ImageButton
+                    Margin="10,5"
+                    BackgroundColor="White"
+                    Command="{Binding RemoveStoreCommand}"
+                    HorizontalOptions="End"
+                    WidthRequest="40"
+                    Source="delete.png" />
+            </StackLayout>
+        </ScrollView>
+    </ContentPage.Content>
+</views:BaseContentPage>

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Veganko.Models.Products.Stores
+namespace Veganko.Models.Stores
 {
     public class Store
     {

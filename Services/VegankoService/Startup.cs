@@ -32,6 +32,7 @@ using VegankoService.Data.Users;
 using Microsoft.AspNetCore.Http.Features;
 using Microsoft.Extensions.FileProviders;
 using System.IO;
+using VegankoService.Data.Stores;
 
 namespace VegankoService
 {
@@ -48,23 +49,23 @@ namespace VegankoService
         public void ConfigureServices(IServiceCollection services)
         {
             //services.AddSingleton<IProductRepository, MockProductRepository>();
-            services.AddSingleton((sp) =>
+            services.AddScoped((sp) =>
             {
-                var dbOptsBuilder = new DbContextOptionsBuilder().UseMySql(Configuration["DBConnection"]);
+                DbContextOptionsBuilder dbOptsBuilder = new DbContextOptionsBuilder().UseMySql(Configuration["DBConnection"]);
                 var dbContext = new VegankoContext(dbOptsBuilder.Options);
-                dbContext.Database.Migrate();
                 return dbContext;
             });
 
-            services.AddSingleton<IProductRepository, ProductRepository>();
-            services.AddSingleton<ICommentRepository, CommentRepository>();
-            services.AddSingleton<IUsersRepository, UsersRepository>();
+            services.AddScoped<IStoresRepository, StoresRepository>();
+            services.AddScoped<IProductRepository, ProductRepository>();
+            services.AddScoped<ICommentRepository, CommentRepository>();
+            services.AddScoped<IUsersRepository, UsersRepository>();
 
-            services.AddSingleton<IJwtFactory, JwtFactory>();
+            services.AddScoped<IJwtFactory, JwtFactory>();
 
             services.AddTransient<IHttpContextAccessor, HttpContextAccessor>();
 
-            services.AddTransient<IEmailService, EmailService>();
+            services.AddScoped<IEmailService, EmailService>();
             //services.Configure<AuthMessageSenderOptions>(Configuration); ???
 
             // jwt wire up
@@ -170,7 +171,22 @@ namespace VegankoService
                 routes.MapRoute("default", "api/{controller=Home}/{action=Index}/{id?}");
             });
 
+            UpdateDatabase(app);
+
             CreateRoles(serviceProvider).Wait();
+        }
+
+        private void UpdateDatabase(IApplicationBuilder app)
+        {
+            using (var serviceScope = app.ApplicationServices
+                .GetRequiredService<IServiceScopeFactory>()
+                .CreateScope())
+            {
+                using (var context = serviceScope.ServiceProvider.GetService<VegankoContext>())
+                {
+                    context.Database.Migrate();
+                }
+            }
         }
 
         private async Task CreateRoles(IServiceProvider serviceProvider)

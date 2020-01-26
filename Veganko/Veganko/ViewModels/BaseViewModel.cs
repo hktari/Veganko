@@ -26,6 +26,14 @@ namespace Veganko.ViewModels
             set { SetProperty(ref title, value); }
         }
 
+        public virtual void OnPageAppearing()
+        {
+        }
+
+        public virtual void OnPageDisappearing()
+        { 
+        }
+
         protected bool SetProperty<T>(ref T backingStore, T value,
             [CallerMemberName]string propertyName = "",
             Action onChanged = null)

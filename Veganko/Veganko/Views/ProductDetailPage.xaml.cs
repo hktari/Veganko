@@ -23,9 +23,8 @@ namespace Veganko.Views
 		}
         public ProductDetailPage() : this(null) { } // Satisfy the Xamarin.Forms previewer
 
-        protected async override void OnAppearing()
+        protected async override void CustomOnAppearing()
         {
-            base.OnAppearing();
             await vm.Init();            
         }
 

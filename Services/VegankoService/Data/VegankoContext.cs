@@ -74,6 +74,9 @@ namespace VegankoService.Data
             modelBuilder.Entity<Store>(entity => entity.Property(m => m.Id).HasMaxLength(127));
             modelBuilder.Entity<Store>(entity => entity.Property(m => m.ProductId).HasMaxLength(127));
             modelBuilder.Entity<Store>(entity => entity.Property(m => m.Name).HasMaxLength(127));
+            
+            // Add index to product id since usage will be mostly 'get stores by product id'
+            modelBuilder.Entity<Store>().HasIndex(entity => entity.ProductId);
         }
     }
 }

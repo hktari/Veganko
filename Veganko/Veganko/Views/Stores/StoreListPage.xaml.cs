@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Veganko.ViewModels.Products.Stores;
+using Veganko.ViewModels.Stores;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
-namespace Veganko.Views.Product
+namespace Veganko.Views.Stores
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class StoreListPage : BaseContentPage
@@ -21,10 +21,8 @@ namespace Veganko.Views.Product
             this.vm = vm;
         }
 
-        protected async override void OnAppearing()
+        protected async override void CustomOnAppearing()
         {
-            base.OnAppearing();
-
             if (vm.ProductStores == null)
             {
                 await vm.LoadStores().ConfigureAwait(false);

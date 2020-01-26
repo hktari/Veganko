@@ -3,19 +3,20 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Veganko.ViewModels.Products.Stores;
+
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
-namespace Veganko.Views.Product.Store
+namespace Veganko.Views.Stores
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class PickStorePage : BaseContentPage
+    public partial class EditStorePage : BaseContentPage
     {
-        public PickStorePage(PickStoreViewModel pickStoreVM)
+        public EditStorePage(ViewModels.Stores.EditStoreViewModel editStoreViewModel)
+            : base(true)
         {
             InitializeComponent();
-            BindingContext = pickStoreVM;
+            BindingContext = editStoreViewModel;
         }
     }
 }
