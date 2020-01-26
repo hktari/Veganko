@@ -11,13 +11,24 @@
     ControlTemplate="{StaticResource LodingIndicatorTemplate}"
     mc:Ignorable="d">
     <NavigationPage.TitleView>
-        <Button
-            BackgroundColor="{StaticResource Primary}"
-            Command="{Binding CancelCommand}"
-            HorizontalOptions="Start"
-            Style="{StaticResource NeutralBtn}"
-            Text="Prekliči"
-            TextColor="Black" />
+        <Grid Padding="10,5" VerticalOptions="Center">
+            <Button
+                BackgroundColor="{StaticResource Primary}"
+                Command="{Binding CancelCommand}"
+                HorizontalOptions="Start"
+                Style="{StaticResource NeutralBtn}"
+                Text="Prekliči"
+                TextColor="Black" />
+            <Button
+                Grid.Column="1"
+                BackgroundColor="{StaticResource Primary}"
+                Command="{Binding SaveStoreCommand}"
+                HorizontalOptions="End"
+                IsVisible="{Binding IsDirty}"
+                Style="{StaticResource PositiveBtn}"
+                Text="Shrani"
+                TextColor="White" />
+        </Grid>
     </NavigationPage.TitleView>
     <ContentPage.Content>
         <ScrollView>

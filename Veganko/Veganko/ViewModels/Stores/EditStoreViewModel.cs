@@ -16,10 +16,59 @@ namespace Veganko.ViewModels.Stores
         public const string StoreRemovedMsg = "StoreRemovedMsg";
         private IStoresService storeService;
 
+        /// <summary>
+        /// The unchanged version of the store.
+        /// </summary>
+        private Store storeBackup;
+
         public EditStoreViewModel(StoreViewModel store)
             : base(store)
         {
             storeService = App.IoC.Resolve<IStoresService>();
+            storeBackup = new Store();
+            store.MapToModel(storeBackup);
+        }
+
+        public override void OnPageAppearing()
+        {
+            base.OnPageAppearing();
+            Store.PropertyChanged += OnStorePropertyChanged;
+            UpdateIsDirty();
+        }
+        
+        public override void OnPageDisappearing()
+        {
+            Store.PropertyChanged -= OnStorePropertyChanged;
+            base.OnPageDisappearing();
+        }
+
+        private void OnStorePropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            UpdateIsDirty();
+        }
+
+        private void UpdateIsDirty()
+        {
+            IsDirty = storeBackup.Name != Store.Name.Value
+                || storeBackup.Price != Store.Price.Value
+                || storeBackup.Address.FormattedAddress != Store.Address.FormattedAddress.Value;
+        }
+
+        private bool isDirty;
+
+        /// <summary>
+        /// Gets or sets a value indicating whether the user changed anything on the store.
+        /// </summary>
+        public bool IsDirty
+        {
+            get
+            {
+                return isDirty;
+            }
+            set
+            {
+                SetProperty(ref isDirty, value);
+            }
         }
 
         public Command RemoveStoreCommand => new Command(

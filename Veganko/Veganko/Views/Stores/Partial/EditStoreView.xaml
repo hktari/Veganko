@@ -66,7 +66,7 @@
             <Frame Grid.Row="4" Style="{StaticResource EntryFrameStyle}">
                 <Frame.Triggers>
                     <DataTrigger
-                        Binding="{Binding Store.FormattedAddress.IsValid}"
+                        Binding="{Binding Store.Address.FormattedAddress.IsValid}"
                         TargetType="Frame"
                         Value="False">
                         <Setter Property="BorderColor" Value="{StaticResource TransparentErrorColor}" />
@@ -76,7 +76,7 @@
                     FontFamily="{StaticResource RalewayRegularFont}"
                     FontSize="Medium"
                     IsEnabled="False"
-                    Text="{Binding Store.FormattedAddress.Value, Mode=TwoWay}">
+                    Text="{Binding Store.Address.FormattedAddress.Value, Mode=TwoWay}">
                     <Entry.Effects>
                         <effects:CustomEntryEffect />
                     </Entry.Effects>
@@ -84,9 +84,9 @@
             </Frame>
             <Label
                 Grid.Row="5"
-                IsVisible="{Binding Store.FormattedAddress.IsValid, Converter={StaticResource BoolInverter}}"
+                IsVisible="{Binding Store.Address.FormattedAddress.IsValid, Converter={StaticResource BoolInverter}}"
                 Style="{StaticResource LabelErrorMessageStyle}"
-                Text="{Binding Store.FormattedAddress.Errors, Converter={StaticResource FirstValidationErrorConverter}}" />
+                Text="{Binding Store.Address.FormattedAddress.Errors, Converter={StaticResource FirstValidationErrorConverter}}" />
 
             <Label
                 Grid.Row="6"
