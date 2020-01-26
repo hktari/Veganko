@@ -31,7 +31,6 @@ namespace Veganko.Views
 
         protected override void CustomOnAppearing()
         {
-            base.OnAppearing();
             vm.PageAppeared.Execute(null);
         }
     }
