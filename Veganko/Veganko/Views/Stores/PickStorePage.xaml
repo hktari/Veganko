@@ -47,6 +47,12 @@
                         </ViewCell>
                     </DataTemplate>
                 </ListView.ItemTemplate>
+                <ListView.Footer>
+                    <Image
+                        Margin="0,20,10,5"
+                        HorizontalOptions="End"
+                        Source="powered_by_google_on_white.png" />
+                </ListView.Footer>
             </ListView>
         </Grid>
     </ContentPage.Content>

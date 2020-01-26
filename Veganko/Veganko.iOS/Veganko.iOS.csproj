@@ -164,6 +164,9 @@
   <ItemGroup>
     <BundleResource Include="Resources\xamarin_logo%403x.png" />
   </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="powered_by_google_on_white.png" />
+  </ItemGroup>
   <Import Project="..\Veganko\Veganko.projitems" Label="Shared" />
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
 </Project>
