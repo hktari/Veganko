@@ -116,6 +116,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\Products\BaseEditProductViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\Stores\AddStoreViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\Stores\EditStoreViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ViewModels\Stores\Partial\AddressViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\Stores\Partial\BaseEditStoreViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\Stores\PickStoreViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\Stores\StoreListViewModel.cs" />

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using Veganko.Models.Stores;
 using Veganko.Validations;
+using Veganko.ViewModels.Stores.Partial;
 
 namespace Veganko.ViewModels.Stores
 {
@@ -12,6 +13,7 @@ namespace Veganko.ViewModels.Stores
             : this()
         {
             ProductId = productId;
+            Address = new AddressViewModel(new Address());
         }
 
         public StoreViewModel(Store store)
@@ -35,13 +37,11 @@ namespace Veganko.ViewModels.Stores
 
         public string ProductId { get; set; }
 
-        public Address Address { get; set; }
+        public AddressViewModel Address { get; set; }
 
         public Coordinates? Coordinates { get; set; }
 
         public ValidatableObject<string> Name { get; }
-
-        public ValidatableObject<string> FormattedAddress { get; }
 
         public ValidatableObject<double> Price { get; }
 
@@ -64,7 +64,7 @@ namespace Veganko.ViewModels.Stores
         {
             bool isValid = true;
             isValid &= Name.Validate();
-            isValid &= FormattedAddress.Validate();
+            isValid &= Address.Validate();
             isValid &= Price.Validate();
             return isValid;
         }
@@ -83,20 +83,18 @@ namespace Veganko.ViewModels.Stores
             Id = store.Id;
             ProductId = store.ProductId;
             Name.Value = store.Name;
-            FormattedAddress.Value = store.Address?.FormattedAddress;
             Price.Value = store.Price;
             Coordinates = store.Coordinates;
+            Address.Update(store.Address);
         }
 
         public void MapToModel(Store store)
         {
-            // FormattedAddress ?
-
             store.Id = Id;
             store.ProductId = ProductId;
             store.Name = Name.Value;
             store.Price = Price.Value;
-            store.Address = Address;
+            Address.MapToModel(store.Address);
             store.Coordinates = Coordinates;
         }
     }
