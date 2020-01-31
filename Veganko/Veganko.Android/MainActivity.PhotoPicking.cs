@@ -32,6 +32,7 @@ namespace Veganko.Droid
     public partial class MainActivity
     {
         const int REQUEST_TAKE_PHOTO = 1;
+        private const int JpegCompressionQuality = 85;
         private readonly int REQUEST_CAMERA_PERMISSION = 11;
         private int maxPhotoWidthHeightInPix;
         private string currentPhotoPath;
@@ -138,6 +139,22 @@ namespace Veganko.Droid
                 bmOptions.InJustDecodeBounds = true;
                 BitmapFactory.DecodeFile(currentPhotoPath, bmOptions);
 
+
+                /*
+                     src =  5504 x 3096
+                     targWH = 2160
+                     2.5 : 1.43
+                     scaleFactor = 1 -> 1
+
+
+                     src =  5504 x 3096
+                     targWH = 400
+                     13 : 7
+                     scaleFactor = 7 -> 4
+                     result = 
+
+                 */
+
                 // Determine how much to scale down the image
                 int scaleFactor = Math.Min(
                     bmOptions.OutWidth / maxPhotoWidthHeightInPix, bmOptions.OutHeight / maxPhotoWidthHeightInPix);
@@ -155,7 +172,7 @@ namespace Veganko.Droid
 
                 using (MemoryStream stream = new MemoryStream())
                 {
-                    if (await bitmap.CompressAsync(Bitmap.CompressFormat.Jpeg, 100, stream))
+                    if (await bitmap.CompressAsync(Bitmap.CompressFormat.Jpeg, JpegCompressionQuality, stream))
                     {
                         stream.Position = 0;
                         takePictureTCS.SetResult(stream.ToArray());
@@ -179,7 +196,6 @@ namespace Veganko.Droid
          */
         private Bitmap RotateImageIfRequired(Bitmap img, string photoPath)
         {
-
             ExifInterface ei = new ExifInterface(photoPath);
             int orientation = ei.GetAttributeInt(ExifInterface.TagOrientation, (int)Android.Media.Orientation.Normal);
 
