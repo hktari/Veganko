@@ -14,6 +14,8 @@ namespace Veganko.ViewModels
 {
     public class ProfileViewModel : BaseViewModel
     {
+        public const string ProfileChangedMsg = "ProfileChangedMsg";
+
         public class ProfileComment
         {
             public Comment Comment { get; set; }
@@ -151,6 +153,7 @@ namespace Veganko.ViewModels
             User = await userService.Edit(updatedUser);
             HandleNewData();
             UpdateIsDirty();
+            MessagingCenter.Send(this, ProfileChangedMsg, updatedUser);
         }
 
         public async Task Refresh()
