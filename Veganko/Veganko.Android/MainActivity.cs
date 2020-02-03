@@ -27,6 +27,9 @@ using System.Runtime.InteropServices;
 using Android.Media;
 using System.Collections.Generic;
 
+[assembly: UsesFeature("android.hardware.camera", Required = true)]
+[assembly: UsesFeature("android.hardware.camera.autofocus", Required = true)]
+
 namespace Veganko.Droid
 {
     [Activity(Label = "Veganko", Icon = "@drawable/icon", Theme = "@style/MainTheme", MainLauncher = true, ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation)]
