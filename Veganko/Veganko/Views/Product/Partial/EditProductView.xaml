@@ -194,20 +194,19 @@
                     Style="{StaticResource EntryFrameStyle}"
                     VerticalOptions="Start">
                     <Grid IsClippedToBounds="True">
-                        <Image
-                            x:Name="CameraButton"
-                            Aspect="AspectFill"
-                            BackgroundColor="#ffe6bb"
-                            HorizontalOptions="Center"
-                            IsVisible="{Binding PhotoPicked}"
-                            Source="{Binding ProductImg}">
-                            <Image.GestureRecognizers>
-                                <TapGestureRecognizer Command="{Binding TakeImageCommand}" />
-                            </Image.GestureRecognizers>
-                        </Image>
+                        <Grid.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding TakeImageCommand}" />
+                        </Grid.GestureRecognizers>
+                        <ContentView IsClippedToBounds="True">
+                            <Image
+                                x:Name="CameraButton"
+                                Aspect="AspectFill"
+                                BackgroundColor="#ffe6bb"
+                                HorizontalOptions="Center"
+                                Source="{Binding ProductImg}" />
+                        </ContentView>
                         <ImageButton
                             BackgroundColor="#ffe6bb"
-                            Command="{Binding TakeImageCommand}"
                             HorizontalOptions="Center"
                             IsVisible="{Binding PhotoPicked, Converter={StaticResource BoolInverter}}"
                             VerticalOptions="Center"
