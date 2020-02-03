@@ -22,9 +22,9 @@
                             HeightRequest="112"
                             HorizontalOptions="Center"
                             Opacity="0.5"
-                            Source="{Binding Image}"
                             VerticalOptions="Center"
-                            WidthRequest="112">
+                            WidthRequest="112"
+                            Source="{Binding Image}">
                             <ImageButton.Triggers>
                                 <DataTrigger
                                     Binding="{Binding IsSelected}"
@@ -37,7 +37,10 @@
                     </DataTemplate>
                 </BindableLayout.ItemTemplate>
             </FlexLayout>
-            <Button Clicked="OnSaveClicked" Text="Save" />
+            <Button
+                Clicked="OnSaveClicked"
+                Style="{StaticResource PositiveBtn}"
+                Text="Save" />
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>
