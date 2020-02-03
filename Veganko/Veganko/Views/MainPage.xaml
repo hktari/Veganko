@@ -18,7 +18,7 @@
                 <OnPlatform UWP="New" />
             </Page.Title>
         </views:NewProductPage>
-        <views:ProfilePage IconImageSource="{Binding ProfileIcon}">
+        <views:ProfilePage IconImageSource="{Binding AvatarImage}">
             <Page.Title>
                 <OnPlatform UWP="Profile" />
             </Page.Title>

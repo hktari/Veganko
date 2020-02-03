@@ -92,19 +92,17 @@ namespace Veganko.ViewModels
             productDataStore = App.IoC.Resolve<IProductService>();
         }
 
-
-        private string profileIcon;
-        public string ProfileIcon
-        {
-            get => profileIcon;
-            set => SetProperty(ref profileIcon, value);
-        }
-
         private bool shouldShowDescriptionPlaceholder;
         public bool ShouldShowDescriptionPlaceholder
         {
-            get => shouldShowDescriptionPlaceholder;
-            set => SetProperty(ref shouldShowDescriptionPlaceholder, value);
+            get
+            {
+                return shouldShowDescriptionPlaceholder;
+            }
+            set
+            {
+                SetProperty(ref shouldShowDescriptionPlaceholder, value);
+            }
         }
 
         private bool isEditingDescription;
@@ -132,8 +130,14 @@ namespace Veganko.ViewModels
 
         public Command FocusEditorCommand
         {
-            get => focusEditorCommand;
-            set => SetProperty(ref focusEditorCommand, value);
+            get
+            {
+                return focusEditorCommand;
+            }
+            set
+            {
+                SetProperty(ref focusEditorCommand, value);
+            }
         }
 
         public async Task SaveProfile()
@@ -200,7 +204,6 @@ namespace Veganko.ViewModels
             UserDescription = User.Description;
             UserLabel = User.Label;
             AvatarImage = Images.GetProfileAvatarById(User.AvatarId);
-            ProfileIcon = Images.GetProfileAvatarAsIconById(User.AvatarId);
             BackgroundImage = Images.GetProfileBackgroundImageById(User.ProfileBackgroundId);
             UpdateDescPlaceholderVisibility();
         }
