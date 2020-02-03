@@ -104,5 +104,10 @@ namespace Veganko.Other
             return AvatarImageSource.FirstOrDefault(img => img.Id == avatarId)?.Image
                 ?? throw new ArgumentException("Invalid id for avatar image!");
         }
+
+        public static string GetProfileAvatarAsIconById(string avatarId)
+        {
+            return GetProfileAvatarById(avatarId).Replace(".png", "_no_bckrnd.png");
+        }
     }
 }
