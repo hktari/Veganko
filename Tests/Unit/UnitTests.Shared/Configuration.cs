@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Veganko;
 
 namespace UnitTests.Shared
 {
@@ -12,6 +13,7 @@ namespace UnitTests.Shared
         public static void Init(TestContext testContext)
         {
             Xamarin.Forms.Mocks.MockForms.Init();
+            ((App)App.Current).SetupDependencies();
         }
     }
 }

@@ -18,6 +18,8 @@ using Veganko.Extensions;
 using Veganko.Services.Http;
 using Veganko.ViewModels.Products.Partial;
 using Veganko.Services.Logging;
+using Veganko.ViewModels.Stores;
+using Veganko.Views.Stores;
 
 namespace Veganko.ViewModels.Products
 {
@@ -143,7 +145,8 @@ namespace Veganko.ViewModels.Products
         public Command WhereToBuyCommand => new Command(
             () => 
             {
-                App.CurrentPage.Inform("Funkcija še ni podprta.");
+                //App.CurrentPage.Inform("Funkcija še ni podprta.");
+                App.Navigation.PushAsync(new StoreListPage(new StoreListViewModel(Product.Id)));
             });
 
         public async Task RefreshIsFavorite()

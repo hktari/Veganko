@@ -232,10 +232,24 @@ namespace Veganko.ViewModels.Products
         private async Task TakeImage()
         {
 #if __ANDROID__
-            byte[] data = await Droid.MainActivity.Context.DispatchTakePictureIntent(maxPhotoWidthHeightInPix);
-            ProductDetailImageData = data;
-            ProductImg = ImageSource.FromStream(() => new MemoryStream(data));
+            // My low end phone automatically terminates process when cross media library is used.
+            if (Droid.MainActivity.OSVersion <= 21)
+            {
+                byte[] data = await Droid.MainActivity.Context.DispatchTakePictureIntent(maxPhotoWidthHeightInPix);
+                ProductDetailImageData = data;
+                ProductImg = ImageSource.FromStream(() => new MemoryStream(data));
+            }
+            else
+            {
+                await TakeImageWithCrossMedia();
+            }
 #else
+            TakeImageWithCrossMedia();
+#endif
+        }
+
+        private async Task TakeImageWithCrossMedia()
+        {
             var initialized = await CrossMedia.Current.Initialize();
 
             if (!initialized || !CrossMedia.Current.IsCameraAvailable || !CrossMedia.Current.IsTakePhotoSupported)
@@ -249,7 +263,7 @@ namespace Veganko.ViewModels.Products
                 Directory = "Pictures",
                 PhotoSize = Plugin.Media.Abstractions.PhotoSize.MaxWidthHeight,
                 MaxWidthHeight = maxPhotoWidthHeightInPix,
-                CompressionQuality = 100,
+                CompressionQuality = 85,
                 Name = Guid.NewGuid().ToString() + ".jpg"
             });
 
@@ -257,7 +271,6 @@ namespace Veganko.ViewModels.Products
                 return;
 
             LoadImage(file);
-#endif
         }
 
         private void LoadImage(MediaFile file)

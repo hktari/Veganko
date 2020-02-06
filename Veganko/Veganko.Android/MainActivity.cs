@@ -25,12 +25,18 @@ using System.IO;
 using Java.Nio;
 using System.Runtime.InteropServices;
 using Android.Media;
+using System.Collections.Generic;
+
+[assembly: UsesFeature("android.hardware.camera", Required = true)]
+[assembly: UsesFeature("android.hardware.camera.autofocus", Required = true)]
 
 namespace Veganko.Droid
 {
     [Activity(Label = "Veganko", Icon = "@drawable/icon", Theme = "@style/MainTheme", MainLauncher = true, ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation)]
     public partial class MainActivity : global::Xamarin.Forms.Platform.Android.FormsAppCompatActivity, IAuthenticate
     {
+        public static int OSVersion;
+
         public static MainActivity Context { get; private set; }
 
         protected override void OnCreate(Bundle bundle)
@@ -38,6 +44,8 @@ namespace Veganko.Droid
             TabLayoutResource = Resource.Layout.Tabbar;
             ToolbarResource = Resource.Layout.Toolbar;
             base.OnCreate(bundle);
+
+            OSVersion = (int)Android.OS.Build.VERSION.SdkInt;
 
             Context = this;
             global::Xamarin.Forms.Forms.Init(this, bundle);
@@ -90,8 +98,26 @@ namespace Veganko.Droid
             }
         }
 
+        //#region LocationPicking
+        //int AUTOCOMPLETE_REQUEST_CODE = 1;
+        //public void StartLocationPicking()
+        //{ 
+        
+        //    // Set the fields to specify which types of place data to
+        //    // return after the user has made a selection.
+        //    List<Place.Field> fields = Arrays.AsList(Place.Field.ID, Place.Field.NAME);     
+
+        //    // Start the autocomplete intent.
+        //    Intent intent = new Autocomplete.IntentBuilder(
+        //            AutocompleteActivityMode.FULLSCREEN, fields)
+        //            .build(this);
+        //    startActivityForResult(intent, AUTOCOMPLETE_REQUEST_CODE);
+        //}
+
+        //#endregion
+
         #region FB_Auth
-            // Define a authenticated user.
+        // Define a authenticated user.
         private MobileServiceUser user;
         
         public async Task<bool> Authenticate()

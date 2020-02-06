@@ -17,11 +17,22 @@ using Veganko.Services.Auth;
 using Veganko.Services.Logging;
 using Veganko.Services.ImageManager;
 using System.Net.Http;
+using Veganko.Services.Products.Stores;
 
 namespace Veganko
 {
     public partial class App : Application
     {
+#if __ANDROID__
+        public const string AssemblyNamespacePrefix = "Veganko.Droid.";
+#elif __IOS__
+        public const string AssemblyNamespacePrefix = "Veganko.iOS.";
+#elif WINDOWS_UWP
+        public const string AssemblyNamespacePrefix = "Veganko.UWP.";
+#else
+        public const string AssemblyNamespacePrefix = "UnitTests.UWP.";
+#endif
+
         public static MobileServiceClient MobileService =
             new MobileServiceClient("https://veganko.azurewebsites.net"
         );
@@ -84,7 +95,7 @@ namespace Veganko
             //ServicePointManager.ServerCertificateValidationCallback += (sender, certificate, chain, sslPolicyErrors) => { return true; };
         }
 
-        private void SetupDependencies()
+        public void SetupDependencies()
         {   
             ContainerBuilder builder = new ContainerBuilder();
             builder.RegisterType<RestService>()
@@ -99,7 +110,9 @@ namespace Veganko
             builder.RegisterType<CommentsService>().As<ICommentsService>().SingleInstance();
             builder.RegisterType<UserService>().As<IUserService>().SingleInstance();
             builder.RegisterType<AuthService>().As<IAuthService>().SingleInstance();
+            builder.RegisterType<StoresService>().As<IStoresService>().SingleInstance();
 
+            //builder.RegisterType<MockStoresService>().As<IStoresService>().SingleInstance();
             //builder.RegisterType<MockAccountService>().As<IAccountService>().SingleInstance();
             //builder.RegisterType<MockProductDataStore>().As<IProductService>().SingleInstance();
             //builder.RegisterType<MockCommentsService>().As<ICommentsService>().SingleInstance();

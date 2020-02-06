@@ -5,7 +5,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:views="clr-namespace:Veganko.Views">
     <TabbedPage.Children>
-        <NavigationPage Icon="ico_search.png">
+        <NavigationPage IconImageSource="ico_search.png">
             <NavigationPage.Title>
                 <OnPlatform UWP="Products" />
             </NavigationPage.Title>
@@ -13,12 +13,12 @@
                 <views:ProductListPage />
             </x:Arguments>
         </NavigationPage>
-        <views:NewProductPage Icon="ico_add_yellow.png">
+        <views:NewProductPage IconImageSource="ico_add_yellow.png">
             <Page.Title>
                 <OnPlatform UWP="New" />
             </Page.Title>
         </views:NewProductPage>
-        <views:ProfilePage Icon="icon.png">
+        <views:ProfilePage IconImageSource="{Binding AvatarImage}">
             <Page.Title>
                 <OnPlatform UWP="Profile" />
             </Page.Title>

@@ -8,6 +8,7 @@ using VegankoService.Models;
 using VegankoService.Models.User;
 using VegankoService.Models.Comments;
 using Microsoft.AspNetCore.Identity;
+using VegankoService.Models.Stores;
 
 namespace VegankoService.Data
 {
@@ -28,9 +29,14 @@ namespace VegankoService.Data
 
         public DbSet<OTP> OTPs { get; set; }
 
+        public DbSet<Store> Store { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
+
+            // TODO: remove if this is no longer relevant.
+            // This is a workaround to support an older version of mariaDB
             modelBuilder.Entity<ApplicationUser>(entity => entity.Property(m => m.Id).HasMaxLength(127));
             modelBuilder.Entity<ApplicationUser>(entity => entity.Property(m => m.UserName).HasMaxLength(127));
             modelBuilder.Entity<ApplicationUser>(entity => entity.Property(m => m.NormalizedUserName).HasMaxLength(127));
@@ -64,6 +70,13 @@ namespace VegankoService.Data
 
             modelBuilder.Entity<OTP>(entity => entity.Property(m => m.Id).HasMaxLength(127));
             //modelBuilder.Entity<OTP>(entity => entity.Property(m => m.IdentityId).HasMaxLength(127));
+
+            modelBuilder.Entity<Store>(entity => entity.Property(m => m.Id).HasMaxLength(127));
+            modelBuilder.Entity<Store>(entity => entity.Property(m => m.ProductId).HasMaxLength(127));
+            modelBuilder.Entity<Store>(entity => entity.Property(m => m.Name).HasMaxLength(127));
+            
+            // Add index to product id since usage will be mostly 'get stores by product id'
+            modelBuilder.Entity<Store>().HasIndex(entity => entity.ProductId);
         }
     }
 }

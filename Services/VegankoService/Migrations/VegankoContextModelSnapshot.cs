@@ -180,6 +180,79 @@ namespace VegankoService.Migrations
                     b.ToTable("Product");
                 });
 
+            modelBuilder.Entity("VegankoService.Models.Stores.Address", b =>
+                {
+                    b.Property<string>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Country");
+
+                    b.Property<string>("FormattedAddress")
+                        .IsRequired();
+
+                    b.Property<string>("PostalCode");
+
+                    b.Property<string>("RawJson");
+
+                    b.Property<string>("RetrievedFrom");
+
+                    b.Property<string>("Street");
+
+                    b.Property<string>("StreetNumber");
+
+                    b.Property<string>("Town");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Address");
+                });
+
+            modelBuilder.Entity("VegankoService.Models.Stores.Coordinates", b =>
+                {
+                    b.Property<string>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<double>("Latitude");
+
+                    b.Property<double>("Longitude");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Coordinates");
+                });
+
+            modelBuilder.Entity("VegankoService.Models.Stores.Store", b =>
+                {
+                    b.Property<string>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasMaxLength(127);
+
+                    b.Property<string>("AddressId")
+                        .IsRequired();
+
+                    b.Property<string>("CoordinatesId");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(127);
+
+                    b.Property<double>("Price");
+
+                    b.Property<string>("ProductId")
+                        .IsRequired()
+                        .HasMaxLength(127);
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AddressId");
+
+                    b.HasIndex("CoordinatesId");
+
+                    b.HasIndex("ProductId");
+
+                    b.ToTable("Store");
+                });
+
             modelBuilder.Entity("VegankoService.Models.User.ApplicationUser", b =>
                 {
                     b.Property<string>("Id")
@@ -317,6 +390,18 @@ namespace VegankoService.Migrations
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("VegankoService.Models.Stores.Store", b =>
+                {
+                    b.HasOne("VegankoService.Models.Stores.Address", "Address")
+                        .WithMany()
+                        .HasForeignKey("AddressId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("VegankoService.Models.Stores.Coordinates", "Coordinates")
+                        .WithMany()
+                        .HasForeignKey("CoordinatesId");
                 });
 
             modelBuilder.Entity("VegankoService.Models.User.Customer", b =>

@@ -115,14 +115,10 @@
                             <ImageButton
                                 Grid.Column="1"
                                 BackgroundColor="{StaticResource LightBackgroundColor}"
+                                Command="{Binding WhereToBuyCommand}"
                                 IsEnabled="False"
                                 VerticalOptions="Start"
                                 Source="ico_where_to_buy.png" />
-                            <ContentView Grid.Column="1">
-                                <ContentView.GestureRecognizers>
-                                    <TapGestureRecognizer Command="{Binding WhereToBuyCommand}" />
-                                </ContentView.GestureRecognizers>
-                            </ContentView>
                         </Grid>
                         <controls:EnumImageView
                             Grid.Row="4"

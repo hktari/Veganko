@@ -60,6 +60,7 @@
 		<string>Fonts/Quicksand-VariableFont_wght.ttf</string>
 		<string>Fonts/Raleway-Medium.ttf</string>
 		<string>Fonts/Raleway-Regular.ttf</string>
+    <string>Fonts/Raleway-Light.ttf</string>
 		<string>Fonts/VarelaRound-Regular.ttf</string>
 	</array>
 	<key>UIStatusBarHidden</key>

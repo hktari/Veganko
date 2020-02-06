@@ -23,11 +23,11 @@ namespace Veganko.Views
 
             BindingContext = this.vm = new FavoritesViewModel();
         }
-        protected override void OnAppearing()
+        protected async override void CustomOnAppearing()
         {
-            base.OnAppearing();
-            vm.Refresh();
+            await vm.Refresh().ConfigureAwait(false);
         }
+
         async void OnProductSelected(object sender, SelectedItemChangedEventArgs args)
         {
             var item = args.SelectedItem as Veganko.Models.Product;

@@ -101,6 +101,7 @@
     <BundleResource Include="Resources\Fonts\Montserrat-Regular.ttf" />
     <BundleResource Include="Resources\Fonts\Quicksand-VariableFont_wght.ttf" />
     <BundleResource Include="Resources\Fonts\Raleway-Medium.ttf" />
+    <BundleResource Include="Resources\Fonts\Raleway-Light.ttf" />
   </ItemGroup>
   <ItemGroup>
     <BundleResource Include="Resources\Default-568h%402x.png" />
@@ -137,6 +138,9 @@
     <PackageReference Include="Microsoft.AppCenter.Crashes">
       <Version>2.6.4</Version>
     </PackageReference>
+    <PackageReference Include="GooglePlacesApi">
+      <Version>1.0.17</Version>
+    </PackageReference>
     <PackageReference Include="Microsoft.Azure.Mobile.Client">
       <Version>4.0.2</Version>
     </PackageReference>
@@ -164,7 +168,7 @@
     <PackageReference Include="Xamarin.FFImageLoading.Svg.Forms">
       <Version>2.4.11.982</Version>
     </PackageReference>
-    <PackageReference Include="Xamarin.Forms" Version="4.3.0.851321-pre3" />
+    <PackageReference Include="Xamarin.Forms" Version="4.4.0.991477" />
     <PackageReference Include="ZXing.Net.Mobile.Forms">
       <Version>2.3.2</Version>
     </PackageReference>
@@ -472,6 +476,9 @@
   </ItemGroup>
   <ItemGroup>
     <BundleResource Include="Resources\yellowbackground4.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="powered_by_google_on_white.png" />
   </ItemGroup>
   <Import Project="..\Veganko\Veganko.projitems" Label="Shared" />
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />

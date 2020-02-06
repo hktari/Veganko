@@ -192,6 +192,7 @@
     <Content Include="Olivella_hranilna_krema_r.jpg" />
     <Content Include="orangebackground3.png" />
     <Content Include="pinkbackground1.png" />
+    <Content Include="powered_by_google_on_white.png" />
     <Content Include="Properties\Default.rd.xml" />
     <Content Include="Assets\LockScreenLogo.scale-100.png" />
     <Content Include="Assets\LockScreenLogo.scale-125.png" />
@@ -251,6 +252,9 @@
     <PackageReference Include="Autofac">
       <Version>4.9.4</Version>
     </PackageReference>
+    <PackageReference Include="GooglePlacesApi">
+      <Version>1.0.17</Version>
+    </PackageReference>
     <PackageReference Include="Microsoft.AppCenter.Analytics">
       <Version>2.6.4</Version>
     </PackageReference>
@@ -284,7 +288,7 @@
     <PackageReference Include="Xamarin.FFImageLoading.Svg.Forms">
       <Version>2.4.11.982</Version>
     </PackageReference>
-    <PackageReference Include="Xamarin.Forms" Version="4.3.0.851321-pre3" />
+    <PackageReference Include="Xamarin.Forms" Version="4.4.0.991477" />
     <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform" Version="6.0.1" />
     <PackageReference Include="ZXing.Net.Mobile.Forms">
       <Version>2.3.2</Version>
