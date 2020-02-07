@@ -3,25 +3,51 @@
     x:Class="Veganko.Views.MainPage"
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:effects="clr-namespace:Veganko.Effects"
+    xmlns:forms="clr-namespace:Xamarin.Forms;assembly=Xamarin.Forms.Core"
+    xmlns:ios="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core"
+    xmlns:other="clr-namespace:Veganko.Other"
     xmlns:views="clr-namespace:Veganko.Views">
+    <TabbedPage.Effects>
+        <effects:TabColorEffect>
+            <x:Arguments>
+                <Color>#448e00</Color>
+                <Color>Gray</Color>
+            </x:Arguments>
+        </effects:TabColorEffect>
+    </TabbedPage.Effects>
     <TabbedPage.Children>
-        <NavigationPage IconImageSource="ico_search.png">
-            <NavigationPage.Title>
+        <NavigationPage>
+            <NavigationPage.IconImageSource>
+                <OnPlatform
+                    x:TypeArguments="forms:ImageSource"
+                    Android="ico_search.png"
+                    iOS="{FontImage FontFamily='Material Icons',
+                                    Glyph={x:Static other:MaterialDesignIcons.Search}}" />
+            </NavigationPage.IconImageSource>
+            <!--<NavigationPage.Title>
                 <OnPlatform UWP="Products" />
-            </NavigationPage.Title>
+            </NavigationPage.Title>-->
             <x:Arguments>
                 <views:ProductListPage />
             </x:Arguments>
         </NavigationPage>
-        <views:NewProductPage IconImageSource="ico_add_yellow.png">
-            <Page.Title>
+        <views:NewProductPage>
+            <ContentPage.IconImageSource>
+                <OnPlatform
+                    x:TypeArguments="forms:ImageSource"
+                    Android="ico_add_yellow.png"
+                    iOS="{FontImage FontFamily='Material Icons',
+                                    Glyph={x:Static other:MaterialDesignIcons.AddCircle}}" />
+            </ContentPage.IconImageSource>
+            <!--<Page.Title>
                 <OnPlatform UWP="New" />
-            </Page.Title>
+            </Page.Title>-->
         </views:NewProductPage>
-        <views:ProfilePage IconImageSource="{Binding AvatarImage}">
-            <Page.Title>
+        <views:ProfilePage>
+            <!--<Page.Title>
                 <OnPlatform UWP="Profile" />
-            </Page.Title>
+            </Page.Title>-->
         </views:ProfilePage>
     </TabbedPage.Children>
 </TabbedPage>

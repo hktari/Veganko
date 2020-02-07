@@ -36,18 +36,18 @@ namespace Veganko.Views
             CurrentPage = page ?? throw new ArgumentException("Invalid page idx.", nameof(tabIdx));
         }
 
-        protected async override void OnCurrentPageChanged()
+        protected override void OnCurrentPageChanged()
         {
             base.OnCurrentPageChanged();
 
-            Title = CurrentPage?.Title;
+            //Title = CurrentPage?.Title;
 
-            if (lastPage != null)
-            {
-                await lastPage.PopToRootAsync();
-            }
+            //if (lastPage != null)
+            //{
+            //    await lastPage.PopToRootAsync();
+            //}
 
-            lastPage = CurrentPage as NavigationPage;
+            //lastPage = CurrentPage as NavigationPage;
         }
     }
 }

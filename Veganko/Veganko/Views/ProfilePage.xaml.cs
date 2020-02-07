@@ -1,12 +1,7 @@
 ﻿using Autofac;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Veganko.Extensions;
-using Veganko.Models.User;
-using Veganko.Services;
+using Veganko.Other;
 using Veganko.Services.Auth;
 using Veganko.Services.Http;
 using Veganko.ViewModels;
@@ -20,13 +15,22 @@ namespace Veganko.Views
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class ProfilePage : BaseContentPage
     {
-        ProfileViewModel vm;
+        private ProfileViewModel vm;
         public ProfilePage()
         {
             InitializeComponent();
+            if (Device.RuntimePlatform == Device.iOS)
+            {
+                IconImageSource = new FontImageSource { FontFamily = "Material Icons", Glyph = MaterialDesignIcons.AccountCircle };
+            }
+            else
+            {
+                SetBinding(IconImageSourceProperty, new Binding("AvatarImage"));
+            }
+
             vm = (ProfileViewModel)BindingContext;
         }
-        protected async override void CustomOnAppearing()
+        protected override async void CustomOnAppearing()
         {
             await vm.Refresh();
         }

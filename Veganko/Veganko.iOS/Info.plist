@@ -62,6 +62,7 @@
 		<string>Fonts/Raleway-Regular.ttf</string>
     <string>Fonts/Raleway-Light.ttf</string>
 		<string>Fonts/VarelaRound-Regular.ttf</string>
+    <string>Fonts/MaterialIcons-Regular.ttf</string>
 	</array>
 	<key>UIStatusBarHidden</key>
 	<true/>

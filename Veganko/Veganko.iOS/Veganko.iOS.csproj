@@ -91,6 +91,7 @@
     <CodesignEntitlements>Entitlements.plist</CodesignEntitlements>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Effects\TabColorEffect.cs" />
     <Compile Include="Main.cs" />
     <Compile Include="AppDelegate.cs" />
     <None Include="Entitlements.plist" />
@@ -102,6 +103,7 @@
     <BundleResource Include="Resources\Fonts\Quicksand-VariableFont_wght.ttf" />
     <BundleResource Include="Resources\Fonts\Raleway-Medium.ttf" />
     <BundleResource Include="Resources\Fonts\Raleway-Light.ttf" />
+    <BundleResource Include="Resources\Fonts\MaterialIcons-Regular.ttf" />
   </ItemGroup>
   <ItemGroup>
     <BundleResource Include="Resources\Default-568h%402x.png" />
@@ -478,7 +480,25 @@
     <BundleResource Include="Resources\yellowbackground4.png" />
   </ItemGroup>
   <ItemGroup>
-    <BundleResource Include="powered_by_google_on_white.png" />
+    <BundleResource Include="Resources\powered_by_google_on_white.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\ico_add_yellow.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\ico_add_yellow%402x.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\ico_add_yellow%403x.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\ico_search.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\ico_search%402x.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\ico_search%403x.png" />
   </ItemGroup>
   <Import Project="..\Veganko\Veganko.projitems" Label="Shared" />
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />

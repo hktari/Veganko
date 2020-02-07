@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using System.Text;
 using Veganko.ViewModels;
 using Xamarin.Forms;
+using Xamarin.Forms.PlatformConfiguration;
+using Xamarin.Forms.PlatformConfiguration.iOSSpecific;
+using Xamarin.Forms.PlatformConfiguration.AndroidSpecific;
 
 namespace Veganko.Views
 {
@@ -10,16 +13,12 @@ namespace Veganko.Views
     {
         public BaseContentPage(bool useNavBar = false)
         {
+            On<Xamarin.Forms.PlatformConfiguration.iOS>().SetUseSafeArea(true);
             if (!useNavBar)
             {
                 if (Device.RuntimePlatform == Device.Android)
                 {
-                    NavigationPage.SetHasNavigationBar(this, false);
-                }
-                else if (Device.RuntimePlatform == Device.iOS)
-                {
-                    // TODO: safe zone ?
-                    Padding = new Thickness(0, 34, 0, 0);
+                    Xamarin.Forms.NavigationPage.SetHasNavigationBar(this, false);
                 }
             }
         }
