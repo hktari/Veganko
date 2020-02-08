@@ -61,8 +61,9 @@
                             <Entry
                                 Completed="OnSearchTextInputCompleted"
                                 FontFamily="{StaticResource VarelaRoundFont}"
-                                IsSpellCheckEnabled="False"
-                                IsTextPredictionEnabled="False"
+                                IsSpellCheckEnabled="True"
+                                IsTextPredictionEnabled="True"
+                                Keyboard="Plain"
                                 Text="{Binding SearchText}"
                                 TextColor="Black">
                                 <Entry.Effects>
@@ -70,12 +71,33 @@
                                 </Entry.Effects>
                             </Entry>
                         </Frame>
-                        <ImageButton
-                            BackgroundColor="White"
-                            Command="{Binding SearchClickedCommand}"
-                            HeightRequest="40"
-                            VerticalOptions="Center"
-                            Source="ico_search.png" />
+                        <ContentView>
+                            <OnPlatform x:TypeArguments="View">
+                                <OnPlatform.Default>
+                                    <ImageButton
+                                        BackgroundColor="White"
+                                        Command="{Binding SearchClickedCommand}"
+                                        HeightRequest="40"
+                                        HorizontalOptions="End"
+                                        VerticalOptions="Center"
+                                        Source="ico_search.png" />
+                                </OnPlatform.Default>
+                                <OnPlatform.iOS>
+                                    <Image
+                                        Aspect="AspectFit"
+                                        BackgroundColor="White"
+                                        HorizontalOptions="End"
+                                        VerticalOptions="Center"
+                                        WidthRequest="35"
+                                        Source="ico_search.png">
+                                        <Image.GestureRecognizers>
+                                            <TapGestureRecognizer Command="{Binding SearchClickedCommand}" />
+                                        </Image.GestureRecognizers>
+                                    </Image>
+                                </OnPlatform.iOS>
+                            </OnPlatform>
+                        </ContentView>
+
                     </StackLayout>
                 </StackLayout>
                 <StackLayout Orientation="Vertical">
@@ -120,7 +142,10 @@
                                                 </DataTrigger>
                                             </ImageButton.Triggers>
                                         </ImageButton>
-                                        <Picker x:Name="productTypePicker" SelectedItem="{Binding SelectedProductType, Converter={StaticResource StringEnumConverter}, Mode=TwoWay}">
+                                        <Picker
+                                            x:Name="productTypePicker"
+                                            FontFamily="{StaticResource VarelaRoundFont}"
+                                            SelectedItem="{Binding SelectedProductType, Converter={StaticResource StringEnumConverter}, Mode=TwoWay}">
                                             <Picker.ItemsSource>
                                                 <x:Array Type="{x:Type x:String}">
                                                     <x:String>NOT_SET</x:String>
