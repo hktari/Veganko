@@ -60,11 +60,13 @@
 		<string>Fonts/Quicksand-VariableFont_wght.ttf</string>
 		<string>Fonts/Raleway-Medium.ttf</string>
 		<string>Fonts/Raleway-Regular.ttf</string>
-    <string>Fonts/Raleway-Light.ttf</string>
+		<string>Fonts/Raleway-Light.ttf</string>
 		<string>Fonts/VarelaRound-Regular.ttf</string>
-    <string>Fonts/MaterialIcons-Regular.ttf</string>
+		<string>Fonts/MaterialIcons-Regular.ttf</string>
 	</array>
 	<key>UIStatusBarHidden</key>
 	<true/>
+	<key>XSAppIconAssets</key>
+	<string>Assets.xcassets/AppIcon.appiconset</string>
 </dict>
 </plist>

@@ -85,8 +85,8 @@ namespace Veganko
             //            HotReloader.Current.Run(this);
             //#endif
             // UWP requirement
-            //MainPage = new NavigationPage(new Loginpage());
-            MainPage = new MainPage();
+            MainPage = new NavigationPage(new Loginpage());
+            //MainPage = new MainPage();
 
             // TODO: remove after certificates have been fixed
             //HttpClientHandler handler = new HttpClientHandler();
@@ -106,19 +106,19 @@ namespace Veganko
 
             builder.RegisterType<Logger>().As<ILogger>().SingleInstance();
 
-            //builder.RegisterType<AccountService>().As<IAccountService>().SingleInstance();
-            //builder.RegisterType<ProductDataStore>().As<IProductService>().SingleInstance();
-            //builder.RegisterType<CommentsService>().As<ICommentsService>().SingleInstance();
-            //builder.RegisterType<UserService>().As<IUserService>().SingleInstance();
-            //builder.RegisterType<AuthService>().As<IAuthService>().SingleInstance();
-            //builder.RegisterType<StoresService>().As<IStoresService>().SingleInstance();
+            builder.RegisterType<AccountService>().As<IAccountService>().SingleInstance();
+            builder.RegisterType<ProductDataStore>().As<IProductService>().SingleInstance();
+            builder.RegisterType<CommentsService>().As<ICommentsService>().SingleInstance();
+            builder.RegisterType<UserService>().As<IUserService>().SingleInstance();
+            builder.RegisterType<AuthService>().As<IAuthService>().SingleInstance();
+            builder.RegisterType<StoresService>().As<IStoresService>().SingleInstance();
 
-            builder.RegisterType<MockStoresService>().As<IStoresService>().SingleInstance();
-            builder.RegisterType<MockAccountService>().As<IAccountService>().SingleInstance();
-            builder.RegisterType<MockProductDataStore>().As<IProductService>().SingleInstance();
-            builder.RegisterType<MockCommentsService>().As<ICommentsService>().SingleInstance();
-            builder.RegisterType<MockUserService>().As<IUserService>().SingleInstance();
-            builder.RegisterType<MockAuthService>().As<IAuthService>().SingleInstance();
+            //builder.RegisterType<MockStoresService>().As<IStoresService>().SingleInstance();
+            //builder.RegisterType<MockAccountService>().As<IAccountService>().SingleInstance();
+            //builder.RegisterType<MockProductDataStore>().As<IProductService>().SingleInstance();
+            //builder.RegisterType<MockCommentsService>().As<ICommentsService>().SingleInstance();
+            //builder.RegisterType<MockUserService>().As<IUserService>().SingleInstance();
+            //builder.RegisterType<MockAuthService>().As<IAuthService>().SingleInstance();
 
             builder.RegisterType<ImageProcessor>().As<IImageProcessor>().SingleInstance();
 
