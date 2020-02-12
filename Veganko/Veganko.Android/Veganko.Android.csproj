@@ -53,6 +53,7 @@
     <AndroidSupportedAbis />
     <AndroidTlsProvider>btls</AndroidTlsProvider>
     <AndroidLinkMode>None</AndroidLinkMode>
+    <AndroidEnableProfiledAot>false</AndroidEnableProfiledAot>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'ReleaseWDebugging|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
