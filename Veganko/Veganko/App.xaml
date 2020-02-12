@@ -27,34 +27,57 @@
                 Android="VarelaRound-Regular.ttf#Varela Round"
                 Default="null"
                 iOS="Varela Round" />
-            <!--  TODO: add iOS  -->
             <OnPlatform
                 x:Key="RalewayRegularFont"
                 x:TypeArguments="x:String"
                 Android="Raleway-Regular.ttf#Raleway"
                 Default="null"
-                iOS="Varela Round" />
+                iOS="Raleway" />
 
-            <!--  TODO: add iOS  -->
             <OnPlatform
                 x:Key="RalewayMediumFont"
                 x:TypeArguments="x:String"
                 Android="Raleway-Medium.ttf#Raleway Medium"
                 Default="null"
-                iOS="Varela Round" />
-            <!--  TODO: add iOS  -->
-            <OnPlatform
-                x:Key="MontserratRegularFont"
-                x:TypeArguments="x:String"
-                Android="Montserrat-Regular.ttf#Montserrat"
-                Default="null"
-                iOS="Varela Round" />
+                iOS="Raleway-Medium" />
+
             <OnPlatform
                 x:Key="RalewayLightFont"
                 x:TypeArguments="x:String"
                 Android="Raleway-Light.ttf#Raleway Light"
                 Default="null"
-                iOS="Raleway Light" />
+                iOS="Raleway-Light" />
+            <OnPlatform
+                x:Key="MontserratRegularFont"
+                x:TypeArguments="x:String"
+                Android="Montserrat-Regular.ttf#Montserrat"
+                Default="null"
+                iOS="Montserrat" />
+
+
+            <!--  Implicit styles  -->
+            <Style TargetType="NavigationPage">
+                <Setter Property="BarBackgroundColor" Value="{StaticResource Primary}" />
+                <Setter Property="BarTextColor" Value="White" />
+            </Style>
+            <Style TargetType="ContentPage">
+                <Setter Property="NavigationPage.HasNavigationBar">
+                    <Setter.Value>
+                        <OnPlatform Android="False" Default="True" />
+                    </Setter.Value>
+                </Setter>
+            </Style>
+            <Style TargetType="Entry">
+                <Setter Property="IsTextPredictionEnabled" Value="False" />
+                <Setter Property="IsSpellCheckEnabled" Value="False" />
+            </Style>
+            <Style TargetType="Label">
+                <Setter Property="TextColor" Value="#737373" />
+            </Style>
+            <Style TargetType="Button">
+                <Setter Property="TextColor" Value="#737373" />
+            </Style>
+
 
             <!--  The referenced resources need to be defined before this. Otherwise app crashes on droid with "Optimize Code" enabled.  -->
             <Style x:Key="PositiveBtn" TargetType="Button">
@@ -80,26 +103,11 @@
                 <Setter Property="FontSize" Value="Small" />
             </Style>
 
-            <Style TargetType="NavigationPage">
-                <Setter Property="BarBackgroundColor" Value="{StaticResource Primary}" />
-                <Setter Property="BarTextColor" Value="White" />
-            </Style>
-
-            <Style TargetType="ContentPage">
-                <Setter Property="NavigationPage.HasNavigationBar">
-                    <Setter.Value>
-                        <OnPlatform Android="False" Default="True" />
-                    </Setter.Value>
-                </Setter>
-            </Style>
-            <Style TargetType="Entry">
-                <Setter Property="IsTextPredictionEnabled" Value="False" />
-                <Setter Property="IsSpellCheckEnabled" Value="False" />
-            </Style>
             <Style x:Key="EntryFrameStyle" TargetType="Frame">
-                <Setter Property="Padding" Value="10, 0" />
+                <Setter Property="Padding" Value="{OnPlatform iOS='0', Default='10,0'}" />
                 <Setter Property="CornerRadius" Value="9" />
                 <Setter Property="BorderColor" Value="Black" />
+                <Setter Property="HasShadow" Value="{OnPlatform iOS=False, Default=True}" />
             </Style>
 
             <ControlTemplate x:Key="LodingIndicatorTemplate">

@@ -29,6 +29,8 @@ namespace Veganko
         public const string AssemblyNamespacePrefix = "Veganko.iOS.";
 #elif WINDOWS_UWP
         public const string AssemblyNamespacePrefix = "Veganko.UWP.";
+#else
+        public const string AssemblyNamespacePrefix = "UnitTests.UWP.";
 #endif
 
         public static MobileServiceClient MobileService =
@@ -79,11 +81,12 @@ namespace Veganko
 
             SetupDependencies();
 
-//#if DEBUG && __ANDROID__
-//            HotReloader.Current.Run(this);
-//#endif
+            //#if DEBUG && __ANDROID__
+            //            HotReloader.Current.Run(this);
+            //#endif
             // UWP requirement
             MainPage = new NavigationPage(new Loginpage());
+            //MainPage = new MainPage();
 
             // TODO: remove after certificates have been fixed
             //HttpClientHandler handler = new HttpClientHandler();
@@ -93,7 +96,7 @@ namespace Veganko
             //ServicePointManager.ServerCertificateValidationCallback += (sender, certificate, chain, sslPolicyErrors) => { return true; };
         }
 
-        private void SetupDependencies()
+        public void SetupDependencies()
         {   
             ContainerBuilder builder = new ContainerBuilder();
             builder.RegisterType<RestService>()

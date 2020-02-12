@@ -7,6 +7,7 @@ using VegankoService.Data.Stores;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using VegankoService.Models.Stores;
+using VegankoService.Data;
 
 namespace VegankoService.Controllers.UnitTests
 {
@@ -20,7 +21,7 @@ namespace VegankoService.Controllers.UnitTests
         public void Init()
         {
             repository = new MockStoresRepository();
-            controller = new StoresController(repository);
+            controller = new StoresController(repository, new MockProductRepository());
         }
 
         [TestMethod()]

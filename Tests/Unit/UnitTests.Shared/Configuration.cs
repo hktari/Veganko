@@ -13,7 +13,7 @@ namespace UnitTests.Shared
         public static void Init(TestContext testContext)
         {
             Xamarin.Forms.Mocks.MockForms.Init();
-            App.SetupDependencies();
+            ((App)App.Current).SetupDependencies();
         }
     }
 }

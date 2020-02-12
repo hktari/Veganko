@@ -9,7 +9,9 @@
     <Import_RootNamespace>Veganko</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
-    <EmbeddedResource Include="$(MSBuildThisFileDirectory)App.xaml" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)App.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)App.xaml.cs">
@@ -32,6 +34,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Converters\StringToEnumConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Converters\UACConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Effects\CustomEntryEffect.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Effects\TabColorEffect.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\ContentPageExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\StringExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\Comment.cs" />
@@ -44,6 +47,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Models\User\UserAccessRights.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\User\UserPublicInfo.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\User\UserRole.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Other\MaterialDesignIcons.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\Auth\AuthService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\Auth\MockAuthService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\Comments\ICommentsService.cs" />
