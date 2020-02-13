@@ -45,7 +45,8 @@
             HasUnevenRows="True"
             ItemTemplate="{StaticResource commentDTS}"
             ItemsSource="{Binding Comments}"
-            SelectionMode="None">
+            SelectionMode="None"
+            SeparatorVisibility="None">
             <ListView.Header>
                 <StackLayout Spacing="30">
                     <StackLayout

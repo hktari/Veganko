@@ -10,7 +10,7 @@ using Xamarin.Forms.Xaml;
 namespace Veganko.Views.Profile
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class SelectAvatarPage : ContentPage
+    public partial class SelectAvatarPage : BaseContentPage
     {
         private SelectAvatarViewModel vm;
 
@@ -24,11 +24,6 @@ namespace Veganko.Views.Profile
         {
             await vm.Save();
             await Navigation.PopModalAsync();
-        }
-
-        private void OnAvatarClicked(object sender, EventArgs e)
-        {
-            vm.SelectAvatarCommand?.Execute(((ImageButton)sender).BindingContext);
         }
     }
 }

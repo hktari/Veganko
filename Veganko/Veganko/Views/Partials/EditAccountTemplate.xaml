@@ -92,7 +92,8 @@
                         Command="{Binding SubmitCommand}"
                         FontFamily="{StaticResource VarelaRoundFont}"
                         FontSize="24"
-                        Text="{Binding SubmitBtnText}" />
+                        Text="{Binding SubmitBtnText}"
+                        TextColor="Black" />
                 </Grid>
             </Frame>
         </Grid>

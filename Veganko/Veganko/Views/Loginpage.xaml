@@ -69,7 +69,8 @@
                 FontFamily="{StaticResource VarelaRoundFont}"
                 FontSize="23"
                 HorizontalOptions="Start"
-                Text="sign up"
+                Text="SIGN UP"
+                TextColor="Black"
                 VerticalOptions="Center"
                 WidthRequest="115" />
 
@@ -149,7 +150,8 @@
                             FontFamily="{StaticResource VarelaRoundFont}"
                             FontSize="24"
                             HeightRequest="50"
-                            Text="LOGIN" />
+                            Text="LOGIN"
+                            TextColor="Black" />
                         <BoxView
                             HeightRequest="1"
                             VerticalOptions="Start"

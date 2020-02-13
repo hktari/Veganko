@@ -1,8 +1,10 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<ContentPage
+<views:BaseContentPage
     x:Class="Veganko.Views.Profile.SelectAvatarPage"
     xmlns="http://xamarin.com/schemas/2014/forms"
-    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:views="clr-namespace:Veganko.Views"
+    x:Name="root">
     <ContentPage.Content>
         <StackLayout>
             <FlexLayout
@@ -14,10 +16,8 @@
                 Wrap="Wrap">
                 <BindableLayout.ItemTemplate>
                     <DataTemplate>
-                        <ImageButton
-                            Aspect="AspectFit"
-                            BackgroundColor="Transparent"
-                            Clicked="OnAvatarClicked"
+                        <Image
+                            Margin="10"
                             FlexLayout.Basis="50%"
                             HeightRequest="112"
                             HorizontalOptions="Center"
@@ -25,15 +25,18 @@
                             VerticalOptions="Center"
                             WidthRequest="112"
                             Source="{Binding Image}">
-                            <ImageButton.Triggers>
+                            <Image.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding Source={x:Reference root}, Path=BindingContext.SelectAvatarCommand}" CommandParameter="{Binding .}" />
+                            </Image.GestureRecognizers>
+                            <Image.Triggers>
                                 <DataTrigger
                                     Binding="{Binding IsSelected}"
-                                    TargetType="ImageButton"
+                                    TargetType="Image"
                                     Value="True">
                                     <Setter Property="Opacity" Value="1.0" />
                                 </DataTrigger>
-                            </ImageButton.Triggers>
-                        </ImageButton>
+                            </Image.Triggers>
+                        </Image>
                     </DataTemplate>
                 </BindableLayout.ItemTemplate>
             </FlexLayout>
@@ -43,4 +46,4 @@
                 Text="Save" />
         </StackLayout>
     </ContentPage.Content>
-</ContentPage>
+</views:BaseContentPage>
