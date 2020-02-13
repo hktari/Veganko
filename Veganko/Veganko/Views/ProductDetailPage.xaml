@@ -94,7 +94,7 @@
                                             FontSize="Large"
                                             Text="{Binding Name, Mode=OneWay}" />
                                         <Span Text="&#10;" />
-                                        <Span FontSize="15" Text="{Binding ProductRating, Converter={StaticResource IntToStarConverter}" />
+                                        <Span FontSize="15" Text="{Binding ProductRating, Converter={StaticResource IntToStarConverter}}" />
                                         <Span Text="&#10;" />
                                         <Span
                                             FontAttributes="Italic"
@@ -166,7 +166,8 @@
                             Grid.Row="1"
                             Grid.Column="1"
                             Orientation="Horizontal"
-                            Spacing="0">
+                            Spacing="{OnPlatform iOS='7.5',
+                                                 Default='0'}">
                             <Entry
                                 HorizontalOptions="FillAndExpand"
                                 Placeholder="add a comment"
@@ -175,7 +176,9 @@
                                 BackgroundColor="Transparent"
                                 Command="{Binding SendCommentCommand}"
                                 HorizontalOptions="End"
-                                Text="Send" />
+                                Text="Send"
+                                WidthRequest="{OnPlatform iOS=50,
+                                                          Default=-1}" />
                         </StackLayout>
                     </Grid>
                 </StackLayout>

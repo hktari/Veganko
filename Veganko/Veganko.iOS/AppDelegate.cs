@@ -6,6 +6,7 @@ using Foundation;
 using ImageCircle.Forms.Plugin.iOS;
 using UIKit;
 using Xamarin.Forms;
+using Xamarin.Forms.Platform.iOS;
 
 [assembly: ResolutionGroupName("Veganko")]
 
@@ -32,7 +33,9 @@ namespace Veganko.iOS
             CachedImageRenderer.Init();
             LoadApplication(new App());
 
-            return base.FinishedLaunching(app, options);
+            Boolean result = base.FinishedLaunching(app, options);
+            UIApplication.SharedApplication.KeyWindow.TintColor = Color.FromHex("#448e00").ToUIColor();
+            return result;
         }
     }
 }

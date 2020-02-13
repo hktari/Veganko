@@ -23,7 +23,7 @@
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="66" />
                 <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="66" />
+                <ColumnDefinition Width="70" />
             </Grid.ColumnDefinitions>
 
             <circleImageControl:CircleImage
@@ -44,14 +44,16 @@
             <Label
                 Grid.Row="0"
                 Grid.Column="2"
+                FontSize="12"
                 HorizontalTextAlignment="End"
                 IsVisible="{Binding HasRating}"
-                Text="{Binding Rating, Converter={StaticResource IntToStarConverter}}" />
+                Text="{Binding Rating, Converter={StaticResource IntToStarConverter}}"
+                TextColor="#4a4a4a" />
             <Label
                 Grid.Row="1"
                 Grid.Column="2"
                 FontFamily="{StaticResource QuicksandFont}"
-                FontSize="Small"
+                FontSize="Caption"
                 HorizontalTextAlignment="End"
                 MaxLines="1"
                 Text="{Binding DatePosted, StringFormat='{}{0:dd.MM.yyyy}'}"
