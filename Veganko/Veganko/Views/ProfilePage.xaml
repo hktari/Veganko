@@ -25,6 +25,7 @@
     <ContentPage.Content>
         <Grid ColumnSpacing="0" RowSpacing="0">
             <Grid.RowDefinitions>
+                <RowDefinition Height="{OnPlatform iOS='35', Default='0'}" />
                 <RowDefinition Height="140" />
                 <RowDefinition Height="45" />
                 <RowDefinition Height="130" />
@@ -36,13 +37,12 @@
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
             <Image
-                Grid.RowSpan="3"
+                Grid.RowSpan="4"
                 Grid.ColumnSpan="3"
-                AbsoluteLayout.LayoutBounds="0, 0, 1, 1"
-                AbsoluteLayout.LayoutFlags="All"
                 Aspect="AspectFill"
                 Source="{Binding BackgroundImage}" />
             <ImageButton
+                Grid.Row="1"
                 Grid.ColumnSpan="3"
                 BorderColor="Black"
                 Clicked="OnBackgroundImageTap"
@@ -51,7 +51,7 @@
                 WidthRequest="25"
                 Source="edit.png" />
             <Image
-                Grid.Row="0"
+                Grid.Row="1"
                 Grid.Column="1"
                 Margin="0,35,0,0"
                 Aspect="AspectFit"
@@ -60,7 +60,7 @@
                 WidthRequest="112"
                 Source="{Binding AvatarImage}" />
             <ImageButton
-                Grid.Row="0"
+                Grid.Row="1"
                 Grid.Column="1"
                 Margin="0,20,0,0"
                 Clicked="OnEditAvatarTap"
@@ -70,7 +70,7 @@
                 WidthRequest="25"
                 Source="edit.png" />
             <Label
-                Grid.Row="1"
+                Grid.Row="2"
                 Grid.ColumnSpan="3"
                 FontFamily="{StaticResource VarelaRoundFont}"
                 FontSize="25"
@@ -79,7 +79,7 @@
                 TextColor="White" />
 
             <Label
-                Grid.Row="2"
+                Grid.Row="3"
                 Grid.ColumnSpan="3"
                 Margin="10,0"
                 FontFamily="{StaticResource RalewayRegularFont}"
@@ -95,7 +95,7 @@
                 </Label.GestureRecognizers>
             </Label>
             <Editor
-                Grid.Row="2"
+                Grid.Row="3"
                 Grid.ColumnSpan="3"
                 Margin="10,0"
                 FontFamily="{StaticResource RalewayRegularFont}"
@@ -111,7 +111,7 @@
                 </Editor.Behaviors>
             </Editor>
             <Label
-                Grid.Row="2"
+                Grid.Row="3"
                 Grid.ColumnSpan="3"
                 Margin="10,0"
                 FontFamily="{StaticResource QuicksandFont}"
@@ -121,7 +121,7 @@
                 Text="Tapni tukaj in dodaj opis :)"
                 TextColor="#eee" />
             <Button
-                Grid.Row="3"
+                Grid.Row="4"
                 Grid.ColumnSpan="3"
                 Margin="{StaticResource ViewPadding}"
                 Clicked="OnLogoutClicked"
@@ -130,7 +130,7 @@
                 Text="Logout"
                 VerticalOptions="End" />
             <Button
-                Grid.Row="3"
+                Grid.Row="4"
                 Grid.ColumnSpan="3"
                 Margin="{StaticResource ViewPadding}"
                 Clicked="OnSaveClicked"
@@ -140,7 +140,7 @@
                 Text="Shrani spremembe"
                 VerticalOptions="End" />
             <ImageButton
-                Grid.Row="3"
+                Grid.Row="4"
                 Grid.Column="2"
                 Margin="{StaticResource ViewPadding}"
                 Command="{Binding HelpCommand}"

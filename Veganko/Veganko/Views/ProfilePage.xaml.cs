@@ -8,6 +8,7 @@ using Veganko.ViewModels;
 using Veganko.ViewModels.Profile;
 using Veganko.Views.Profile;
 using Xamarin.Forms;
+using Xamarin.Forms.PlatformConfiguration.iOSSpecific;
 using Xamarin.Forms.Xaml;
 
 namespace Veganko.Views
@@ -28,6 +29,7 @@ namespace Veganko.Views
                 SetBinding(IconImageSourceProperty, new Binding("AvatarImage"));
             }
 
+            On<Xamarin.Forms.PlatformConfiguration.iOS>().SetUseSafeArea(false);
             vm = (ProfileViewModel)BindingContext;
         }
         protected override async void CustomOnAppearing()
@@ -50,7 +52,7 @@ namespace Veganko.Views
         private void OnLogoutClicked(object sender, EventArgs e)
         {
             App.IoC.Resolve<IAuthService>().Logout();
-            App.Current.MainPage = new NavigationPage(new Loginpage());
+            App.Current.MainPage = new Xamarin.Forms.NavigationPage(new Loginpage());
         }
 
         private async void OnSaveClicked(object sender, EventArgs e)
