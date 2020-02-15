@@ -44,6 +44,7 @@
             <ImageButton
                 Grid.Row="1"
                 Grid.ColumnSpan="3"
+                BackgroundColor="Transparent"
                 BorderColor="Black"
                 Clicked="OnBackgroundImageTap"
                 HorizontalOptions="End"
@@ -63,6 +64,7 @@
                 Grid.Row="1"
                 Grid.Column="1"
                 Margin="0,20,0,0"
+                BackgroundColor="Transparent"
                 Clicked="OnEditAvatarTap"
                 HeightRequest="25"
                 HorizontalOptions="End"
@@ -143,6 +145,7 @@
                 Grid.Row="4"
                 Grid.Column="2"
                 Margin="{StaticResource ViewPadding}"
+                BackgroundColor="White"
                 Command="{Binding HelpCommand}"
                 HeightRequest="38"
                 HorizontalOptions="End"

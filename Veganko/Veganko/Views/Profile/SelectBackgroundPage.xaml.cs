@@ -11,7 +11,7 @@ using Xamarin.Forms.Xaml;
 namespace Veganko.Views.Profile
 {
 	[XamlCompilation(XamlCompilationOptions.Compile)]
-	public partial class SelectBackgroundPage : ContentPage
+	public partial class SelectBackgroundPage : BaseContentPage
 	{
         private BackgroundImageViewModel vm;
 
