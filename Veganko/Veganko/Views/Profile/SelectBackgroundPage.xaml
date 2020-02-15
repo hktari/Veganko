@@ -36,8 +36,9 @@
             </ScrollView>
             <Button
                 Clicked="OnSaveClicked"
+                CornerRadius="0"
                 Style="{StaticResource PositiveBtn}"
-                Text="Save" />
+                Text="SHRANI" />
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>
