@@ -44,7 +44,10 @@
                     WidthRequest="113"
                     Source="{Binding ThumbnailImage}" />
             </Frame>
-            <Label Grid.Column="1" MaxLines="3">
+            <Label
+                Grid.Column="1"
+                MaxLines="3"
+                TextColor="#737373">
                 <Label.FormattedText>
                     <FormattedString>
                         <Span FontFamily="{StaticResource VarelaRoundFont}" Text="{Binding Name, Converter={StaticResource StringCaseConverter}, Mode=OneWay}" />

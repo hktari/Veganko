@@ -17,7 +17,7 @@
                 Command="{Binding CancelCommand}"
                 HorizontalOptions="Start"
                 Style="{StaticResource NeutralBtn}"
-                Text="Prekliči"
+                Text="PREKLIČI"
                 TextColor="Black" />
             <Button
                 Grid.Column="1"
@@ -26,7 +26,7 @@
                 HorizontalOptions="End"
                 IsVisible="{Binding IsDirty}"
                 Style="{StaticResource PositiveBtn}"
-                Text="Shrani"
+                Text="SHRANI"
                 TextColor="White" />
         </Grid>
     </NavigationPage.TitleView>

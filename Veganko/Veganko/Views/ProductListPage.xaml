@@ -12,8 +12,7 @@
     xmlns:partial="clr-namespace:Veganko.Views.Product.Partial"
     xmlns:user="clr-namespace:Veganko.Models.User"
     xmlns:views="clr-namespace:Veganko.Views"
-    xmlns:vm="clr-namespace:Veganko.ViewModels"
-    NavigationPage.HasNavigationBar="False">
+    xmlns:vm="clr-namespace:Veganko.ViewModels">
     <ContentPage.Resources>
         <ResourceDictionary>
             <converters:BoolInverter x:Key="BoolInverter" />
