@@ -67,6 +67,7 @@
                             </Frame>
                             <ImageButton
                                 Margin="10"
+                                BackgroundColor="Transparent"
                                 Command="{Binding EditCommand}"
                                 HorizontalOptions="End"
                                 VerticalOptions="Start"

@@ -18,5 +18,11 @@ namespace Veganko.Views.Stores
             InitializeComponent();
             BindingContext = pickStoreVM;
         }
+
+        protected override void CustomOnAppearing()
+        {
+            base.CustomOnAppearing();
+            searchBar.Focus();
+        }
     }
 }

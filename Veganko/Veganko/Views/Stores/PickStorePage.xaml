@@ -26,14 +26,10 @@
                 <RowDefinition Height="*" />
             </Grid.RowDefinitions>
             <SearchBar
+                x:Name="searchBar"
                 FontFamily="{StaticResource VarelaRoundFont}"
                 SearchCommand="{Binding StartSearchCommand}"
                 Text="{Binding SearchText, Mode=OneWayToSource}" />
-            <!--<Entry Text="{Binding StoreName}">
-                <Entry.Behaviors>
-                    <behaviors:EventToCommandBehavior Command="{Binding SearchByStoreNameCommand}" EventName="Completed" />
-                </Entry.Behaviors>
-            </Entry>-->
             <ListView
                 Grid.Row="1"
                 HasUnevenRows="True"
