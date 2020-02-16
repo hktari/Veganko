@@ -107,20 +107,21 @@
                                     <controls:DroidProductTypeSpinner SelectedProductType="{Binding SelectedProductType, Mode=TwoWay}" />
                                 </OnPlatform.Android>
                                 <OnPlatform.Default>
-                                    <Grid HeightRequest="63">
-                                        <Picker
-                                            x:Name="productTypePicker"
-                                            FontFamily="{StaticResource VarelaRoundFont}"
-                                            ItemsSource="{Binding ProductTypePickerItems}"
-                                            SelectedItem="{Binding SelectedProductType, Converter={StaticResource StringEnumConverter}, Mode=TwoWay}" />
-                                        <Image
-                                            BackgroundColor="Transparent"
-                                            HeightRequest="63"
-                                            HorizontalOptions="Center"
-                                            InputTransparent="True"
-                                            VerticalOptions="Center"
-                                            WidthRequest="63">
+                                    <StackLayout HeightRequest="50" Orientation="Horizontal">
+                                        <Image HorizontalOptions="Center" VerticalOptions="Center">
                                             <Image.Triggers>
+                                                <DataTrigger
+                                                    Binding="{Binding SelectedProductType}"
+                                                    TargetType="Image"
+                                                    Value="{x:Static models:ProductType.NOT_SET}">
+                                                    <Setter Property="IsVisible" Value="False" />
+                                                </DataTrigger>
+                                                <DataTrigger
+                                                    Binding="{Binding SelectedProductType}"
+                                                    TargetType="Image"
+                                                    Value="{x:Static models:ProductType.Ostalo}">
+                                                    <Setter Property="Source" Value="ico_help.png" />
+                                                </DataTrigger>
                                                 <DataTrigger
                                                     Binding="{Binding SelectedProductType}"
                                                     TargetType="Image"
@@ -141,7 +142,14 @@
                                                 </DataTrigger>
                                             </Image.Triggers>
                                         </Image>
-                                    </Grid>
+                                        <Picker
+                                            x:Name="productTypePicker"
+                                            Grid.Column="1"
+                                            FontFamily="{StaticResource VarelaRoundFont}"
+                                            HorizontalOptions="FillAndExpand"
+                                            ItemsSource="{Binding ProductTypePickerItems}"
+                                            SelectedItem="{Binding SelectedProductType, Converter={StaticResource StringEnumConverter}, Mode=TwoWay}" />
+                                    </StackLayout>
                                 </OnPlatform.Default>
                             </OnPlatform>
                         </ContentView.Content>
@@ -149,10 +157,11 @@
 
                     <controls:SelectableEnumImageView
                         x:TypeArguments="models:ProductClassifier"
+                        HeightRequest="60"
                         ImageSource="{x:Static local:EnumImages.ProductClassifierImages}"
                         IsVisible="{Binding ShowProductClassifiers}"
                         VerticalOptions="Center"
-                        ViewSize="63"
+                        ViewSize="58"
                         Source="{Binding ProductClassifiers}"
                         Selected="{Binding SelectedProductClassifiers}" />
                 </StackLayout>

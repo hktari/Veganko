@@ -5,20 +5,15 @@ using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.Diagnostics;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
-using Veganko.Controls;
 using Veganko.Extensions;
 using Veganko.Models;
 using Veganko.Models.User;
 using Veganko.Other;
 using Veganko.Services;
-using Veganko.Services.Http;
-using Veganko.ViewModels.Products;
 using Veganko.ViewModels.Products.Partial;
 using Veganko.Views;
 using Xamarin.Forms;
-using Xamarin.Forms.Internals;
 
 namespace Veganko.ViewModels.Products
 {
@@ -27,30 +22,20 @@ namespace Veganko.ViewModels.Products
         public Command LoadItemsCommand { get; set; }
         public Command SearchClickedCommand => new Command(OnSearchClicked);
         public Command SearchBarcodeCommand => new Command(OnBarcodeSearch);
-        public Command SwitchFilteringOptions => new Command(OnSwitchFilteringOptions);
 
         public Command ProductSelectedCommand { get; set; }
 
         private UserRole userRole;
         public UserRole UserRole
         {
-            get
-            {
-                return userRole;
-            }
-            set
-            {
-                SetProperty(ref userRole, value);
-            }
+            get => userRole;
+            set => SetProperty(ref userRole, value);
         }
 
-        string searchText = "";
+        private string searchText = "";
         public string SearchText
         {
-            get
-            {
-                return searchText;
-            }
+            get => searchText;
             set
             {
                 if (SetProperty(ref searchText, value))
@@ -66,36 +51,21 @@ namespace Veganko.ViewModels.Products
         private ObservableCollection<ProductViewModel> searchResult;
         public ObservableCollection<ProductViewModel> SearchResult
         {
-            get
-            {
-                return searchResult;
-            }
-            set
-            {
-                SetProperty(ref searchResult, value);
-            }
+            get => searchResult;
+            set => SetProperty(ref searchResult, value);
         }
 
         private bool showProductClassifiers = false;
         public bool ShowProductClassifiers
         {
-            get
-            {
-                return showProductClassifiers;
-            }
-            set
-            {
-                SetProperty(ref showProductClassifiers, value);
-            }
+            get => showProductClassifiers;
+            set => SetProperty(ref showProductClassifiers, value);
         }
 
-        ObservableCollection<ProductClassifier> selectedProductClassifiers;
+        private ObservableCollection<ProductClassifier> selectedProductClassifiers;
         public ObservableCollection<ProductClassifier> SelectedProductClassifiers
         {
-            get
-            {
-                return selectedProductClassifiers;
-            }
+            get => selectedProductClassifiers;
             set
             {
                 if (selectedProductClassifiers != null)
@@ -115,14 +85,13 @@ namespace Veganko.ViewModels.Products
         private ProductType selectedProductType;
         public ProductType SelectedProductType
         {
-            get
-            {
-                return selectedProductType;
-            }
+            get => selectedProductType;
             set
             {
                 if (SetProperty(ref selectedProductType, value))
                 {
+                    ShowProductClassifiers = selectedProductType != ProductType.NOT_SET;
+
                     ShouldNotifyUIOnly = true;
                     SelectedProductClassifiers.Clear();
                     ProductClassifiers = new ObservableCollection<ProductClassifier>(EnumConfiguration.ClassifierDictionary[value]);
@@ -177,7 +146,9 @@ namespace Veganko.ViewModels.Products
             LoadItemsCommand = new Command(async () =>
             {
                 if (IsBusy)
+                {
                     return;
+                }
 
                 IsBusy = true;
 
@@ -269,14 +240,22 @@ namespace Veganko.ViewModels.Products
                         p =>
                         {
                             if (p.ProductClassifiers == null)
+                            {
                                 return false;
+                            }
                             else if (p.Type != SelectedProductType)
+                            {
                                 return false;
+                            }
 
                             if (SelectedProductClassifiers.Count > 0)
+                            {
                                 return p.ProductClassifiers.Intersect(SelectedProductClassifiers).Count() > 0;
+                            }
                             else
+                            {
                                 return true;
+                            }
                         }).ToList();
                 }
                 else
@@ -285,14 +264,22 @@ namespace Veganko.ViewModels.Products
                         p =>
                         {
                             if (p.ProductClassifiers == null)
+                            {
                                 return false;
+                            }
                             else if (p.Type != SelectedProductType)
+                            {
                                 return false;
+                            }
 
                             if (SelectedProductClassifiers.Count > 0)
+                            {
                                 return p.ProductClassifiers.Intersect(SelectedProductClassifiers).Count() > 0;
+                            }
                             else
+                            {
                                 return true;
+                            }
                         }).ToList();
                 }
 
@@ -312,11 +299,11 @@ namespace Veganko.ViewModels.Products
         }
 
         private void OnSearchClicked()
-		{
+        {
             UnapplyFilters();
 
             matchesByText = Products
-				.Where(p => p.Name.ToLower().Contains(SearchText.ToLower()) || p.Description.ToLower().Contains(SearchText.ToLower()))
+                .Where(p => p.Name.ToLower().Contains(SearchText.ToLower()) || p.Description.ToLower().Contains(SearchText.ToLower()))
                 .ToList();
 
             SetSearchResults(matchesByText);
@@ -342,11 +329,6 @@ namespace Veganko.ViewModels.Products
             Products.Insert(0, product);
             SearchResult.Insert(0, product);
             UnapplyFilters(false);
-        }
-
-        private void OnSwitchFilteringOptions()
-        {
-            ShowProductClassifiers = !ShowProductClassifiers;
         }
     }
 }

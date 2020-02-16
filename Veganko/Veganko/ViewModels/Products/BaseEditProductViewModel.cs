@@ -5,7 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
-using System.Text;
+using System.Linq;
 using System.Threading.Tasks;
 using Veganko.Extensions;
 using Veganko.Models;
@@ -51,36 +51,24 @@ namespace Veganko.ViewModels.Products
         private ProductViewModel product;
         public ProductViewModel Product
         {
-            get
-            {
-                return product;
-            }
-            set
-            {
-                SetProperty(ref product, value);
-            }
+            get => product;
+            set => SetProperty(ref product, value);
         }
 
         private ImageSource productImg;
         public ImageSource ProductImg
         {
-            get
-            {
-                return productImg;
-            }
-            set
-            {
-                SetProperty(ref productImg, value);
-            }
+            get => productImg;
+            set => SetProperty(ref productImg, value);
         }
+
+        // The descriptions of the all the ProductType values excluding NOT_SET
+        public List<string> ProductTypePickerItems { get; } = EnumExtensionMethods.GetDescriptions(ProductType.NOT_SET).Skip(1).ToList();
 
         protected ProductType selectedProductType;
         public ProductType SelectedProductType
         {
-            get
-            {
-                return selectedProductType;
-            }
+            get => selectedProductType;
             set
             {
                 if (SetProperty(ref selectedProductType, value))
@@ -142,14 +130,14 @@ namespace Veganko.ViewModels.Products
 
         public string Barcode
         {
-            get
-            {
-                return Product?.Barcode;
-            }
+            get => Product?.Barcode;
             set
             {
                 if (Product?.Barcode == value)
+                {
                     return;
+                }
+
                 Product.Barcode = value;
                 OnPropertyChanged(nameof(Barcode));
             }
@@ -158,7 +146,7 @@ namespace Veganko.ViewModels.Products
         protected bool HasImageBeenChanged => ProductDetailImageData != null;
 
         protected byte[] ProductDetailImageData { get; private set; }
-        
+
         protected byte[] ProductThumbnailImageData { get; private set; }
 
         protected async Task<Product> PostProductImages(Product product)
@@ -265,7 +253,9 @@ namespace Veganko.ViewModels.Products
             });
 
             if (file == null)
+            {
                 return;
+            }
 
             LoadImage(file);
         }

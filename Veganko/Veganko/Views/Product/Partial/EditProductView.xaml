@@ -12,7 +12,7 @@
     xmlns:views="clr-namespace:Veganko.Views">
     <ContentView.Resources>
         <ResourceDictionary>
-            <converters:StringToEnumConverter x:Key="StringEnumConverter" />
+            <converters:StringToEnumConverter x:Key="StringEnumConverter" UseDescriptionAttribute="True" />
             <Style BasedOn="{StaticResource EntryFrameStyle}" TargetType="Frame" />
         </ResourceDictionary>
     </ContentView.Resources>
@@ -128,55 +128,53 @@
                             <OnPlatform.Android>
                                 <controls:DroidProductTypeSpinner SelectedProductType="{Binding SelectedProductType, Mode=TwoWay}">
                                     <x:Arguments>
-                                        <x:Boolean>True</x:Boolean> 
+                                        <x:Boolean>True</x:Boolean>
                                     </x:Arguments>
                                 </controls:DroidProductTypeSpinner>
                             </OnPlatform.Android>
                             <OnPlatform.Default>
-                                <StackLayout>
-                                    <ImageButton
-                                        BackgroundColor="Transparent"
-                                        HeightRequest="63"
-                                        HorizontalOptions="Center"
-                                        IsEnabled="False"
-                                        VerticalOptions="Center"
-                                        WidthRequest="63">
-                                        <ImageButton.Triggers>
+                                <StackLayout HeightRequest="50" Orientation="Horizontal">
+                                    <Image HorizontalOptions="Center" VerticalOptions="Center">
+                                        <Image.Triggers>
                                             <DataTrigger
                                                 Binding="{Binding SelectedProductType}"
-                                                TargetType="ImageButton"
+                                                TargetType="Image"
                                                 Value="{x:Static models:ProductType.NOT_SET}">
-                                                <Setter Property="Source" Value="icon.png" />
+                                                <Setter Property="IsVisible" Value="False" />
                                             </DataTrigger>
                                             <DataTrigger
                                                 Binding="{Binding SelectedProductType}"
-                                                TargetType="ImageButton"
+                                                TargetType="Image"
+                                                Value="{x:Static models:ProductType.Ostalo}">
+                                                <Setter Property="Source" Value="ico_help.png" />
+                                            </DataTrigger>
+                                            <DataTrigger
+                                                Binding="{Binding SelectedProductType}"
+                                                TargetType="Image"
                                                 Value="{x:Static models:ProductType.Hrana}">
                                                 <Setter Property="Source" Value="ico_food.png" />
                                             </DataTrigger>
                                             <DataTrigger
                                                 Binding="{Binding SelectedProductType}"
-                                                TargetType="ImageButton"
+                                                TargetType="Image"
                                                 Value="{x:Static models:ProductType.Pijaca}">
                                                 <Setter Property="Source" Value="ico_beverages.png" />
                                             </DataTrigger>
                                             <DataTrigger
                                                 Binding="{Binding SelectedProductType}"
-                                                TargetType="ImageButton"
+                                                TargetType="Image"
                                                 Value="{x:Static models:ProductType.Kozmetika}">
                                                 <Setter Property="Source" Value="ico_cosmetics.png" />
                                             </DataTrigger>
-                                        </ImageButton.Triggers>
-                                    </ImageButton>
-                                    <Picker x:Name="productTypePicker" SelectedItem="{Binding SelectedProductType, Converter={StaticResource StringEnumConverter}, Mode=TwoWay}">
-                                        <Picker.ItemsSource>
-                                            <x:Array Type="{x:Type x:String}">
-                                                <x:String>Hrana</x:String>
-                                                <x:String>Pijaca</x:String>
-                                                <x:String>Kozmetika</x:String>
-                                            </x:Array>
-                                        </Picker.ItemsSource>
-                                    </Picker>
+                                        </Image.Triggers>
+                                    </Image>
+                                    <Picker
+                                        x:Name="productTypePicker"
+                                        Grid.Column="1"
+                                        FontFamily="{StaticResource VarelaRoundFont}"
+                                        HorizontalOptions="FillAndExpand"
+                                        ItemsSource="{Binding ProductTypePickerItems}"
+                                        SelectedItem="{Binding SelectedProductType, Converter={StaticResource StringEnumConverter}, Mode=TwoWay}" />
                                 </StackLayout>
                             </OnPlatform.Default>
                         </OnPlatform>
