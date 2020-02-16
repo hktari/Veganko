@@ -12,7 +12,7 @@ namespace Veganko.ViewModels.Products.Partial
     {
         public ProductViewModel()
         {
-
+            Type = ProductType.Ostalo;
         }
 
         public ProductViewModel(ProductViewModel productViewModel)

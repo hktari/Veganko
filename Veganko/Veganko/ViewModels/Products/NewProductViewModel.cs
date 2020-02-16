@@ -92,7 +92,7 @@ namespace Veganko.ViewModels.Products
             {
                 ProductClassifiers = new ObservableCollection<ProductClassifier>(),
             };
-            SelectedProductType = (ProductType)0;
+            SelectedProductType = ProductType.Hrana;
             Barcode = null;
             PhotoPicked = false;
             BarcodePicked = false;

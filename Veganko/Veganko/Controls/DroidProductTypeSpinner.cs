@@ -11,10 +11,20 @@ namespace Veganko.Controls
     {
         public static readonly BindableProperty SelectedProductTypeProperty = BindableProperty.Create(
                 nameof(SelectedProductType), typeof(ProductType), typeof(DroidProductTypeSpinner), default(ProductType), BindingMode.TwoWay);
+
+        public DroidProductTypeSpinner()
+        {
+        }
+        public DroidProductTypeSpinner(bool excludeNoFilterValue)
+        {
+            ExcludeNoFilterValue = excludeNoFilterValue;
+        }
+
         public ProductType SelectedProductType
         {
             get => (ProductType)GetValue(SelectedProductTypeProperty);
             set => SetValue(SelectedProductTypeProperty, value);
         }
+        public bool ExcludeNoFilterValue { get; }
     }
 }

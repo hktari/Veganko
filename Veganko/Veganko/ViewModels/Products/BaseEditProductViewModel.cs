@@ -31,6 +31,8 @@ namespace Veganko.ViewModels.Products
         {
             imageProcessor = App.IoC.Resolve<IImageProcessor>();
             productService = App.IoC.Resolve<IProductService>();
+
+            SelectedProductType = ProductType.Ostalo;
         }
 
         public BaseEditProductViewModel(ProductViewModel product)
@@ -158,11 +160,6 @@ namespace Veganko.ViewModels.Products
         protected byte[] ProductDetailImageData { get; private set; }
         
         protected byte[] ProductThumbnailImageData { get; private set; }
-
-        protected void InitSelectedProductType(ProductType productType)
-        {
-            this.selectedProductType = productType;
-        }
 
         protected async Task<Product> PostProductImages(Product product)
         {

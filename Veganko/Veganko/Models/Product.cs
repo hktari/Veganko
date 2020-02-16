@@ -8,6 +8,8 @@ using Newtonsoft.Json.Converters;
 using System.Runtime.Serialization;
 using Veganko.Models.JsonConverters;
 using System.IO;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel;
 
 namespace Veganko.Models
 {
@@ -35,12 +37,23 @@ namespace Veganko.Models
     [JsonConverter(typeof(StringEnumConverter))]
     public enum ProductType
     {
+        [Description("Brez filtra")]
         [EnumMember(Value = "NOT_SET")]
         NOT_SET,
+
+        [Description("Ostalo")]
+        [EnumMember(Value = "OTHER")]
+        Ostalo,
+
+        [Description("Hrana")]
         [EnumMember(Value = "FOOD")]
         Hrana,
+
+        [Description("Pijača")]
         [EnumMember(Value = "BEVERAGE")]
         Pijaca,
+
+        [Description("Kozmetika")]
         [EnumMember(Value = "COSMETIC")]
         Kozmetika
     }

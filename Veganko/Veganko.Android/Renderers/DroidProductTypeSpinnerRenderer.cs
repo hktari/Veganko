@@ -1,22 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using System.Linq;
-using System.Text;
-
-using Android.App;
 using Android.Content;
-using Android.OS;
-using Android.Runtime;
-using Android.Views;
 using Android.Widget;
 using Veganko.Controls;
 using Veganko.Droid.CustomSpinner;
 using Veganko.Models;
-using Xamarin.Android;
 using Xamarin.Forms;
 using Xamarin.Forms.Platform.Android;
 using Veganko.Droid.Renderers;
+using Veganko.Extensions;
+using Veganko.Converters;
+using System.Collections.Generic;
 
 [assembly: ExportRenderer(typeof(DroidProductTypeSpinner), typeof(DroidProductTypeSpinnerRenderer))]
 namespace Veganko.Droid.Renderers
@@ -24,6 +18,8 @@ namespace Veganko.Droid.Renderers
     public class DroidProductTypeSpinnerRenderer : ViewRenderer<DroidProductTypeSpinner, Spinner>
     {
         private CustomSpinnerAdapter adapter;
+        private StringToEnumConverter stringEnumConverter = new StringToEnumConverter() { UseDescriptionAttribute = true };
+        private Spinner spinner;
 
         public DroidProductTypeSpinnerRenderer(Context context) : base(context)
         {
@@ -35,28 +31,43 @@ namespace Veganko.Droid.Renderers
 
             if (Control == null)
             {
-                var spinner = new Spinner(Context);
-                adapter = new CustomSpinnerAdapter(Context,
-                    new int[]
-                    {
-                        Veganko.Droid.Resource.Drawable.ico_search,
-                        Veganko.Droid.Resource.Drawable.ico_food,
-                        Veganko.Droid.Resource.Drawable.ico_beverages,
-                        Veganko.Droid.Resource.Drawable.ico_cosmetics,
-                    },
-                    Enum.GetNames(typeof(ProductType)).ToList());
+                spinner = new Spinner(Context);
+
+                if (adapter != null)
+                {
+                    adapter.ItemSelected -= OnItemSelected;
+                }
+
+                var images = new List<int>
+                {
+                    Resource.Drawable.ico_search,
+                    Resource.Drawable.ico_help,
+                    Resource.Drawable.ico_food,
+                    Resource.Drawable.ico_beverages,
+                    Resource.Drawable.ico_cosmetics,
+                };
+                var descriptions = EnumExtensionMethods.GetDescriptions(ProductType.NOT_SET);
+
+                if (Element.ExcludeNoFilterValue)
+                {
+                    images.RemoveAt(0);
+                    descriptions.RemoveAt(0);
+                }
+
+                adapter = new CustomSpinnerAdapter(Context, images.ToArray(), descriptions);
                 adapter.ItemSelected += OnItemSelected;
                 spinner.OnItemSelectedListener = adapter;
                 spinner.Adapter = adapter;
 
                 SetNativeControl(spinner);
-                UpdateSelectedProductType(e.NewElement.SelectedProductType);
+
+                UpdateSelectedProductType(Element.SelectedProductType);
             }
         }
 
         private void OnItemSelected(object sender, string productType)
         {
-            Element.SelectedProductType = (ProductType)Enum.Parse(typeof(ProductType), productType);
+            Element.SelectedProductType = (ProductType)stringEnumConverter.ConvertBack(productType, typeof(ProductType), null, null);
         }
 
         protected override void OnElementPropertyChanged(object sender, PropertyChangedEventArgs e)
@@ -71,7 +82,8 @@ namespace Veganko.Droid.Renderers
 
         private void UpdateSelectedProductType(ProductType productType)
         {
-            var ptName = Enum.GetName(typeof(ProductType), productType);
+            string ptName = (string)stringEnumConverter.Convert(productType, typeof(string), null, null);
+
             // Get the idx of ptName in adapter.Items
             var selectedIdx = adapter.Items.Select((item, idx) => item == ptName ? idx : -1).First(i => i != -1);
 

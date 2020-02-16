@@ -126,7 +126,11 @@
                     <ContentView.Content>
                         <OnPlatform>
                             <OnPlatform.Android>
-                                <controls:DroidProductTypeSpinner SelectedProductType="{Binding SelectedProductType, Mode=TwoWay}" />
+                                <controls:DroidProductTypeSpinner SelectedProductType="{Binding SelectedProductType, Mode=TwoWay}">
+                                    <x:Arguments>
+                                        <x:Boolean>True</x:Boolean> 
+                                    </x:Arguments>
+                                </controls:DroidProductTypeSpinner>
                             </OnPlatform.Android>
                             <OnPlatform.Default>
                                 <StackLayout>

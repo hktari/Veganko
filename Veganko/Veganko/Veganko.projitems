@@ -36,6 +36,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Effects\CustomEntryEffect.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Effects\TabColorEffect.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\ContentPageExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Extensions\EnumExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\StringExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\Comment.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\FacebookProfile.cs" />

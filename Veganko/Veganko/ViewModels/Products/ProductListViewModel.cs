@@ -132,6 +132,9 @@ namespace Veganko.ViewModels.Products
             }
         }
 
+        // The descriptions of the all the ProductType values
+        public List<string> ProductTypePickerItems { get; } = EnumExtensionMethods.GetDescriptions(ProductType.NOT_SET);
+
         public List<ProductViewModel> Products { get; protected set; }
 
         #region TODO: make static
