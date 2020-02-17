@@ -55,13 +55,6 @@ namespace Veganko.ViewModels.Products
             set => SetProperty(ref searchResult, value);
         }
 
-        private bool showProductClassifiers = false;
-        public bool ShowProductClassifiers
-        {
-            get => showProductClassifiers;
-            set => SetProperty(ref showProductClassifiers, value);
-        }
-
         private ObservableCollection<ProductClassifier> selectedProductClassifiers;
         public ObservableCollection<ProductClassifier> SelectedProductClassifiers
         {
@@ -90,8 +83,6 @@ namespace Veganko.ViewModels.Products
             {
                 if (SetProperty(ref selectedProductType, value))
                 {
-                    ShowProductClassifiers = selectedProductType != ProductType.NOT_SET;
-
                     ShouldNotifyUIOnly = true;
                     SelectedProductClassifiers.Clear();
                     ProductClassifiers = new ObservableCollection<ProductClassifier>(EnumConfiguration.ClassifierDictionary[value]);
@@ -140,7 +131,6 @@ namespace Veganko.ViewModels.Products
             SearchResult = new ObservableCollection<ProductViewModel>();
             SelectedProductClassifiers = new ObservableCollection<ProductClassifier>();
             SelectedProductType = ProductType.NOT_SET;
-            ShowProductClassifiers = true;
             UserRole = App.IoC.Resolve<IUserService>().CurrentUser.Role;
 
             LoadItemsCommand = new Command(async () =>
