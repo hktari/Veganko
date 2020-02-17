@@ -39,7 +39,11 @@
         </ResourceDictionary>
     </ContentPage.Resources>
     <ContentPage.Content>
-        <StackLayout Padding="10,0,10,10">
+        <Grid Padding="10,0,10,10">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
             <StackLayout>
                 <StackLayout Margin="0,5,0,5" Orientation="Horizontal">
                     <Frame Padding="3.75" HorizontalOptions="End">
@@ -157,11 +161,10 @@
 
                     <controls:SelectableEnumImageView
                         x:TypeArguments="models:ProductClassifier"
-                        HeightRequest="60"
                         ImageSource="{x:Static local:EnumImages.ProductClassifierImages}"
                         IsVisible="{Binding ShowProductClassifiers}"
                         VerticalOptions="Center"
-                        ViewSize="58"
+                        ViewSize="50"
                         Source="{Binding ProductClassifiers}"
                         Selected="{Binding SelectedProductClassifiers}" />
                 </StackLayout>
@@ -169,6 +172,7 @@
 
             <ListView
                 x:Name="ProductsListView"
+                Grid.Row="1"
                 CachingStrategy="RetainElement"
                 HasUnevenRows="False"
                 IsPullToRefreshEnabled="true"
@@ -189,6 +193,6 @@
                     </DataTrigger>
                 </ListView.Triggers>
             </ListView>
-        </StackLayout>
+        </Grid>
     </ContentPage.Content>
 </views:BaseContentPage>
