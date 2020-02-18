@@ -19,16 +19,17 @@
             </ScrollView.Behaviors>
             <Grid>
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="*" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="25" />
                     <RowDefinition Height="50" />
                 </Grid.RowDefinitions>
                 <partials:EditProductView />
                 <Button
-                    Grid.Row="1"
+                    Grid.Row="2"
                     Command="{Binding SaveCommand}"
                     FontSize="16"
                     Style="{StaticResource PositiveBtn}"
-                    Text="Dodaj" />
+                    Text="DODAJ" />
             </Grid>
         </ScrollView>
     </ContentPage.Content>

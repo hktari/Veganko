@@ -17,10 +17,7 @@
         </ResourceDictionary>
     </ContentView.Resources>
     <ContentView.Content>
-        <Grid
-            ColumnSpacing="25"
-            HeightRequest="850"
-            VerticalOptions="Start">
+        <Grid ColumnSpacing="25" VerticalOptions="Start">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
