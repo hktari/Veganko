@@ -108,8 +108,9 @@ namespace Veganko
             builder.RegisterType<CommentsService>().As<ICommentsService>().SingleInstance();
             builder.RegisterType<UserService>().As<IUserService>().SingleInstance();
             builder.RegisterType<AuthService>().As<IAuthService>().SingleInstance();
+            builder.RegisterType<StoresService>().As<IStoresService>().SingleInstance();
 
-            builder.RegisterType<MockStoresService>().As<IStoresService>().SingleInstance();
+            //builder.RegisterType<MockStoresService>().As<IStoresService>().SingleInstance();
             //builder.RegisterType<MockAccountService>().As<IAccountService>().SingleInstance();
             //builder.RegisterType<MockProductDataStore>().As<IProductService>().SingleInstance();
             //builder.RegisterType<MockCommentsService>().As<ICommentsService>().SingleInstance();

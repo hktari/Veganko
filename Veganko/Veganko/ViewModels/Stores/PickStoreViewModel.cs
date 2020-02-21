@@ -10,11 +10,11 @@ using System.Reflection;
 using System.Security.Cryptography;
 using System.Text;
 using Veganko.Extensions;
-using Veganko.Models.Products.Stores;
 using Veganko.Services.Logging;
 using Xamarin.Forms;
+using Veganko.Models.Stores;
 
-namespace Veganko.ViewModels.Products.Stores
+namespace Veganko.ViewModels.Stores
 {
     public class PickStoreViewModel : BaseViewModel
     {
@@ -104,6 +104,9 @@ namespace Veganko.ViewModels.Products.Stores
                 }
             });
 
+        public Command CancelSearchCommand => new Command(
+            async () => await App.Navigation.PopModalAsync().ConfigureAwait(false));
+
         public Command<ItemTappedEventArgs> LocationPickedCommand => new Command<ItemTappedEventArgs>(
             async (_) =>
             {
@@ -126,7 +129,7 @@ namespace Veganko.ViewModels.Products.Stores
                         ?? GetNameForAddressCompType("locality", addrComp)
                     };
 
-                    Store store = new Store
+                    PickStoreResult store = new PickStoreResult
                     {
                         Name = placeDetails.Place.Name,
                         Address = address,
@@ -161,6 +164,15 @@ namespace Veganko.ViewModels.Products.Stores
         private static string GetNameForAddressCompType(string type, List<AddressComponent> addrComp)
         {
             return addrComp?.FirstOrDefault(adr => adr.Types?.Contains(type) ?? false)?.LongName;
+        }
+
+        public struct PickStoreResult
+        {
+            public string Name { get; set; }
+            
+            public Address Address { get; set; }
+
+            public Coordinates? Coordinates { get; set; }
         }
     }
 }

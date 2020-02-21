@@ -1,9 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using VegankoService.Models;
 using VegankoService.Models.Stores;
+using Microsoft.EntityFrameworkCore;
 
 namespace VegankoService.Data.Stores
 {
@@ -18,7 +17,7 @@ namespace VegankoService.Data.Stores
 
         public Task Create(Store store)
         {
-            context.Add(store);
+            context.Store.Add(store);
             return context.SaveChangesAsync();
         }
 
@@ -30,12 +29,18 @@ namespace VegankoService.Data.Stores
 
         public Task<Store> Get(string id)
         {
-            return context.Store.FindAsync(id);
+            return context.Store
+                .Include(store => store.Address)
+                .Include(store => store.Coordinates)
+                .FirstAsync(store => store.Id == id);
         }
 
         public IEnumerable<Store> GetAll(string storeId)
         {
-            return context.Store.Where(store => store.ProductId == storeId);
+            return context.Store
+                .Include(store => store.Address)
+                .Include(store => store.Coordinates)
+                .Where(store => store.ProductId == storeId);
         }
 
         public Task Update(Store store)

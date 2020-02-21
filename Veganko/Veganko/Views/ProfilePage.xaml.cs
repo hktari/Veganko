@@ -26,9 +26,8 @@ namespace Veganko.Views
             InitializeComponent();
             vm = (ProfileViewModel)BindingContext;
         }
-        protected async override void OnAppearing()
+        protected async override void CustomOnAppearing()
         {
-            base.OnAppearing();
             await vm.Refresh();
         }
 

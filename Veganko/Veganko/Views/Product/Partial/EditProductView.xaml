@@ -187,33 +187,39 @@
                     ViewSize="63"
                     Source="{Binding ProductClassifiers}"
                     Selected="{Binding Product.ProductClassifiers, Mode=TwoWay}" />
-                <Frame
+
+
+                <Grid
                     Margin="0,20,0,0"
-                    BackgroundColor="#ffe6bb"
                     HeightRequest="300"
-                    Style="{StaticResource EntryFrameStyle}"
                     VerticalOptions="Start">
-                    <Grid IsClippedToBounds="True">
+                    <Grid.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding TakeImageCommand}" />
+                    </Grid.GestureRecognizers>
+                    <BoxView CornerRadius="6" Color="Black" />
+                    <ContentView
+                        Margin="1.5"
+                        BackgroundColor="#ffe6bb"
+                        IsClippedToBounds="True">
                         <Image
                             x:Name="CameraButton"
-                            Aspect="AspectFill"
+                            Aspect="AspectFit"
                             BackgroundColor="#ffe6bb"
                             HorizontalOptions="Center"
-                            IsVisible="{Binding PhotoPicked}"
-                            Source="{Binding ProductImg}">
-                            <Image.GestureRecognizers>
-                                <TapGestureRecognizer Command="{Binding TakeImageCommand}" />
-                            </Image.GestureRecognizers>
+                            InputTransparent="True"
+                            Source="take_img_btn.png">
+                            <Image.Triggers>
+                                <DataTrigger
+                                    Binding="{Binding PhotoPicked}"
+                                    TargetType="Image"
+                                    Value="True">
+                                    <Setter Property="Source" Value="{Binding ProductImg}" />
+                                    <Setter Property="Aspect" Value="AspectFill" />
+                                </DataTrigger>
+                            </Image.Triggers>
                         </Image>
-                        <ImageButton
-                            BackgroundColor="#ffe6bb"
-                            Command="{Binding TakeImageCommand}"
-                            HorizontalOptions="Center"
-                            IsVisible="{Binding PhotoPicked, Converter={StaticResource BoolInverter}}"
-                            VerticalOptions="Center"
-                            Source="take_img_btn.png" />
-                    </Grid>
-                </Frame>
+                    </ContentView>
+                </Grid>
             </StackLayout>
         </Grid>
     </ContentView.Content>

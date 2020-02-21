@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Veganko.Models.Products.Stores;
+using Veganko.Models.Stores;
 
 namespace Veganko.Services.Products.Stores
 {
@@ -55,12 +55,18 @@ namespace Veganko.Services.Products.Stores
 
         public Task Remove(Store store)
         {
-            throw new NotImplementedException();
+            stores.Remove(store);
+            return Task.CompletedTask;
         }
 
-        public Task<Store> Update(Store store)
+        public Task Update(Store store)
         {
-            throw new NotImplementedException();
+            stores.Remove(
+                stores.First(s => s.Id == store.Id));
+
+            stores.Add(store);
+
+            return Task.CompletedTask;
         }
     }
 }

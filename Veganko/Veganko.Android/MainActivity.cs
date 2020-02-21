@@ -27,11 +27,16 @@ using System.Runtime.InteropServices;
 using Android.Media;
 using System.Collections.Generic;
 
+[assembly: UsesFeature("android.hardware.camera", Required = true)]
+[assembly: UsesFeature("android.hardware.camera.autofocus", Required = true)]
+
 namespace Veganko.Droid
 {
     [Activity(Label = "Veganko", Icon = "@drawable/icon", Theme = "@style/MainTheme", MainLauncher = true, ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation)]
     public partial class MainActivity : global::Xamarin.Forms.Platform.Android.FormsAppCompatActivity, IAuthenticate
     {
+        public static int OSVersion;
+
         public static MainActivity Context { get; private set; }
 
         protected override void OnCreate(Bundle bundle)
@@ -39,6 +44,8 @@ namespace Veganko.Droid
             TabLayoutResource = Resource.Layout.Tabbar;
             ToolbarResource = Resource.Layout.Toolbar;
             base.OnCreate(bundle);
+
+            OSVersion = (int)Android.OS.Build.VERSION.SdkInt;
 
             Context = this;
             global::Xamarin.Forms.Forms.Init(this, bundle);

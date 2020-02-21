@@ -47,9 +47,8 @@ namespace Veganko.Views.Product
             }
         }
 
-        protected override void OnAppearing()
+        protected override void CustomOnAppearing()
         {
-            base.OnAppearing();
             vm.Init();
         }
     }

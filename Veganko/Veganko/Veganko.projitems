@@ -39,8 +39,8 @@
     <Compile Include="$(MSBuildThisFileDirectory)Models\Favorite.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\JsonConverters\Base64StringToByteArrayConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\PagedList.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Models\Products\Stores\Address.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Models\Products\Stores\Store.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\Stores\Address.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\Stores\Store.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\User\UserAccessRights.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\User\UserPublicInfo.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\User\UserRole.cs" />
@@ -59,6 +59,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Services\Logging\Logger.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\Products\Stores\IStoresService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\Products\Stores\MockStoresService.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Services\Products\Stores\StoresService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\Users\IUserService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\Users\MockUserService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\Users\UserService.cs" />
@@ -102,7 +103,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\BaseViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\FavoritesViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\LoginViewModel.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)ViewModels\MainPageViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\PasswordRecovery\EditAccountViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\Products\ManageProductsViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\Products\EditProductViewModel.cs" />
@@ -113,13 +113,17 @@
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\Products\ProductDetailViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\Products\ProductListViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\Products\BaseEditProductViewModel.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)ViewModels\Products\Stores\AddStoreViewModel.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)ViewModels\Products\Stores\PickStoreViewModel.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)ViewModels\Products\Stores\StoreListViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ViewModels\Stores\AddStoreViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ViewModels\Stores\EditStoreViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ViewModels\Stores\Partial\AddressViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ViewModels\Stores\Partial\BaseEditStoreViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ViewModels\Stores\PickStoreViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ViewModels\Stores\StoreListViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\ProfileViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\Profile\BackgroundImageViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\Profile\SelectAvatarViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\RegisterViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ViewModels\Stores\StoreViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Views\Account\FinishRegistrationInstructPage.xaml.cs">
       <DependentUpon>FinishRegistrationInstructPage.xaml</DependentUpon>
       <SubType>Code</SubType>
@@ -150,7 +154,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Views\PasswordRecovery\ValidateOTPPage.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="$(MSBuildThisFileDirectory)Views\Product\AddStorePage.xaml.cs">
+    <Compile Include="$(MSBuildThisFileDirectory)Views\Stores\AddStorePage.xaml.cs">
       <DependentUpon>AddStorePage.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
@@ -171,11 +175,19 @@
       <DependentUpon>ProductView.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="$(MSBuildThisFileDirectory)Views\Product\StoreListPage.xaml.cs">
+    <Compile Include="$(MSBuildThisFileDirectory)Views\Stores\EditStorePage.xaml.cs">
+      <DependentUpon>EditStorePage.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Views\Stores\Partial\EditStoreView.xaml.cs">
+      <DependentUpon>EditStoreView.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Views\Stores\StoreListPage.xaml.cs">
       <DependentUpon>StoreListPage.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="$(MSBuildThisFileDirectory)Views\Product\Store\PickStorePage.xaml.cs">
+    <Compile Include="$(MSBuildThisFileDirectory)Views\Stores\PickStorePage.xaml.cs">
       <DependentUpon>PickStorePage.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
@@ -291,6 +303,7 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="$(MSBuildThisFileDirectory)Models\Products\" />
     <Folder Include="$(MSBuildThisFileDirectory)Views\Profile\Partial\" />
   </ItemGroup>
   <ItemGroup>
@@ -374,19 +387,34 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Views\Product\StoreListPage.xaml">
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Views\Stores\StoreListPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Views\Product\AddStorePage.xaml">
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Views\Stores\AddStorePage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Views\Product\Store\PickStorePage.xaml">
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Views\Stores\PickStorePage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)google_places_api_key.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Views\Stores\EditStorePage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Views\Stores\Partial\EditStoreView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </EmbeddedResource>

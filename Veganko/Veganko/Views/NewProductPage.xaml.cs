@@ -29,9 +29,8 @@ namespace Veganko.Views
             BindingContext = vm = new NewProductViewModel();
         }
 
-        protected override void OnAppearing()
+        protected override void CustomOnAppearing()
         {
-            base.OnAppearing();
             vm.PageAppeared.Execute(null);
         }
     }

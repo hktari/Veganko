@@ -13,6 +13,7 @@
             <Color x:Key="DarkBackgroundColor">#C0C0C0</Color>
             <Color x:Key="MediumGrayTextColor">#4d4d4d</Color>
             <Color x:Key="LightTextColor">#999999</Color>
+            <Color x:Key="TransparentErrorColor">#DDFF4438</Color>
 
             <OnPlatform
                 x:Key="QuicksandFont"
@@ -74,7 +75,8 @@
             <converters:IntToStarConverter x:Key="IntToStarConverter" />
 
             <Style x:Key="LabelErrorMessageStyle" TargetType="Label">
-                <Setter Property="TextColor" Value="IndianRed" />
+                <Setter Property="FontFamily" Value="{StaticResource RalewayMediumFont}" />
+                <Setter Property="TextColor" Value="#FF4438" />
                 <Setter Property="FontSize" Value="Small" />
             </Style>
 

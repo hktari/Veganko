@@ -7,7 +7,7 @@
         <ToolbarItem Clicked="OnSaveClicked" Text="Save" />
     </ContentPage.ToolbarItems>
     <ContentPage.Content>
-        <StackLayout>
+        <StackLayout Spacing="0">
             <ScrollView>
                 <StackLayout
                     BindableLayout.ItemsSource="{Binding BackgroundImages}"
@@ -36,7 +36,7 @@
             </ScrollView>
             <Button
                 Clicked="OnSaveClicked"
-                HorizontalOptions="Center"
+                Style="{StaticResource PositiveBtn}"
                 Text="Save" />
         </StackLayout>
     </ContentPage.Content>
