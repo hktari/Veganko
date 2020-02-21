@@ -14,6 +14,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Converters\DecimalProductClassifierListConverterTests.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Converters\UACConverterTests.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\ProductTests.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Validations\NoInvalidCharactersRuleTests.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Validations\PasswordRequirementRuleTests.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\Products\Partial\ProductViewModelTests.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\Stores\EditStoreViewModelTests.cs" />

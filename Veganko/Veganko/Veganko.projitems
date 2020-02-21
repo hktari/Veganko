@@ -74,6 +74,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Validations\IValidationRule.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Validations\IValidity.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Validations\MinLengthRule.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Validations\NoInvalidCharactersRule.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Validations\PasswordRequirementRule.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Validations\ValidatableObject.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Validations\ValueMatchesRule.cs" />

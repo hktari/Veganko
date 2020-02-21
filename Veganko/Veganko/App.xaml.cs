@@ -96,7 +96,7 @@ namespace Veganko
             //ServicePointManager.ServerCertificateValidationCallback += (sender, certificate, chain, sslPolicyErrors) => { return true; };
         }
 
-        public void SetupDependencies()
+        public static void SetupDependencies()
         {   
             ContainerBuilder builder = new ContainerBuilder();
             builder.RegisterType<RestService>()

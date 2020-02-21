@@ -35,7 +35,8 @@ namespace Veganko.ViewModels
             { 
                 ValidationMessage = "Zahtevano polje."
             });
-          
+            username.Validations.Add(new NoInvalidCharactersRule("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"));
+            
             email.Validations.Add(new IsValidEmailRule()
             {
                 ValidationMessage = "Nepravilen email."

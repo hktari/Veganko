@@ -119,6 +119,7 @@ namespace VegankoService
             // add identity
             var builder = services.AddIdentityCore<ApplicationUser>(o =>
             {
+                o.User.AllowedUserNameCharacters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
                 // configure identity options
                 o.Password.RequireDigit = true;
                 o.Password.RequireLowercase = true;
