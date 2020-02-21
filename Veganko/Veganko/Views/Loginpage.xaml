@@ -32,9 +32,9 @@
                 Grid.Column="2"
                 Grid.ColumnSpan="2"
                 HorizontalOptions="End"
+                Source="login_leaf1.png"
                 VerticalOptions="End"
-                WidthRequest="155"
-                Source="login_leaf1.png" />
+                WidthRequest="155" />
 
             <Image
                 Grid.Row="0"
@@ -42,9 +42,9 @@
                 Grid.Column="1"
                 Grid.ColumnSpan="2"
                 HorizontalOptions="Start"
+                Source="login_leaf2.png"
                 VerticalOptions="End"
-                WidthRequest="155"
-                Source="login_leaf2.png" />
+                WidthRequest="155" />
 
             <Image
                 Grid.Row="3"
@@ -53,9 +53,9 @@
                 Grid.ColumnSpan="2"
                 HorizontalOptions="Start"
                 Rotation="180"
+                Source="login_leaf1.png"
                 VerticalOptions="Start"
-                WidthRequest="155"
-                Source="login_leaf1.png" />
+                WidthRequest="155" />
 
             <Button
                 Grid.Row="3"
@@ -81,9 +81,9 @@
                 Grid.ColumnSpan="2"
                 HorizontalOptions="End"
                 Rotation="165"
+                Source="login_leaf2.png"
                 VerticalOptions="Start"
-                WidthRequest="155"
-                Source="login_leaf2.png" />
+                WidthRequest="155" />
 
             <Frame
                 Grid.Row="1"
@@ -93,71 +93,96 @@
                 BackgroundColor="White"
                 IsClippedToBounds="True"
                 Style="{StaticResource EntryFrameStyle}">
-                <StackLayout IsClippedToBounds="True" Spacing="25">
-                    <ContentView HeightRequest="50" VerticalOptions="StartAndExpand">
-                        <BoxView
-                            HeightRequest="1"
-                            VerticalOptions="End"
-                            Color="Black" />
-                    </ContentView>
-                    <StackLayout Margin="30,0" Spacing="5">
-                        <Label
-                            FontFamily="{StaticResource RalewayMediumFont}"
-                            FontSize="24"
-                            HorizontalOptions="Center"
-                            Text="Email"
-                            TextColor="Black" />
-                        <Frame Style="{StaticResource EntryFrameStyle}">
-                            <Entry
-                                FontFamily="{StaticResource RalewayRegularFont}"
-                                FontSize="16"
-                                Text="{Binding Email}">
-                                <Entry.Effects>
-                                    <effects:CustomEntryEffect />
-                                </Entry.Effects>
-                            </Entry>
-                        </Frame>
-                    </StackLayout>
-                    <StackLayout Margin="30,0" Spacing="7">
-                        <Label
-                            FontFamily="{StaticResource RalewayMediumFont}"
-                            FontSize="24"
-                            HorizontalOptions="Center"
-                            Text="Geslo"
-                            TextColor="Black" />
-                        <Frame Style="{StaticResource EntryFrameStyle}">
-                            <Entry
-                                FontSize="16"
-                                IsPassword="True"
-                                Text="{Binding Password}">
-                                <Entry.Effects>
-                                    <effects:CustomEntryEffect />
-                                </Entry.Effects>
-                            </Entry>
-                        </Frame>
+                <ScrollView>
+                    <Grid IsClippedToBounds="True" RowSpacing="17">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="0" />
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="70" />
+                            <RowDefinition Height="70" />
+                            <RowDefinition Height="30" />
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="50" />
+                        </Grid.RowDefinitions>
+                        <ContentView HeightRequest="50" VerticalOptions="StartAndExpand">
+                            <BoxView
+                                HeightRequest="1"
+                                VerticalOptions="End"
+                                Color="Black" />
+                        </ContentView>
+                        <StackLayout
+                            Grid.Row="2"
+                            Margin="30,0"
+                            Spacing="5"
+                            VerticalOptions="Center">
+                            <Label
+                                FontFamily="{StaticResource RalewayMediumFont}"
+                                FontSize="24"
+                                HorizontalOptions="Center"
+                                Text="Email"
+                                TextColor="Black" />
+                            <Frame Style="{StaticResource EntryFrameStyle}">
+                                <Entry
+                                    FontFamily="{StaticResource RalewayRegularFont}"
+                                    FontSize="16"
+                                    Text="{Binding Email}">
+                                    <Entry.Effects>
+                                        <effects:CustomEntryEffect />
+                                    </Entry.Effects>
+                                </Entry>
+                            </Frame>
+                        </StackLayout>
+                        <StackLayout
+                            Grid.Row="3"
+                            Margin="30,0"
+                            Spacing="7"
+                            VerticalOptions="Center">
+                            <Label
+                                FontFamily="{StaticResource RalewayMediumFont}"
+                                FontSize="24"
+                                HorizontalOptions="Center"
+                                Text="Geslo"
+                                TextColor="Black" />
+                            <Frame Style="{StaticResource EntryFrameStyle}">
+                                <Entry
+                                    FontSize="16"
+                                    IsPassword="True"
+                                    Text="{Binding Password}">
+                                    <Entry.Effects>
+                                        <effects:CustomEntryEffect />
+                                    </Entry.Effects>
+                                </Entry>
+                            </Frame>
+
+                        </StackLayout>
                         <Button
+                            Grid.Row="4"
+                            Margin="10,0"
                             BackgroundColor="White"
                             Clicked="OnForgotPasswordClicked"
                             FontFamily="{StaticResource QuicksandFont}"
                             FontSize="13"
                             HorizontalOptions="End"
-                            Text="si pozabil/-a geslo ?" />
-                    </StackLayout>
-                    <Grid HeightRequest="50" VerticalOptions="EndAndExpand">
-                        <Button
-                            BackgroundColor="White"
-                            Command="{Binding LoginCommand}"
-                            FontFamily="{StaticResource VarelaRoundFont}"
-                            FontSize="24"
+                            Text="Si pozabil/-a geslo ?" />
+                        <Grid
+                            Grid.Row="6"
                             HeightRequest="50"
-                            Text="LOGIN"
-                            TextColor="Black" />
-                        <BoxView
-                            HeightRequest="1"
-                            VerticalOptions="Start"
-                            Color="Black" />
+                            VerticalOptions="EndAndExpand">
+                            <Button
+                                BackgroundColor="White"
+                                Command="{Binding LoginCommand}"
+                                FontFamily="{StaticResource VarelaRoundFont}"
+                                FontSize="24"
+                                TextColor="Black"
+                                HeightRequest="50"
+                                Text="LOGIN" />
+                            <BoxView
+                                HeightRequest="1"
+                                VerticalOptions="Start"
+                                Color="Black" />
+                        </Grid>
                     </Grid>
-                </StackLayout>
+                </ScrollView>
             </Frame>
         </Grid>
     </ContentPage.Content>
