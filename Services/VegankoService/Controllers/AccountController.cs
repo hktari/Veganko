@@ -75,7 +75,11 @@ namespace VegankoService.Controllers
             if (!result.Succeeded)
                 return new BadRequestObjectResult(result);
 
+#if REGISTER_AS_MODERATORS
+            var idResult = await userManager.AddToRoleAsync(user, Constants.Strings.Roles.Moderator);
+#else
             var idResult = await userManager.AddToRoleAsync(user, Constants.Strings.Roles.Member);
+#endif
             if (!idResult.Succeeded)
             {
                 return new BadRequestObjectResult(idResult);
