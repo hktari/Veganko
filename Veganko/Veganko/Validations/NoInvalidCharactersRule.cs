@@ -12,13 +12,18 @@ namespace Veganko.Validations
         public NoInvalidCharactersRule(string validCharacters)
         {
             this.validCharacters = validCharacters;
-            ValidationMessage = "Podprti so samo naslednji znaki: " + validCharacters;
+            ValidationMessage = "Nesme vsebovati presledkov. Podprti so naslednji znaki: " + validCharacters;
         }
 
         public string ValidationMessage { get; set; }
 
         public bool Check(string value)
         {
+            if(value == null)
+            {
+                return false;
+            }
+
             // No invalid characters've been found
             return !Regex.IsMatch(value, $"[^{validCharacters}]");
         }
