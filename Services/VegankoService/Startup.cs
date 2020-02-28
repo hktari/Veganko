@@ -33,6 +33,7 @@ using Microsoft.AspNetCore.Http.Features;
 using Microsoft.Extensions.FileProviders;
 using System.IO;
 using VegankoService.Data.Stores;
+using Microsoft.AspNetCore.HttpOverrides;
 
 namespace VegankoService
 {
@@ -154,6 +155,12 @@ namespace VegankoService
                 //app.UseHsts();
 
             }
+
+            app.UseForwardedHeaders(new ForwardedHeadersOptions
+            {
+                ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto
+            });
+
             string imagesFolder = Path.Combine(Directory.GetCurrentDirectory(), @"..", @"images");
             Directory.CreateDirectory(imagesFolder);
             app.UseStaticFiles(new StaticFileOptions()
@@ -162,6 +169,7 @@ namespace VegankoService
                 FileProvider = new PhysicalFileProvider(imagesFolder),
                 RequestPath = new PathString("/images")
             });
+            
             // TODO: turn on after certificate and domain 
             //app.UseHttpsRedirection();
 
