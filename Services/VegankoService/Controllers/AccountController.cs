@@ -52,8 +52,6 @@ namespace VegankoService.Controllers
             this.emailService = emailService;
         }
 
-
-
         // POST api/accounts
         [HttpPost]
         [AllowAnonymous]
@@ -125,62 +123,43 @@ namespace VegankoService.Controllers
             return new OkObjectResult("Account created");
         }
 
-        private KeyValuePair<string, string> ProcessIdentityError(IdentityError idErr)
-        {
-            string key = "unknown";
-            switch (idErr.Code)
-            {
-                case nameof(IdentityErrorDescriber.DuplicateUserName):
-                case nameof(IdentityErrorDescriber.InvalidUserName):
-                    key = nameof(AccountInput.Username);
-                    break;
-                case nameof(IdentityErrorDescriber.DuplicateEmail):
-                case nameof(IdentityErrorDescriber.InvalidEmail):
-                    key = nameof(AccountInput.Email);
-                    break;
-                default:
-                    break;
-            }
-
-            return new KeyValuePair<string, string>(key, idErr.Description);
-        }
-
         [AllowAnonymous]
         [HttpGet("confirm_email")]
         public async Task<IActionResult> ConfirmEmail(string userId, string code)
         {
             var user = await userManager.FindByIdAsync(userId);
-            string errorMessage = null;
+            string error = null;
+            string message = "<html><body><h2>Email je bil uspesno potrjen ! Lahko se prijavis v aplikacijo.</h2></body></html>";
 
             if (user == null)
             {
-                errorMessage = "Neznana napaka.";
+                logger.LogError($"User {userId} not found. Confirmation email: {code}");
+                error = "Neznana napaka.";
             }
-            else
+            else 
             {
-                IdentityResult confirmEmailResult = await userManager.ConfirmEmailAsync(user, code);
-                if (!confirmEmailResult.Succeeded)
+                if (!user.EmailConfirmed)
                 {
-                    errorMessage = "\n" + confirmEmailResult.Errors;
+                    IdentityResult confirmEmailResult = await userManager.ConfirmEmailAsync(user, code);
+                    if (!confirmEmailResult.Succeeded)
+                    {
+                        error = "\n" + confirmEmailResult.Errors?.Aggregate(string.Empty, (str, err) => str += $"{err.Code}: {err.Description}\n");
+                    }
                 }
             }
 
-            var result = new ContentResult
+            if (error != null)
+            {
+                logger.LogError($"Errors when confirming email for user {userId}: " + error);
+                message = $"<html><body><h2>Emaila ni bilo mogoce potrditi.</h2></br>{error}</body></html>";
+            }
+
+            return new ContentResult
             {
                 ContentType = "text/html",
-                StatusCode = (int)HttpStatusCode.OK
+                StatusCode = (int)HttpStatusCode.OK,
+                Content = message,
             };
-
-            if (errorMessage != null)
-            {
-                result.Content = "<html><body><h2>Email je bil uspesno potrjen !</h2></body></html>";
-            }
-            else
-            {
-                result.Content = $"<html><body><h2>Emaila ni bilo mogoce potrditi.</h2></br>{errorMessage}</body></html>";
-            }
-
-            return result;
         }
 
         [HttpPost("ChangePassword")]
@@ -335,6 +314,26 @@ namespace VegankoService.Controllers
                 return Ok();
             }
             return Ok();
+        }
+
+        private KeyValuePair<string, string> ProcessIdentityError(IdentityError idErr)
+        {
+            string key = "unknown";
+            switch (idErr.Code)
+            {
+                case nameof(IdentityErrorDescriber.DuplicateUserName):
+                case nameof(IdentityErrorDescriber.InvalidUserName):
+                    key = nameof(AccountInput.Username);
+                    break;
+                case nameof(IdentityErrorDescriber.DuplicateEmail):
+                case nameof(IdentityErrorDescriber.InvalidEmail):
+                    key = nameof(AccountInput.Email);
+                    break;
+                default:
+                    break;
+            }
+
+            return new KeyValuePair<string, string>(key, idErr.Description);
         }
     }
 }
