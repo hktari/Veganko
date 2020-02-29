@@ -329,6 +329,13 @@ namespace VegankoService.Controllers
                 case nameof(IdentityErrorDescriber.InvalidEmail):
                     key = nameof(AccountInput.Email);
                     break;
+                case nameof(IdentityErrorDescriber.PasswordMismatch):
+                case nameof(IdentityErrorDescriber.PasswordRequiresDigit):
+                case nameof(IdentityErrorDescriber.PasswordRequiresNonAlphanumeric):
+                case nameof(IdentityErrorDescriber.PasswordRequiresUpper):
+                case nameof(IdentityErrorDescriber.PasswordTooShort):
+                    key = nameof(AccountInput.Password);
+                    break;
                 default:
                     break;
             }
