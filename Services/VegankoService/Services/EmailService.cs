@@ -13,7 +13,7 @@ namespace VegankoService.Services
 {
     public class EmailService : IEmailService
     {
-        private readonly List<EmailProvider?> knownEmailProviders = new List<EmailProvider?>
+        public static readonly List<EmailProvider> KnownEmailProviders = new List<EmailProvider>
         {
             new EmailProvider("gmail.com", "smtp.gmail.com", 587),
             new EmailProvider("outlook.com", "smtp.live.com", 587),
@@ -31,6 +31,12 @@ namespace VegankoService.Services
         {
             this.configuration = configuration;
             this.logger = logger;
+        }
+
+        public bool IsEmailProviderSupported(string email)
+        {
+            MailAddress mailAddress = new MailAddress(email);
+            return KnownEmailProviders.Any(emp => emp.Host == mailAddress.Host);
         }
 
         public async Task SendEmail(string email, string subject, string message)
@@ -55,7 +61,10 @@ namespace VegankoService.Services
 
             logger.LogDebug("Receiver email provider: " + receiverEmail.Host);
 
-            EmailProvider? emProvider = knownEmailProviders.FirstOrDefault(emp => emp.Value.Host == receiverEmail.Host);
+
+            EmailProvider? emProvider = KnownEmailProviders
+                .Select(emp => new EmailProvider?(emp))
+                .FirstOrDefault(emp => emp.Value.Host == receiverEmail.Host);
 
             if (emProvider == null)
             {
@@ -76,7 +85,7 @@ namespace VegankoService.Services
             }
         }
 
-        private struct EmailProvider
+        public struct EmailProvider
         {
             public EmailProvider(string host, string url, int port, bool ssl = false)
             {

@@ -34,6 +34,7 @@ using Microsoft.Extensions.FileProviders;
 using System.IO;
 using VegankoService.Data.Stores;
 using Microsoft.AspNetCore.HttpOverrides;
+using System.Net.Mime;
 
 namespace VegankoService
 {
@@ -140,6 +141,23 @@ namespace VegankoService
             });
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+
+            services.Configure<ApiBehaviorOptions>(options =>
+            {
+                options.InvalidModelStateResponseFactory = context =>
+                {
+                    var result = new BadRequestObjectResult(
+                        new ValidationProblemDetails(context.ModelState)
+                        {
+                            Status = (int)HttpStatusCode.BadRequest,
+                            Instance = context.HttpContext?.Request?.Path,
+                        });
+                    
+                    result.ContentTypes.Add(MediaTypeNames.Application.Json);
+                    
+                    return result;
+                };
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

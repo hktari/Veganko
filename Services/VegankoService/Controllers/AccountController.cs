@@ -4,7 +4,6 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,8 +12,8 @@ using System.Text.Encodings.Web;
 using System.Threading.Tasks;
 using VegankoService.Data;
 using VegankoService.Helpers;
-using VegankoService.Models;
 using VegankoService.Models.Account;
+using VegankoService.Models.ErrorHandling;
 using VegankoService.Models.User;
 using VegankoService.Services;
 
@@ -53,7 +52,7 @@ namespace VegankoService.Controllers
             this.emailService = emailService;
         }
 
-       
+
 
         // POST api/accounts
         [HttpPost]
@@ -64,6 +63,15 @@ namespace VegankoService.Controllers
             input.Email = input.Email.Trim();
             input.Username = input.Username.Trim();
 
+            if (!emailService.IsEmailProviderSupported(input.Email))
+            {
+                string errorMsg = $"Nepodprt email ponudnik. Trenutno so podprti: " + 
+                    EmailService.KnownEmailProviders.Select(emp => emp.Host)
+                                                    .Aggregate(string.Empty, (str, email) => str += $"{email}, ");
+                return new RequestError(nameof(input.Email), errorMsg)
+                    .ToActionResult();
+            }
+
             var user = new ApplicationUser
             {
                 UserName = input.Username,
@@ -73,7 +81,12 @@ namespace VegankoService.Controllers
             var result = await userManager.CreateAsync(user, input.Password);
 
             if (!result.Succeeded)
-                return new BadRequestObjectResult(result);
+            {
+                RequestError err = new RequestError();
+                err.Add(
+                    result.Errors.Select(idErr => ProcessIdentityError(idErr)));
+                return err.ToActionResult();
+            }
 
 #if REGISTER_AS_MODERATORS
             var idResult = await userManager.AddToRoleAsync(user, Constants.Strings.Roles.Moderator);
@@ -112,20 +125,39 @@ namespace VegankoService.Controllers
             return new OkObjectResult("Account created");
         }
 
+        private KeyValuePair<string, string> ProcessIdentityError(IdentityError idErr)
+        {
+            string key = "unknown";
+            switch (idErr.Code)
+            {
+                case nameof(IdentityErrorDescriber.DuplicateUserName):
+                case nameof(IdentityErrorDescriber.InvalidUserName):
+                    key = nameof(AccountInput.Username);
+                    break;
+                case nameof(IdentityErrorDescriber.DuplicateEmail):
+                case nameof(IdentityErrorDescriber.InvalidEmail):
+                    key = nameof(AccountInput.Email);
+                    break;
+                default:
+                    break;
+            }
+
+            return new KeyValuePair<string, string>(key, idErr.Description);
+        }
+
         [AllowAnonymous]
         [HttpGet("confirm_email")]
         public async Task<IActionResult> ConfirmEmail(string userId, string code)
         {
             var user = await userManager.FindByIdAsync(userId);
-
             string errorMessage = null;
-            
+
             if (user == null)
             {
                 errorMessage = "Neznana napaka.";
             }
-            else 
-            { 
+            else
+            {
                 IdentityResult confirmEmailResult = await userManager.ConfirmEmailAsync(user, code);
                 if (!confirmEmailResult.Succeeded)
                 {
@@ -141,16 +173,16 @@ namespace VegankoService.Controllers
 
             if (errorMessage != null)
             {
-                result.Content = "<html><body><h4>Email je bil uspešno potrjen !</h4></body></html>";
+                result.Content = "<html><body><h2>Email je bil uspesno potrjen !</h2></body></html>";
             }
-            else 
+            else
             {
-                result.Content = $"<html><body><h4>Emaila ni bilo mogoče potrditi.</h4></br>{errorMessage}</body></html>";
+                result.Content = $"<html><body><h2>Emaila ni bilo mogoce potrditi.</h2></br>{errorMessage}</body></html>";
             }
 
             return result;
         }
-       
+
         [HttpPost("ChangePassword")]
         public async Task<IActionResult> ChangePassword(ChangePasswordBindingModel model)
         {
@@ -211,9 +243,9 @@ namespace VegankoService.Controllers
                 }
 
                 await context.SaveChangesAsync();
-                
+
                 //string code = await userManager.GeneratePasswordResetTokenAsync(user);
-                
+
                 await emailService.SendEmail(user.Email, "Reset Password", $"Please reset your password by using this {code}");
                 return Ok();
             }
@@ -230,7 +262,7 @@ namespace VegankoService.Controllers
             {
                 return BadRequest(ModelState);
             }
-            
+
             var user = await userManager.FindByEmailAsync(input.Email);
             if (user == null)
             {
@@ -278,7 +310,7 @@ namespace VegankoService.Controllers
                 context.OTPs.Remove(otp);
                 logger.LogDebug("OTP validation successful.");
             }
-            
+
             await context.SaveChangesAsync();
             return result;
         }

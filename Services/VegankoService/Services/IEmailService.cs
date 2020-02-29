@@ -7,6 +7,7 @@ namespace VegankoService.Services
 {
     public interface IEmailService
     {
+        bool IsEmailProviderSupported(string email);
         Task SendEmail(string email, string subject, string message);
     }
 }
