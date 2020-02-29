@@ -15,5 +15,6 @@ namespace Veganko.Services.Http
         public Nullable<int> Status { get; set; }
 
         public string Instance { get; set; }
+        public string Title { get; set; }
     }
 }

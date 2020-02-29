@@ -16,9 +16,21 @@ namespace Veganko.Services
 
         private List<UserPublicInfo> userDatabase = new List<UserPublicInfo>();
         private Dictionary<string, string> userPasswords = new Dictionary<string, string>();
+        
+        private Exception nextRequestException;
+
+        public void SetError(Exception ex)
+        {
+            nextRequestException = ex;
+        }
 
         public Task CreateAccount(UserPublicInfo user, string password)
         {
+            if(nextRequestException != null)
+            {
+                throw nextRequestException;
+            }
+
             // check if username exists
             if (userDatabase.Exists(u => u.Username == user.Username))
                 throw new Exception("Exists !");

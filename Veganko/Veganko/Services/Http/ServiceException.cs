@@ -8,6 +8,11 @@ namespace Veganko.Services.Http
 {
     public class ServiceException : Exception
     {
+        public ServiceException()
+        {
+
+        }
+
         public ServiceException(IRestResponse response)
             : this(response.ResponseStatus == ResponseStatus.Completed, response.Content, response.StatusDescription, response.Request.Resource, response.Request.Method.ToString(), response.ErrorException)
         {
@@ -45,7 +50,7 @@ namespace Veganko.Services.Http
         public string StatusCodeDescription { get; }
         public string Resource { get; }
         public string Method { get; }
-        public IDictionary<string, string[]> Errors { get; }
+        public IDictionary<string, string[]> Errors { get; set; }
 
         private IDictionary<string, string[]> TryExtractErrors(IRestResponse response)
         {
