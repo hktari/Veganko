@@ -83,37 +83,45 @@ namespace Veganko.ViewModels
         public override Command SubmitCommand => new Command(
             async () =>
             {
-                bool validInput = true;
-                validInput &= username.Validate();
-                validInput &= PasswordInput.Password.Validate();
-                validInput &= PasswordInput.ConfirmPassword.Validate();
-                validInput &= email.Validate();
-
-                if (!validInput)
-                {
-                    return;
-                }
-
                 try
                 {
-                    UserPublicInfo user = new UserPublicInfo
-                    {
-                        Username = username.Value,
-                        Email = email.Value,
-                        Label = label,
-                        AvatarId = avatarImage.Id,
-                        ProfileBackgroundId = profileBackgroundImage.Id
-                    };
+                    IsBusy = true;
+                    bool validInput = true;
+                    validInput &= username.Validate();
+                    validInput &= PasswordInput.Password.Validate();
+                    validInput &= PasswordInput.ConfirmPassword.Validate();
+                    validInput &= email.Validate();
 
-                    await accountService.CreateAccount(user, PasswordInput.Password.Value);
-                    await App.Navigation.PopToRootAsync();
-                    await App.Navigation.PushModalAsync(new FinishRegistrationInstructPage());
+                    if (!validInput)
+                    {
+                        return;
+                    }
+
+                    try
+                    {
+                        UserPublicInfo user = new UserPublicInfo
+                        {
+                            Username = username.Value,
+                            Email = email.Value,
+                            Label = label,
+                            AvatarId = avatarImage.Id,
+                            ProfileBackgroundId = profileBackgroundImage.Id
+                        };
+
+                        await accountService.CreateAccount(user, PasswordInput.Password.Value);
+                        await App.Navigation.PopToRootAsync();
+                        await App.Navigation.PushModalAsync(new FinishRegistrationInstructPage());
+                    }
+                    catch (ServiceException ex)
+                    {
+                        logger.LogException(ex);
+                        // TODO: duplicate user ?
+                        await App.CurrentPage.Err("Neznana napaka pri registraciji: " + ex.StatusCodeDescription);
+                    }
                 }
-                catch (ServiceException ex)
+                finally
                 {
-                    logger.LogException(ex);
-                    // TODO: duplicate user ?
-                    await App.CurrentPage.Err("Neznana napaka pri registraciji: " + ex.StatusCodeDescription);
+                    IsBusy = false;
                 }
             });
 
