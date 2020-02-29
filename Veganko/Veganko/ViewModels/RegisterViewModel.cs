@@ -115,8 +115,36 @@ namespace Veganko.ViewModels
                     catch (ServiceException ex)
                     {
                         logger.LogException(ex);
-                        // TODO: duplicate user ?
-                        await App.CurrentPage.Err("Neznana napaka pri registraciji: " + ex.StatusCodeDescription);
+
+                        if (ex.Errors == null)
+                        {
+                            await App.CurrentPage.Err("Neznana napaka pri registraciji: " + ex.StatusCodeDescription);
+                        }
+                        else 
+                        {
+                            foreach (var err in ex.Errors)
+                            {
+                                List<string> errorList = new List<string>(err.Value);
+                                switch (err.Key.ToLowerInvariant())
+                                {
+                                    case "username":
+                                        Username.Errors = errorList;
+                                        Username.IsValid = false;
+                                        break;
+                                    case "email":
+                                        Email.Errors = errorList;
+                                        Email.IsValid = false;
+                                        break;
+                                    case "password":
+                                        PasswordInput.Password.Errors = errorList;
+                                        PasswordInput.Password.IsValid = false;
+                                        break;
+                                    default:
+                                        logger.WriteLine<RegisterViewModel>($"Unhandled error key: {err.Key}");
+                                        break;
+                                }
+                            }
+                        }
                     }
                 }
                 finally

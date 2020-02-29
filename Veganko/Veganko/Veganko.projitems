@@ -53,6 +53,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Services\Auth\MockAuthService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\Comments\ICommentsService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\Http\LoginResponse.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Services\Http\RequestError.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\Http\ServiceException.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\Http\IRestService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\Http\RestService.cs" />
