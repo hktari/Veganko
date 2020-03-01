@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.IO;
-using System.Text;
 using Veganko.Models;
 using Xamarin.Forms;
 
@@ -10,6 +8,11 @@ namespace Veganko.ViewModels.Products.Partial
 {
     public class ProductViewModel : BaseViewModel
     {
+        /// <summary>
+        /// The duration during which a product is still considered as new after it's been added.
+        /// </summary>
+        public static readonly TimeSpan IsNewProductTimespan = TimeSpan.FromDays(2);
+
         public ProductViewModel()
         {
             Type = ProductType.Ostalo;
@@ -61,14 +64,8 @@ namespace Veganko.ViewModels.Products.Partial
         private ImageSource thumbnailImage;
         public ImageSource ThumbnailImage
         {
-            get
-            {
-                return thumbnailImage;
-            }
-            set
-            {
-                SetProperty(ref thumbnailImage, value);
-            }
+            get => thumbnailImage;
+            set => SetProperty(ref thumbnailImage, value);
         }
 
         private string description = string.Empty;
@@ -92,6 +89,18 @@ namespace Veganko.ViewModels.Products.Partial
             set => SetProperty(ref type, value);
         }
 
+
+        private bool isNew;
+        public bool IsNew
+        {
+            get => isNew;
+            set => SetProperty(ref isNew, value);
+        }
+
+        public DateTime AddedTimestamp { get; set; }
+
+        public DateTime LastUpdateTimestamp { get; set; }
+
         public void Update(ProductViewModel productViewModel)
         {
             Type = productViewModel.Type;
@@ -103,12 +112,16 @@ namespace Veganko.ViewModels.Products.Partial
             Brand = productViewModel.Brand;
             Name = productViewModel.Name;
             Id = productViewModel.Id;
+            AddedTimestamp = productViewModel.AddedTimestamp;
+            LastUpdateTimestamp = productViewModel.LastUpdateTimestamp;
+            IsNew = productViewModel.IsNew;
         }
 
         public void Update(Product product)
         {
             Type = product.Type;
-            ProductClassifiers = new ObservableCollection<ProductClassifier>(product.ProductClassifiers);
+            ProductClassifiers = new ObservableCollection<ProductClassifier>(
+                product.ProductClassifiers ?? new List<ProductClassifier>());
             Description = product.Description ?? string.Empty;
             Image = product.DetailImage;
             ThumbnailImage = product.ThumbImage;
@@ -116,6 +129,10 @@ namespace Veganko.ViewModels.Products.Partial
             Brand = product.Brand ?? string.Empty;
             Name = product.Name ?? string.Empty;
             Id = product.Id;
+            AddedTimestamp = product.AddedTimestamp;
+            LastUpdateTimestamp = product.LastUpdateTimestamp;
+
+            IsNew = (DateTime.Now - AddedTimestamp) < IsNewProductTimespan;
         }
 
         /// <summary>
@@ -126,12 +143,15 @@ namespace Veganko.ViewModels.Products.Partial
         public void MapToModel(Product product)
         {
             product.Type = Type;
-            product.ProductClassifiers = new List<ProductClassifier>(ProductClassifiers);
+            product.ProductClassifiers = new List<ProductClassifier>(
+                ProductClassifiers ?? new ObservableCollection<ProductClassifier>());
             product.Description = Description;
             product.Barcode = Barcode;
             product.Brand = Brand;
             product.Name = Name;
             product.Id = Id;
+            product.AddedTimestamp = AddedTimestamp;
+            product.LastUpdateTimestamp = LastUpdateTimestamp;
         }
     }
 }

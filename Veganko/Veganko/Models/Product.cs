@@ -86,6 +86,10 @@ namespace Veganko.Models
 
         public ProductType Type { get; set; }
 
+        public DateTime AddedTimestamp { get; set; }
+
+        public DateTime LastUpdateTimestamp { get; set; }
+        
         public Product()
         {
             Name = Brand = Barcode = Description = "";

@@ -13,11 +13,11 @@ namespace Veganko.Services
 {
     public class MockProductDataStore : IProductService
     {
-        List<Product> items;
+        public List<Product> Items { get; set; }
 
         public MockProductDataStore()
         {
-            items = new List<Product>();
+            Items = new List<Product>();
             var mockItems = new List<Product>
             {
               new Product
@@ -173,7 +173,7 @@ namespace Veganko.Services
 
             foreach (var item in mockItems)
             {
-                items.Add(item);
+                Items.Add(item);
             }
         }
 
@@ -184,37 +184,37 @@ namespace Veganko.Services
 
         Task<Product> IProductService.AddAsync(Product item)
         {
-            items.Add(item);
+            Items.Add(item);
 
             return Task.FromResult(item);
         }
 
         Task<Product> IProductService.UpdateAsync(Product item)
         {
-            var _item = items.Where((Product arg) => arg.Id == item.Id).FirstOrDefault();
-            items.Remove(_item);
-            items.Add(item);
+            var _item = Items.Where((Product arg) => arg.Id == item.Id).FirstOrDefault();
+            Items.Remove(_item);
+            Items.Add(item);
 
             return Task.FromResult(item);
         }
 
         Task IProductService.DeleteAsync(Product item)
         {
-            var _item = items.Where((Product arg) => arg.Id == item.Id).FirstOrDefault();
-            items.Remove(_item);
+            var _item = Items.Where((Product arg) => arg.Id == item.Id).FirstOrDefault();
+            Items.Remove(_item);
 
             return Task.CompletedTask;
         }
 
         Task<PagedList<Product>> IProductService.AllAsync(int page = 1, int pageSize = 10, bool forceRefresh = false, bool includeUnapproved = false)
         {
-            IEnumerable<Product> result = includeUnapproved ? items : items.Where(p => p.State == ProductState.Approved);
+            IEnumerable<Product> result = Items;
             return Task.FromResult(new PagedList<Product> { Items = result } );
         }
 
         Task<Product> IProductService.GetAsync(string id)
         {
-            return Task.FromResult(items.First(p => p.Id == id));
+            return Task.FromResult(Items.First(p => p.Id == id));
         }
 
         public Task<Product> UpdateImagesAsync(Product product, byte[] detailImageData, byte[] thumbImageData)

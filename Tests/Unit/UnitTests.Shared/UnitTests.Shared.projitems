@@ -19,6 +19,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Validations\PasswordRequirementRuleTests.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\Account\RegisterViewModelTests.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\Products\Partial\ProductViewModelTests.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ViewModels\Products\ProductListViewModelTests.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\Stores\EditStoreViewModelTests.cs" />
   </ItemGroup>
 </Project>

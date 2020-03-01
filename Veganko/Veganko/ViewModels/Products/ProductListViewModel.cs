@@ -19,7 +19,7 @@ namespace Veganko.ViewModels.Products
 {
     public class ProductListViewModel : BaseViewModel
     {
-        public Command LoadItemsCommand { get; set; }
+        public Command LoadItemsCommand { get; }
         public Command SearchClickedCommand => new Command(OnSearchClicked);
         public Command SearchBarcodeCommand => new Command(OnBarcodeSearch);
 
@@ -188,7 +188,9 @@ namespace Veganko.ViewModels.Products
         {
             PagedList<Product> products = await productService.AllAsync(pageSize: 1000, forceRefresh: true);
             return new List<ProductViewModel>(
-                products.Items.Select(m => new ProductViewModel(m)));
+                products.Items
+                .OrderByDescending(p => p.AddedTimestamp)
+                .Select(m => new ProductViewModel(m)));
         }
 
         protected virtual Task OnProductSelected(ProductViewModel product)
