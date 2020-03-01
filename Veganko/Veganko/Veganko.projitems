@@ -38,11 +38,13 @@
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\ContentPageExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\EnumExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\StringExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Extensions\TaskExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\Comment.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\FacebookProfile.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\Favorite.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\JsonConverters\Base64StringToByteArrayConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\PagedList.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\Products\CachedProduct.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\Stores\Address.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\Stores\Store.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\User\UserAccessRights.cs" />
@@ -52,6 +54,9 @@
     <Compile Include="$(MSBuildThisFileDirectory)Services\Auth\AuthService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\Auth\MockAuthService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\Comments\ICommentsService.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Services\DB\IProductDBService.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Services\DB\MockProductDBService.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Services\DB\ProductDBService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\Http\LoginResponse.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\Http\RequestError.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\Http\ServiceException.cs" />
@@ -310,7 +315,6 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="$(MSBuildThisFileDirectory)Models\Products\" />
     <Folder Include="$(MSBuildThisFileDirectory)Views\Profile\Partial\" />
   </ItemGroup>
   <ItemGroup>

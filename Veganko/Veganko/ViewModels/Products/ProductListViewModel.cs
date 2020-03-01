@@ -8,9 +8,12 @@ using System.Linq;
 using System.Threading.Tasks;
 using Veganko.Extensions;
 using Veganko.Models;
+using Veganko.Models.Products;
 using Veganko.Models.User;
 using Veganko.Other;
 using Veganko.Services;
+using Veganko.Services.DB;
+using Veganko.Services.Logging;
 using Veganko.ViewModels.Products.Partial;
 using Veganko.Views;
 using Xamarin.Forms;
@@ -186,11 +189,40 @@ namespace Veganko.ViewModels.Products
 
         protected virtual async Task<List<ProductViewModel>> GetProducts()
         {
-            PagedList<Product> products = await productService.AllAsync(pageSize: 1000, forceRefresh: true);
-            return new List<ProductViewModel>(
-                products.Items
+            PagedList<Product> products = await productService.AllAsync(pageSize: 1000, forceRefresh: true)
+                                                              .ConfigureAwait(false);
+            List<ProductViewModel> prodVMs = products.Items
                 .OrderByDescending(p => p.AddedTimestamp)
-                .Select(m => new ProductViewModel(m)));
+                .Select(m => new ProductViewModel(m))
+                .ToList();
+
+            var productDBService = App.IoC.Resolve<IProductDBService>();
+            IEnumerable<CachedProduct> seenProducts = await productDBService.GetAllSeenProducts()
+                                                                            .ConfigureAwait(false);
+            foreach (var seenProduct in seenProducts)
+            {
+                prodVMs
+                    .FirstOrDefault(prod => prod.Id == seenProduct.ProductId)
+                    ?.SetHasBeenSeen(true);
+            }
+
+            // Set products as seen in the background.
+            Task.Run(() =>
+            {
+                try
+                {
+                    productDBService.SetProductsAsSeen(products.Items)
+                                    .GetAwaiter()
+                                    .GetResult();
+                }
+                catch (Exception ex)
+                {
+                    App.IoC.Resolve<ILogger>()
+                            .LogException(new Exception("Failed to set products as seen.", ex));
+                }
+            }).FireAndForget();
+
+            return prodVMs;
         }
 
         protected virtual Task OnProductSelected(ProductViewModel product)

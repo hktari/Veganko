@@ -1,12 +1,13 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
-using System.Text;
 using Veganko;
 using Autofac;
 using Veganko.Services;
 using Veganko.Models;
 using Veganko.ViewModels.Products;
+using Veganko.Services.DB;
+using Veganko.Models.Products;
 
 namespace UnitTests.Shared.ViewModels.Products
 {
@@ -44,6 +45,23 @@ namespace UnitTests.Shared.ViewModels.Products
             vm.LoadItemsCommand.Execute(null);
             Assert.IsTrue(vm.Products[0].IsNew);
             Assert.IsTrue(vm.Products[1].IsNew);
+            Assert.IsFalse(vm.Products[2].IsNew);
+        }
+
+        [TestMethod]
+        public void TestProducts_IsNewWHasBeenSeen()
+        {
+            var productDBService = (MockProductDBService)App.IoC.Resolve<IProductDBService>();
+
+            productDBService.Products = new List<CachedProduct>
+            {
+                new CachedProduct { ProductId = "1" }
+            };
+
+            vm.LoadItemsCommand.Execute(null);
+
+            Assert.IsTrue(vm.Products[0].IsNew);
+            Assert.IsFalse(vm.Products[1].IsNew);
             Assert.IsFalse(vm.Products[2].IsNew);
         }
     }

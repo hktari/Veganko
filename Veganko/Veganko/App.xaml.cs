@@ -18,6 +18,7 @@ using Veganko.Services.Logging;
 using Veganko.Services.ImageManager;
 using System.Net.Http;
 using Veganko.Services.Products.Stores;
+using Veganko.Services.DB;
 
 namespace Veganko
 {
@@ -113,6 +114,7 @@ namespace Veganko
                 builder.RegisterType<UserService>().As<IUserService>().SingleInstance();
                 builder.RegisterType<AuthService>().As<IAuthService>().SingleInstance();
                 builder.RegisterType<StoresService>().As<IStoresService>().SingleInstance();
+                builder.RegisterType<ProductDBService>().As<IProductDBService>().SingleInstance();
             }
             else 
             {
@@ -122,6 +124,8 @@ namespace Veganko
                 builder.RegisterType<MockCommentsService>().As<ICommentsService>().SingleInstance();
                 builder.RegisterType<MockUserService>().As<IUserService>().SingleInstance();
                 builder.RegisterType<MockAuthService>().As<IAuthService>().SingleInstance();
+                //builder.RegisterType<MockProductDBService>().As<IProductDBService>().SingleInstance();
+                builder.RegisterType<ProductDBService>().As<IProductDBService>().SingleInstance();
             }
 
             builder.RegisterType<Logger>().As<ILogger>().SingleInstance();
@@ -155,8 +159,7 @@ namespace Veganko
 
         protected override void OnSleep ()
 		{
-			// Handle when your app sleeps
-		}
+        }
 
 		protected override void OnResume ()
 		{

@@ -16,8 +16,7 @@ namespace Veganko.Services
 
         public MockProductDataStore()
         {
-            Items = new List<Product>();
-            var mockItems = new List<Product>
+            Items = new List<Product>
             {
               new Product
                 {
@@ -66,131 +65,146 @@ namespace Veganko.Services
                     State = ProductState.Approved,
                     AddedTimestamp = DateTime.Now - TimeSpan.FromHours(1),
                 },
-                new Product
+            new Product
+            {
+                Id = "3",
+                Name = "Flow kosmetiikka karitejevo maslo in ognjič", Description = "Organsko karitejevo maslo je primerno za zaščito, nego in vlaženje kože celega telesa. Učinkovito tudi pri negi nog – zmehča trdo in popokano kožo pet.",
+                ThumbImage =  "Olivella_hranilna_krema_r.jpg",
+                DetailImage = "Olivella_hranilna_krema_r.jpg",
+                Type = ProductType.Kozmetika,
+                ProductClassifiers = new List<ProductClassifier>
                 {
-                    Id = "3",
-                    Name = "Flow kosmetiikka karitejevo maslo in ognjič", Description = "Organsko karitejevo maslo je primerno za zaščito, nego in vlaženje kože celega telesa. Učinkovito tudi pri negi nog – zmehča trdo in popokano kožo pet.",
-                    ThumbImage =  "Olivella_hranilna_krema_r.jpg",
-                    DetailImage = "Olivella_hranilna_krema_r.jpg",
-                    Type = ProductType.Kozmetika,
-                    ProductClassifiers = new List<ProductClassifier>
-                    {
-                        ProductClassifier.Vegansko,
-                    },
-                    State = ProductState.Approved,
-                    AddedTimestamp = DateTime.Now - TimeSpan.FromDays(1),
+                    ProductClassifier.Vegansko,
                 },
-                new Product
+                State = ProductState.Approved,
+                AddedTimestamp = DateTime.Now - TimeSpan.FromDays(1),
+            },
+            new Product
+            {
+                Id = "4",
+                Name = "Čokoladni namaz", Description = "Kdo pa nima rad nutelle... Še posebej, če je vegan.",
+                ThumbImage =  "evrokrem.jpg",
+                DetailImage = "evrokrem.jpg",
+                Type = ProductType.Hrana,
+                ProductClassifiers = new List<ProductClassifier>
                 {
-                    Id = "4",
-                    Name = "Čokoladni namaz", Description = "Kdo pa nima rad nutelle... Še posebej, če je vegan.",
-                    ThumbImage =  "evrokrem.jpg",
-                    DetailImage = "evrokrem.jpg",
-                    Type = ProductType.Hrana,
-                    ProductClassifiers = new List<ProductClassifier>
-                    {
-                        ProductClassifier.Vegansko,
-                        ProductClassifier.GlutenFree
-                    },
-                    State = ProductState.Approved,
-                    AddedTimestamp = DateTime.Now - TimeSpan.FromHours(0.25),
+                    ProductClassifier.Vegansko,
+                    ProductClassifier.GlutenFree
                 },
-                new Product
+                State = ProductState.Approved,
+                AddedTimestamp = DateTime.Now - TimeSpan.FromHours(0.25),
+            },
+            new Product
+            {
+                Id = "5",
+                Name = "Knusprige Vollkornwaffeln", Description = "100% Vollkorn und weniger Zucker !",
+                ThumbImage =  "manner.jpg",
+                DetailImage = "manner.jpg",
+                Type = ProductType.Hrana,
+                ProductClassifiers = new List<ProductClassifier>
                 {
-                    Id = "5",
-                    Name = "Knusprige Vollkornwaffeln", Description = "100% Vollkorn und weniger Zucker !",
-                    ThumbImage =  "manner.jpg",
-                    DetailImage = "manner.jpg",
-                    Type = ProductType.Hrana,
-                    ProductClassifiers = new List<ProductClassifier>
-                    {
-                        ProductClassifier.Vegansko
-                    },
-                    State = ProductState.Approved
+                    ProductClassifier.Vegansko
                 },
-                new Product
+                State = ProductState.Approved
+            },
+            new Product
+            {
+                Id = "6",
+                Name = "Sensitiv After Shave Balsam", Description = "MEN",
+                ThumbImage =  "alverde_after_shave.jpg",
+                DetailImage = "alverde_after_shave.jpg",
+                Type = ProductType.Kozmetika,
+                ProductClassifiers = new List<ProductClassifier>
                 {
-                    Id = "6",
-                    Name = "Sensitiv After Shave Balsam", Description = "MEN",
-                    ThumbImage =  "alverde_after_shave.jpg",
-                    DetailImage = "alverde_after_shave.jpg",
-                    Type = ProductType.Kozmetika,
-                    ProductClassifiers = new List<ProductClassifier>
-                    {
-                        ProductClassifier.CrueltyFree,
-                        ProductClassifier.Vegansko
-                    },
-                    State = ProductState.Approved
+                    ProductClassifier.CrueltyFree,
+                    ProductClassifier.Vegansko
                 },
-                new Product
+                State = ProductState.Approved
+            },
+            new Product
+            {
+                Id = "7",
+                Name = "Valsoia la crema", Description = "Kremni namaz z lešniki, kakavom in sojo",
+                Brand = "VALSOIA",
+                ThumbImage =  "evrokrem.jpg",
+                DetailImage = "evrokrem.jpg",
+                Type = ProductType.Hrana,
+                ProductClassifiers = new List<ProductClassifier>
                 {
-                    Id = "7",
-                    Name = "Valsoia la crema", Description = "Kremni namaz z lešniki, kakavom in sojo",
-                    Brand = "VALSOIA",
-                    ThumbImage =  "evrokrem.jpg",
-                    DetailImage = "evrokrem.jpg",
-                    Type = ProductType.Hrana,
-                    ProductClassifiers = new List<ProductClassifier>
-                    {
-                        ProductClassifier.Vegansko,
-                        ProductClassifier.GlutenFree
-                    },
-                    State = ProductState.Approved
+                    ProductClassifier.Vegansko,
+                    ProductClassifier.GlutenFree
                 },
-                new Product
+                State = ProductState.Approved
+            },
+            new Product
+            {
+                Id = "8",
+                Name = "Gourmet Arašidov Namaz s koščki",
+                Brand = "GOURMET",
+                ThumbImage =  "arasidovo_maslo.jpg",
+                DetailImage = "arasidovo_maslo.jpg",
+                Type = ProductType.Hrana,
+                ProductClassifiers = new List<ProductClassifier>
                 {
-                    Id = "8",
-                    Name = "Gourmet Arašidov Namaz s koščki",
-                    Brand = "GOURMET",
-                    ThumbImage =  "arasidovo_maslo.jpg",
-                    DetailImage = "arasidovo_maslo.jpg",
-                    Type = ProductType.Hrana,
-                    ProductClassifiers = new List<ProductClassifier>
-                    {
-                        ProductClassifier.Vegansko,
-                        ProductClassifier.GlutenFree
-                    },
-                    State = ProductState.Approved,
-                    AddedTimestamp = DateTime.Now- TimeSpan.FromHours(0.5),
+                    ProductClassifier.Vegansko,
+                    ProductClassifier.GlutenFree
                 },
-                new Product
+                State = ProductState.Approved,
+                AddedTimestamp = DateTime.Now- TimeSpan.FromHours(0.5),
+            },
+            new Product
+            {
+                Id = "9",
+                Name = "BIO Pomarančni sok",
+                Brand = "DM",
+                ThumbImage =  "dmbio_orangensaft.jpg",
+                DetailImage = "dmbio_orangensaft.jpg",
+                Type = ProductType.Pijaca,
+                ProductClassifiers = new List<ProductClassifier>
                 {
-                    Id = "9",
-                    Name = "BIO Pomarančni sok",
-                    Brand = "DM",
-                    ThumbImage =  "dmbio_orangensaft.jpg",
-                    DetailImage = "dmbio_orangensaft.jpg",
-                    Type = ProductType.Pijaca,
-                    ProductClassifiers = new List<ProductClassifier>
-                    {
-                        ProductClassifier.Vegansko,
-                        ProductClassifier.GlutenFree,
-                        ProductClassifier.RawVegan,
-                        ProductClassifier.Pesketarijansko
-                    },
-                    State = ProductState.Approved
+                    ProductClassifier.Vegansko,
+                    ProductClassifier.GlutenFree,
+                    ProductClassifier.RawVegan,
+                    ProductClassifier.Pesketarijansko
                 },
-                new Product
+                State = ProductState.Approved
+            },
+            new Product
+            {
+                Id = "10",
+                Name = "Adez Almond Drink",
+                Description = " With its unique proposition of blended plant ingredients AdeZ is bringing great taste to plant-based beverages for the first time and is a nutritious and tasty option for the morning and throughout the day. Enjoy as a drink, with cereals, in a smoothie, in tea or coffee, even for cooking. AdeZ, nourish your potential.",
+                Brand = "Adez",
+                ThumbImage =  "adez_almond.jpg",
+                DetailImage = "adez_almond.jpg",
+                Type = ProductType.Pijaca,
+                ProductClassifiers = new List<ProductClassifier>
                 {
-                    Id = "10",
-                    Name = "Adez Almond Drink",
-                    Description = " With its unique proposition of blended plant ingredients AdeZ is bringing great taste to plant-based beverages for the first time and is a nutritious and tasty option for the morning and throughout the day. Enjoy as a drink, with cereals, in a smoothie, in tea or coffee, even for cooking. AdeZ, nourish your potential.",
-                    Brand = "Adez",
-                    ThumbImage =  "adez_almond.jpg",
-                    DetailImage = "adez_almond.jpg",
-                    Type = ProductType.Pijaca,
-                    ProductClassifiers = new List<ProductClassifier>
-                    {
-                        ProductClassifier.Vegeterijansko,
-                    },
-                    State = ProductState.Approved
-                }
+                    ProductClassifier.Vegeterijansko,
+                },
+                State = ProductState.Approved
+            },
             };
 
-            foreach (var item in mockItems)
+            Items = Items.Concat(
+                Enumerable
+                .Range(Items.Count + 10, 500)
+                .Select(idx => CreateGenericProduct(idx))).ToList();
+        }
+
+        private Product CreateGenericProduct(int idx)
+        {
+            return new Product
             {
-                Items.Add(item);
-            }
+                Id = idx.ToString(),
+                LastUpdateTimestamp = DateTime.Now,
+                ThumbImage = "adez_almond.jpg",
+                ProductClassifiers = new List<ProductClassifier>(),
+                Type = ProductType.Pijaca,
+                Name = "Generic product",
+                Description = "generic description",
+                Brand = "Generic brand"
+            };
         }
 
         public Task<IEnumerable<Product>> GetUnapprovedAsync(bool forceRefresh)

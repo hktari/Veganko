@@ -1,7 +1,9 @@
-﻿using System;
+﻿using Autofac;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using Veganko.Models;
+using Veganko.Services.DB;
 using Xamarin.Forms;
 
 namespace Veganko.ViewModels.Products.Partial
@@ -89,6 +91,7 @@ namespace Veganko.ViewModels.Products.Partial
             set => SetProperty(ref type, value);
         }
 
+        public bool HasBeenSeen { get; private set; }
 
         private bool isNew;
         public bool IsNew
@@ -132,7 +135,7 @@ namespace Veganko.ViewModels.Products.Partial
             AddedTimestamp = product.AddedTimestamp;
             LastUpdateTimestamp = product.LastUpdateTimestamp;
 
-            IsNew = (DateTime.Now - AddedTimestamp) < IsNewProductTimespan;
+            UpdateIsNew();
         }
 
         /// <summary>
@@ -152,6 +155,17 @@ namespace Veganko.ViewModels.Products.Partial
             product.Id = Id;
             product.AddedTimestamp = AddedTimestamp;
             product.LastUpdateTimestamp = LastUpdateTimestamp;
+        }
+
+        public void SetHasBeenSeen(bool hasBeenSeen)
+        {
+            HasBeenSeen = hasBeenSeen;
+            UpdateIsNew();
+        }
+
+        private void UpdateIsNew()
+        {
+            IsNew = !HasBeenSeen && (DateTime.Now - AddedTimestamp) < IsNewProductTimespan;
         }
     }
 }
