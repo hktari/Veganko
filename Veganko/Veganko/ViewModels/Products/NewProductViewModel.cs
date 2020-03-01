@@ -13,6 +13,7 @@ using Veganko.Models;
 using Veganko.Models.User;
 using Veganko.Other;
 using Veganko.Services;
+using Veganko.Services.DB;
 using Veganko.Services.Http;
 using Veganko.ViewModels.Products.Partial;
 using Veganko.Views;
@@ -46,6 +47,10 @@ namespace Veganko.ViewModels.Products
                     productModel = await PostProductImages(productModel);
 
                     Product.Update(productModel);
+
+                    // Mark the product as seen
+                    Product.SetHasBeenSeen(true);
+                    await App.IoC.Resolve<IProductDBService>().SetProductsAsSeen(new[] { productModel });
 
                     ((MainPage)App.Current.MainPage).SetCurrentTab(0);
                     MessagingCenter.Send(this, ProductAddedMsg, Product);
