@@ -53,5 +53,7 @@ namespace VegankoService.Models
         public string Description { get; set; }
         public int ProductClassifiers { get; set; }
         public string Type { get; set; }
+        public DateTime AddedTimestamp { get; set; }
+        public DateTime LastUpdateTimestamp { get; set; }
     }
 }

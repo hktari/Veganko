@@ -36,6 +36,7 @@ namespace VegankoService.Controllers
         public ActionResult<Product> Post(ProductInput input)
         {
             var product = new Product();
+            product.LastUpdateTimestamp = product.AddedTimestamp = DateTime.Now;
             input.MapToProduct(product);
             productRepository.Create(product);
 
@@ -53,6 +54,7 @@ namespace VegankoService.Controllers
                 return NotFound();
 
             input.MapToProduct(product);
+            product.LastUpdateTimestamp = DateTime.Now;
             productRepository.Update(product);
 
             return product;
