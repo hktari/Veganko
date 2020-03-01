@@ -33,16 +33,24 @@
                 HorizontalOptions="Center"
                 IsClippedToBounds="True"
                 VerticalOptions="Center">
-                <forms:CachedImage
-                    Aspect="AspectFill"
-                    DownsampleToViewSize="False"
-                    ErrorPlaceholder="img_error.png"
-                    HeightRequest="113"
-                    HorizontalOptions="Center"
-                    LoadingPlaceholder="img_loading.png"
-                    VerticalOptions="Center"
-                    WidthRequest="113"
-                    Source="{Binding ThumbnailImage}" />
+                <Grid>
+                    <forms:CachedImage
+                        Aspect="AspectFill"
+                        DownsampleToViewSize="False"
+                        ErrorPlaceholder="img_error.png"
+                        HeightRequest="113"
+                        HorizontalOptions="Center"
+                        LoadingPlaceholder="img_loading.png"
+                        VerticalOptions="Center"
+                        WidthRequest="113"
+                        Source="{Binding ThumbnailImage}" />
+                    <Image
+                        HorizontalOptions="End"
+                        IsVisible="{Binding IsNew}"
+                        VerticalOptions="Start"
+                        WidthRequest="50"
+                        Source="new_product.png" />
+                </Grid>
             </Frame>
             <Label
                 Grid.Column="1"

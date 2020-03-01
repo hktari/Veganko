@@ -79,7 +79,7 @@ namespace Veganko
 		{
 			InitializeComponent();
 
-            SetupDependencies(mock: false);
+            SetupDependencies(mock: true);
 
             //#if DEBUG && __ANDROID__
             //            HotReloader.Current.Run(this);
