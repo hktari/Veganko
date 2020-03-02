@@ -25,8 +25,6 @@ namespace Veganko.ViewModels.Products
     {
         public const string ProductAddedMsg = "ProductAdded";
 
-        public Command PageAppeared => new Command(OnPageAppeared);
-
         public Command SaveCommand => new Command(
             async () =>
             {
@@ -52,7 +50,7 @@ namespace Veganko.ViewModels.Products
                     Product.SetHasBeenSeen(true);
                     await App.IoC.Resolve<IProductDBService>().SetProductsAsSeen(new[] { productModel });
 
-                    ((MainPage)App.Current.MainPage).SetCurrentTab(0);
+                    ((MainPage)App.Current.MainPage)?.SetCurrentTab(0);
                     MessagingCenter.Send(this, ProductAddedMsg, Product);
 
                     // Navigate to product detail page from the ProductList page
@@ -75,8 +73,10 @@ namespace Veganko.ViewModels.Products
 
         public Command ScrollToTopCommand { get; set; }
 
-        private void OnPageAppeared(object parameter)
+        public override void OnPageAppearing()
         {
+            base.OnPageAppearing();
+
             if (Product == null)
             {
                 InitProduct();
