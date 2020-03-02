@@ -80,7 +80,11 @@ namespace Veganko
 		{
 			InitializeComponent();
 
-            SetupDependencies(mock: true);
+#if RELEASE
+            SetupDependencies(mock: false);
+#else
+            SetupDependencies(mock: false);
+#endif
 
             //#if DEBUG && __ANDROID__
             //            HotReloader.Current.Run(this);
