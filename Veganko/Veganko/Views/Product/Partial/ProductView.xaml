@@ -22,7 +22,7 @@
                 <RowDefinition Height="50" />
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="113" />
                 <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
             <Frame
