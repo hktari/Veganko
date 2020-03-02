@@ -23,7 +23,7 @@
                 FontFamily="{StaticResource RalewayRegularFont}"
                 FontSize="17"
                 LineBreakMode="WordWrap"
-                Text="Si našel kakšno napako ali želiš dati feedback ? Piši nam na email : ) Če prijavljaš napako prosim dodaj številko verzije Vegankona, ki jo vidiš spodaj." />
+                Text="Si našel kakšno napako ali želiš dati feedback ? Piši nam na email : )&#x0a;Če prijavljaš napako prosim dodaj številko verzije Vegankona, ki jo vidiš spodaj." />
             <Grid RowSpacing="0">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="25" />
@@ -37,10 +37,22 @@
                     FontFamily="{StaticResource RalewayMediumFont}"
                     Text="Kontakt"
                     TextColor="{StaticResource Primary}" />
-                <Label
-                    Grid.Row="1"
-                    FontFamily="{StaticResource RalewayRegularFont}"
-                    Text="{Binding ContactEmail}" />
+                <Label Grid.Row="1" FontFamily="{StaticResource RalewayRegularFont}">
+                    <Label.FormattedText>
+                        <FormattedString>
+                            <Span Text="{Binding ContactEmail, Mode=OneWay}" />
+                            <Span Text=" ali " />
+                            <Span
+                                FontFamily="{StaticResource RalewayLightFont}"
+                                Text="r/veganko"
+                                TextColor="{StaticResource Primary}">
+                                <Span.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding LinkToRedditCommand}" />
+                                </Span.GestureRecognizers>
+                            </Span>
+                        </FormattedString>
+                    </Label.FormattedText>
+                </Label>
                 <BoxView Grid.Row="2" Color="LightGray" />
                 <Label
                     Grid.Row="4"

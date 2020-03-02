@@ -17,6 +17,9 @@ namespace Veganko.ViewModels
         public Command CloseCommand => new Command(
             async () => App.Navigation.PopModalAsync());
 
+        public Command LinkToRedditCommand => new Command(
+            async () => await Launcher.OpenAsync("https://www.reddit.com/r/veganko/"));
+
         public string ContactEmail { get; } = "vegankoapp@gmail.com";
 
         public string VersionCode { get; }
