@@ -32,7 +32,7 @@ namespace Veganko.ViewModels.Products
                 {
                     Product updatedProduct = new Product();
                     Product.MapToModel(updatedProduct);
-                    
+
                     updatedProduct = await productService.UpdateAsync(updatedProduct);
 
                     if (HasImageBeenChanged)
@@ -45,10 +45,21 @@ namespace Veganko.ViewModels.Products
                     await App.Navigation.PopModalAsync();
                     MessagingCenter.Send(this, ProductUpdatedMsg, Product);
                 }
-                catch (ServiceException ex)
+                catch (ServiceException sex)
                 {
-                    Debug.WriteLine(ex.Message + " " + ex.StackTrace);
-                    await App.CurrentPage.Err("Posodobitev produkta ni uspela.");
+                    if (sex.StatusCode == System.Net.HttpStatusCode.Conflict)
+                    {
+                        await HandleDuplicateError(sex);
+                    }
+                    else 
+                    {
+                        await App.CurrentPage.Err("Posodobitev produkta ni uspela.");
+                        Logger.LogException(sex);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Logger.LogException(ex);
                 }
                 finally
                 {

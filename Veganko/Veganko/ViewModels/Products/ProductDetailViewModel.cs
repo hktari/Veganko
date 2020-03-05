@@ -114,6 +114,11 @@ namespace Veganko.ViewModels.Products
         private IDataStore<Favorite> favoriteDataStore;
         private IUserService userService;
 
+        public ProductDetailViewModel(Product product)
+            : this(new ProductViewModel(product))
+        {
+        }
+
         public ProductDetailViewModel(ProductViewModel product)
         {
             Product = product;

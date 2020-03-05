@@ -1,4 +1,5 @@
 ﻿using Autofac;
+using Newtonsoft.Json;
 using Plugin.Media;
 using Plugin.Media.Abstractions;
 using System;
@@ -11,8 +12,13 @@ using Veganko.Extensions;
 using Veganko.Models;
 using Veganko.Other;
 using Veganko.Services;
+using Veganko.Services.Http;
+using Veganko.Services.Http.Errors;
+using Veganko.Services.Http.Errors.Errors;
 using Veganko.Services.ImageManager;
+using Veganko.Services.Logging;
 using Veganko.ViewModels.Products.Partial;
+using Veganko.Views;
 using Xamarin.Forms;
 
 namespace Veganko.ViewModels.Products
@@ -149,6 +155,8 @@ namespace Veganko.ViewModels.Products
 
         protected byte[] ProductThumbnailImageData { get; private set; }
 
+        protected ILogger Logger = DependencyService.Get<ILogger>();
+
         protected async Task<Product> PostProductImages(Product product)
         {
             await GenerateThumbnail();
@@ -166,6 +174,17 @@ namespace Veganko.ViewModels.Products
                 ProductDetailImageData,
                 thumbnailPhotoHeightInPix,
                 thumbnailPhotoWidthInPix);
+        }
+
+        protected async Task HandleDuplicateError(ServiceException sex)
+        {
+            var err = JsonConvert.DeserializeObject<RequestConflictError<Product>>(sex.Content);
+
+            await App.CurrentPage.Err("Produkt s to črtno kodo že obstaja");
+
+            await App.Navigation.PushModalAsync(
+                new ProductDetailPage(
+                    new ProductDetailViewModel(err.ConflictingItem)));
         }
 
         private async void HandleImageClicked()

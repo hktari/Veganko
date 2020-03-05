@@ -2,7 +2,9 @@
 using RestSharp;
 using System;
 using System.Collections.Generic;
+using System.Net;
 using System.Text;
+using Veganko.Services.Http.Errors;
 
 namespace Veganko.Services.Http
 {
@@ -17,12 +19,15 @@ namespace Veganko.Services.Http
             : this(response.ResponseStatus == ResponseStatus.Completed, response.Content, response.StatusDescription, response.Request.Resource, response.Request.Method.ToString(), response.ErrorException)
         {
             Errors = TryExtractErrors(response);
+            Content = response.Content;
+            StatusCode = response.StatusCode;
         }
 
         public ServiceException(string message, IRestResponse response)
             : this(response.ResponseStatus == ResponseStatus.Completed, message, response.StatusDescription, response.Request.Resource, response.Request.Method.ToString(), response.ErrorException)
         {
             Errors = TryExtractErrors(response);
+            Content = response.Content;
         }
 
         public ServiceException(bool hasRemoteBeenReached, string response, string statusCodeDescription, string resource, string method)
@@ -52,11 +57,18 @@ namespace Veganko.Services.Http
         public string Method { get; }
         public IDictionary<string, string[]> Errors { get; set; }
 
+        /// <summary>
+        /// The content as JSON
+        /// </summary>
+        public string Content { get; }
+        
+        public HttpStatusCode StatusCode { get; set; }
+
         private IDictionary<string, string[]> TryExtractErrors(IRestResponse response)
         {
             try
             {
-                var requestError = JsonConvert.DeserializeObject<RequestError>(response.Content);
+                var requestError = JsonConvert.DeserializeObject<RequestValidationError>(response.Content);
                 return requestError.Errors;
             }
             catch

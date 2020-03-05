@@ -1,4 +1,5 @@
 ﻿using Autofac;
+using Newtonsoft.Json;
 using Plugin.Media;
 using Plugin.Media.Abstractions;
 using System;
@@ -15,6 +16,8 @@ using Veganko.Other;
 using Veganko.Services;
 using Veganko.Services.DB;
 using Veganko.Services.Http;
+using Veganko.Services.Http.Errors;
+using Veganko.Services.Logging;
 using Veganko.ViewModels.Products.Partial;
 using Veganko.Views;
 using Xamarin.Forms;
@@ -61,9 +64,20 @@ namespace Veganko.ViewModels.Products
                     // Mark product to be initialized the next the page appears.
                     Product = null;
                 }
-                catch (ServiceException ex)
+                catch (ServiceException sex)
                 {
-                    await App.CurrentPage.Err("Napak pri dodajanju: " + ex.Response);
+                    if (sex.StatusCode == System.Net.HttpStatusCode.Conflict)
+                    {
+                        await HandleDuplicateError(sex);
+                    }
+                    else 
+                    {
+                        await App.CurrentPage.Err("Napak pri dodajanju: " + sex.Response);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Logger.LogException(ex);
                 }
                 finally 
                 {

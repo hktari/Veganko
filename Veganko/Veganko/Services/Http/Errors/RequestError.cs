@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Veganko.Services.Http
+namespace Veganko.Services.Http.Errors
 {
     /// <summary>
     /// See ValidationProblemDetails.
@@ -10,8 +10,6 @@ namespace Veganko.Services.Http
     /// </summary>
     public class RequestError
     {
-        public IDictionary<string, string[]> Errors { get; set; }
-        
         public Nullable<int> Status { get; set; }
 
         public string Instance { get; set; }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 using Veganko.Services.Http;
+using Veganko.Services.Http.Errors;
 using Xamarin.Forms;
 
 namespace Veganko.Extensions
