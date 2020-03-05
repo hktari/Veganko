@@ -3,15 +3,14 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net;
-using System.Text.Encodings.Web;
 using System.Threading.Tasks;
 using VegankoService.Data;
 using VegankoService.Helpers;
 using VegankoService.Models;
+using VegankoService.Models.ErrorHandling;
 using VegankoService.Models.Products;
 
 namespace VegankoService.Controllers
@@ -24,17 +23,24 @@ namespace VegankoService.Controllers
         private const string RestrictedAccessRoles = Constants.Strings.Roles.Admin + ", " + Constants.Strings.Roles.Manager + ", " + Constants.Strings.Roles.Moderator;
         private readonly IProductRepository productRepository;
         private readonly ILogger<ProductsController> logger;
+        private readonly VegankoContext context;
 
-        public ProductsController(IProductRepository productRepository, ILogger<ProductsController> logger)
+        public ProductsController(IProductRepository productRepository, ILogger<ProductsController> logger, VegankoContext context)
         {
             this.productRepository = productRepository;
             this.logger = logger;
+            this.context = context;
         }
 
         [HttpPost]
         [Authorize(Roles = RestrictedAccessRoles)]
         public ActionResult<Product> Post(ProductInput input)
         {
+            if (CheckForDuplicate(input) is DuplicateProblemDetails err)
+            {
+                return new ConflictObjectResult(err);
+            }
+
             var product = new Product();
             product.LastUpdateTimestamp = product.AddedTimestamp = DateTime.Now;
             input.MapToProduct(product);
@@ -51,7 +57,14 @@ namespace VegankoService.Controllers
             var product = productRepository.Get(id);
 
             if (product == null)
+            {
                 return NotFound();
+            }
+
+            if (CheckForDuplicate(input, id) is DuplicateProblemDetails err)
+            {
+                return new ConflictObjectResult(err);
+            }
 
             input.MapToProduct(product);
             product.LastUpdateTimestamp = DateTime.Now;
@@ -65,11 +78,15 @@ namespace VegankoService.Controllers
         public IActionResult Delete(string id)
         {
             if (string.IsNullOrWhiteSpace(id))
+            {
                 return NotFound();
+            }
 
             var game = productRepository.Get(id);
             if (game == null)
+            {
                 return NotFound();
+            }
 
             productRepository.Delete(id);
 
@@ -86,11 +103,15 @@ namespace VegankoService.Controllers
         public ActionResult<Product> Get(string id)
         {
             if (string.IsNullOrWhiteSpace(id))
+            {
                 return NotFound();
+            }
 
             Product product = productRepository.Get(id);
             if (product == null)
+            {
                 return NotFound();
+            }
 
             return product;
         }
@@ -150,7 +171,7 @@ namespace VegankoService.Controllers
                 "size: {fileSize} MB.", trustedFileNameForDisplay, fileSize);
 
             string[] permittedExtensions = { ".jpg" };
-            
+
             var ext = Path.GetExtension(image.FileName).ToLowerInvariant();
 
             if (string.IsNullOrEmpty(ext) || !permittedExtensions.Contains(ext))
@@ -173,6 +194,22 @@ namespace VegankoService.Controllers
 
                 logger.LogInformation("Uploaded file '{TrustedFileNameForDisplay}'", targetFilePath);
             }
+        }
+
+        private DuplicateProblemDetails CheckForDuplicate(ProductInput input, string id = null)
+        {
+            if (input.Barcode == null)
+            {
+                return null;
+            }
+
+            Product duplicate = context.Product.FirstOrDefault(p => p.Barcode == input.Barcode && p.Id != id);
+            if (duplicate != null)
+            {
+                return new DuplicateProblemDetails(duplicate, "barcode");
+            }
+
+            return null;
         }
     }
 }
