@@ -37,18 +37,6 @@ namespace Veganko.Views
             await vm.Refresh();
         }
 
-        private async void OnBackgroundImageTap(object sender, EventArgs arg)
-        {
-            await Navigation.PushModalAsync(
-                new SelectBackgroundPage(new BackgroundImageViewModel(vm.User.ProfileBackgroundId)));
-        }
-
-        private async void OnEditAvatarTap(object sender, EventArgs e)
-        {
-            await Navigation.PushModalAsync(
-                new SelectAvatarPage(new SelectAvatarViewModel(vm.User.AvatarId)));
-        }
-
         private void OnLogoutClicked(object sender, EventArgs e)
         {
             App.IoC.Resolve<IAuthService>().Logout();

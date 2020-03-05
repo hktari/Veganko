@@ -29,13 +29,17 @@
             <circleImageControl:CircleImage
                 Grid.RowSpan="2"
                 Aspect="AspectFill"
-                BorderColor="LightBlue"
+                BorderColor="Transparent"
                 BorderThickness="1"
                 HeightRequest="66"
                 HorizontalOptions="CenterAndExpand"
                 VerticalOptions="CenterAndExpand"
                 WidthRequest="66"
-                Source="{Binding UserAvatar}" />
+                Source="{Binding UserAvatar}">
+                <View.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding ProfileTappedCommand}" />
+                </View.GestureRecognizers>
+            </circleImageControl:CircleImage>
             <Label
                 Grid.Column="1"
                 FontFamily="{StaticResource VarelaRoundFont}"

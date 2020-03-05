@@ -83,7 +83,7 @@ namespace Veganko
 #if RELEASE
             SetupDependencies(mock: false);
 #else
-            SetupDependencies(mock: true);
+            SetupDependencies(mock: false);
 #endif
 
             //#if DEBUG && __ANDROID__

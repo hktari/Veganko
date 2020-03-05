@@ -12,7 +12,7 @@ using Xamarin.Forms;
 
 namespace Veganko.ViewModels
 {
-    public class ProfileViewModel : BaseViewModel
+    public class ProfileViewModel : BaseUserProfileViewModel
     {
         public const string ProfileChangedMsg = "ProfileChangedMsg";
 
@@ -22,40 +22,11 @@ namespace Veganko.ViewModels
             public Product Product { get; set; }
         }
 
-        private string backgroundImage;
-        public string BackgroundImage
-        {
-            get => backgroundImage;
-            set => SetProperty(ref backgroundImage, value);
-        }
-
-        private string userDescription;
-        public string UserDescription
-        {
-            get => userDescription;
-            set => SetProperty(ref userDescription, value);
-        }
-
-        private string userLabel;
-        private string UserLabel
-        {
-            get => userLabel;
-            set => SetProperty(ref userLabel, value);
-        }
-
-        private string avatarImage;
-        public string AvatarImage
-        {
-            get => avatarImage;
-            set => SetProperty(ref avatarImage, value);
-        }
-
         public Command LoadItemsCommand => new Command(
             async () => await Refresh());
 
         public Command HelpCommand => new Command(
             async () => await App.Navigation.PushModalAsync(new NavigationPage(new HelpPage())));
-        public UserPublicInfo User { get; set; }
 
         private ObservableCollection<ProfileComment> comments;
         public ObservableCollection<ProfileComment> Comments
@@ -78,6 +49,7 @@ namespace Veganko.ViewModels
         private Command focusEditorCommand;
 
         public ProfileViewModel()
+            : base(true)
         {
             accountService = App.IoC.Resolve<IAccountService>();
             userService = App.IoC.Resolve<IUserService>();
@@ -90,26 +62,6 @@ namespace Veganko.ViewModels
             Comments = new ObservableCollection<ProfileComment>();
             commentDataStore = App.IoC.Resolve<ICommentsService>();
             productDataStore = App.IoC.Resolve<IProductService>();
-        }
-
-        private bool shouldShowDescriptionPlaceholder;
-        public bool ShouldShowDescriptionPlaceholder
-        {
-            get
-            {
-                return shouldShowDescriptionPlaceholder;
-            }
-            set
-            {
-                SetProperty(ref shouldShowDescriptionPlaceholder, value);
-            }
-        }
-
-        private bool isEditingDescription;
-        public bool IsEditingDescription
-        {
-            get => isEditingDescription;
-            set => SetProperty(ref isEditingDescription, value);
         }
 
         public Command StartEditingDescriptionCommand => new Command(
@@ -198,13 +150,9 @@ namespace Veganko.ViewModels
             //    IsBusy = false;
             //}
         }
-
-        private void HandleNewData()
+        protected override void HandleNewData()
         {
-            UserDescription = User.Description;
-            UserLabel = User.Label;
-            AvatarImage = Images.GetProfileAvatarById(User.AvatarId);
-            BackgroundImage = Images.GetProfileBackgroundImageById(User.ProfileBackgroundId);
+            base.HandleNewData();
             UpdateDescPlaceholderVisibility();
         }
 

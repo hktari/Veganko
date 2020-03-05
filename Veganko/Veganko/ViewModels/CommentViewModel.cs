@@ -4,6 +4,9 @@ using System.Text;
 using Veganko.Models;
 using Veganko.Models.User;
 using Veganko.Other;
+using Veganko.ViewModels.Profile;
+using Veganko.Views.Profile;
+using Xamarin.Forms;
 
 namespace Veganko.ViewModels
 {
@@ -35,5 +38,11 @@ namespace Veganko.ViewModels
         public bool HasRating { get; set; }
         public string Text { get; set; }
         public DateTime DatePosted { get; set; }
+
+        private Command profileTappedCommand;
+        public Command ProfileTappedCommand => profileTappedCommand 
+            ?? (profileTappedCommand = new Command(
+                async () => await App.Navigation.PushAsync(
+                    new UserProfilePage(new UserProfileViewModel(UserId)))));
     }
 }
