@@ -150,7 +150,6 @@ namespace Veganko.ViewModels.Products
         public Command WhereToBuyCommand => new Command(
             () => 
             {
-                //App.CurrentPage.Inform("Funkcija še ni podprta.");
                 App.Navigation.PushAsync(new StoreListPage(new StoreListViewModel(Product.Id)));
             });
 

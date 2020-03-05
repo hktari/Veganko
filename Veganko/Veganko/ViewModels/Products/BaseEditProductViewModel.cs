@@ -1,5 +1,4 @@
 ﻿using Autofac;
-using Newtonsoft.Json;
 using Plugin.Media;
 using Plugin.Media.Abstractions;
 using System;
@@ -12,9 +11,7 @@ using Veganko.Extensions;
 using Veganko.Models;
 using Veganko.Other;
 using Veganko.Services;
-using Veganko.Services.Http;
 using Veganko.Services.Http.Errors;
-using Veganko.Services.Http.Errors.Errors;
 using Veganko.Services.ImageManager;
 using Veganko.Services.Logging;
 using Veganko.ViewModels.Products.Partial;
@@ -116,6 +113,9 @@ namespace Veganko.ViewModels.Products
         public Command TakeBarcodeCommand => new Command(
             async () =>
             {
+
+                Barcode = "1234";
+                return;
                 var scanner = new ZXing.Mobile.MobileBarcodeScanner();
 
                 var result = await scanner.Scan();
@@ -176,15 +176,16 @@ namespace Veganko.ViewModels.Products
                 thumbnailPhotoWidthInPix);
         }
 
-        protected async Task HandleDuplicateError(ServiceException sex)
+        protected async Task HandleDuplicateError(ServiceConflictException<Product> sce)
         {
-            var err = JsonConvert.DeserializeObject<RequestConflictError<Product>>(sex.Content);
-
             await App.CurrentPage.Err("Produkt s to črtno kodo že obstaja");
 
-            await App.Navigation.PushModalAsync(
+            App.SetCurrentTab(0);
+            await App.Navigation.PopToRootAsync();
+
+            await App.Navigation.PushAsync(
                 new ProductDetailPage(
-                    new ProductDetailViewModel(err.ConflictingItem)));
+                    new ProductDetailViewModel(sce.RequestConflict.ConflictingItem)));
         }
 
         private async void HandleImageClicked()

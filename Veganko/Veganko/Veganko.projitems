@@ -58,6 +58,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Services\DB\MockProductDBService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\DB\ProductDBService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\Http\Errors\RequestConflictError.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Services\Http\Errors\ServiceConflictException.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\Http\LoginResponse.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\Http\Errors\RequestError.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\Http\Errors\RequestValidationError.cs" />

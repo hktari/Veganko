@@ -56,9 +56,12 @@ namespace Veganko.Services.Http
             }
             catch (Exception ex)
             {
-                throw new ServiceException(false, "Neznana napaka.", null, request.Resource, request.Method.ToString(), ex);
+                var sex = new ServiceException(false, "Neznana napaka.", null, request.Resource, request.Method.ToString(), ex);
+                logger.LogException(sex);
+                throw sex;
             }
 
+            LogAnyTLErrors(response);
             AssertResponseSuccess(response);
             return response.Data;
         }
@@ -71,6 +74,9 @@ namespace Veganko.Services.Http
             }
             
             IRestResponse response = await client.ExecuteTaskAsync(request);
+
+            LogAnyTLErrors(response);
+
             if (throwIfUnsuccessful)
             {
                 AssertResponseSuccess(response);
@@ -99,15 +105,19 @@ namespace Veganko.Services.Http
         {
             if (!response.IsSuccessful)
             {
-                var serviceEx = new ServiceException(response);
+                throw new ServiceException(response);
+            }
+        }
 
-                // Log transport layer errors
-                if (response.ResponseStatus != ResponseStatus.Completed)
-                {
-                    logger.LogException(serviceEx);
-                }
-
-                throw serviceEx;
+        /// <summary>
+        /// Log transport layer errors
+        /// </summary>
+        /// <param name="response"></param>
+        private void LogAnyTLErrors(IRestResponse response)
+        {
+            if (response.ResponseStatus != ResponseStatus.Completed)
+            {
+                logger.LogException(new ServiceException(response));
             }
         }
 

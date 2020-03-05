@@ -101,6 +101,11 @@ namespace Veganko
             //ServicePointManager.ServerCertificateValidationCallback += (sender, certificate, chain, sslPolicyErrors) => { return true; };
         }
 
+        public static void SetCurrentTab(int tabIdx)
+        {
+            ((MainPage)App.Current.MainPage).SetCurrentTab(tabIdx);
+        }
+
         public static void SetupDependencies(bool mock)
         {   
             ContainerBuilder builder = new ContainerBuilder();

@@ -1,13 +1,11 @@
-﻿using RestSharp;
+﻿using Veganko.Services.Http.Errors;
+using Newtonsoft.Json;
+using RestSharp;
 using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Text;
 using System.Threading.Tasks;
 using Veganko.Models;
 using Veganko.Services.Http;
-using Xamarin.Forms;
-using XamarinImageUploader;
 
 namespace Veganko.Services
 {
@@ -26,10 +24,24 @@ namespace Veganko.Services
         {
             RestRequest request = new RestRequest("products", Method.POST);
             request.AddJsonBody(item);
-            Product product = await restService.ExecuteAsync<Product>(request);
-            AddImageUrls(product);
 
-            return product;
+            var response = await restService.ExecuteAsync(request, throwIfUnsuccessful: false);
+            if (response.IsSuccessful)
+            {
+                var product = JsonConvert.DeserializeObject<Product>(response.Content);
+                AddImageUrls(product);
+                return product;
+            }
+            else if (response.StatusCode == System.Net.HttpStatusCode.Conflict)
+            {
+                var err = JsonConvert.DeserializeObject<RequestConflictError<Product>>(response.Content);
+                AddImageUrls(err.ConflictingItem);
+                throw new ServiceConflictException<Product>(err);
+            }
+            else
+            {
+                throw new ServiceException(response);
+            }
         }
 
         public Task DeleteAsync(Product item)
@@ -69,7 +81,7 @@ namespace Veganko.Services
                 endpoint += "/";
             }
 
-            product.DetailImage = 
+            product.DetailImage =
                 new Uri(
                     new Uri(
                         new Uri(endpoint),
@@ -99,11 +111,12 @@ namespace Veganko.Services
 
             return productPage;
         }
-        
+
         public async Task<Product> UpdateAsync(Product item)
         {
             RestRequest request = new RestRequest($"products/{item.Id}", Method.PUT);
             request.AddJsonBody(item);
+
             Product product = await restService.ExecuteAsync<Product>(request);
             AddImageUrls(product);
 
@@ -118,7 +131,7 @@ namespace Veganko.Services
 
             product = await restService.ExecuteAsync<Product>(request);
             AddImageUrls(product);
-            
+
             return product;
         }
 

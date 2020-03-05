@@ -8,6 +8,7 @@ using Veganko.Extensions;
 using Veganko.Models;
 using Veganko.Services;
 using Veganko.Services.Http;
+using Veganko.Services.Http.Errors;
 using Veganko.ViewModels.Products.Partial;
 using Xamarin.Forms;
 
@@ -45,20 +46,13 @@ namespace Veganko.ViewModels.Products
                     await App.Navigation.PopModalAsync();
                     MessagingCenter.Send(this, ProductUpdatedMsg, Product);
                 }
-                catch (ServiceException sex)
+                catch (ServiceConflictException<Product> sce)
                 {
-                    if (sex.StatusCode == System.Net.HttpStatusCode.Conflict)
-                    {
-                        await HandleDuplicateError(sex);
-                    }
-                    else 
-                    {
-                        await App.CurrentPage.Err("Posodobitev produkta ni uspela.");
-                        Logger.LogException(sex);
-                    }
+                    await HandleDuplicateError(sce);
                 }
                 catch (Exception ex)
                 {
+                    await App.CurrentPage.Err("Posodobitev produkta ni uspela.");
                     Logger.LogException(ex);
                 }
                 finally

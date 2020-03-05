@@ -128,6 +128,7 @@ namespace Veganko.ViewModels.Products
             accountService = App.IoC.Resolve<IAccountService>();
 
             MessagingCenter.Subscribe<NewProductViewModel, ProductViewModel>(this, NewProductViewModel.ProductAddedMsg, OnNewProductAdded);
+            MessagingCenter.Subscribe<EditProductViewModel, ProductViewModel>(this, EditProductViewModel.ProductUpdatedMsg, OnProductUpdated);
 
             Title = "Iskanje";
             Products = new List<ProductViewModel>();
@@ -165,6 +166,16 @@ namespace Veganko.ViewModels.Products
             });
 
             ProductSelectedCommand = new Command(async (param) => await OnProductSelected((ProductViewModel)param));
+        }
+
+        private void OnProductUpdated(EditProductViewModel sender, ProductViewModel updatedProduct)
+        {
+            // Handles the case when the edited product is in my list but is a different instance (edit product via conflict)
+            ProductViewModel prod = Products.FirstOrDefault(p => p.Id == updatedProduct.Id);
+            if (prod != null && prod != updatedProduct)
+            {
+                prod.Update(updatedProduct);
+            }
         }
 
         #region TODO: MOVE TO EXTENSIONS

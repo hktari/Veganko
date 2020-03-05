@@ -7,7 +7,9 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:partial="clr-namespace:Veganko.Views.Profile.Partial"
     xmlns:views="clr-namespace:Veganko.Views"
+    ControlTemplate="{StaticResource LodingIndicatorTemplate}"
     mc:Ignorable="d">
+
     <ContentPage.Content>
         <Grid>
             <Grid.RowDefinitions>

@@ -64,22 +64,16 @@ namespace Veganko.ViewModels.Products
                     // Mark product to be initialized the next the page appears.
                     Product = null;
                 }
-                catch (ServiceException sex)
+                catch (ServiceConflictException<Product> sce)
                 {
-                    if (sex.StatusCode == System.Net.HttpStatusCode.Conflict)
-                    {
-                        await HandleDuplicateError(sex);
-                    }
-                    else 
-                    {
-                        await App.CurrentPage.Err("Napak pri dodajanju: " + sex.Response);
-                    }
+                    await HandleDuplicateError(sce);
                 }
                 catch (Exception ex)
                 {
+                    await App.CurrentPage.Err("Napak pri dodajanju");
                     Logger.LogException(ex);
                 }
-                finally 
+                finally
                 {
                     IsBusy = false;
                 }

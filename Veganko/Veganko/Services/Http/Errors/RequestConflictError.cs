@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Veganko.Services.Http.Errors.Errors
+namespace Veganko.Services.Http.Errors
 {
     public class RequestConflictError<TConflictingItem> : RequestError
     {
