@@ -36,7 +36,7 @@ namespace VegankoService.Data.Users
                     Role = role.Name
                 };
 
-            return query.First();
+            return query.FirstOrDefault();
         }
 
         public PagedList<CustomerProfile> GetAll(int page, int pageSize = 10)

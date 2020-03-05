@@ -1,5 +1,5 @@
 ﻿
- 
+
 using System.Security.Claims;
 using System.Threading.Tasks;
 using VegankoService.Auth;
@@ -8,11 +8,11 @@ using VegankoService.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
-using Newtonsoft.Json;
 using VegankoService.Models.User;
 using System.Collections.Generic;
 using VegankoService.Models.Auth;
 using VegankoService.Data.Users;
+using Microsoft.Extensions.Logging;
 
 namespace VegankoService.Controllers
 {
@@ -23,6 +23,7 @@ namespace VegankoService.Controllers
         private readonly RoleManager<IdentityRole> roleManager;
         private readonly IJwtFactory _jwtFactory;
         private readonly IUsersRepository usersRepository;
+        private readonly ILogger<AuthController> logger;
         private readonly JwtIssuerOptions _jwtOptions;
 
         public AuthController(
@@ -30,12 +31,14 @@ namespace VegankoService.Controllers
             RoleManager<IdentityRole> roleManager,
             IJwtFactory jwtFactory,
             IOptions<JwtIssuerOptions> jwtOptions,
-            IUsersRepository usersRepository)
+            IUsersRepository usersRepository,
+            ILogger<AuthController> logger)
         {
             _userManager = userManager;
             this.roleManager = roleManager;
             _jwtFactory = jwtFactory;
             this.usersRepository = usersRepository;
+            this.logger = logger;
             _jwtOptions = jwtOptions.Value;
         }
 
@@ -44,13 +47,17 @@ namespace VegankoService.Controllers
         public async Task<IActionResult> Post([FromBody]CredentialsInput credentials)
         {
             if (string.IsNullOrEmpty(credentials.Email) || string.IsNullOrEmpty(credentials.Password))
+            {
                 return LoginFailed();
+            }
 
             // get the user to verifty
             var userToVerify = await _userManager.FindByEmailAsync(credentials.Email);
 
             if (userToVerify == null)
+            {
                 return LoginFailed();
+            }
 
             if (!await _userManager.CheckPasswordAsync(userToVerify, credentials.Password))
             {
@@ -67,6 +74,11 @@ namespace VegankoService.Controllers
             ClaimsIdentity identity = _jwtFactory.GenerateClaimsIdentity(credentials.Email, userToVerify.Id, roles);
 
             CustomerProfile customerProfile = usersRepository.GetProfile(userToVerify.Id);
+            if (customerProfile == null)
+            {
+                logger.LogError($"Customer profile not found in database: {userToVerify.Id}");
+                return BadRequest();
+            }
 
             var jwt = await Tokens.GenerateJwt(identity, _jwtFactory, credentials.Email, _jwtOptions);
             return new OkObjectResult(

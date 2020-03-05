@@ -61,7 +61,8 @@ namespace Veganko.Services.Users
 
         public Task<UserPublicInfo> Get(string id)
         {
-            throw new NotImplementedException();
+            RestRequest request = new RestRequest($"users/{id}", Method.GET);
+            return restService.ExecuteAsync<UserPublicInfo>(request);
         }
 
         public async Task<IEnumerable<UserPublicInfo>> GetAll(int page = 1, int pageSize = 20)

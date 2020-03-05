@@ -64,6 +64,19 @@ namespace VegankoService.Controllers
             return input;
         }
 
+        [HttpGet("{id}")]
+        public ActionResult<PagedList<CustomerProfile>> Get(string id)
+        {
+            CustomerProfile customer = usersRepository.GetProfile(id);
+            if (customer == null)
+            {
+                logger.LogWarning($"Customer by id: {id} not found.");
+                return NotFound();
+            }
+
+            return Ok(customer);
+        }
+
         [Authorize(Roles = Constants.Strings.Roles.Admin + ", " + Constants.Strings.Roles.Manager)]
         [HttpGet]
         public ActionResult<PagedList<CustomerProfile>> GetAll(int page = 1, int pageSize = 20)
