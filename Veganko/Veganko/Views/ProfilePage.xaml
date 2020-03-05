@@ -26,6 +26,7 @@
             </Grid.RowDefinitions>
             <partial:UserProfileView />
             <Button
+                Grid.Row="1"
                 Margin="{StaticResource ViewPadding}"
                 Clicked="OnLogoutClicked"
                 HorizontalOptions="End"
@@ -33,6 +34,7 @@
                 Text="Logout"
                 VerticalOptions="End" />
             <Button
+                Grid.Row="1"
                 Margin="{StaticResource ViewPadding}"
                 Clicked="OnSaveClicked"
                 HorizontalOptions="Start"
@@ -41,6 +43,7 @@
                 Text="Shrani spremembe"
                 VerticalOptions="End" />
             <ImageButton
+                Grid.Row="1"
                 Margin="{StaticResource ViewPadding}"
                 BackgroundColor="White"
                 Command="{Binding HelpCommand}"

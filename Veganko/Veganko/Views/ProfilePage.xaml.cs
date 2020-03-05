@@ -1,4 +1,5 @@
-﻿using Autofac;
+﻿using Veganko.Extensions;
+using Autofac;
 using System;
 using Veganko.Extensions;
 using Veganko.Other;
@@ -48,7 +49,7 @@ namespace Veganko.Views
             try
             {
                 await vm.SaveProfile();
-                await DisplayAlert("Hi", "Profilna spremenjena !", "OK");
+                await this.Inform("Profilna spremenjena !");
 
             }
             catch (ServiceException ex)
