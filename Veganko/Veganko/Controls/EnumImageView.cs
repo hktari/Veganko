@@ -143,7 +143,7 @@ namespace Veganko.Controls
         
         protected string GetImageForClassifer(T classifier)
         {
-            return ImageSource.Single((kv) => kv.Key.Equals(classifier)).Value;
+            return ImageSource.SingleOrDefault((kv) => kv.Key.Equals(classifier)).Value;
         }
 
         private List<View> CreateView(ObservableCollection<T> source)
