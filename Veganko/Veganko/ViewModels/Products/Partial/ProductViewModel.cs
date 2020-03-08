@@ -106,6 +106,11 @@ namespace Veganko.ViewModels.Products.Partial
 
         public void Update(ProductViewModel productViewModel)
         {
+            if (productViewModel == this)
+            {
+                return;
+            }
+
             Type = productViewModel.Type;
             ProductClassifiers = new ObservableCollection<ProductClassifier>(productViewModel.ProductClassifiers);
             Description = productViewModel.Description;
