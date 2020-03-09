@@ -113,9 +113,6 @@ namespace Veganko.ViewModels.Products
         public Command TakeBarcodeCommand => new Command(
             async () =>
             {
-
-                Barcode = "1234";
-                return;
                 var scanner = new ZXing.Mobile.MobileBarcodeScanner();
 
                 var result = await scanner.Scan();
