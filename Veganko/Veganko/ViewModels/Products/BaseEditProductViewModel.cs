@@ -14,6 +14,7 @@ using Veganko.Services;
 using Veganko.Services.Http.Errors;
 using Veganko.Services.ImageManager;
 using Veganko.Services.Logging;
+using Veganko.Validations;
 using Veganko.ViewModels.Products.Partial;
 using Veganko.Views;
 using Xamarin.Forms;
@@ -36,6 +37,7 @@ namespace Veganko.ViewModels.Products
             productService = App.IoC.Resolve<IProductService>();
 
             SelectedProductType = ProductType.Ostalo;
+            SetupValidations();
         }
 
         public BaseEditProductViewModel(ProductViewModel product)
@@ -44,11 +46,14 @@ namespace Veganko.ViewModels.Products
             productService = App.IoC.Resolve<IProductService>();
 
             this.product = product;
-            productImg = product.Image;
-            SelectedProductType = product.Type;
 
+            SetupValidations();
+
+            SelectedProductType = product.Type;
             PhotoPicked = product.Image != null;
             BarcodePicked = product.Barcode != null;
+            Name.Value = product.Name;
+            ProductImg.Value = product.Image;
         }
 
         private ProductViewModel product;
@@ -58,8 +63,15 @@ namespace Veganko.ViewModels.Products
             set => SetProperty(ref product, value);
         }
 
-        private ImageSource productImg;
-        public ImageSource ProductImg
+        private ValidatableObject<string> name;
+        public ValidatableObject<string> Name
+        {
+            get => name;
+            set => SetProperty(ref name, value);
+        }
+
+        private ValidatableObject<ImageSource> productImg;
+        public ValidatableObject<ImageSource> ProductImg
         {
             get => productImg;
             set => SetProperty(ref productImg, value);
@@ -152,7 +164,7 @@ namespace Veganko.ViewModels.Products
 
         protected byte[] ProductThumbnailImageData { get; private set; }
 
-        protected ILogger Logger = DependencyService.Get<ILogger>();
+        protected ILogger Logger => App.IoC.Resolve<ILogger>();
 
         protected async Task<Product> PostProductImages(Product product)
         {
@@ -183,6 +195,32 @@ namespace Veganko.ViewModels.Products
             await App.Navigation.PushAsync(
                 new ProductDetailPage(
                     new ProductDetailViewModel(sce.RequestConflict.ConflictingItem)));
+        }
+
+        protected bool ValidateFields()
+        {
+            bool isValid = true;
+            //isValid &= SelectedProductType > ProductType.NOT_SET;
+            isValid &= Name.Validate();
+            isValid &= ProductImg.Validate();
+
+            return isValid;
+        }
+
+        protected Product CreateModel()
+        {
+            Product updatedProduct = new Product();
+            Product.MapToModel(updatedProduct);
+            updatedProduct.Name = Name.Value;
+            return updatedProduct;
+        }
+
+        private void SetupValidations()
+        {
+            Name = new ValidatableObject<string>();
+            Name.Validations.Add(new IsNotNullOrEmptyRule<string>() { ValidationMessage = "Ime je obvezno." });
+            ProductImg = new ValidatableObject<ImageSource>();
+            ProductImg.Validations.Add(new IsImageNotEmpty { ValidationMessage = "Slika je obvezna." });
         }
 
         private async void HandleImageClicked()
@@ -239,14 +277,14 @@ namespace Veganko.ViewModels.Products
             {
                 byte[] data = await Droid.MainActivity.Context.DispatchTakePictureIntent(maxPhotoWidthHeightInPix);
                 ProductDetailImageData = data;
-                ProductImg = ImageSource.FromStream(() => new MemoryStream(data));
+                ProductImg.Value = ImageSource.FromStream(() => new MemoryStream(data));
             }
             else
             {
                 await TakeImageWithCrossMedia();
             }
 #else
-            TakeImageWithCrossMedia();
+            await TakeImageWithCrossMedia();
 #endif
         }
 
@@ -279,7 +317,7 @@ namespace Veganko.ViewModels.Products
 
         private void LoadImage(MediaFile file)
         {
-            ProductImg = ImageSource.FromStream(() =>
+            ProductImg.Value = ImageSource.FromStream(() =>
             {
                 var stream = file.GetStream();
                 return stream;

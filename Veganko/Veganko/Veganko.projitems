@@ -79,6 +79,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Services\Users\UserService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Validations\IsDoubleInRange.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Validations\IsNotNullOrEmptyRule.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Validations\IsImageNotEmpty.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Validations\IsValidEmailRule.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Validations\IValidationRule.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Validations\IValidity.cs" />

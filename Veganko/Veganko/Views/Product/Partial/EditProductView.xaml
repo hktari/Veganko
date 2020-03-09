@@ -33,20 +33,35 @@
                 FontFamily="{StaticResource RalewayMediumFont}"
                 FontSize="Medium"
                 Text="Ime izdelka:" />
-            <Frame Grid.Row="1" Grid.Column="0">
-                <Entry
-                    Margin="0"
-                    FontFamily="{StaticResource RalewayRegularFont}"
-                    FontSize="Medium"
-                    Text="{Binding Product.Name}">
-                    <Entry.Behaviors>
-                        <behaviors:EntryEnforceCapsBehavior />
-                    </Entry.Behaviors>
-                    <Entry.Effects>
-                        <effects:CustomEntryEffect />
-                    </Entry.Effects>
-                </Entry>
-            </Frame>
+            <StackLayout Grid.Row="1" Grid.Column="0">
+                <Frame>
+                    <Frame.Triggers>
+                        <DataTrigger
+                            Binding="{Binding Name.IsValid}"
+                            TargetType="Frame"
+                            Value="False">
+                            <Setter Property="BorderColor" Value="{StaticResource TransparentErrorColor}" />
+                        </DataTrigger>
+                    </Frame.Triggers>
+                    <Entry
+                        Margin="0"
+                        FontFamily="{StaticResource RalewayRegularFont}"
+                        FontSize="Medium"
+                        Text="{Binding Name.Value}">
+                        <Entry.Behaviors>
+                            <behaviors:EntryEnforceCapsBehavior />
+                        </Entry.Behaviors>
+                        <Entry.Effects>
+                            <effects:CustomEntryEffect />
+                        </Entry.Effects>
+                    </Entry>
+                </Frame>
+                <Label
+                    IsVisible="{Binding Name.IsValid, Converter={StaticResource BoolInverter}}"
+                    Style="{StaticResource LabelErrorMessageStyle}"
+                    Text="{Binding Name.Errors, Converter={StaticResource FirstValidationErrorConverter}}" />
+            </StackLayout>
+
             <Label
                 Grid.Row="2"
                 Grid.Column="0"
@@ -121,7 +136,7 @@
             <StackLayout Grid.Row="6" Grid.ColumnSpan="2">
                 <ContentView>
                     <ContentView.Content>
-                        <OnPlatform>
+                        <OnPlatform x:TypeArguments="View">
                             <OnPlatform.Android>
                                 <controls:DroidProductTypeSpinner SelectedProductType="{Binding SelectedProductType, Mode=TwoWay}">
                                     <x:Arguments>
@@ -133,12 +148,6 @@
                                 <StackLayout HeightRequest="50" Orientation="Horizontal">
                                     <Image HorizontalOptions="Center" VerticalOptions="Center">
                                         <Image.Triggers>
-                                            <DataTrigger
-                                                Binding="{Binding SelectedProductType}"
-                                                TargetType="Image"
-                                                Value="{x:Static models:ProductType.NOT_SET}">
-                                                <Setter Property="IsVisible" Value="False" />
-                                            </DataTrigger>
                                             <DataTrigger
                                                 Binding="{Binding SelectedProductType}"
                                                 TargetType="Image"
@@ -192,10 +201,23 @@
                     Margin="0,20,0,0"
                     HeightRequest="300"
                     VerticalOptions="Start">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
                     <Grid.GestureRecognizers>
                         <TapGestureRecognizer Command="{Binding TakeImageCommand}" />
                     </Grid.GestureRecognizers>
-                    <BoxView CornerRadius="6" Color="Black" />
+                    <BoxView CornerRadius="6" Color="Black">
+                        <BoxView.Triggers>
+                            <DataTrigger
+                                Binding="{Binding ProductImg.IsValid}"
+                                TargetType="BoxView"
+                                Value="False">
+                                <Setter Property="Color" Value="{StaticResource TransparentErrorColor}" />
+                            </DataTrigger>
+                        </BoxView.Triggers>
+                    </BoxView>
                     <ContentView
                         Margin="1.5"
                         BackgroundColor="#ffe6bb"
@@ -212,12 +234,17 @@
                                     Binding="{Binding PhotoPicked}"
                                     TargetType="Image"
                                     Value="True">
-                                    <Setter Property="Source" Value="{Binding ProductImg}" />
+                                    <Setter Property="Source" Value="{Binding ProductImg.Value}" />
                                     <Setter Property="Aspect" Value="AspectFill" />
                                 </DataTrigger>
                             </Image.Triggers>
                         </Image>
                     </ContentView>
+                    <Label
+                        Grid.Row="1"
+                        IsVisible="{Binding ProductImg.IsValid, Converter={StaticResource BoolInverter}}"
+                        Style="{StaticResource LabelErrorMessageStyle}"
+                        Text="{Binding ProductImg.Errors, Converter={StaticResource FirstValidationErrorConverter}}" />
                 </Grid>
             </StackLayout>
         </Grid>

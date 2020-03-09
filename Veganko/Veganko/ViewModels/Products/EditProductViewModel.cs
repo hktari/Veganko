@@ -26,14 +26,15 @@ namespace Veganko.ViewModels.Products
         public Command SaveCommand => new Command(
             async () =>
             {
-                // TODO: validation in base, since required properties are the same for posting and putting
-
-                IsBusy = true;
+                if (!ValidateFields())
+                {
+                    return;
+                }
+                
                 try
                 {
-                    Product updatedProduct = new Product();
-                    Product.MapToModel(updatedProduct);
-
+                    IsBusy = true;
+                    Product updatedProduct = CreateModel();
                     updatedProduct = await productService.UpdateAsync(updatedProduct);
 
                     if (HasImageBeenChanged)
@@ -42,6 +43,7 @@ namespace Veganko.ViewModels.Products
                     }
 
                     Product.Update(updatedProduct);
+                    Product.SetHasBeenSeen(true);
 
                     await App.Navigation.PopModalAsync();
                     MessagingCenter.Send(this, ProductUpdatedMsg, Product);

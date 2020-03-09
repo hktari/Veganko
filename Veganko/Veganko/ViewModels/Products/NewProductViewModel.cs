@@ -31,9 +31,8 @@ namespace Veganko.ViewModels.Products
         public Command SaveCommand => new Command(
             async () =>
             {
-                if (!HasImageBeenChanged)
+                if (!ValidateFields())
                 {
-                    await App.CurrentPage.Err("Prosim dodaj sliko");
                     return;
                 }
 
@@ -41,9 +40,7 @@ namespace Veganko.ViewModels.Products
                 {
                     IsBusy = true;
 
-                    Product productModel = new Product();
-                    Product.MapToModel(productModel);
-
+                    Product productModel = CreateModel();
                     productModel = await productService.AddAsync(productModel);
                     productModel = await PostProductImages(productModel);
 

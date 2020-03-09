@@ -126,7 +126,7 @@ namespace Veganko.ViewModels.Products
         {
             productService = App.IoC.Resolve<IProductService>();
             accountService = App.IoC.Resolve<IAccountService>();
-
+            
             MessagingCenter.Subscribe<NewProductViewModel, ProductViewModel>(this, NewProductViewModel.ProductAddedMsg, OnNewProductAdded);
             MessagingCenter.Subscribe<EditProductViewModel, ProductViewModel>(this, EditProductViewModel.ProductUpdatedMsg, OnProductUpdated);
 
