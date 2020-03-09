@@ -144,6 +144,7 @@
     <Compile Include="MainActivity.PhotoPicking.cs" />
     <Compile Include="Renderers\CustomEntryRenderer.cs" />
     <Compile Include="Renderers\CustomNavigationPageRenderer.cs" />
+    <Compile Include="Renderers\CustomTabbedPageRenderer.cs" />
     <Compile Include="Renderers\DroidProductTypeSpinnerRenderer.cs" />
     <Compile Include="Renderers\FlatButtonRenderer.cs" />
     <Compile Include="Resources\Resource.Designer.cs" />
