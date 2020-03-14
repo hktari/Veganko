@@ -3,28 +3,23 @@
     "windowsAuthentication": false,
     "anonymousAuthentication": true,
     "iisExpress": {
-      "applicationUrl": "http://localhost:52729",
-      "sslPort": 44300
+      "applicationUrl": "http://localhost:60508/",
+      "sslPort": 44399
     }
   },
-  "$schema": "http://json.schemastore.org/launchsettings.json",
   "profiles": {
     "IIS Express": {
       "commandName": "IISExpress",
-      "workingDirectory": "D:\\Sources\\Veganko\\Services\\VegankoService\\bin\\Debug\\netcoreapp2.1",
       "launchBrowser": true,
-      "launchUrl": "api/products",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
     },
-    "VegankoService": {
+    "IntegrationTests": {
       "commandName": "Project",
-      "launchBrowser": false,
-      "launchUrl": "api/products",
+      "launchBrowser": true,
       "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Development",
-        "ASPNETCORE_URLS": "http://*:5000"
+        "ASPNETCORE_ENVIRONMENT": "Development"
       },
       "applicationUrl": "https://localhost:5001;http://localhost:5000"
     }
