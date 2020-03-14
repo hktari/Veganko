@@ -1,40 +1,33 @@
+using System;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Linq;
-using System.Threading.Tasks;
-using VegankoService;
-using Microsoft.EntityFrameworkCore.InMemory;
-using VegankoService.Data;
-using Xunit;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using VegankoService.Data;
 
-namespace IntegrationTests
+namespace VegankoService.Tests
 {
-    public class CustomWebApplicationFactory<TStartup>
-     : WebApplicationFactory<TStartup> where TStartup : class
+    #region snippet1
+    public class CustomWebApplicationFactory<TStartup> 
+        : WebApplicationFactory<TStartup> where TStartup: class
     {
         protected override void ConfigureWebHost(IWebHostBuilder builder)
         {
             builder.ConfigureServices(services =>
             {
-                // Remove the app's ApplicationDbContext registration.
-                var descriptor = services.SingleOrDefault(
-                    d => d.ServiceType ==
-                        typeof(DbContextOptions<VegankoContext>));
+                // Create a new service provider.
+                var serviceProvider = new ServiceCollection()
+                    .AddEntityFrameworkInMemoryDatabase()
+                    .BuildServiceProvider();
 
-                if (descriptor != null)
+                // Add a database context (ApplicationDbContext) using an in-memory 
+                // database for testing.
+                services.AddDbContext<VegankoContext>(options => 
                 {
-                    services.Remove(descriptor);
-                }
-
-                DbContextOptionsBuilder dbBuilder = new DbContextOptionsBuilder();
-                dbBuilder.UseInMemoryDatabase("InMemoryDbForTesting");
-
-
-                // Add ApplicationDbContext using an in-memory database for testing.
-                //services.Add(new VegankoContext(dbBuilder.Options));
+                    options.UseInMemoryDatabase("InMemoryDbForTesting");
+                    options.UseInternalServiceProvider(serviceProvider);
+                });
 
                 // Build the service provider.
                 var sp = services.BuildServiceProvider();
@@ -58,11 +51,11 @@ namespace IntegrationTests
                     }
                     catch (Exception ex)
                     {
-                        logger.LogError(ex, "An error occurred seeding the " +
-                            "database with test messages. Error: {Message}", ex.Message);
+                        logger.LogError(ex, "An error occurred seeding the database. Error: {Message}", ex.Message);
                     }
                 }
             });
         }
     }
+    #endregion
 }
