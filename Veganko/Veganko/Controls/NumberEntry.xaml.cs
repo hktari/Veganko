@@ -9,7 +9,12 @@ namespace Veganko.Controls
     public partial class NumberEntry : ContentView
     {
         public static readonly BindableProperty NumberProperty =
-            BindableProperty.Create(nameof(Number), typeof(double), typeof(NumberEntry), default(double));
+            BindableProperty.Create(nameof(Number), typeof(double), typeof(NumberEntry), default(double), BindingMode.TwoWay,
+                propertyChanged: (bindable, _, newVal) => 
+                {
+                    ((NumberEntry)bindable).FormatText((double)newVal);        
+                });
+
         private bool formattingText;
 
         public double Number
@@ -84,10 +89,10 @@ namespace Veganko.Controls
             FormatText(num);
         }
 
-        private void FormatText(double text)
+        private void FormatText(double num)
         {
             formattingText = true;
-            entry.Text = string.Format("{0:0.00}", text);
+            entry.Text = string.Format("{0:0.00}", num);
             formattingText = false;
         }
     }

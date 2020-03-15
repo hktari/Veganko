@@ -24,7 +24,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)Behaviors\ScrollToTopBehavior.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Controls\DroidProductTypeSpinner.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Controls\EnumImageView.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Controls\NumberEntry.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Controls\NumberEntry.xaml.cs">
       <DependentUpon>NumberEntry.xaml</DependentUpon>
       <SubType>Code</SubType>

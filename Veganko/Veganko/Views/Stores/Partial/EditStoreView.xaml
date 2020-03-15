@@ -4,6 +4,7 @@
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:behaviors="clr-namespace:Veganko.Behaviors"
+    xmlns:controls="clr-namespace:Veganko.Controls"
     xmlns:d="http://xamarin.com/schemas/2014/forms/design"
     xmlns:effects="clr-namespace:Veganko.Effects"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -103,16 +104,7 @@
                     </DataTrigger>
                 </Frame.Triggers>
                 <StackLayout Orientation="Horizontal" VerticalOptions="Center">
-                    <Entry
-                        FontFamily="{StaticResource RalewayRegularFont}"
-                        FontSize="Medium"
-                        HorizontalOptions="FillAndExpand"
-                        Keyboard="Numeric"
-                        Text="{Binding Store.Price.Value}">
-                        <Entry.Effects>
-                            <effects:CustomEntryEffect />
-                        </Entry.Effects>
-                    </Entry>
+                    <controls:NumberEntry HorizontalOptions="FillAndExpand" Number="{Binding Store.Price.Value}" />
                     <Label
                         FontFamily="{StaticResource RalewayRegularFont}"
                         FontSize="Medium"

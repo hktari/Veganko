@@ -30,6 +30,7 @@ namespace Veganko.Droid.Renderers
             base.OnElementChanged(e);
 
             Control.TextChanged += Control_TextChanged;
+            Control_TextChanged(null, null); // Init
         }
 
         private void Control_TextChanged(object sender, Android.Text.TextChangedEventArgs e)

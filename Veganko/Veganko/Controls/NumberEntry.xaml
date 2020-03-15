@@ -4,16 +4,18 @@
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+    xmlns:effects="clr-namespace:Veganko.Droid.Effects"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
     <ContentView.Content>
-        <Grid InputTransparent="True">
-
-            <Entry
-                x:Name="entry"
-                InputTransparent="True"
-                TextColor="Black" />
-            <Label x:Name="label" InputTransparent="True" />
-        </Grid>
+        <Entry
+            x:Name="entry"
+            FontFamily="{StaticResource RalewayRegularFont}"
+            FontSize="Medium"
+            InputTransparent="True">
+            <Entry.Effects>
+                <effects:CustomEntryEffect />
+            </Entry.Effects>
+        </Entry>
     </ContentView.Content>
 </ContentView>
