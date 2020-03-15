@@ -1,5 +1,6 @@
 using System;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
@@ -20,7 +21,7 @@ namespace VegankoService.Tests
                 var serviceProvider = new ServiceCollection()
                     .AddEntityFrameworkInMemoryDatabase()
                     .BuildServiceProvider();
-
+              
                 // Add a database context (ApplicationDbContext) using an in-memory 
                 // database for testing.
                 services.AddDbContext<VegankoContext>(options => 
@@ -31,6 +32,12 @@ namespace VegankoService.Tests
 
                 // Build the service provider.
                 var sp = services.BuildServiceProvider();
+
+                services.AddMvc(opts =>
+                {
+                    opts.Filters.Add(new AllowAnonymousFilter());
+                    opts.Filters.Add(new FakeUserFilter());
+                });
 
                 // Create a scope to obtain a reference to the database
                 // context (ApplicationDbContext).

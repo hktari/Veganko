@@ -1,33 +1,49 @@
 using System.Collections.Generic;
+using System.IO;
 using VegankoService.Data;
+using VegankoService.Models;
+using VegankoService.Models.User;
 
 namespace VegankoService.Tests
 {
     public static class Utilities
     {
-        #region snippet1
         public static void InitializeDbForTests(VegankoContext db)
         {
-            //db.Messages.AddRange(GetSeedingMessages());
+            db.Product.AddRange(GetProducts());
             db.SaveChanges();
         }
 
         public static void ReinitializeDbForTests(VegankoContext db)
         {
-            //db.Messages.RemoveRange(db.Messages);
+            db.Product.RemoveRange(db.Product);
             InitializeDbForTests(db);
         }
 
-        //public static List<Message> GetSeedingMessages()
-        //{
-        //    return new List<Message>()
-        //    {
-        //        new Message(){ Text = "TEST RECORD: You're standing on my scarf." },
-        //        new Message(){ Text = "TEST RECORD: Would you like a jelly baby?" },
-        //        new Message(){ Text = "TEST RECORD: To the rational mind, " +
-        //            "nothing is inexplicable; only unexplained." }
-        //    };
+        public static List<Product> GetProducts()
+        {
+            return new List<Product> 
+            {
+                new Product { Name = "Bananas" },
+                new Product { Name = "Chocolate cream" },
+                new Product { Name = "Soap" },
+                new Product { Name = "Tea" },
+                new Product { Name = "Apple pie" },
+                new Product { Name = "Sweater" },
+                new Product { Name = "Apples" },
+                new Product { Name = "Toothpaste" },
+                new Product { Name = "Figs" },
+            };    
+        }
+
+        //public static void AddUsers(VegankoContext db)
+        //{ 
+        //    //ApplicationUser user = new ApplicationUser { Id = "00", Email = "manager@email.com", UserName  = "manager", }
         //}
-        #endregion
+
+        public static string GetRequestUri(string resource)
+        {
+            return $"api/{resource}";
+        }
     }
 }
