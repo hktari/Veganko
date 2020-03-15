@@ -29,11 +29,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VegankoService", "Services\
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Client", "Client", "{45BB8FC8-AD79-4111-9A7F-3E1A892A1A25}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VegankoService.Tests", "VegankoService.Tests\VegankoService.Tests.csproj", "{5F7EC752-D8D4-4E06-B714-FF02DD9F1EB7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VegankoService.Tests", "VegankoService.Tests\VegankoService.Tests.csproj", "{5F7EC752-D8D4-4E06-B714-FF02DD9F1EB7}"
 EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		Veganko\Veganko\Veganko.projitems*{04157ac5-92b8-461b-86de-006af2acd6a5}*SharedItemsImports = 4
+		Veganko\Veganko\Veganko.projitems*{490dbbc7-a144-4351-9086-582dfce5ba00}*SharedItemsImports = 4
+		Veganko\Veganko\Veganko.projitems*{5fa59065-c093-4b74-8142-5e3d5e56a30d}*SharedItemsImports = 13
 	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Ad-Hoc|Any CPU = Ad-Hoc|Any CPU
