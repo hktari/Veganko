@@ -7,7 +7,6 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:partial="clr-namespace:Veganko.Views.Stores.Partial"
     xmlns:views="clr-namespace:Veganko.Views"
-    Padding="10"
     ControlTemplate="{StaticResource LodingIndicatorTemplate}"
     mc:Ignorable="d">
     <NavigationPage.TitleView>
@@ -32,7 +31,7 @@
     </NavigationPage.TitleView>
     <ContentPage.Content>
         <ScrollView>
-            <StackLayout Spacing="25">
+            <StackLayout Padding="10" Spacing="25">
                 <partial:EditStoreView />
                 <ImageButton
                     Margin="10,5"

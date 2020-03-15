@@ -6,7 +6,6 @@
     xmlns:d="http://xamarin.com/schemas/2014/forms/design"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:partial="clr-namespace:Veganko.Views.Stores.Partial"
-    Padding="10"
     ControlTemplate="{StaticResource LodingIndicatorTemplate}"
     mc:Ignorable="d">
     <NavigationPage.TitleView>
@@ -30,7 +29,7 @@
     </NavigationPage.TitleView>
     <ContentPage.Content>
         <ScrollView>
-            <partial:EditStoreView />
+            <partial:EditStoreView Padding="10" />
         </ScrollView>
     </ContentPage.Content>
 </ContentPage>
