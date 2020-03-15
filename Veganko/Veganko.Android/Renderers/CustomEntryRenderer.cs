@@ -7,13 +7,6 @@ using System.ComponentModel;
 [assembly: ExportRenderer(typeof(Entry), typeof(Veganko.Droid.Renderers.CustomEntryRenderer))]
 namespace Veganko.Droid.Renderers
 {
-    internal class CustomTextView : EditText
-    {
-        public CustomTextView(Context context) : base(context)
-        {
-        }
-    }
-
     internal class CustomEntryRenderer : EntryRenderer
     {
         public CustomEntryRenderer(Context context) : base(context)
