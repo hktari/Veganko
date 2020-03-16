@@ -63,14 +63,30 @@ namespace VegankoService.Controllers
 
             if (!emailService.IsEmailProviderSupported(input.Email))
             {
-                string errorMsg = $"Nepodprt email ponudnik. Trenutno so podprti: " + 
+                string errorMsg = $"Nepodprt email ponudnik. Trenutno so podprti: " +
                     EmailService.KnownEmailProviders.Select(emp => emp.Host)
                                                     .Aggregate(string.Empty, (str, email) => str += $"{email}, ");
                 return new RequestError(nameof(input.Email), errorMsg)
                     .ToActionResult();
             }
 
-            var user = new ApplicationUser
+            ApplicationUser user = await userManager.FindByEmailAsync(input.Email);
+
+            // TODO: test
+            // Delete user if another registration is made with the same email (probably confirmation mail not received)
+            if (user != null && !user.EmailConfirmed)
+            {
+                var delResult = await userManager.DeleteAsync(user);
+                if (!delResult.Succeeded)
+                {
+                    logger.LogError($"Failed to delete user with unconfirmed email. UserId: {user.Id}, email: {user.Email}.");
+                    return HandleIdentityErr(delResult);
+                }
+
+                logger.LogInformation($"Deleted user with unconfirmed email on account creation. UserId: {user.Id}, email: {user.Email}.");
+            }
+
+            user = new ApplicationUser
             {
                 UserName = input.Username,
                 Email = input.Email,
@@ -80,10 +96,7 @@ namespace VegankoService.Controllers
 
             if (!result.Succeeded)
             {
-                RequestError err = new RequestError();
-                err.Add(
-                    result.Errors.Select(idErr => ProcessIdentityError(idErr)));
-                return err.ToActionResult();
+                return HandleIdentityErr(result);
             }
 
 #if REGISTER_AS_MODERATORS
@@ -114,13 +127,39 @@ namespace VegankoService.Controllers
 
             var code = await userManager.GenerateEmailConfirmationTokenAsync(user);
 
-            var callbackUrl = Url.Action("confirm_email", "account",
-                   new { userId = user.Id, code = code }, protocol: HttpContext.Request.Scheme);
-
-            string confirmEmailBody = $"<h2>Potrebna je potrditev</h2></br> <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>Prosim potrdi svoj email tukaj.</a>";
-            await emailService.SendEmail(input.Email, "Potrdi email.", confirmEmailBody);
+            await SendConfirmationEmail(user, code);
 
             return new OkObjectResult("Account created");
+        }
+
+        // TODO: test
+        [AllowAnonymous]
+        [HttpPost]
+        public async Task<IActionResult> ResendConfirmationEmail(string email)
+        {
+            if (email == null)
+            {
+                return BadRequest();
+            }
+
+            var user = await userManager.FindByEmailAsync(email);
+            if (user == null)
+            {
+                return BadRequest();
+            }
+
+            var result = await userManager.UpdateSecurityStampAsync(user);
+            if (result == null)
+            {
+                logger.LogError($"Failed to update security stamp for user with email: {user.Email}");
+                return BadRequest();
+            }
+
+            var code = await userManager.GenerateEmailConfirmationTokenAsync(user);
+
+            await SendConfirmationEmail(user, code);
+
+            return Ok();
         }
 
         [AllowAnonymous]
@@ -136,7 +175,7 @@ namespace VegankoService.Controllers
                 logger.LogError($"User {userId} not found. Confirmation email: {code}");
                 error = "Neznana napaka.";
             }
-            else 
+            else
             {
                 if (!user.EmailConfirmed)
                 {
@@ -314,6 +353,23 @@ namespace VegankoService.Controllers
                 return Ok();
             }
             return Ok();
+        }
+
+        private IActionResult HandleIdentityErr(IdentityResult result)
+        {
+            RequestError err = new RequestError();
+            err.Add(
+                result.Errors.Select(idErr => ProcessIdentityError(idErr)));
+            return err.ToActionResult();
+        }
+
+        private async Task SendConfirmationEmail(ApplicationUser user, string code)
+        {
+            var callbackUrl = Url.Action("confirm_email", "account",
+                   new { userId = user.Id, code = code }, protocol: HttpContext.Request.Scheme);
+
+            string confirmEmailBody = $"<h2>Potrebna je potrditev</h2></br> <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>Prosim potrdi svoj email tukaj.</a>";
+            await emailService.SendEmail(user.Email, "Potrdi email.", confirmEmailBody);
         }
 
         private KeyValuePair<string, string> ProcessIdentityError(IdentityError idErr)
