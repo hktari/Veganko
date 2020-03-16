@@ -190,9 +190,6 @@ namespace VegankoService
                 RequestPath = new PathString("/images")
             });
             
-            // TODO: turn on after certificate and domain 
-            //app.UseHttpsRedirection();
-
             app.UseAuthentication();
 
             app.UseMvc(routes =>
