@@ -15,7 +15,7 @@ namespace VegankoService.Services
     {
         public VegankoContext CreateDbContext(string[] args)
         {
-            var dbOptsBuilder = new DbContextOptionsBuilder().UseMySql("server=localhost;user=root");
+            var dbOptsBuilder = new DbContextOptionsBuilder<VegankoContext>().UseMySql("server=localhost;user=root");
             var dbContext = new VegankoContext(dbOptsBuilder.Options);
             return dbContext;
         }

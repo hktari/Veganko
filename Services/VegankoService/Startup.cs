@@ -51,12 +51,14 @@ namespace VegankoService
         public void ConfigureServices(IServiceCollection services)
         {
             //services.AddSingleton<IProductRepository, MockProductRepository>();
-            services.AddScoped((sp) =>
-            {
-                DbContextOptionsBuilder dbOptsBuilder = new DbContextOptionsBuilder().UseMySql(Configuration["DBConnection"]);
-                var dbContext = new VegankoContext(dbOptsBuilder.Options);
-                return dbContext;
-            });
+            //services.AddScoped((sp) =>
+            //{
+            //    DbContextOptionsBuilder dbOptsBuilder = new DbContextOptionsBuilder().UseMySql(Configuration["DBConnection"]);
+            //    var dbContext = new VegankoContext(dbOptsBuilder.Options);
+            //    return dbContext;
+            //});
+            services.AddDbContext<VegankoContext>(
+                opts => opts.UseMySql(Configuration["DBConnection"]));
 
             services.AddScoped<IStoresRepository, StoresRepository>();
             services.AddScoped<IProductRepository, ProductRepository>();
@@ -211,7 +213,10 @@ namespace VegankoService
             {
                 using (var context = serviceScope.ServiceProvider.GetService<VegankoContext>())
                 {
-                    context.Database.Migrate();
+                    if (context.Database.ProviderName != "Microsoft.EntityFrameworkCore.InMemory")
+                    {
+                        context.Database.Migrate();
+                    }
                 }
             }
         }
