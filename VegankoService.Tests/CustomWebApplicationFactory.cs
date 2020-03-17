@@ -54,7 +54,7 @@ namespace VegankoService.Tests
                     try
                     {
                         // Seed the database with test data.
-                        Utilities.InitializeDbForTests(db);
+                        Util.InitializeDbForTests(db);
                     }
                     catch (Exception ex)
                     {

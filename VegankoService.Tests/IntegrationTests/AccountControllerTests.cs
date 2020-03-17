@@ -38,7 +38,7 @@ namespace VegankoService.Tests.IntegrationTests
         public async Task CreateAccount_ResultsInOkAndEmailSentAsync()
         {
             var response = await client.PostAsync(
-                Utilities.GetRequestUri("account"),
+                Util.GetRequestUri("account"),
                 new AccountInput
                 {
                     Username = "test",
@@ -48,6 +48,38 @@ namespace VegankoService.Tests.IntegrationTests
 
             Assert.Equal(HttpStatusCode.OK, response.StatusCode);
             Assert.Equal("test@email.com", MockEmailService.LastSentToEmail);
+        }
+
+        [Fact]
+        public async Task CreateAccount_DuplicateUnconfirmedEmail_ResultsInOkAndAccountRecreation() 
+        {
+            await client.PostAsync(
+                 Util.GetRequestUri("account"),
+                 new AccountInput
+                 {
+                     Username = "test",
+                     Email = "test@email.com",
+                     Password = "Test123.",
+                 }.GetStringContent());
+
+            var response = await client.PostAsync(
+                Util.GetRequestUri("account"),
+                new AccountInput
+                {
+                    Username = "test2",
+                    Email = "test@email.com",
+                    Password = "Test222.",
+                }.GetStringContent());
+
+            Assert.Equal(HttpStatusCode.OK, response.StatusCode);
+
+            response = await client.GetAsync(
+                Util.GetRequestUri("users"));
+
+            var customerPage = JsonConvert.DeserializeObject<PagedList<CustomerProfile>>(response.GetJson());
+
+            Assert.DoesNotContain(customerPage.Items, cp => cp.Username == "test");
+            Assert.Contains(customerPage.Items, cp => cp.Username == "test2" && cp.Email == "test@email.com");
         }
     }
 }

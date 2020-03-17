@@ -6,7 +6,7 @@ using VegankoService.Models.User;
 
 namespace VegankoService.Tests
 {
-    public static class Utilities
+    public static class Util
     {
         public static void InitializeDbForTests(VegankoContext db)
         {

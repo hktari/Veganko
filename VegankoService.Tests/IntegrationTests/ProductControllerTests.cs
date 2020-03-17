@@ -27,7 +27,7 @@ namespace VegankoService.Tests.IntegrationTests
             var client = _factory.CreateClient();
 
             var result = await client.GetAsync(
-                Utilities.GetRequestUri("products?page=1&pageSize=5"));
+                Util.GetRequestUri("products?page=1&pageSize=5"));
 
             Assert.Equal(HttpStatusCode.OK, result.StatusCode);
 
