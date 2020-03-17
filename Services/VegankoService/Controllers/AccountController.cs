@@ -134,7 +134,7 @@ namespace VegankoService.Controllers
 
         // TODO: test
         [AllowAnonymous]
-        [HttpPost]
+        [HttpPost("resend_confirmation_email")]
         public async Task<IActionResult> ResendConfirmationEmail(string email)
         {
             if (email == null)
