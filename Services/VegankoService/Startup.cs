@@ -253,7 +253,6 @@ namespace VegankoService
                 string userPWD = Configuration["AdminPassword"];
 
                 var createPowerUser = await UserManager.CreateAsync(poweruser, userPWD);
-
                 if (createPowerUser.Succeeded)
                 {
                     //here we tie the new user to the role

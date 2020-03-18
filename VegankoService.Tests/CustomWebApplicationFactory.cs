@@ -1,15 +1,19 @@
 using System;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.AspNetCore.Mvc.Testing;
+using Microsoft.AspNetCore.TestHost;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using VegankoService.Data;
+using VegankoService.Models.User;
+using VegankoService.Services;
+using VegankoService.Tests.Services;
 
 namespace VegankoService.Tests
 {
-    #region snippet1
     public class CustomWebApplicationFactory<TStartup> 
         : WebApplicationFactory<TStartup> where TStartup: class
     {
@@ -29,7 +33,7 @@ namespace VegankoService.Tests
                     options.UseInMemoryDatabase("InMemoryDbForTesting");
                     options.UseInternalServiceProvider(serviceProvider);
                 });
-
+                
                 // Build the service provider.
                 var sp = services.BuildServiceProvider();
 
@@ -62,7 +66,12 @@ namespace VegankoService.Tests
                     }
                 }
             });
+
+            builder.ConfigureTestServices(services =>
+            {
+                services.AddScoped<IEmailService, MockEmailService>();
+                services.AddScoped<UserManager<ApplicationUser>, MockUserManager>();
+            });
         }
     }
-    #endregion
 }

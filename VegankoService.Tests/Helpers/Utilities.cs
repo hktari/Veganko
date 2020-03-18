@@ -1,3 +1,5 @@
+using Microsoft.AspNetCore.Identity;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using VegankoService.Data;
@@ -14,11 +16,13 @@ namespace VegankoService.Tests
             db.SaveChanges();
         }
 
-        public static void ReinitializeDbForTests(VegankoContext db)
-        {
-            db.Product.RemoveRange(db.Product);
-            InitializeDbForTests(db);
-        }
+
+        //public static void ReinitializeDbForTests(VegankoContext db)
+        //{
+        //    // ?? delete based on what ? there's no id
+        //    db.Product.RemoveRange(db.Product);
+        //    InitializeDbForTests(db);
+        //}
 
         public static List<Product> GetProducts()
         {

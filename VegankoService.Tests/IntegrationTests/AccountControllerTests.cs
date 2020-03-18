@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc.Testing;
+﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.AspNetCore.TestHost;
 using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
@@ -25,13 +26,7 @@ namespace VegankoService.Tests.IntegrationTests
         public AccountControllerTests(CustomWebApplicationFactory<Startup> factory)
         {
             this.factory = factory;
-            client = factory.WithWebHostBuilder(builder =>
-            {
-                builder.ConfigureTestServices(services =>
-                {
-                    services.AddScoped<IEmailService, MockEmailService>();
-                });
-            }).CreateClient();
+            client = factory.CreateClient();
         }
 
         [Fact]
@@ -80,6 +75,25 @@ namespace VegankoService.Tests.IntegrationTests
 
             Assert.DoesNotContain(customerPage.Items, cp => cp.Username == "test");
             Assert.Contains(customerPage.Items, cp => cp.Username == "test2" && cp.Email == "test@email.com");
+        }
+
+        [Fact]
+        public async Task CreateAccount_DuplicateEmail_ResultsInBadRequestAndValidationErrors()
+        {
+            var response = await client.PostAsync(
+                Util.GetRequestUri("account"),
+                new AccountInput
+                {
+                    Username = "confirmedUser",
+                    Email = "confirmed@email.com",
+                    Password = "Test123."
+                }.GetStringContent());
+
+            var problemDetails = JsonConvert.DeserializeObject<ValidationProblemDetails>(response.GetJson());
+
+            Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
+            Assert.Contains(nameof(AccountInput.Username), problemDetails.Errors.Keys);
+            Assert.Contains(nameof(AccountInput.Email), problemDetails.Errors.Keys);
         }
     }
 }
