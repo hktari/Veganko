@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 
 namespace VegankoService.Models.ErrorHandling
@@ -30,6 +31,14 @@ namespace VegankoService.Models.ErrorHandling
         /// </summary>
         public Dictionary<string, List<string>> Errors { get; set; }
 
+        public int StatusCode { get; private set; } = (int)HttpStatusCode.BadRequest;
+
+        public RequestError SetStatusCode(int statusCode)
+        {
+            StatusCode = statusCode;
+            return this;
+        }
+
         public void Add(string fieldName, string errorMessage)
         {
             if (!Errors.TryGetValue(fieldName, out List<string> fieldErrs))
@@ -50,16 +59,22 @@ namespace VegankoService.Models.ErrorHandling
 
         public IActionResult ToActionResult()
         {
+            ValidationProblemDetails probDetail = ToValidProblemDetails();
+            return new BadRequestObjectResult(probDetail);
+        }
+
+        public ValidationProblemDetails ToValidProblemDetails()
+        {
             var probDetail = new ValidationProblemDetails
             {
-                Status = 404, // Bad Request
+                Status = StatusCode,
             };
             foreach (var err in Errors)
             {
                 probDetail.Errors.Add(err.Key, err.Value.ToArray());
             }
 
-            return new BadRequestObjectResult(probDetail);
+            return probDetail;
         }
     }
 }

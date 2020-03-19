@@ -27,6 +27,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\Common\Veganko.Common\Veganko.Common.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
     <EmbeddedResource Update="D:\Sources\Veganko\Veganko\Veganko\App.xaml">
       <Generator>MSBuild:Compile</Generator>
     </EmbeddedResource>

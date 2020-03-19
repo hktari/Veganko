@@ -22,9 +22,9 @@ namespace Veganko.Services.Auth
             return Task.FromResult(false);
         }
 
-        public Task Login(string email, string password)
+        public Task<IAuthService.LoginStatus> Login(string email, string password)
         {
-            return Task.CompletedTask;
+            return Task.FromResult(IAuthService.LoginStatus.Success);
         }
 
         public void Logout()

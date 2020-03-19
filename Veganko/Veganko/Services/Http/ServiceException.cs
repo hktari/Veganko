@@ -14,9 +14,20 @@ namespace Veganko.Services.Http
         {
 
         }
+        public ServiceException(IRestResponse response, RequestError requestError)
+            : this(response)
+        {
+            Errors = requestError.Errors;
+        }
 
-        public ServiceException(IRestResponse response)
-            : this(response.ResponseStatus == ResponseStatus.Completed, response.Content, response.StatusDescription, response.Request.Resource, response.Request.Method.ToString(), response.ErrorException)
+        public ServiceException(IRestResponse response, Exception ex = null)
+            : this(
+                  response.ResponseStatus == ResponseStatus.Completed,
+                  response.Content,
+                  response.StatusDescription,
+                  response.Request.Resource,
+                  response.Request.Method.ToString(),
+                  ex ?? response.ErrorException)
         {
             Errors = TryExtractErrors(response);
             Content = response.Content;
@@ -24,23 +35,25 @@ namespace Veganko.Services.Http
         }
 
         public ServiceException(string message, IRestResponse response)
-            : this(response.ResponseStatus == ResponseStatus.Completed, message, response.StatusDescription, response.Request.Resource, response.Request.Method.ToString(), response.ErrorException)
+            : this(
+                  response.ResponseStatus == ResponseStatus.Completed,
+                  message,
+                  response.StatusDescription,
+                  response.Request.Resource,
+                  response.Request.Method.ToString(),
+                  response.ErrorException)
         {
             Errors = TryExtractErrors(response);
             Content = response.Content;
         }
 
-        public ServiceException(bool hasRemoteBeenReached, string response, string statusCodeDescription, string resource, string method)
-            : this(hasRemoteBeenReached, response, statusCodeDescription, resource, method, null)
-        {
-            HasRemoteBeenReached = hasRemoteBeenReached;
-            Response = response;
-            StatusCodeDescription = statusCodeDescription;
-            Resource = resource;
-            Method = method;
-        }
-
-        public ServiceException(bool hasRemoteBeenReached, string response, string statusCodeDescription, string resource, string method, Exception innerException)
+        public ServiceException(
+            bool hasRemoteBeenReached,
+            string response,
+            string statusCodeDescription,
+            string resource,
+            string method,
+            Exception innerException)
             : base($"HTTP request failed: {statusCodeDescription}", innerException)
         {
             HasRemoteBeenReached = hasRemoteBeenReached;
@@ -68,7 +81,7 @@ namespace Veganko.Services.Http
         {
             try
             {
-                var requestError = JsonConvert.DeserializeObject<RequestValidationError>(response.Content);
+                var requestError = JsonConvert.DeserializeObject<RequestError>(response.Content);
                 return requestError.Errors;
             }
             catch

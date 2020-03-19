@@ -17,7 +17,7 @@ namespace Veganko.Extensions
         {
             if (!ex.HasRemoteBeenReached)
             {
-                return Err(page, "Veganko storitve niso na voljo.");
+                return Err(page, Other.Strings.ServiceUnreachableErr);
             }
             else 
             {

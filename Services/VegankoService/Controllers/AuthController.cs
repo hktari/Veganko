@@ -13,6 +13,8 @@ using System.Collections.Generic;
 using VegankoService.Models.Auth;
 using VegankoService.Data.Users;
 using Microsoft.Extensions.Logging;
+using VegankoService.Models.ErrorHandling;
+using Veganko.Common.Models.Auth;
 
 namespace VegankoService.Controllers
 {
@@ -48,7 +50,7 @@ namespace VegankoService.Controllers
         {
             if (string.IsNullOrEmpty(credentials.Email) || string.IsNullOrEmpty(credentials.Password))
             {
-                return LoginFailed();
+                return LoginFailed(AuthErrorCode.InvalidCredentials);
             }
 
             // get the user to verifty
@@ -56,18 +58,18 @@ namespace VegankoService.Controllers
 
             if (userToVerify == null)
             {
-                return LoginFailed();
+                return LoginFailed(AuthErrorCode.InvalidCredentials);
             }
 
             if (!await _userManager.CheckPasswordAsync(userToVerify, credentials.Password))
             {
-                return LoginFailed();
+                return LoginFailed(AuthErrorCode.InvalidCredentials);
             }
 
             // check the credentials
             if (!userToVerify.EmailConfirmed)
             {
-                return BadRequest(new LoginResponse { Error = "Email not confirmed." });
+                return LoginFailed(AuthErrorCode.UnconfirmedEmail);
             }
 
             IList<string> roles = await _userManager.GetRolesAsync(userToVerify);
@@ -77,11 +79,11 @@ namespace VegankoService.Controllers
             if (customerProfile == null)
             {
                 logger.LogError($"Customer profile not found in database: {userToVerify.Id}");
-                return BadRequest();
+                return LoginFailed(AuthErrorCode.UserProfileNotFound);
             }
 
             var jwt = await Tokens.GenerateJwt(identity, _jwtFactory, credentials.Email, _jwtOptions);
-            return new OkObjectResult(
+            return Ok(
                 new LoginResponse
                 {
                     Profile = customerProfile,
@@ -89,12 +91,28 @@ namespace VegankoService.Controllers
                 });
         }
 
-        private BadRequestObjectResult LoginFailed()
+        private BadRequestObjectResult LoginFailed(AuthErrorCode errCode)
         {
+            var requestErr = new RequestError()
+                .SetStatusCode((int)errCode);
+
+            switch (errCode)
+            {
+                case AuthErrorCode.InvalidCredentials:
+                    requestErr.Add(nameof(CredentialsInput.Email), "Invalid Credentials");
+                    requestErr.Add(nameof(CredentialsInput.Password), "Invalid Credentials");
+                    break;
+                case AuthErrorCode.UnconfirmedEmail:
+                    requestErr.Add(nameof(CredentialsInput.Email), "Unconfirmed Email");
+                    break;
+                default:
+                    break;
+            }
+
             return BadRequest(
                 new LoginResponse
                 {
-                    Error = "Invalid username or password."
+                    RequestError = requestErr.ToValidProblemDetails()
                 });
         }
     }

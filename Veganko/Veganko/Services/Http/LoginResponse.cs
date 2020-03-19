@@ -3,12 +3,13 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using Veganko.Models.User;
+using Veganko.Services.Http.Errors;
 
 namespace Veganko.Services.Http
 {
     public class LoginResponse
     {
-        public string Error { get; set; }
+        public RequestError RequestError { get; set; }
 
         public Token Token { get; set; }
 

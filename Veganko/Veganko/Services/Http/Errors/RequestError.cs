@@ -11,8 +11,8 @@ namespace Veganko.Services.Http.Errors
     public class RequestError
     {
         public Nullable<int> Status { get; set; }
-
         public string Instance { get; set; }
         public string Title { get; set; }
+        public IDictionary<string, string[]> Errors { get; set; }
     }
 }

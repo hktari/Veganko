@@ -55,6 +55,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Models\User\UserPublicInfo.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\User\UserRole.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Other\MaterialDesignIcons.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Other\Strings.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\Auth\AuthService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\Auth\MockAuthService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\Comments\ICommentsService.cs" />
@@ -65,7 +66,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)Services\Http\Errors\ServiceConflictException.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\Http\LoginResponse.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\Http\Errors\RequestError.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Services\Http\Errors\RequestValidationError.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\Http\ServiceException.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\Http\IRestService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\Http\RestService.cs" />

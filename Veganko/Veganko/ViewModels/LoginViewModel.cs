@@ -15,6 +15,7 @@ using Veganko.Services.Auth;
 using Veganko.Extensions;
 using Veganko.Services.Http;
 using Veganko.Services.Logging;
+using System.Diagnostics;
 
 namespace Veganko.ViewModels
 {
@@ -44,6 +45,7 @@ namespace Veganko.ViewModels
         }
 
         private string email;
+        private string msg;
 
         public string Email
         {
@@ -95,20 +97,55 @@ namespace Veganko.ViewModels
                 IsBusy = true;
                 IAuthService authService = App.IoC.Resolve<IAuthService>();
 
-                await authService.Login(email, password);
-                SetupCurrentUser();
-                NavigateToMainPage();
-            }
-            catch (ServiceException ex)
-            {
-                logger.WriteLine<LoginViewModel>(ex.Message);
-                await App.CurrentPage.Err($"Nepravilen email ali geslo.", ex);
+                IAuthService.LoginStatus loginStatus = await authService.Login(email, password);
+                if (loginStatus == IAuthService.LoginStatus.Success)
+                {
+                    SetupCurrentUser();
+                    NavigateToMainPage();
+                }
+                else
+                {
+                    string errMsg = ParseLoginError(loginStatus);
+                    if (loginStatus == IAuthService.LoginStatus.UnconfirmedEmail)
+                    {
+                        // TODO: navigate to page where you can resend confirmation email ? or resend on button press ? action sheet ?
+                        await App.CurrentPage.Err(errMsg);
+                    }
+                    else
+                    {
+                        await App.CurrentPage.Err(errMsg);
+                    }
+                }
+
             }
             finally
             {
                 IsBusy = false;
             }
         });
+
+        private string ParseLoginError(IAuthService.LoginStatus err)
+        {
+            switch (err)
+            {
+                case IAuthService.LoginStatus.Unreachable:
+                    msg = Veganko.Other.Strings.ServiceUnreachableErr;
+                    break;
+                case IAuthService.LoginStatus.InvalidCredentials:
+                    msg = "Nepravilen email ali geslo.";
+                    break;
+                case IAuthService.LoginStatus.UnknownError:
+                    msg = "Neznana napaka";
+                    break;
+                case IAuthService.LoginStatus.UnconfirmedEmail:
+                    msg = "Email ni potrjen.";
+                    break;
+                default:
+                    break;
+            }
+
+            return msg;
+        }
 
         private void NavigateToMainPage()
         {

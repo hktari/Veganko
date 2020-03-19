@@ -1,12 +1,11 @@
 ﻿using Newtonsoft.Json;
 using RestSharp;
 using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.Text;
 using System.Threading.Tasks;
 using Veganko.Services.Http;
 using Xamarin.Essentials;
+using Veganko.Common.Models.Auth;
+using Veganko.Services.Logging;
 
 namespace Veganko.Services.Auth
 {
@@ -14,19 +13,23 @@ namespace Veganko.Services.Auth
     {
         private readonly IRestService restService;
         private readonly IUserService userService;
+        private readonly ILogger logger;
         private DateTime? tokenExpiryDateUtc;
         private string token;
         private string email;
         private string password;
 
-        public AuthService(IRestService restService, IUserService userService)
+        public AuthService(IRestService restService, IUserService userService, ILogger logger)
         {
             this.restService = restService;
             this.userService = userService;
+            this.logger = logger;
         }
 
-        public async Task Login(string email, string password)
+        public async Task<IAuthService.LoginStatus> Login(string email, string password)
         {
+            IAuthService.LoginStatus status = IAuthService.LoginStatus.Success;
+
             RestRequest loginRequest = new RestRequest("auth/login", Method.POST);
             loginRequest.AddJsonBody(
                 new
@@ -37,27 +40,62 @@ namespace Veganko.Services.Auth
 
             var response = await restService.ExecuteAsync(loginRequest, authorize: false, throwIfUnsuccessful: false);
 
-            if (!response.IsSuccessful)
+            if (response.ResponseStatus == ResponseStatus.Completed)
             {
-                throw new ServiceException(response.ErrorMessage, response);
+                try
+                {
+                    LoginResponse responseData = JsonConvert.DeserializeObject<LoginResponse>(response.Content);
+
+                    if (responseData.RequestError == null)
+                    {
+                        Token curToken = responseData.Token;
+                        curToken.ExpiresAtUtc = DateTime.Now.AddSeconds(curToken.ExpiresIn);
+
+                        await SetEmail(email);
+                        await SetPassword(password);
+                        await SetToken(curToken.AuthToken);
+                        await SetTokenExpiryDateUtc(curToken.ExpiresAtUtc);
+
+                        userService.SetCurrentUser(responseData.UserProfile);
+                    }
+                    else
+                    {
+                        status = ParseErrorCode((AuthErrorCode)responseData.RequestError.Status);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    logger.LogException(new ServiceException(response, ex));
+                    status = IAuthService.LoginStatus.UnknownError;
+                }
+            }
+            else 
+            {
+                status = IAuthService.LoginStatus.Unreachable;
             }
 
-            LoginResponse responseData = JsonConvert.DeserializeObject<LoginResponse>(response.Content);
+            return status;
+        }
 
-            if (responseData.Error != null)
+        private IAuthService.LoginStatus ParseErrorCode(AuthErrorCode errorCode)
+        {
+            IAuthService.LoginStatus status;
+            switch (errorCode)
             {
-                throw new ServiceException(responseData.Error, response);
+                case AuthErrorCode.InvalidCredentials:
+                    status = IAuthService.LoginStatus.InvalidCredentials;
+                    break;
+                case AuthErrorCode.UnconfirmedEmail:
+                    status = IAuthService.LoginStatus.UnconfirmedEmail;
+                    break;
+                case AuthErrorCode.Unknown:
+                case AuthErrorCode.UserProfileNotFound:
+                default:
+                    status = IAuthService.LoginStatus.UnknownError;
+                    break;
             }
 
-            Token curToken = responseData.Token;
-            curToken.ExpiresAtUtc = DateTime.Now.AddSeconds(curToken.ExpiresIn);
-
-            await SetEmail(email);
-            await SetPassword(password);
-            await SetToken(curToken.AuthToken);
-            await SetTokenExpiryDateUtc(curToken.ExpiresAtUtc);
-
-            userService.SetCurrentUser(responseData.UserProfile);
+            return status;
         }
 
         public void Logout()
@@ -90,7 +128,11 @@ namespace Veganko.Services.Auth
                 throw new Exception("Can't refresh token. Invalid credentials");
             }
 
-            await Login(email, password);
+            IAuthService.LoginStatus status = await Login(email, password);
+            if (status != IAuthService.LoginStatus.Success)
+            {
+                logger.LogException(new Exception($"Failed to refresh token. Error code: {status}, email: {email}"));     
+            }
         }
 
         #region Credentials Setters/Getters
