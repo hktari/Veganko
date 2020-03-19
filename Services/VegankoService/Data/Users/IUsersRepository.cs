@@ -13,5 +13,6 @@ namespace VegankoService.Data.Users
         CustomerProfile GetProfile(string identityId);
         PagedList<CustomerProfile> GetAll(int page, int pageSize = 10);
         void Update(CustomerProfile customerProfile);
+        Task Delete(string identityId);
     }
 }

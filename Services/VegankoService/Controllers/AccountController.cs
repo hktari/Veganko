@@ -12,6 +12,7 @@ using System.Net.Mail;
 using System.Text.Encodings.Web;
 using System.Threading.Tasks;
 using VegankoService.Data;
+using VegankoService.Data.Users;
 using VegankoService.Helpers;
 using VegankoService.Models.Account;
 using VegankoService.Models.ErrorHandling;
@@ -33,6 +34,7 @@ namespace VegankoService.Controllers
         private readonly ILogger<AccountController> logger;
         private readonly VegankoContext context;
         private readonly IEmailService emailService;
+        private readonly IUsersRepository usersRepository;
         private readonly IConfiguration configuration;
 
         public AccountController(
@@ -42,7 +44,8 @@ namespace VegankoService.Controllers
             IHttpContextAccessor httpContextAccessor,
             ILogger<AccountController> logger,
             VegankoContext context,
-            IEmailService emailService)
+            IEmailService emailService,
+            IUsersRepository usersRepository)
         {
             this.configuration = configuration;
             this.userManager = userManager;
@@ -51,6 +54,7 @@ namespace VegankoService.Controllers
             this.logger = logger;
             this.context = context;
             this.emailService = emailService;
+            this.usersRepository = usersRepository;
         }
 
         // POST api/accounts
@@ -83,14 +87,15 @@ namespace VegankoService.Controllers
             // Delete user if another registration is made with the same email (probably confirmation mail not received)
             if (user != null && !user.EmailConfirmed)
             {
-                var delResult = await userManager.DeleteAsync(user);
-                if (!delResult.Succeeded)
+                try
                 {
-                    logger.LogError($"Failed to delete user with unconfirmed email. UserId: {user.Id}, email: {user.Email}.");
-                    return HandleIdentityErr(delResult);
+                    await usersRepository.Delete(user.Id);
+                    logger.LogInformation($"Deleted user with unconfirmed email on account creation. UserId: {user.Id}, email: {user.Email}.");
                 }
-
-                logger.LogInformation($"Deleted user with unconfirmed email on account creation. UserId: {user.Id}, email: {user.Email}.");
+                catch (Exception ex)
+                {
+                    logger.LogError(ex, $"Failed to delete user with unconfirmed email. UserId: {user.Id}, email: {user.Email}.");
+                }
             }
 
             user = new ApplicationUser

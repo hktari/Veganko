@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Identity;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -10,10 +11,12 @@ namespace VegankoService.Data.Users
     public class UsersRepository : IUsersRepository
     {
         private readonly VegankoContext context;
+        private readonly UserManager<ApplicationUser> userManager;
 
-        public UsersRepository(VegankoContext context)
+        public UsersRepository(VegankoContext context, UserManager<ApplicationUser> userManager)
         {
             this.context = context;
+            this.userManager = userManager;
         }
 
         public CustomerProfile GetProfile(string identityId)
@@ -83,6 +86,28 @@ namespace VegankoService.Data.Users
         public Customer Get(string id)
         {
             return context.Customer.FirstOrDefault(c => c.Id == id);
+        }
+
+        public async Task Delete(string identityId)
+        {
+            var customer = context.Customer.FirstOrDefault(c => c.IdentityId == identityId);
+            if (customer != null)
+            {
+                context.Customer.Remove(customer);
+            }
+
+            var user = await userManager.FindByIdAsync(identityId);
+            if (user != null)
+            {
+                var result = await userManager.DeleteAsync(user);
+                if (!result.Succeeded)
+                {
+                    throw new Exception($"Failed to delete user."
+                        + result.Errors?.Aggregate("", (str, err) => str += $"{err.Code}: {err.Description}, "));
+                }
+            }
+
+            await context.SaveChangesAsync();
         }
     }
 }
