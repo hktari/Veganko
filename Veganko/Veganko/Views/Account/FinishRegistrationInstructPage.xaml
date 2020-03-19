@@ -6,10 +6,10 @@
     xmlns:d="http://xamarin.com/schemas/2014/forms/design"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:views="clr-namespace:Veganko.Views"
-    Padding="15"
+    ControlTemplate="{StaticResource LodingIndicatorTemplate}"
     mc:Ignorable="d">
     <ContentPage.Content>
-        <StackLayout Spacing="20">
+        <StackLayout Padding="15" Spacing="20">
             <Label
                 FontAttributes="Bold"
                 FontFamily="{StaticResource RalewayMediumFont}"
@@ -19,8 +19,22 @@
                 FontFamily="{StaticResource RalewayRegularFont}"
                 FontSize="Body"
                 HorizontalOptions="Start"
-                Text="Poslal sem ti email z navodili kako aktivirati svoj račun. Prosim poglej tudi pod vsiljeno pošto, če ga slučajno ne najdeš."
-                VerticalOptions="Start" />
+                VerticalOptions="Start">
+                <Label.FormattedText>
+                    <FormattedString>
+                        <Span Text="Poslal sem ti email z navodili kako aktivirati svoj račun. Prosim poglej tudi pod vsiljeno pošto, če ga slučajno ne najdeš." />
+                        <Span Text="&#x0a;" />
+                        <Span Text="&#x0a;" />
+                        <Span Text="V primeru da nisi dobil/-a emaila, " />
+                        <Span Style="{StaticResource LinkSpanStyle}" Text="tapni tukaj za ponovno pošiljanje.">
+                            <Span.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding ResendConfirmationEmail}" />
+                            </Span.GestureRecognizers>
+                        </Span>
+                    </FormattedString>
+                </Label.FormattedText>
+            </Label>
+
             <Button
                 Command="{Binding ContinueCommand}"
                 HorizontalOptions="End"

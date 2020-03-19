@@ -11,6 +11,7 @@ namespace Veganko.Services
     {
         Task CreateAccount(UserPublicInfo user, string password);
         Task ForgotPassword(string email);
+        Task ResendConfirmationEmail(string email);
         Task ResetPassword(string email, string token, string newPassword);
         Task<string> ValidateOTP(string email, int otp);
     }

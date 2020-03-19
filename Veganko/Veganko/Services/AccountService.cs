@@ -84,5 +84,11 @@ namespace Veganko.Services
             }
         }
 
+        public Task ResendConfirmationEmail(string email)
+        {
+            RestRequest request = new RestRequest("account/resend_confirmation_email", Method.GET);
+            request.AddQueryParameter("email", email);
+            return restService.ExecuteAsync(request, false);
+        }
     }
 }

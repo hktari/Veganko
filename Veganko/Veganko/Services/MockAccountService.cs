@@ -81,5 +81,10 @@ namespace Veganko.Services
         {
             return Task.FromResult("pwd-reset-token");
         }
+
+        public Task ResendConfirmationEmail(string email)
+        {
+            return Task.CompletedTask;
+        }
     }
 }

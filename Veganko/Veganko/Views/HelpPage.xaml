@@ -42,10 +42,7 @@
                         <FormattedString>
                             <Span Text="{Binding ContactEmail, Mode=OneWay}" />
                             <Span Text=" ali " />
-                            <Span
-                                FontFamily="{StaticResource RalewayLightFont}"
-                                Text="r/veganko"
-                                TextColor="{StaticResource Primary}">
+                            <Span Style="{StaticResource LinkSpanStyle}" Text="r/veganko">
                                 <Span.GestureRecognizers>
                                     <TapGestureRecognizer Command="{Binding LinkToRedditCommand}" />
                                 </Span.GestureRecognizers>

@@ -12,10 +12,10 @@ namespace Veganko.Views.Account
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class FinishRegistrationInstructPage : ContentPage
     {
-        public FinishRegistrationInstructPage()
+        public FinishRegistrationInstructPage(FinishRegistrationInstructViewModel vm)
         {
             InitializeComponent();
-            BindingContext = new FinishRegistrationInstructViewModel();
+            BindingContext = vm;
         }
     }
 }
