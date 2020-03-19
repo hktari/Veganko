@@ -1,4 +1,5 @@
 using System;
+using System.Net.Http;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc.Authorization;
@@ -69,9 +70,13 @@ namespace VegankoService.Tests
 
             builder.ConfigureTestServices(services =>
             {
-                services.AddScoped<IEmailService, MockEmailService>();
-                services.AddScoped<UserManager<ApplicationUser>, MockUserManager>();
+                OnConfigureTestServices(services);
             });
+        }
+
+        protected virtual void OnConfigureTestServices(IServiceCollection services)
+        {
+            services.AddScoped<IEmailService, MockEmailService>();
         }
     }
 }

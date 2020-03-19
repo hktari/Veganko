@@ -8,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
+using System.Net.Mail;
 using System.Text.Encodings.Web;
 using System.Threading.Tasks;
 using VegankoService.Data;
@@ -61,6 +62,13 @@ namespace VegankoService.Controllers
             input.Email = input.Email.Trim();
             input.Username = input.Username.Trim();
 
+            MailAddress parsedEmail = ParseEmail(input.Email);
+
+            if (parsedEmail == null)
+            {
+                return new RequestError("InvalidEmail", "Email ni pravilen").ToActionResult();
+            }
+
             if (!emailService.IsEmailProviderSupported(input.Email))
             {
                 string errorMsg = $"Nepodprt email ponudnik. Trenutno so podprti: " +
@@ -72,7 +80,6 @@ namespace VegankoService.Controllers
 
             ApplicationUser user = await userManager.FindByEmailAsync(input.Email);
 
-            // TODO: test
             // Delete user if another registration is made with the same email (probably confirmation mail not received)
             if (user != null && !user.EmailConfirmed)
             {
@@ -127,17 +134,17 @@ namespace VegankoService.Controllers
 
             var code = await userManager.GenerateEmailConfirmationTokenAsync(user);
 
-            await SendConfirmationEmail(user, code);
+            await SendConfirmationEmail(parsedEmail, user, code);
 
             return new OkObjectResult("Account created");
         }
 
-        // TODO: test
         [AllowAnonymous]
-        [HttpPost("resend_confirmation_email")]
+        [HttpGet("resend_confirmation_email")]
         public async Task<IActionResult> ResendConfirmationEmail(string email)
         {
-            if (email == null)
+            MailAddress parsedEmail = ParseEmail(email);
+            if (parsedEmail == null || !emailService.IsEmailProviderSupported(parsedEmail.Address))
             {
                 return BadRequest();
             }
@@ -157,7 +164,7 @@ namespace VegankoService.Controllers
 
             var code = await userManager.GenerateEmailConfirmationTokenAsync(user);
 
-            await SendConfirmationEmail(user, code);
+            await SendConfirmationEmail(parsedEmail, user, code);
 
             return Ok();
         }
@@ -363,13 +370,28 @@ namespace VegankoService.Controllers
             return err.ToActionResult();
         }
 
-        private async Task SendConfirmationEmail(ApplicationUser user, string code)
+        private Task SendConfirmationEmail(MailAddress receiverEmail, ApplicationUser user, string code)
         {
             var callbackUrl = Url.Action("confirm_email", "account",
                    new { userId = user.Id, code = code }, protocol: HttpContext.Request.Scheme);
 
             string confirmEmailBody = $"<h2>Potrebna je potrditev</h2></br> <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>Prosim potrdi svoj email tukaj.</a>";
-            await emailService.SendEmail(user.Email, "Potrdi email.", confirmEmailBody);
+            
+            return emailService.SendEmail(receiverEmail, "Potrdi email.", confirmEmailBody);
+        }
+
+        private MailAddress ParseEmail(string email)
+        {
+            try
+            {
+                return new MailAddress(email);
+            }
+            catch (Exception ex)
+            {
+                logger.LogDebug(ex, $"Failed to parse email: {email}");
+            }
+
+            return null;
         }
 
         private KeyValuePair<string, string> ProcessIdentityError(IdentityError idErr)

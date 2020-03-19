@@ -35,14 +35,26 @@ namespace VegankoService.Services
 
         public bool IsEmailProviderSupported(string email)
         {
-            MailAddress mailAddress = new MailAddress(email);
-            return KnownEmailProviders.Any(emp => emp.Host == mailAddress.Host);
+            try
+            {
+                MailAddress mailAddress = new MailAddress(email);
+                return KnownEmailProviders.Any(emp => emp.Host == mailAddress.Host);
+            }
+            catch (Exception ex)
+            {
+                logger.LogDebug(ex, "Invalid email format.");
+            }
+
+            return false;
         }
 
-        public async Task SendEmail(string email, string subject, string message)
+        public Task SendEmail(string email, string subject, string message)
         {
-            MailAddress receiverEmail = new MailAddress(email);
+            return SendEmail(new MailAddress(email), subject, message);
+        }
 
+        public async Task SendEmail(MailAddress receiverEmail, string subject, string message)
+        {
             MailAddress senderEmail = new MailAddress(configuration.GetSection("EmailService")["Email"]);
             string senderPassword = configuration.GetSection("EmailService")["Password"];
 

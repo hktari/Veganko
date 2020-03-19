@@ -29,6 +29,7 @@ namespace VegankoService.Tests.Services
             var users = new List<ApplicationUser>
             {
                 new ApplicationUser { UserName = "confirmedUser", Email = "confirmed@email.com", PasswordHash = "Test123.", EmailConfirmed = true },
+                new ApplicationUser { UserName = "unconfirmedUser", Email = "unconfirmed@email.com", PasswordHash = "Test123.", EmailConfirmed = false},
             };
 
             foreach (var user in users)
@@ -145,6 +146,16 @@ namespace VegankoService.Tests.Services
         public override Task<IdentityResult> AddToRoleAsync(ApplicationUser user, string role)
         {
             return Task.FromResult<IdentityResult>(IdentityResult.Success);
+        }
+
+        public override Task<string> GenerateEmailConfirmationTokenAsync(ApplicationUser user)
+        {
+            return Task.FromResult(Guid.NewGuid().ToString());
+        }
+
+        public override Task<IdentityResult> UpdateSecurityStampAsync(ApplicationUser user)
+        {
+            return Task.FromResult(IdentityResult.Success);
         }
     }
 }
