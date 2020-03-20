@@ -150,6 +150,9 @@
       <DependentUpon>FinishRegistrationInstructPage.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Views\Account\UnconfirmedEmailInstructPage.xaml.cs">
+      <DependentUpon>UnconfirmedEmailInstructPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Views\BaseContentPage.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Views\FavoritesPage.xaml.cs">
       <DependentUpon>FavoritesPage.xaml</DependentUpon>
@@ -459,6 +462,12 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="$(MSBuildThisFileDirectory)Controls\NumberEntry.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Views\Account\UnconfirmedEmailInstructPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </EmbeddedResource>

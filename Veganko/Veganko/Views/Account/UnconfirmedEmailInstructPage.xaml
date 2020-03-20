@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage
-    x:Class="Veganko.Views.Account.FinishRegistrationInstructPage"
+    x:Class="Veganko.Views.Account.UnconfirmedEmailInstructPage"
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:d="http://xamarin.com/schemas/2014/forms/design"
@@ -22,9 +22,9 @@
                 VerticalOptions="Start">
                 <Label.FormattedText>
                     <FormattedString>
-                        <Span Text="Na " />
+                        <Span Text="Račun ni aktiviran. Prosim poglej mail z navodili, ki je bil poslan na email: " />
                         <Span FontFamily="{StaticResource RalewayLightFont}" Text="{Binding Email, Mode=OneWay}" />
-                        <Span Text=" sem ti poslal email z navodili kako aktivirati svoj račun. Prosim poglej tudi pod vsiljeno pošto, če ga slučajno ne najdeš." />
+                        <Span Text=". Če ga slučajno ne najdeš poglej tudi pod vsiljeno pošto." />
                         <Span Text="&#x0a;" />
                         <Span Text="&#x0a;" />
                         <Span Text="V primeru da nisi dobil/-a emaila, " />

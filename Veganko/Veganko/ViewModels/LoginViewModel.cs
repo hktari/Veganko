@@ -16,6 +16,8 @@ using Veganko.Extensions;
 using Veganko.Services.Http;
 using Veganko.Services.Logging;
 using System.Diagnostics;
+using Veganko.Views.Account;
+using Veganko.ViewModels.Account;
 
 namespace Veganko.ViewModels
 {
@@ -108,8 +110,9 @@ namespace Veganko.ViewModels
                     string errMsg = ParseLoginError(loginStatus);
                     if (loginStatus == IAuthService.LoginStatus.UnconfirmedEmail)
                     {
-                        // TODO: navigate to page where you can resend confirmation email ? or resend on button press ? action sheet ?
-                        await App.CurrentPage.Err(errMsg);
+                        await App.Navigation.PushModalAsync(
+                            new UnconfirmedEmailInstructPage(
+                                new FinishRegistrationInstructViewModel(email)));
                     }
                     else
                     {
