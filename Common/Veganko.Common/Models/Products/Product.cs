@@ -1,19 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Text;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using System.Runtime.Serialization;
-using System.ComponentModel.DataAnnotations;
 
-namespace VegankoService.Models
+namespace Veganko.Common.Models.Products
 {
-    public enum ProductState
-    {
-        PendingApproval,
-        Approved
-    }
     /// <summary>
     /// Classifiers to describe the type of the product, food or cosmetics
     /// </summary>

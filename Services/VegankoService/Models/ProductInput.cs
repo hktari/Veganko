@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
+using Veganko.Common.Models.Products;
 using VegankoService.External;
 using VegankoService.Models.Converters;
 

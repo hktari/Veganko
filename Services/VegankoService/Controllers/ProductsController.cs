@@ -7,6 +7,7 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
+using Veganko.Common.Models.Products;
 using VegankoService.Data;
 using VegankoService.Helpers;
 using VegankoService.Models;

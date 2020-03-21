@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using Veganko.Common.Models.Products;
 using VegankoService.Data;
 using VegankoService.Models;
 using VegankoService.Models.User;

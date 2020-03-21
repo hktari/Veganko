@@ -9,6 +9,7 @@ using VegankoService.Models.User;
 using VegankoService.Models.Comments;
 using Microsoft.AspNetCore.Identity;
 using VegankoService.Models.Stores;
+using Veganko.Common.Models.Products;
 
 namespace VegankoService.Data
 {
@@ -22,6 +23,8 @@ namespace VegankoService.Data
         public VegankoContext()
         {
         }
+
+        public DbSet<ProductModRequest> ProductModRequests { get; set; }
 
         public DbSet<Product> Product { get; set; }
 

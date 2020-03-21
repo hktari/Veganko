@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
+using Veganko.Common.Models.Products;
 using VegankoService.Models;
 using VegankoService.Tests.Helpers;
 using Xunit;
