@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Veganko.Common.Models.Products;
 using VegankoService.Models;
+using VegankoService.Models.ErrorHandling;
 
 namespace VegankoService.Data
 {
@@ -14,5 +15,6 @@ namespace VegankoService.Data
         void Create(Product product);
         void Update(Product product);
         void Delete(string id);
+        DuplicateProblemDetails Contains(Product product);
     }
 }

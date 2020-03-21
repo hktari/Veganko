@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Veganko.Common.Models.Products;
 using VegankoService.Models;
+using VegankoService.Models.ErrorHandling;
 
 namespace VegankoService.Data
 {
@@ -19,6 +20,7 @@ namespace VegankoService.Data
 
         public void Create(Product product)
         {
+            product.LastUpdateTimestamp = product.AddedTimestamp = DateTime.Now;
             context.Product.Add(product);
             context.SaveChanges();
         }
@@ -54,8 +56,25 @@ namespace VegankoService.Data
 
         public void Update(Product product)
         {
+            product.LastUpdateTimestamp = DateTime.Now;
             context.Product.Update(product);
             context.SaveChanges();
+        }
+
+        public DuplicateProblemDetails Contains(Product product)
+        {
+            if (product.Barcode == null)
+            {
+                return null;
+            }
+
+            Product duplicate = context.Product.FirstOrDefault(p => p.Barcode == product.Barcode && p.Id != product.Id);
+            if (duplicate != null)
+            {
+                return new DuplicateProblemDetails(duplicate, "barcode");
+            }
+
+            return null;
         }
     }
 }

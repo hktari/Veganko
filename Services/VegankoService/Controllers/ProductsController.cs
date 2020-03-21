@@ -37,14 +37,14 @@ namespace VegankoService.Controllers
         [Authorize(Roles = RestrictedAccessRoles)]
         public ActionResult<Product> Post(ProductInput input)
         {
-            if (CheckForDuplicate(input) is DuplicateProblemDetails err)
+            var product = new Product();
+            input.MapToProduct(product);
+
+            if (productRepository.Contains(product) is DuplicateProblemDetails err)
             {
                 return new ConflictObjectResult(err);
             }
-
-            var product = new Product();
-            product.LastUpdateTimestamp = product.AddedTimestamp = DateTime.Now;
-            input.MapToProduct(product);
+          
             productRepository.Create(product);
 
             return CreatedAtAction(
@@ -62,13 +62,13 @@ namespace VegankoService.Controllers
                 return NotFound();
             }
 
-            if (CheckForDuplicate(input, id) is DuplicateProblemDetails err)
+            input.MapToProduct(product);
+
+            if (productRepository.Contains(product) is DuplicateProblemDetails err)
             {
                 return new ConflictObjectResult(err);
             }
 
-            input.MapToProduct(product);
-            product.LastUpdateTimestamp = DateTime.Now;
             productRepository.Update(product);
 
             return product;
@@ -197,20 +197,5 @@ namespace VegankoService.Controllers
             }
         }
 
-        private DuplicateProblemDetails CheckForDuplicate(ProductInput input, string id = null)
-        {
-            if (input.Barcode == null)
-            {
-                return null;
-            }
-
-            Product duplicate = context.Product.FirstOrDefault(p => p.Barcode == input.Barcode && p.Id != id);
-            if (duplicate != null)
-            {
-                return new DuplicateProblemDetails(duplicate, "barcode");
-            }
-
-            return null;
-        }
     }
 }
