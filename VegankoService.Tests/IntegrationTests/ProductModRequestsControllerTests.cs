@@ -1,6 +1,8 @@
 ﻿using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -9,6 +11,7 @@ using Veganko.Common.Models.Products;
 using VegankoService.Models;
 using VegankoService.Tests.Helpers;
 using Xunit;
+using static VegankoService.Helpers.Constants.Strings;
 
 namespace VegankoService.Tests.IntegrationTests
 {
@@ -52,13 +55,13 @@ namespace VegankoService.Tests.IntegrationTests
         public async Task Get_ResultsInOkAndValidData()
         {
             var result = await client.GetAsync(
-                Util.GetRequestUri($"{Uri}/new_prod_mod_req_id"));
+                Util.GetRequestUri($"{Uri}/existing_prod_mod_req_id"));
 
             Assert.Equal(HttpStatusCode.OK, result.StatusCode);
             var pmr = JsonConvert.DeserializeObject<ProductModRequest>(result.GetJson());
             Assert.NotNull(pmr.UnapprovedProduct);
         }
-    
+
         [Fact]
         public async Task Get_NonExisting_ResultsInNotFound()
         {
@@ -114,20 +117,11 @@ namespace VegankoService.Tests.IntegrationTests
         [Fact]
         public async Task Put_ActionNew_ConflictBarcode_ResultsInConflict()
         {
-            ProductModRequest pmr = new ProductModRequest
-            {
-                ExistingProductId = null,
-                UnapprovedProduct = new UnapprovedProduct
-                {
-                    Name = "Orange leaf tea",
-                    ProductClassifiers = 257,
-                    Barcode = "conflicting_barcode",
-                },
-                ChangedFields = null,
-            };
+            ProductModRequest pmr = await GetProductModRequest("existing_prod_mod_req_id");
+            pmr.UnapprovedProduct.Barcode = "conflicting_barcode";
 
             var result = await client.PutAsync(
-                Util.GetRequestUri(Uri),
+                Util.GetRequestUri($"{Uri}/existing_prod_mod_req_id"),
                 pmr.GetStringContent());
 
             Assert.Equal(HttpStatusCode.Conflict, result.StatusCode);
@@ -136,10 +130,10 @@ namespace VegankoService.Tests.IntegrationTests
         [Fact]
         public async Task Post_ActionEdit_InvalidModelState_ResultsInBadRequest()
         {
-            ProductModRequest pmr = new ProductModRequest 
+            ProductModRequest pmr = new ProductModRequest
             {
                 ExistingProductId = "existing_product_id",
-                UnapprovedProduct = new UnapprovedProduct 
+                UnapprovedProduct = new UnapprovedProduct
                 {
                     Name = "new product name"
                 },
@@ -254,6 +248,67 @@ namespace VegankoService.Tests.IntegrationTests
                 Util.GetRequestUri($"{Uri}/new_prod_mod_req_id"));
 
             Assert.Equal(HttpStatusCode.NotFound, result.StatusCode);
+        }
+
+        [Fact]
+        public async Task PostImages_ResultsInOkAndContent()
+        {
+            var response = await client.PostAsync(
+                Util.GetRequestUri($"{Uri}/existing_prod_mod_req_id/image"),
+                CreateMultipartContent());
+
+            Assert.Equal(HttpStatusCode.OK, response.StatusCode);
+
+            var pmr = JsonConvert.DeserializeObject<ProductModRequest>(response.GetJson());
+
+            response = await client.GetAsync($"images/detail/{pmr.UnapprovedProduct.ImageName}");
+
+            Assert.Equal(HttpStatusCode.OK, response.StatusCode);
+            byte[] data = await response.Content.ReadAsByteArrayAsync();
+            Assert.True(data.Length > 0);
+
+            response = await client.GetAsync($"images/thumb/{pmr.UnapprovedProduct.ImageName}");
+
+            Assert.Equal(HttpStatusCode.OK, response.StatusCode);
+            data = await response.Content.ReadAsByteArrayAsync();
+            Assert.True(data.Length > 0);
+        }
+
+        [Fact]
+        public async Task PostImage_UserIsMemberAndNotAuthor_ResultsInForbidden()
+        {
+            var response = await client.PostAsync(
+                Util.GetRequestUri($"{Uri}/other_user_prod_mod_req_id/image"),
+                CreateMultipartContent());
+
+            Assert.Equal(HttpStatusCode.Forbidden, response.StatusCode);
+        }
+
+        //[Theory]
+        //[InlineData(Roles.Admin)]
+        //[InlineData(Roles.Moderator)]
+        //[InlineData(Roles.Manager)]
+        //public async Task PostImage_UserHasElevatedRights_ResultsInOk(string role)
+        //{
+        //    var factory = new CustomWebApplicationFactory<Startup>();
+        //    factory.FakeUserRole = role;
+        //    var client = factory.CreateClient();
+            
+        //    var response = await client.PostAsync(
+        //         Util.GetRequestUri($"{Uri}/new_prod_mod_req_id/image"),
+        //         CreateMultipartContent());
+
+        //    Assert.Equal(HttpStatusCode.OK, response.StatusCode);
+        //}
+
+        private HttpContent CreateMultipartContent()
+        {
+            byte[] image = new byte[256];
+
+            var content = new MultipartFormDataContent();
+            content.Add(new StreamContent(new MemoryStream(image)), "DetailImage", "DetailImage.jpg");
+            content.Add(new StreamContent(new MemoryStream(image)), "ThumbImage", "ThumbImage.jpg");
+            return content;
         }
 
         // TODO: manager deletes

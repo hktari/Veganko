@@ -1,5 +1,4 @@
-﻿
-namespace VegankoService.Helpers
+﻿namespace VegankoService.Helpers
 {
     public static class Constants
     {
@@ -21,6 +20,13 @@ namespace VegankoService.Helpers
                 public const string Manager = "Manager";
                 public const string Moderator = "Moderator";
                 public const string Member = "Member";
+
+                public const string RestrictedAccessRoles = Constants.Strings.Roles.Admin + ", " + Constants.Strings.Roles.Manager + ", " + Constants.Strings.Roles.Moderator;
+
+                public static bool IsInsideRestrictedAccessRoles(string role)
+                {
+                    return RestrictedAccessRoles.Contains(role);
+                }
             }
         }
     }

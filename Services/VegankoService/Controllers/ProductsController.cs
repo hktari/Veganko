@@ -14,6 +14,7 @@ using VegankoService.Models;
 using VegankoService.Models.ErrorHandling;
 using VegankoService.Models.Products;
 using VegankoService.Services.Images;
+using static VegankoService.Helpers.Constants.Strings;
 
 namespace VegankoService.Controllers
 {
@@ -22,7 +23,6 @@ namespace VegankoService.Controllers
     [ApiController]
     public class ProductsController : Controller
     {
-        private const string RestrictedAccessRoles = Constants.Strings.Roles.Admin + ", " + Constants.Strings.Roles.Manager + ", " + Constants.Strings.Roles.Moderator;
         private readonly IProductRepository productRepository;
         private readonly ILogger<ProductsController> logger;
         private readonly VegankoContext context;
@@ -41,7 +41,7 @@ namespace VegankoService.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles = RestrictedAccessRoles)]
+        [Authorize(Roles = Roles.RestrictedAccessRoles)]
         public ActionResult<Product> Post(Product input)
         {
             var product = new Product();
@@ -59,7 +59,7 @@ namespace VegankoService.Controllers
         }
 
         [HttpPut("{id}")]
-        [Authorize(Roles = RestrictedAccessRoles)]
+        [Authorize(Roles = Roles.RestrictedAccessRoles)]
         public ActionResult<Product> Put(string id, Product input)
         {
             var product = productRepository.Get(id);
@@ -82,21 +82,30 @@ namespace VegankoService.Controllers
         }
 
         [HttpDelete("{id}")]
-        [Authorize(Roles = RestrictedAccessRoles)]
+        [Authorize(Roles = Roles.RestrictedAccessRoles)]
         public IActionResult Delete(string id)
         {
+            logger.LogInformation($"Delete({id})");
+
             if (string.IsNullOrWhiteSpace(id))
             {
                 return NotFound();
             }
 
-            var game = productRepository.Get(id);
-            if (game == null)
+            var product = productRepository.Get(id);
+            if (product == null)
             {
+                logger.LogWarning($"Product not found");
                 return NotFound();
             }
 
             productRepository.Delete(id);
+
+            if (product.ImageName != null)
+            {
+                logger.LogInformation($"Deleting images");
+                imageService.DeleteImages(product.ImageName);
+            }
 
             return Ok();
         }
@@ -125,6 +134,7 @@ namespace VegankoService.Controllers
         }
 
         [HttpPost("{id}/image")]
+        [Authorize(Roles = Roles.RestrictedAccessRoles)]
         public async Task<ActionResult<Product>> PostImage(string id, [FromForm] ProductImageInput input)
         {
             logger.LogInformation($"PostImage({id})");
@@ -138,7 +148,13 @@ namespace VegankoService.Controllers
 
             try
             {
-                product.ImageName = await imageService.SaveImage(input);
+                string newImageName = await imageService.SaveImage(input);
+                if (product.ImageName != null)
+                {
+                    imageService.DeleteImages(product.ImageName);
+                }
+                
+                product.ImageName = newImageName;
                 productRepository.Update(product);
                 return product;
             }

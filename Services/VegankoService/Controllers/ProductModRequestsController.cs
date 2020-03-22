@@ -12,6 +12,7 @@ using VegankoService.Models;
 using VegankoService.Models.ErrorHandling;
 using VegankoService.Models.Products;
 using VegankoService.Services.Images;
+using static VegankoService.Helpers.Constants.Strings;
 
 namespace VegankoService.Controllers
 {
@@ -109,7 +110,15 @@ namespace VegankoService.Controllers
                 logger.LogError($"Failed to find unapproved product with id: {productModRequest.UnapprovedProduct.Id}");
                 return BadRequest();
             }
-            // TODO: check for duplicate barcode
+
+            Product product = new Product();
+            productModRequest.UnapprovedProduct.MapToProduct(product);
+
+            // Check if the auid already exists
+            if (productRepository.Contains(product) is DuplicateProblemDetails err)
+            {
+                return new ConflictObjectResult(err);
+            }
 
             productModRequest.UnapprovedProduct.Update(unapprovedProduct);
             await productRepository.UpdateUnapproved(unapprovedProduct);
@@ -219,26 +228,49 @@ namespace VegankoService.Controllers
             context.ProductModRequests.Remove(productModRequest);
             await context.SaveChangesAsync();
 
+            imageService.DeleteImages(productModRequest.UnapprovedProduct.ImageName);
+
             return Ok(productModRequest);
         }
 
         [HttpPost("{id}/image")]
-        public async Task<ActionResult<UnapprovedProduct>> PostImage(string id, [FromForm] ProductImageInput input)
+        public async Task<ActionResult<ProductModRequest>> PostImage(string id, [FromForm] ProductImageInput input)
         {
             logger.LogInformation($"PostImage({id})");
 
-            UnapprovedProduct product = await productRepository.GetUnapproved(id);
+            ProductModRequest prodRequest = await context.ProductModRequests
+                .Include(pmr => pmr.UnapprovedProduct)
+                .FirstOrDefaultAsync(pmr => pmr.Id == id);
 
-            if (product == null)
+            if (prodRequest == null)
             {
+                logger.LogWarning($"ProductModRequest not found");
                 return NotFound();
+            }
+
+            // TODO: test for realz
+            string role = Identity.GetRole(httpContextAccessor.HttpContext.User);
+            string userId = Identity.GetUserIdentityId(httpContextAccessor.HttpContext.User);
+
+            // If the user is not the author and not inside a privileged role
+            if (!Roles.IsInsideRestrictedAccessRoles(role) && prodRequest.UserId != userId)
+            {
+                logger.LogWarning($"User {userId} forbidden from posting image");
+                return Forbid();
             }
 
             try
             {
-                product.ImageName = await imageService.SaveImage(input);
-                await productRepository.UpdateUnapproved(product);
-                return product;
+                string newImageName = await imageService.SaveImage(input);
+                
+                if (prodRequest.UnapprovedProduct.ImageName != null)
+                {
+                    imageService.DeleteImages(prodRequest.UnapprovedProduct.ImageName);
+                }
+
+                prodRequest.UnapprovedProduct.ImageName = newImageName;
+                await productRepository.UpdateUnapproved(prodRequest.UnapprovedProduct);
+                return prodRequest;
             }
             catch (Exception ex)
             {
@@ -246,7 +278,6 @@ namespace VegankoService.Controllers
                 return BadRequest();
             }
         }
-        // TODO: add image to unapproved product
 
         private bool ProductModRequestExists(string id)
         {
