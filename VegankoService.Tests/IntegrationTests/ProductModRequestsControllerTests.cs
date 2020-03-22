@@ -230,6 +230,8 @@ namespace VegankoService.Tests.IntegrationTests
         [Fact]
         public async Task Delete_MemberNotAuthor_ResultsInForbidden()
         {
+            Util.ReinitializeDbForTests(factory.CreateDbContext());
+
             var result = await client.DeleteAsync(
                 Util.GetRequestUri($"{Uri}/other_user_prod_mod_req_id"));
 
@@ -239,6 +241,8 @@ namespace VegankoService.Tests.IntegrationTests
         [Fact]
         public async Task Delete_MemberWhoIsAuthor_ResultsInOkAndItemRemoved()
         {
+            Util.ReinitializeDbForTests(factory.CreateDbContext());
+
             var result = await client.DeleteAsync(
                 Util.GetRequestUri($"{Uri}/new_prod_mod_req_id"));
 
@@ -284,22 +288,22 @@ namespace VegankoService.Tests.IntegrationTests
             Assert.Equal(HttpStatusCode.Forbidden, response.StatusCode);
         }
 
-        //[Theory]
-        //[InlineData(Roles.Admin)]
-        //[InlineData(Roles.Moderator)]
-        //[InlineData(Roles.Manager)]
-        //public async Task PostImage_UserHasElevatedRights_ResultsInOk(string role)
-        //{
-        //    var factory = new CustomWebApplicationFactory<Startup>();
-        //    factory.FakeUserRole = role;
-        //    var client = factory.CreateClient();
-            
-        //    var response = await client.PostAsync(
-        //         Util.GetRequestUri($"{Uri}/new_prod_mod_req_id/image"),
-        //         CreateMultipartContent());
+        [Theory]
+        [InlineData(Roles.Admin)]
+        [InlineData(Roles.Moderator)]
+        [InlineData(Roles.Manager)]
+        public async Task PostImage_UserHasElevatedRights_ResultsInOk(string role)
+        {
+            var factory = new CustomWebApplicationFactory<Startup>();
+            factory.FakeUserRole = role;
+            var client = factory.CreateClient();
 
-        //    Assert.Equal(HttpStatusCode.OK, response.StatusCode);
-        //}
+            var response = await client.PostAsync(
+                 Util.GetRequestUri($"{Uri}/new_prod_mod_req_id/image"),
+                 CreateMultipartContent());
+
+            Assert.Equal(HttpStatusCode.OK, response.StatusCode);
+        }
 
         private HttpContent CreateMultipartContent()
         {

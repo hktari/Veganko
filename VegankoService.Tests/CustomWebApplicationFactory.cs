@@ -20,6 +20,8 @@ namespace VegankoService.Tests
     {
         public string FakeUserRole { get; set; } = VegankoService.Helpers.Constants.Strings.Roles.Admin;
 
+        public Func<VegankoContext> CreateDbContext { get; private set; }
+
         protected override void ConfigureWebHost(IWebHostBuilder builder)
         {
             builder.ConfigureServices(services =>
@@ -45,6 +47,12 @@ namespace VegankoService.Tests
                     opts.Filters.Add(new AllowAnonymousFilter());
                     opts.Filters.Add(new FakeUserFilter(FakeUserRole));
                 });
+
+                CreateDbContext = () =>
+                {
+                    var scope = services.BuildServiceProvider().CreateScope();
+                        return scope.ServiceProvider.GetRequiredService<VegankoContext>();
+                };
 
                 // Create a scope to obtain a reference to the database
                 // context (ApplicationDbContext).

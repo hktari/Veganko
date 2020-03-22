@@ -107,13 +107,14 @@ namespace VegankoService.Tests
             db.SaveChanges();
         }
 
+        public static void ReinitializeDbForTests(VegankoContext db)
+        {
+            db.Database.EnsureDeleted();
+            //db.Product.RemoveRange(db.Product);
+            //db.ProductModRequests.RemoveRange(db.ProductModRequests);
 
-        //public static void ReinitializeDbForTests(VegankoContext db)
-        //{
-        //    // ?? delete based on what ? there's no id
-        //    db.Product.RemoveRange(db.Product);
-        //    InitializeDbForTests(db);
-        //}
+            InitializeDbForTests(db);
+        }
 
         public static List<Product> GetProducts()
         {

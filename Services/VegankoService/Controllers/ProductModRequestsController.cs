@@ -228,7 +228,10 @@ namespace VegankoService.Controllers
             context.ProductModRequests.Remove(productModRequest);
             await context.SaveChangesAsync();
 
-            imageService.DeleteImages(productModRequest.UnapprovedProduct.ImageName);
+            if (productModRequest.UnapprovedProduct.ImageName != null)
+            {
+                imageService.DeleteImages(productModRequest.UnapprovedProduct.ImageName);
+            }
 
             return Ok(productModRequest);
         }
