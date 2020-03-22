@@ -1,10 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using Veganko.Common.Models.Products;
 using VegankoService.Data;
 using VegankoService.Models.ErrorHandling;
@@ -15,20 +14,22 @@ namespace VegankoService.Controllers
     [ApiController]
     public class ProductModRequestsController : ControllerBase
     {
-        private readonly VegankoContext _context;
+        private readonly VegankoContext context;
         private readonly IProductRepository productRepository;
+        private readonly ILogger<ProductModRequestsController> logger;
 
-        public ProductModRequestsController(VegankoContext context, IProductRepository productRepository)
+        public ProductModRequestsController(VegankoContext context, IProductRepository productRepository, ILogger<ProductModRequestsController> logger)
         {
-            _context = context;
+            this.context = context;
             this.productRepository = productRepository;
+            this.logger = logger;
         }
 
         // GET: api/ProductModRequests
         [HttpGet]
         public IEnumerable<ProductModRequest> GetProductModRequests()
         {
-            return _context.ProductModRequests;
+            return context.ProductModRequests;
         }
 
         // GET: api/ProductModRequests/5
@@ -41,7 +42,7 @@ namespace VegankoService.Controllers
             }
 
             // TODO: product 
-            var productModRequest = await _context.ProductModRequests.FindAsync(id);
+            var productModRequest = await context.ProductModRequests.FindAsync(id);
 
             if (productModRequest == null)
             {
@@ -65,11 +66,11 @@ namespace VegankoService.Controllers
                 return BadRequest();
             }
 
-            _context.Entry(productModRequest).State = EntityState.Modified;
+            context.Entry(productModRequest).State = EntityState.Modified;
 
             try
             {
-                await _context.SaveChangesAsync();
+                await context.SaveChangesAsync();
             }
             catch (DbUpdateConcurrencyException)
             {
@@ -104,8 +105,8 @@ namespace VegankoService.Controllers
             await productRepository.CreateUnapproved(productModRequest.Product);
             productModRequest.ProductId = productModRequest.Product.Id;
 
-            _context.ProductModRequests.Add(productModRequest);
-            await _context.SaveChangesAsync();
+            context.ProductModRequests.Add(productModRequest);
+            await context.SaveChangesAsync();
 
             return CreatedAtAction("GetProductModRequest", new { id = productModRequest.Id }, productModRequest);
         }
@@ -119,21 +120,35 @@ namespace VegankoService.Controllers
                 return BadRequest(ModelState);
             }
 
-            var productModRequest = await _context.ProductModRequests. FindAsync(id);
+            var productModRequest = await context.ProductModRequests.FindAsync(id);
             if (productModRequest == null)
             {
+                logger.LogDebug($"Product mod request with id: {id} not found.");
                 return NotFound();
             }
 
-            _context.ProductModRequests.Remove(productModRequest);
-            await _context.SaveChangesAsync();
+            Product product = await productRepository.GetUnapproved(productModRequest.ProductId);
+            if (product != null)
+            {
+                logger.LogDebug($"Removing unapproved product with id: {product.Id}");
+                await productRepository.DeleteUnapproved(product);
+            }
+            else 
+            {
+                logger.LogWarning($"Failed to remove unapproved product with id: {productModRequest.ProductId}. Product doesn't exist.");
+            }
 
+            logger.LogDebug($"Removing product mod request with id: {id}");
+            
+            context.ProductModRequests.Remove(productModRequest);
+            await context.SaveChangesAsync();
+            
             return Ok(productModRequest);
         }
 
         private bool ProductModRequestExists(string id)
         {
-            return _context.ProductModRequests.Any(e => e.Id == id);
+            return context.ProductModRequests.Any(e => e.Id == id);
         }
     }
 }

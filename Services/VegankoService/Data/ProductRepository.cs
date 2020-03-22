@@ -82,5 +82,16 @@ namespace VegankoService.Data
             context.UnapprovedProducts.Add(product);
             return context.SaveChangesAsync();
         }
+
+        public Task<Product> GetUnapproved(string id)
+        {
+            return context.UnapprovedProducts.FirstOrDefaultAsync(p => p.Id == id);
+        }
+
+        public Task DeleteUnapproved(Product product)
+        {
+            context.UnapprovedProducts.Remove(product);
+            return context.SaveChangesAsync();
+        }
     }
 }

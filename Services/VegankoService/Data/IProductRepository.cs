@@ -17,5 +17,7 @@ namespace VegankoService.Data
         void Delete(string id);
         DuplicateProblemDetails Contains(Product product);
         Task CreateUnapproved(Product product);
+        Task<Product> GetUnapproved(string id);
+        Task DeleteUnapproved(Product product);
     }
 }
