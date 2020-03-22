@@ -29,7 +29,7 @@ namespace VegankoService.Controllers
         [HttpGet]
         public IEnumerable<ProductModRequest> GetProductModRequests()
         {
-            return context.ProductModRequests;
+            return context.ProductModRequests.Include(pmr => pmr.Product);
         }
 
         // GET: api/ProductModRequests/5
@@ -41,8 +41,8 @@ namespace VegankoService.Controllers
                 return BadRequest(ModelState);
             }
 
-            // TODO: product 
-            var productModRequest = await context.ProductModRequests.FindAsync(id);
+            var productModRequest = await context.ProductModRequests.Include(pmr => pmr.Product)
+                                                                    .FirstOrDefaultAsync(pmr => pmr.Id == id);
 
             if (productModRequest == null)
             {
