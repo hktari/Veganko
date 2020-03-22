@@ -36,7 +36,6 @@ namespace Veganko.Common.Models.Products
     public class Product
     {
         public string Id { get; set; }
-        public int State { get; set; }
         public string Name { get; set; }
         public string Brand { get; set; }
         public string Barcode { get; set; }

@@ -21,7 +21,7 @@ namespace Veganko.Common.Models.Products
         public DateTime Timestamp { get; set; }
         
         [Required]
-        public UnapprovedProduct Product { get; set; }
+        public UnapprovedProduct UnapprovedProduct { get; set; }
         
         [Required]
         public string ChangedFields { get; set; }

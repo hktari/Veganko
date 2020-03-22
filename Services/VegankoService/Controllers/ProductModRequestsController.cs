@@ -38,7 +38,7 @@ namespace VegankoService.Controllers
         [HttpGet]
         public IEnumerable<ProductModRequest> GetProductModRequests()
         {
-            return context.ProductModRequests.Include(pmr => pmr.Product);
+            return context.ProductModRequests.Include(pmr => pmr.UnapprovedProduct);
         }
 
         // GET: api/ProductModRequests/5
@@ -50,7 +50,7 @@ namespace VegankoService.Controllers
                 return BadRequest(ModelState);
             }
 
-            var productModRequest = await context.ProductModRequests.Include(pmr => pmr.Product)
+            var productModRequest = await context.ProductModRequests.Include(pmr => pmr.UnapprovedProduct)
                                                                     .FirstOrDefaultAsync(pmr => pmr.Id == id);
 
             if (productModRequest == null)
@@ -77,17 +77,17 @@ namespace VegankoService.Controllers
 
             logger.LogInformation($"Updating product mod request with id: {id}");
 
-            UnapprovedProduct product = await productRepository.GetUnapproved(productModRequest.Product.Id);
-            if (product == null)
+            UnapprovedProduct unapprovedProduct = await productRepository.GetUnapproved(productModRequest.UnapprovedProduct.Id);
+            if (unapprovedProduct == null)
             {
-                logger.LogError($"Failed to find unapproved product with id: {productModRequest.Product.Id}");
+                logger.LogError($"Failed to find unapproved product with id: {productModRequest.UnapprovedProduct.Id}");
                 return BadRequest();
             }
 
-            product.Update(productModRequest.Product);
-            await productRepository.UpdateUnapproved(product);
+            unapprovedProduct.Update(productModRequest.UnapprovedProduct);
+            await productRepository.UpdateUnapproved(unapprovedProduct);
 
-            logger.LogInformation($"Updated unapproved product with id: {product.Id}");
+            logger.LogInformation($"Updated unapproved product with id: {unapprovedProduct.Id}");
 
             productModRequest.Timestamp = DateTime.Now;
 
@@ -122,6 +122,8 @@ namespace VegankoService.Controllers
             }
 
             productModRequest.Action = productId != null ? ProductModRequestAction.Edit : ProductModRequestAction.Add;
+            
+            Product product = new Product();
 
             if (productModRequest.Action == ProductModRequestAction.Edit)
             {
@@ -132,7 +134,7 @@ namespace VegankoService.Controllers
                 }
 
                 logger.LogInformation($"Retrieving product with id: {productId} which is being edited.");
-                Product product = productRepository.Get(productId);
+                product = productRepository.Get(productId);
 
                 if (product == null)
                 {
@@ -141,13 +143,15 @@ namespace VegankoService.Controllers
                 }
             }
 
+            productModRequest.UnapprovedProduct.MapToProduct(product);
+
             // Check if the auid already exists
-            if (productRepository.Contains(productModRequest.Product) is DuplicateProblemDetails err)
+            if (productRepository.Contains(product) is DuplicateProblemDetails err)
             {
                 return new ConflictObjectResult(err);
             }
 
-            await productRepository.CreateUnapproved(productModRequest.Product);
+            await productRepository.CreateUnapproved(productModRequest.UnapprovedProduct);
 
             productModRequest.UserId = Identity.GetUserIdentityId(httpContextAccessor.HttpContext.User);
             productModRequest.Timestamp = DateTime.Now;
@@ -167,7 +171,7 @@ namespace VegankoService.Controllers
                 return BadRequest(ModelState);
             }
 
-            var productModRequest = await context.ProductModRequests.Include(pmr => pmr.Product)
+            var productModRequest = await context.ProductModRequests.Include(pmr => pmr.UnapprovedProduct)
                                                                     .FirstOrDefaultAsync(pmr => pmr.Id == id);
             if (productModRequest == null)
             {
@@ -175,7 +179,7 @@ namespace VegankoService.Controllers
                 return NotFound();
             }
 
-            UnapprovedProduct product = await productRepository.GetUnapproved(productModRequest.Product.Id);
+            UnapprovedProduct product = await productRepository.GetUnapproved(productModRequest.UnapprovedProduct.Id);
             if (product != null)
             {
                 logger.LogInformation($"Removing unapproved product with id: {product.Id}");
@@ -183,7 +187,7 @@ namespace VegankoService.Controllers
             }
             else 
             {
-                logger.LogWarning($"Failed to remove unapproved product with id: {productModRequest.Product.Id}. Product doesn't exist.");
+                logger.LogWarning($"Failed to remove unapproved product with id: {productModRequest.UnapprovedProduct.Id}. Product doesn't exist.");
             }
 
             logger.LogInformation($"Removing product mod request with id: {id}");
