@@ -35,6 +35,7 @@ using System.IO;
 using VegankoService.Data.Stores;
 using Microsoft.AspNetCore.HttpOverrides;
 using System.Net.Mime;
+using VegankoService.Services.Images;
 
 namespace VegankoService
 {
@@ -70,6 +71,7 @@ namespace VegankoService
             services.AddTransient<IHttpContextAccessor, HttpContextAccessor>();
 
             services.AddScoped<IEmailService, EmailService>();
+            services.AddScoped<IImageService, ImageService>();
             //services.Configure<AuthMessageSenderOptions>(Configuration); ???
 
             // jwt wire up

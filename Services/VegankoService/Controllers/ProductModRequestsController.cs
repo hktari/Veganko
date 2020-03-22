@@ -10,6 +10,8 @@ using VegankoService.Data;
 using VegankoService.Helpers;
 using VegankoService.Models;
 using VegankoService.Models.ErrorHandling;
+using VegankoService.Models.Products;
+using VegankoService.Services.Images;
 
 namespace VegankoService.Controllers
 {
@@ -21,17 +23,20 @@ namespace VegankoService.Controllers
         private readonly IHttpContextAccessor httpContextAccessor;
         private readonly IProductRepository productRepository;
         private readonly ILogger<ProductModRequestsController> logger;
+        private readonly IImageService imageService;
 
         public ProductModRequestsController(
             VegankoContext context,
             IHttpContextAccessor httpContextAccessor,
             IProductRepository productRepository,
-            ILogger<ProductModRequestsController> logger)
+            ILogger<ProductModRequestsController> logger,
+            IImageService imageService)
         {
             this.context = context;
             this.httpContextAccessor = httpContextAccessor;
             this.productRepository = productRepository;
             this.logger = logger;
+            this.imageService = imageService;
         }
 
         // GET: api/ProductModRequests
@@ -217,6 +222,30 @@ namespace VegankoService.Controllers
             return Ok(productModRequest);
         }
 
+        [HttpPost("{id}/image")]
+        public async Task<ActionResult<UnapprovedProduct>> PostImage(string id, [FromForm] ProductImageInput input)
+        {
+            logger.LogInformation($"PostImage({id})");
+
+            UnapprovedProduct product = await productRepository.GetUnapproved(id);
+
+            if (product == null)
+            {
+                return NotFound();
+            }
+
+            try
+            {
+                product.ImageName = await imageService.SaveImage(input);
+                await productRepository.UpdateUnapproved(product);
+                return product;
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(ex, $"Failed to save images for product with id: {id}");
+                return BadRequest();
+            }
+        }
         // TODO: add image to unapproved product
 
         private bool ProductModRequestExists(string id)

@@ -13,6 +13,7 @@ using VegankoService.Helpers;
 using VegankoService.Models;
 using VegankoService.Models.ErrorHandling;
 using VegankoService.Models.Products;
+using VegankoService.Services.Images;
 
 namespace VegankoService.Controllers
 {
@@ -25,12 +26,18 @@ namespace VegankoService.Controllers
         private readonly IProductRepository productRepository;
         private readonly ILogger<ProductsController> logger;
         private readonly VegankoContext context;
+        private readonly IImageService imageService;
 
-        public ProductsController(IProductRepository productRepository, ILogger<ProductsController> logger, VegankoContext context)
+        public ProductsController(
+            IProductRepository productRepository,
+            ILogger<ProductsController> logger,
+            VegankoContext context,
+            IImageService imageService)
         {
             this.productRepository = productRepository;
             this.logger = logger;
             this.context = context;
+            this.imageService = imageService;
         }
 
         [HttpPost]
@@ -120,6 +127,8 @@ namespace VegankoService.Controllers
         [HttpPost("{id}/image")]
         public async Task<ActionResult<Product>> PostImage(string id, [FromForm] ProductImageInput input)
         {
+            logger.LogInformation($"PostImage({id})");
+
             Product product = productRepository.Get(id);
 
             if (product == null)
@@ -127,73 +136,16 @@ namespace VegankoService.Controllers
                 return NotFound();
             }
 
-            string trustedFileNameForStorage = Guid.NewGuid().ToString();
-
-            if (!ValidateImage(input.DetailImage, "detail", trustedFileNameForStorage, out string detailImagePath)
-                || !ValidateImage(input.ThumbImage, "thumb", trustedFileNameForStorage, out string thumbImagePath))
+            try
             {
+                product.ImageName = await imageService.SaveImage(input);
+                productRepository.Update(product);
+                return product;
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(ex, $"Failed to save images for product with id: {id}");
                 return BadRequest();
-            }
-
-            await SaveImage(input.DetailImage, detailImagePath);
-            await SaveImage(input.ThumbImage, thumbImagePath);
-
-            string thumbImageName = Path.GetFileName(thumbImagePath);
-            string detailImageName = Path.GetFileName(detailImagePath);
-            if (detailImageName != thumbImageName)
-            {
-                logger.LogError("Failed to update image for product with id: {id}. " +
-                    "Thumb and detail image names don't match {detailImageName} != {thumbImageName}.",
-                    product.Id, detailImageName, thumbImageName);
-            }
-
-            product.ImageName = detailImageName;
-            productRepository.Update(product);
-
-            return product;
-        }
-
-        private bool ValidateImage(IFormFile image, string folder, string trustedFileNameForStorage, out string targetFilePath)
-        {
-            targetFilePath = null;
-
-            if (image.Length <= 0)
-            {
-                return false;
-            }
-
-            // Don't trust the file name sent by the client. To display
-            // the file name, HTML-encode the value.
-            var trustedFileNameForDisplay = WebUtility.HtmlEncode(
-                    image.FileName);
-            double fileSize = image.Length / 1000000.0d;
-
-            logger.LogDebug("Received image with name: {trustedFileNameForDisplay}, " +
-                "size: {fileSize} MB.", trustedFileNameForDisplay, fileSize);
-
-            string[] permittedExtensions = { ".jpg" };
-
-            var ext = Path.GetExtension(image.FileName).ToLowerInvariant();
-
-            if (string.IsNullOrEmpty(ext) || !permittedExtensions.Contains(ext))
-            {
-                // The extension is invalid ... discontinue processing the file
-                return false;
-            }
-
-            targetFilePath = Path.Combine(Directory.GetCurrentDirectory(), "..", "images", folder, trustedFileNameForStorage + ext);
-            return true;
-        }
-
-        private async Task SaveImage(IFormFile image, string targetFilePath)
-        {
-            Directory.CreateDirectory(Path.GetDirectoryName(targetFilePath));
-
-            using (var targetStream = System.IO.File.Create(targetFilePath))
-            {
-                await image.CopyToAsync(targetStream);
-
-                logger.LogInformation("Uploaded file '{TrustedFileNameForDisplay}'", targetFilePath);
             }
         }
 
