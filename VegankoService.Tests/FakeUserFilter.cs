@@ -1,13 +1,11 @@
 ﻿using Microsoft.AspNetCore.Mvc.Filters;
-using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace VegankoService.Tests
 {
-    class FakeUserFilter : IAsyncActionFilter
+    internal class FakeUserFilter : IAsyncActionFilter
     {
         public async Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
         {
@@ -16,7 +14,8 @@ namespace VegankoService.Tests
             new Claim(ClaimTypes.NameIdentifier, "123"),
             new Claim(ClaimTypes.Name, "Test user"),
             new Claim(ClaimTypes.Email, "test@example.com"),
-            new Claim(ClaimTypes.Role, "Admin")
+            new Claim(ClaimTypes.Role, "Admin"),
+            new Claim("id", "admin_id"),
         }));
 
             await next();

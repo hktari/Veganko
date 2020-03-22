@@ -23,7 +23,6 @@ namespace Veganko.Common.Models.Products
         [Required]
         public UnapprovedProduct UnapprovedProduct { get; set; }
         
-        [Required]
         public string ChangedFields { get; set; }
     }
 }
