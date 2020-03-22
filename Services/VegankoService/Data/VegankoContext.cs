@@ -26,7 +26,7 @@ namespace VegankoService.Data
 
         public DbSet<ProductModRequest> ProductModRequests { get; set; }
 
-        public DbSet<Product> UnapprovedProducts { get; set; }
+        public DbSet<UnapprovedProduct> UnapprovedProducts { get; set; }
         
         public DbSet<Product> Product { get; set; }
 

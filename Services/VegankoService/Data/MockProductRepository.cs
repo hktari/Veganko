@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Veganko.Common.Models.Products;
 using VegankoService.Models;
+using VegankoService.Models.ErrorHandling;
 
 namespace VegankoService.Data
 {
@@ -46,6 +47,31 @@ namespace VegankoService.Data
         }
 
         public void Update(Product product)
+        {
+            throw new NotImplementedException();
+        }
+
+        public DuplicateProblemDetails Contains(Product product)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task CreateUnapproved(UnapprovedProduct product)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<UnapprovedProduct> GetUnapproved(string id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task DeleteUnapproved(UnapprovedProduct product)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task UpdateUnapproved(UnapprovedProduct product)
         {
             throw new NotImplementedException();
         }

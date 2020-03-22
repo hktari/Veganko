@@ -35,10 +35,10 @@ namespace VegankoService.Controllers
 
         [HttpPost]
         [Authorize(Roles = RestrictedAccessRoles)]
-        public ActionResult<Product> Post(ProductInput input)
+        public ActionResult<Product> Post(Product input)
         {
             var product = new Product();
-            input.MapToProduct(product);
+            product.Update(input);
 
             if (productRepository.Contains(product) is DuplicateProblemDetails err)
             {
@@ -53,7 +53,7 @@ namespace VegankoService.Controllers
 
         [HttpPut("{id}")]
         [Authorize(Roles = RestrictedAccessRoles)]
-        public ActionResult<Product> Put(string id, ProductInput input)
+        public ActionResult<Product> Put(string id, Product input)
         {
             var product = productRepository.Get(id);
 
@@ -62,7 +62,7 @@ namespace VegankoService.Controllers
                 return NotFound();
             }
 
-            input.MapToProduct(product);
+            product.Update(input);
 
             if (productRepository.Contains(product) is DuplicateProblemDetails err)
             {

@@ -10,7 +10,7 @@ namespace Veganko.Common.Models.Products
         public string UserId { get; set; }
         public ProductModRequestAction Action { get; set; }
         public DateTime Timestamp { get; set; }
-        public Product Product { get; set; }
+        public UnapprovedProduct Product { get; set; }
         public string ProductId { get; set; }
         public string ChangedFields { get; set; }
     }

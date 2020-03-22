@@ -77,25 +77,25 @@ namespace VegankoService.Data
             return null;
         }
 
-        public Task CreateUnapproved(Product product)
+        public Task CreateUnapproved(UnapprovedProduct product)
         {
             product.LastUpdateTimestamp = product.AddedTimestamp = DateTime.Now;
             context.UnapprovedProducts.Add(product);
             return context.SaveChangesAsync();
         }
 
-        public Task<Product> GetUnapproved(string id)
+        public Task<UnapprovedProduct> GetUnapproved(string id)
         {
             return context.UnapprovedProducts.FirstOrDefaultAsync(p => p.Id == id);
         }
 
-        public Task DeleteUnapproved(Product product)
+        public Task DeleteUnapproved(UnapprovedProduct product)
         {
             context.UnapprovedProducts.Remove(product);
             return context.SaveChangesAsync();
         }
 
-        public Task UpdateUnapproved(Product product)
+        public Task UpdateUnapproved(UnapprovedProduct product)
         {
             product.LastUpdateTimestamp = DateTime.Now;
             context.UnapprovedProducts.Update(product);

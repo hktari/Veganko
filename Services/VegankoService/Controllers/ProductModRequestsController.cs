@@ -68,7 +68,7 @@ namespace VegankoService.Controllers
 
             logger.LogDebug($"Updating product mod request with id: {id}");
 
-            Product product = await productRepository.GetUnapproved(productModRequest.ProductId);
+            UnapprovedProduct product = await productRepository.GetUnapproved(productModRequest.ProductId);
             if (product == null)
             {
                 logger.LogError($"Failed to find unapproved product with id: {productModRequest.ProductId}");
@@ -141,7 +141,7 @@ namespace VegankoService.Controllers
                 return NotFound();
             }
 
-            Product product = await productRepository.GetUnapproved(productModRequest.ProductId);
+            UnapprovedProduct product = await productRepository.GetUnapproved(productModRequest.ProductId);
             if (product != null)
             {
                 logger.LogDebug($"Removing unapproved product with id: {product.Id}");
