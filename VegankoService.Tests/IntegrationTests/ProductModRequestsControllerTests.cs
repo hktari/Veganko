@@ -22,6 +22,7 @@ namespace VegankoService.Tests.IntegrationTests
         public ProductModRequestsControllerTests(CustomWebApplicationFactory<Startup> factory)
         {
             this.factory = factory;
+            factory.FakeUserRole = VegankoService.Helpers.Constants.Strings.Roles.Member;
             client = factory.CreateClient();
         }
 
@@ -232,6 +233,34 @@ namespace VegankoService.Tests.IntegrationTests
             Assert.Equal(HttpStatusCode.Conflict, result.StatusCode);
         }
 
+        [Fact]
+        public async Task Delete_MemberNotAuthor_ResultsInForbidden()
+        {
+            var result = await client.DeleteAsync(
+                Util.GetRequestUri($"{Uri}/other_user_prod_mod_req_id"));
+
+            Assert.Equal(HttpStatusCode.Forbidden, result.StatusCode);
+        }
+
+        [Fact]
+        public async Task Delete_MemberWhoIsAuthor_ResultsInOkAndItemRemoved()
+        {
+            var result = await client.DeleteAsync(
+                Util.GetRequestUri($"{Uri}/new_prod_mod_req_id"));
+
+            Assert.Equal(HttpStatusCode.OK, result.StatusCode);
+
+            result = await client.GetAsync(
+                Util.GetRequestUri($"{Uri}/new_prod_mod_req_id"));
+
+            Assert.Equal(HttpStatusCode.NotFound, result.StatusCode);
+        }
+
+        // TODO: manager deletes
+
+            // TODO confirm request
+
+            // TODO: adding images
         private async Task<ProductModRequest> GetProductModRequest(string id)
         {
             return JsonConvert.DeserializeObject<ProductModRequest>(

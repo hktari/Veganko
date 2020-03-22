@@ -18,6 +18,8 @@ namespace VegankoService.Tests
     public class CustomWebApplicationFactory<TStartup> 
         : WebApplicationFactory<TStartup> where TStartup: class
     {
+        public string FakeUserRole { get; set; } = VegankoService.Helpers.Constants.Strings.Roles.Admin;
+
         protected override void ConfigureWebHost(IWebHostBuilder builder)
         {
             builder.ConfigureServices(services =>
@@ -41,7 +43,7 @@ namespace VegankoService.Tests
                 services.AddMvc(opts =>
                 {
                     opts.Filters.Add(new AllowAnonymousFilter());
-                    opts.Filters.Add(new FakeUserFilter());
+                    opts.Filters.Add(new FakeUserFilter(FakeUserRole));
                 });
 
                 // Create a scope to obtain a reference to the database

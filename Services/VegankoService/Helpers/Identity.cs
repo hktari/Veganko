@@ -17,6 +17,11 @@ namespace VegankoService.Helpers
             return claimsPrincipal.Claims.Single(c => c.Type == "id").Value;
         }
 
+        public static string GetRole(ClaimsPrincipal claimsPrincipal)
+        {
+            return claimsPrincipal.Claims.Single(c => c.Type == ClaimTypes.Role).Value;
+        }
+
         public static Task<ApplicationUser> GetUserIdentity(ClaimsPrincipal claimsPrincipal, UserManager<ApplicationUser> userManager)
         {
             return userManager.FindByIdAsync(

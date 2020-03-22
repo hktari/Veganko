@@ -201,15 +201,12 @@ namespace VegankoService.Controllers
                 return NotFound();
             }
 
-            UnapprovedProduct product = await productRepository.GetUnapproved(productModRequest.UnapprovedProduct.Id);
-            if (product != null)
+            string userId = Identity.GetUserIdentityId(httpContextAccessor.HttpContext.User);
+            if (productModRequest.UserId != userId
+                && Identity.GetRole(httpContextAccessor.HttpContext.User) == Constants.Strings.Roles.Member)
             {
-                logger.LogInformation($"Removing unapproved product with id: {product.Id}");
-                await productRepository.DeleteUnapproved(product);
-            }
-            else
-            {
-                logger.LogWarning($"Failed to remove unapproved product with id: {productModRequest.UnapprovedProduct.Id}. Product doesn't exist.");
+                logger.LogWarning($"Member user {userId} doesn't have rights to delete a product mod request {id}, which he didn't create.");
+                return Forbid();
             }
 
             logger.LogInformation($"Removing product mod request with id: {id}");

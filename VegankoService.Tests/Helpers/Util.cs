@@ -56,6 +56,7 @@ namespace VegankoService.Tests
                 new ProductModRequest
                 {
                     Id = "edit_prod_mod_req_id",
+                    UserId = "user_id",
                     ExistingProductId = "existing_product_id",
                     Action = ProductModRequestAction.Edit,
                     ChangedFields = "PRODUCTCLASSIFIERS, TYPE",
@@ -65,6 +66,7 @@ namespace VegankoService.Tests
                 new ProductModRequest
                 {
                     Id = "new_prod_mod_req_id",
+                    UserId = "user_id",
                     ExistingProductId = null,
                     Action = ProductModRequestAction.Add,
                     ChangedFields = null,
@@ -73,7 +75,8 @@ namespace VegankoService.Tests
                 },
                 new ProductModRequest
                 {
-                    Id = "prod_mod_req_id",
+                    Id = "other_user_prod_mod_req_id",
+                    UserId = "other_user_id",
                     ExistingProductId = null,
                     Action = ProductModRequestAction.Add,
                     ChangedFields = null,

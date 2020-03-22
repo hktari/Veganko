@@ -37,7 +37,6 @@ namespace VegankoService.Tests.IntegrationTests
             protected override void OnConfigureTestServices(IServiceCollection services)
             {
                 base.OnConfigureTestServices(services);
-
                 services.AddScoped<UserManager<ApplicationUser>, MockUserManager>();
             }
         }
