@@ -76,5 +76,11 @@ namespace VegankoService.Data
 
             return null;
         }
+
+        public Task CreateUnapproved(Product product)
+        {
+            context.UnapprovedProducts.Add(product);
+            return context.SaveChangesAsync();
+        }
     }
 }

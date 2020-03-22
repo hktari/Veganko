@@ -46,5 +46,15 @@ namespace Veganko.Common.Models.Products
         public string Type { get; set; }
         public DateTime AddedTimestamp { get; set; }
         public DateTime LastUpdateTimestamp { get; set; }
+
+        public void Update(Product product)
+        {
+            product.Name = Name;
+            product.Brand = Brand;
+            product.Barcode = Barcode;
+            product.Description = Description;
+            product.ProductClassifiers = ProductClassifiers;
+            product.Type = Type;
+        }
     }
 }
