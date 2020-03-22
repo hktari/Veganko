@@ -83,6 +83,7 @@ namespace VegankoService.Controllers
                 logger.LogError($"Failed to find unapproved product with id: {productModRequest.UnapprovedProduct.Id}");
                 return BadRequest();
             }
+            // TODO: check for duplicate barcode
 
             unapprovedProduct.Update(productModRequest.UnapprovedProduct);
             await productRepository.UpdateUnapproved(unapprovedProduct);
