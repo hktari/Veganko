@@ -79,6 +79,7 @@ namespace VegankoService.Data
 
         public Task CreateUnapproved(Product product)
         {
+            product.LastUpdateTimestamp = product.AddedTimestamp = DateTime.Now;
             context.UnapprovedProducts.Add(product);
             return context.SaveChangesAsync();
         }
@@ -91,6 +92,13 @@ namespace VegankoService.Data
         public Task DeleteUnapproved(Product product)
         {
             context.UnapprovedProducts.Remove(product);
+            return context.SaveChangesAsync();
+        }
+
+        public Task UpdateUnapproved(Product product)
+        {
+            product.LastUpdateTimestamp = DateTime.Now;
+            context.UnapprovedProducts.Update(product);
             return context.SaveChangesAsync();
         }
     }

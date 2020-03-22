@@ -66,6 +66,20 @@ namespace VegankoService.Controllers
                 return BadRequest();
             }
 
+            logger.LogDebug($"Updating product mod request with id: {id}");
+
+            Product product = await productRepository.GetUnapproved(productModRequest.ProductId);
+            if (product == null)
+            {
+                logger.LogError($"Failed to find unapproved product with id: {productModRequest.ProductId}");
+                return BadRequest();
+            }
+
+            product.Update(productModRequest.Product);
+            await productRepository.UpdateUnapproved(product);
+
+            logger.LogDebug($"Updated unapproved product with id: {product.Id}");
+
             context.Entry(productModRequest).State = EntityState.Modified;
 
             try

@@ -19,5 +19,6 @@ namespace VegankoService.Data
         Task CreateUnapproved(Product product);
         Task<Product> GetUnapproved(string id);
         Task DeleteUnapproved(Product product);
+        Task UpdateUnapproved(Product product);
     }
 }
