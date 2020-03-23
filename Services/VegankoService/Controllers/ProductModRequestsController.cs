@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -25,19 +26,22 @@ namespace VegankoService.Controllers
         private readonly IProductRepository productRepository;
         private readonly ILogger<ProductModRequestsController> logger;
         private readonly IImageService imageService;
+        private readonly ProductsController productsController;
 
         public ProductModRequestsController(
             VegankoContext context,
             IHttpContextAccessor httpContextAccessor,
             IProductRepository productRepository,
             ILogger<ProductModRequestsController> logger,
-            IImageService imageService)
+            IImageService imageService,
+            ProductsController productsController)
         {
             this.context = context;
             this.httpContextAccessor = httpContextAccessor;
             this.productRepository = productRepository;
             this.logger = logger;
             this.imageService = imageService;
+            this.productsController = productsController;
         }
 
         // GET: api/ProductModRequests
@@ -112,15 +116,15 @@ namespace VegankoService.Controllers
             }
 
             Product product = new Product();
-            productModRequest.UnapprovedProduct.MapToProduct(product);
+            productModRequest.UnapprovedProduct.MapToProduct(product, mapAllFields: true);
 
-            // Check if the auid already exists
+            // Check if the barcode already exists
             if (productRepository.Contains(product) is DuplicateProblemDetails err)
             {
                 return new ConflictObjectResult(err);
             }
 
-            productModRequest.UnapprovedProduct.Update(unapprovedProduct);
+            unapprovedProduct.Update(productModRequest.UnapprovedProduct);
             await productRepository.UpdateUnapproved(unapprovedProduct);
 
             logger.LogInformation($"Updated unapproved product with id: {unapprovedProduct.Id}");
@@ -265,7 +269,7 @@ namespace VegankoService.Controllers
             try
             {
                 string newImageName = await imageService.SaveImage(input);
-                
+
                 if (prodRequest.UnapprovedProduct.ImageName != null)
                 {
                     imageService.DeleteImages(prodRequest.UnapprovedProduct.ImageName);
@@ -280,6 +284,118 @@ namespace VegankoService.Controllers
                 logger.LogError(ex, $"Failed to save images for product with id: {id}");
                 return BadRequest();
             }
+        }
+
+        // TODO: submit / accept mode request
+        [HttpPost("approve/{id}")]
+        public async Task<IActionResult> ApproveProductModRequest([FromRoute] string id, [FromBody] ProductModRequest proModReqUpdate)
+        {
+            logger.LogInformation($"Executing ApproveProductModRequest({id}, productModRequest)");
+
+            if (id != proModReqUpdate.Id)
+            {
+                logger.LogWarning("Route id and model id don't match");
+                return BadRequest();
+            }
+
+            ProductModRequest productRequest = context.ProductModRequests.Include(pmr => pmr.UnapprovedProduct)
+
+                                                                         .FirstOrDefault(pmr => pmr.Id == id);
+            if (productRequest == null)
+            {
+                logger.LogWarning($"ProductModRequest not found");
+                return NotFound();
+            }
+
+            productRequest.UnapprovedProduct.Update(proModReqUpdate.UnapprovedProduct);
+
+            // TODO: 
+            /*
+             IF NEW
+                move from unapproved to product table
+                remove request?
+                create product mod entry ?
+            ELSE IF EDIT
+                get product
+                IF UPDATING IMG
+                    remove images
+                update product
+                remove request or just change state to CLOSED with moderator id?
+                create product mod entry ?
+
+             */
+            IActionResult result;
+            ProductModRequestState? newState;
+
+            Product product = null;
+            if (productRequest.Action == ProductModRequestAction.Add)
+            {
+                product = new Product();
+                productRequest.UnapprovedProduct.MapToProduct(product, mapAllFields: true);
+                productRepository.Create(product);
+
+                newState = ProductModRequestState.Approved;
+                result = Ok(product);
+            }
+            else if (productRequest.Action == ProductModRequestAction.Edit)
+            {
+                product = productRepository.Get(productRequest.ExistingProductId);
+
+                if (product == null)
+                {
+                    logger.LogError($"Product with id: {product.Id} not found. Might've been deleted.");
+
+                    newState = ProductModRequestState.Missing;
+                    result = new RequestError(
+                        nameof(ProductModRequest.ExistingProductId), "Product to update was not found. It might've been deleted.")
+                        .SetStatusCode((int)HttpStatusCode.BadRequest)
+                        .ToActionResult();
+                }
+                else 
+                {
+                    // Delete old images before updating the reference to them
+                    if (product.ImageName != null && product.ImageName != productRequest.UnapprovedProduct.ImageName)
+                    {
+                        imageService.DeleteImages(product.ImageName);
+                    }
+
+                    productRequest.UnapprovedProduct.MapToProduct(product);
+                    // ImageName is readonly and not being mapped by MapToProduct()
+                    product.ImageName = productRequest.UnapprovedProduct.ImageName;
+
+                    productRepository.Update(product);
+
+                    newState = ProductModRequestState.Approved;
+                    result = Ok(product);
+                }
+            }
+            else
+            {
+                logger.LogError($"Unhandled product request action: {productRequest.Action}");
+                throw new NotImplementedException($"Unhandled product request action: {productRequest.Action}");
+            }
+
+            productRequest.State = newState.Value;
+            context.Entry(productRequest).State = EntityState.Modified;
+
+            // TODO: move to repository
+            try
+            {
+                await context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!ProductModRequestExists(id))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
+            }
+
+            return result;
         }
 
         private bool ProductModRequestExists(string id)

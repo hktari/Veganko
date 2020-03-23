@@ -38,6 +38,9 @@ namespace VegankoService.Tests
                 new UnapprovedProduct
                 {
                     Id = "new_unprvd_product",
+                    Name = "Peanut butter",
+                    Brand = "Rok's",
+                    Barcode = "1234"
                 },
                 new UnapprovedProduct
                 {

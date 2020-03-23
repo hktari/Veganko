@@ -1,0 +1,77 @@
+** EDITING **
+
+USER 1 edits name
+
+WHO edited ?, WHEN did he edit ?, WHAT did he edit ? WHAT was the change (prod classifiers)
+
+OVERWRITE PRODUCT OR DELETE request
+
+
+
+USER 1 edits name
+USER 2 adds barcode
+
+approve name
+approve barcode
+
+
+
+USER 1 edits name
+USER 2 edits name
+
+approve name of no.1
+delete request of no.2
+
+
+
+
+USER 1 edits prod classifiers
+USER 2 edits prod classifiers
+
+approve no.1
+approval of no2. might overwrite no1.
+*************
+
+** ADDING **
+
+user 1 adds product ADDING
+
+is member ?
+    add to unprvd prod db
+    add prefix to images
+
+************
+
+** APPROVE ADDITION **
+approve
+    if product doesnt exist
+        delete from approval db and add to products db
+        rename image (remove prefix)
+        remove from users list and go back
+    else
+        show user the already existing product
+
+delete
+    delete from db
+    delete images ?
+
+
+
+
+PRODUCT MODIFICATIONS
+    ACTION (ADD, EDIT, DELETE)
+    user_id
+    product_id
+    timestamp
+    edit_request_id
+
+
+PROD_MOD_REQUEST
+    ACTION (ADD, EDIT)
+    user_id
+    product_id
+    timestamp
+    Product
+    changes: list<string>
+
+    

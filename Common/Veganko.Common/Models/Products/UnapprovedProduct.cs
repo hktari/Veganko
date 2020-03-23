@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Veganko.Common.Models.Products
 {
@@ -23,6 +21,29 @@ namespace Veganko.Common.Models.Products
 
         public void Update(UnapprovedProduct product)
         {
+            Name = product.Name;
+            Brand = product.Brand;
+            Barcode = product.Barcode;
+            Description = product.Description;
+            ProductClassifiers = product.ProductClassifiers;
+            Type = product.Type;
+        }
+
+        /// <summary>
+        /// Maps this <see cref="UnapprovedProduct"/> to the given <see cref="Product"/>.
+        /// </summary>
+        /// <param name="product">The product to map.</param>
+        /// <param name="mapAllFields">Whether all, including read-only fields, should be mapped.</param>
+        public void MapToProduct(Product product, bool mapAllFields = false)
+        {
+            if (mapAllFields)
+            {
+                product.Id = Id;
+                product.ImageName = ImageName;
+                product.AddedTimestamp = AddedTimestamp;
+                product.LastUpdateTimestamp = LastUpdateTimestamp;
+            }
+
             product.Name = Name;
             product.Brand = Brand;
             product.Barcode = Barcode;
@@ -31,15 +52,17 @@ namespace Veganko.Common.Models.Products
             product.Type = Type;
         }
 
-        public void MapToProduct(Product product)
+        public bool Equals(Product product)
         {
-            product.Name = Name;
-            product.Brand = Brand;
-            product.Barcode = Barcode;
-            product.ImageName = ImageName;
-            product.Description = Description;
-            product.ProductClassifiers = ProductClassifiers;
-            product.Type = Type;
+            return 
+                product.Id == Id &&
+                product.ImageName == ImageName &&
+                product.Name == Name &&
+                product.Brand == Brand &&
+                product.Barcode == Barcode &&
+                product.Description == Description &&
+                product.ProductClassifiers == ProductClassifiers &&
+                product.Type == Type;
         }
     }
 }

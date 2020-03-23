@@ -24,5 +24,7 @@ namespace Veganko.Common.Models.Products
         public UnapprovedProduct UnapprovedProduct { get; set; }
         
         public string ChangedFields { get; set; }
+
+        public ProductModRequestState State { get; set; }
     }
 }

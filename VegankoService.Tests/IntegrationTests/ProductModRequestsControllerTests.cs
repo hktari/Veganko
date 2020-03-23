@@ -305,6 +305,22 @@ namespace VegankoService.Tests.IntegrationTests
             Assert.Equal(HttpStatusCode.OK, response.StatusCode);
         }
 
+        [Fact]
+        public async Task Approve_ActionAdd_Existing_ResultsInOkEqualContent()
+        {
+            Util.ReinitializeDbForTests(factory.CreateDbContext());
+
+            ProductModRequest productModReq = await GetProductModRequest("new_prod_mod_req_id");
+            var result = await client.PostAsync(
+                Util.GetRequestUri($"{Uri}/approve/{productModReq.Id}"),
+                productModReq.GetStringContent());
+
+            Assert.Equal(HttpStatusCode.OK, result.StatusCode);
+
+            Product product = JsonConvert.DeserializeObject<Product>(result.GetJson());
+            Assert.True(productModReq.UnapprovedProduct.Equals(product));
+        }
+
         private HttpContent CreateMultipartContent()
         {
             byte[] image = new byte[256];
