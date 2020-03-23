@@ -312,7 +312,7 @@ namespace VegankoService.Tests.IntegrationTests
             Util.ReinitializeDbForTests(factory.CreateDbContext());
 
             ProductModRequest productModReq = await GetProductModRequest("new_prod_mod_req_id");
-            var result = await client.PostAsync(
+            var result = await client.PutAsync(
                 Util.GetRequestUri($"{Uri}/approve/{productModReq.Id}"),
                 productModReq.GetStringContent());
 
@@ -333,7 +333,7 @@ namespace VegankoService.Tests.IntegrationTests
             Util.ReinitializeDbForTests(factory.CreateDbContext());
 
             ProductModRequest productModReq = await GetProductModRequest("edit_prod_mod_req_id");
-            var result = await client.PostAsync(
+            var result = await client.PutAsync(
                 Util.GetRequestUri($"{Uri}/approve/{productModReq.Id}"),
                 productModReq.GetStringContent());
 
@@ -362,7 +362,7 @@ namespace VegankoService.Tests.IntegrationTests
             // Delete the product being edited
             await client.DeleteAsync(Util.GetRequestUri($"products/{productModReq.ExistingProductId}"));
 
-            var result = await client.PostAsync(
+            var result = await client.PutAsync(
                 Util.GetRequestUri($"{Uri}/approve/{productModReq.Id}"),
                 productModReq.GetStringContent());
 
@@ -370,6 +370,19 @@ namespace VegankoService.Tests.IntegrationTests
 
             var err = JsonConvert.DeserializeObject<ValidationProblemDetails>(result.GetJson());
             Assert.NotNull(err);
+        }
+
+        [Fact]
+        public async Task Reject_Existing_ResultsInOkAndStateSet()
+        {
+            Util.ReinitializeDbForTests(factory.CreateDbContext());
+
+            ProductModRequest productModReq = await GetProductModRequest("edit_prod_mod_req_id");
+            var result = await client.GetAsync(Util.GetRequestUri($"{Uri}/reject/{productModReq.Id}"));
+
+            Assert.Equal(HttpStatusCode.OK, result.StatusCode);
+            productModReq = JsonConvert.DeserializeObject<ProductModRequest>(result.GetJson());
+            Assert.Equal(ProductModRequestState.Rejected, productModReq.State);
         }
 
         private HttpContent CreateMultipartContent()

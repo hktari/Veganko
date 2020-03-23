@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Veganko.Common.Models.Products;
 using VegankoService.Data;
+using VegankoService.Data.ProductModRequests;
 using VegankoService.Helpers;
 using VegankoService.Models;
 using VegankoService.Models.ErrorHandling;
@@ -27,6 +28,7 @@ namespace VegankoService.Controllers
         private readonly ILogger<ProductModRequestsController> logger;
         private readonly IImageService imageService;
         private readonly ProductsController productsController;
+        private readonly IProductModRequestsRepository productModReqRepository;
 
         public ProductModRequestsController(
             VegankoContext context,
@@ -34,7 +36,8 @@ namespace VegankoService.Controllers
             IProductRepository productRepository,
             ILogger<ProductModRequestsController> logger,
             IImageService imageService,
-            ProductsController productsController)
+            ProductsController productsController,
+            IProductModRequestsRepository productModReqRepository)
         {
             this.context = context;
             this.httpContextAccessor = httpContextAccessor;
@@ -42,6 +45,7 @@ namespace VegankoService.Controllers
             this.logger = logger;
             this.imageService = imageService;
             this.productsController = productsController;
+            this.productModReqRepository = productModReqRepository;
         }
 
         // GET: api/ProductModRequests
@@ -57,13 +61,7 @@ namespace VegankoService.Controllers
                 return BadRequest();
             }
 
-            return Ok(new PagedList<ProductModRequest>
-            {
-                Items = context.ProductModRequests.Include(pmr => pmr.UnapprovedProduct),
-                Page = page,
-                PageSize = pageSize,
-                TotalCount = context.ProductModRequests.Count(),
-            });
+            return Ok(productModReqRepository.GetAll(page, pageSize));
         }
 
         // GET: api/ProductModRequests/5
@@ -75,8 +73,7 @@ namespace VegankoService.Controllers
                 return BadRequest(ModelState);
             }
 
-            var productModRequest = await context.ProductModRequests.Include(pmr => pmr.UnapprovedProduct)
-                                                                    .FirstOrDefaultAsync(pmr => pmr.Id == id);
+            var productModRequest = await productModReqRepository.Get(id);
 
             if (productModRequest == null)
             {
@@ -100,6 +97,12 @@ namespace VegankoService.Controllers
             if (id != productModRequest.Id)
             {
                 return BadRequest();
+            }
+
+            if ((await productModReqRepository.Get(id)) == null)
+            {
+                logger.LogWarning("ProductModRequest not found");
+                return NotFound();
             }
 
             if (productModRequest.Action == ProductModRequestAction.Edit && string.IsNullOrEmpty(productModRequest.ChangedFields))
@@ -131,23 +134,7 @@ namespace VegankoService.Controllers
 
             productModRequest.Timestamp = DateTime.Now;
 
-            context.Entry(productModRequest).State = EntityState.Modified;
-
-            try
-            {
-                await context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!ProductModRequestExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
+            await productModReqRepository.Update(productModRequest);
 
             return NoContent();
         }
@@ -196,8 +183,7 @@ namespace VegankoService.Controllers
             productModRequest.UserId = Identity.GetUserIdentityId(httpContextAccessor.HttpContext.User);
             productModRequest.Timestamp = DateTime.Now;
 
-            context.ProductModRequests.Add(productModRequest);
-            await context.SaveChangesAsync();
+            await productModReqRepository.Create(productModRequest);
 
             return CreatedAtAction("GetProductModRequest", new { id = productModRequest.Id }, productModRequest);
         }
@@ -211,8 +197,7 @@ namespace VegankoService.Controllers
                 return BadRequest(ModelState);
             }
 
-            var productModRequest = await context.ProductModRequests.Include(pmr => pmr.UnapprovedProduct)
-                                                                    .FirstOrDefaultAsync(pmr => pmr.Id == id);
+            var productModRequest = await productModReqRepository.Get(id);
             if (productModRequest == null)
             {
                 logger.LogWarning($"Product mod request with id: {id} not found.");
@@ -229,8 +214,7 @@ namespace VegankoService.Controllers
 
             logger.LogInformation($"Removing product mod request with id: {id}");
 
-            context.ProductModRequests.Remove(productModRequest);
-            await context.SaveChangesAsync();
+            await productModReqRepository.Delete(productModRequest);
 
             if (productModRequest.UnapprovedProduct.ImageName != null)
             {
@@ -245,9 +229,7 @@ namespace VegankoService.Controllers
         {
             logger.LogInformation($"PostImage({id})");
 
-            ProductModRequest prodRequest = await context.ProductModRequests
-                .Include(pmr => pmr.UnapprovedProduct)
-                .FirstOrDefaultAsync(pmr => pmr.Id == id);
+            ProductModRequest prodRequest = await productModReqRepository.Get(id);
 
             if (prodRequest == null)
             {
@@ -287,7 +269,7 @@ namespace VegankoService.Controllers
         }
 
         // TODO: submit / accept mode request
-        [HttpPost("approve/{id}")]
+        [HttpPut("approve/{id}")]
         public async Task<IActionResult> ApproveProductModRequest([FromRoute] string id, [FromBody] ProductModRequest proModReqUpdate)
         {
             logger.LogInformation($"Executing ApproveProductModRequest({id}, productModRequest)");
@@ -298,9 +280,7 @@ namespace VegankoService.Controllers
                 return BadRequest();
             }
 
-            ProductModRequest productRequest = context.ProductModRequests.Include(pmr => pmr.UnapprovedProduct)
-
-                                                                         .FirstOrDefault(pmr => pmr.Id == id);
+            ProductModRequest productRequest = await productModReqRepository.Get(id);
             if (productRequest == null)
             {
                 logger.LogWarning($"ProductModRequest not found");
@@ -361,7 +341,7 @@ namespace VegankoService.Controllers
             }
 
             // Add info regarding evaluation
-            context.ProductModRequestEvaluations.Add(new ProductModRequestEvaluation 
+            context.ProductModRequestEvaluations.Add(new ProductModRequestEvaluation
             {
                 ProductModRequest = productRequest,
                 EvaluatorUserId = Identity.GetUserIdentityId(httpContextAccessor.HttpContext.User),
@@ -370,31 +350,34 @@ namespace VegankoService.Controllers
             });
 
             productRequest.State = newState.Value;
-            context.Entry(productRequest).State = EntityState.Modified;
-
-            // TODO: move to repository
-            try
-            {
-                await context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!ProductModRequestExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
+            await productModReqRepository.Update(productRequest);
 
             return result;
         }
 
-        private bool ProductModRequestExists(string id)
+        [HttpGet("reject/{id}")]
+        public async Task<IActionResult> RejectProductModRequest([FromRoute] string id)
         {
-            return context.ProductModRequests.Any(e => e.Id == id);
+            logger.LogInformation($"RejectProductModRequest({id})");
+
+            ProductModRequest productRequest = await productModReqRepository.Get(id);
+            if (productRequest == null)
+            {
+                logger.LogWarning($"ProductModRequest not found");
+                return NotFound();
+            }
+
+            productRequest.State = ProductModRequestState.Rejected;
+            await productModReqRepository.Update(productRequest);
+            context.ProductModRequestEvaluations.Add(new ProductModRequestEvaluation 
+            {
+                EvaluatorUserId = Identity.GetUserIdentityId(httpContextAccessor.HttpContext.User),
+                ProductModRequest = productRequest,
+                State = ProductModRequestState.Rejected,
+                Timestamp = DateTime.Now,
+            });
+
+            return Ok(productRequest);
         }
     }
 }

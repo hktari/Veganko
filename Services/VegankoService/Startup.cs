@@ -37,6 +37,7 @@ using Microsoft.AspNetCore.HttpOverrides;
 using System.Net.Mime;
 using VegankoService.Services.Images;
 using VegankoService.Controllers;
+using VegankoService.Data.ProductModRequests;
 
 namespace VegankoService
 {
@@ -66,6 +67,7 @@ namespace VegankoService
             services.AddScoped<IProductRepository, ProductRepository>();
             services.AddScoped<ICommentRepository, CommentRepository>();
             services.AddScoped<IUsersRepository, UsersRepository>();
+            services.AddScoped<IProductModRequestsRepository, ProductModRequestsRepository>();
 
             services.AddScoped<IJwtFactory, JwtFactory>();
 
@@ -73,8 +75,6 @@ namespace VegankoService
 
             services.AddScoped<IEmailService, EmailService>();
             services.AddScoped<IImageService, ImageService>();
-
-            services.AddTransient<ProductsController, ProductsController>();
 
             //services.Configure<AuthMessageSenderOptions>(Configuration); ???
 
