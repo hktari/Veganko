@@ -27,7 +27,6 @@ namespace VegankoService.Controllers
         private readonly IProductRepository productRepository;
         private readonly ILogger<ProductModRequestsController> logger;
         private readonly IImageService imageService;
-        private readonly ProductsController productsController;
         private readonly IProductModRequestsRepository productModReqRepository;
 
         public ProductModRequestsController(
@@ -36,7 +35,6 @@ namespace VegankoService.Controllers
             IProductRepository productRepository,
             ILogger<ProductModRequestsController> logger,
             IImageService imageService,
-            ProductsController productsController,
             IProductModRequestsRepository productModReqRepository)
         {
             this.context = context;
@@ -44,7 +42,6 @@ namespace VegankoService.Controllers
             this.productRepository = productRepository;
             this.logger = logger;
             this.imageService = imageService;
-            this.productsController = productsController;
             this.productModReqRepository = productModReqRepository;
         }
 
