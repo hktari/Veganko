@@ -309,21 +309,6 @@ namespace VegankoService.Controllers
 
             productRequest.UnapprovedProduct.Update(proModReqUpdate.UnapprovedProduct);
 
-            // TODO: 
-            /*
-             IF NEW
-                move from unapproved to product table
-                remove request?
-                create product mod entry ?
-            ELSE IF EDIT
-                get product
-                IF UPDATING IMG
-                    remove images
-                update product
-                remove request or just change state to CLOSED with moderator id?
-                create product mod entry ?
-
-             */
             IActionResult result;
             ProductModRequestState? newState;
 
@@ -343,7 +328,7 @@ namespace VegankoService.Controllers
 
                 if (product == null)
                 {
-                    logger.LogError($"Product with id: {product.Id} not found. Might've been deleted.");
+                    logger.LogError($"Product with id: {productRequest.ExistingProductId} not found. Might've been deleted.");
 
                     newState = ProductModRequestState.Missing;
                     result = new RequestError(
@@ -351,7 +336,7 @@ namespace VegankoService.Controllers
                         .SetStatusCode((int)HttpStatusCode.BadRequest)
                         .ToActionResult();
                 }
-                else 
+                else
                 {
                     // Delete old images before updating the reference to them
                     if (product.ImageName != null && product.ImageName != productRequest.UnapprovedProduct.ImageName)
@@ -374,6 +359,15 @@ namespace VegankoService.Controllers
                 logger.LogError($"Unhandled product request action: {productRequest.Action}");
                 throw new NotImplementedException($"Unhandled product request action: {productRequest.Action}");
             }
+
+            // Add info regarding evaluation
+            context.ProductModRequestEvaluations.Add(new ProductModRequestEvaluation 
+            {
+                ProductModRequest = productRequest,
+                EvaluatorUserId = Identity.GetUserIdentityId(httpContextAccessor.HttpContext.User),
+                State = newState.Value,
+                Timestamp = DateTime.Now,
+            });
 
             productRequest.State = newState.Value;
             context.Entry(productRequest).State = EntityState.Modified;

@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -306,7 +307,7 @@ namespace VegankoService.Tests.IntegrationTests
         }
 
         [Fact]
-        public async Task Approve_ActionAdd_Existing_ResultsInOkEqualContent()
+        public async Task Approve_ActionAdd_Existing_ResultsInOkAndItemBehindProductGet()
         {
             Util.ReinitializeDbForTests(factory.CreateDbContext());
 
@@ -319,6 +320,56 @@ namespace VegankoService.Tests.IntegrationTests
 
             Product product = JsonConvert.DeserializeObject<Product>(result.GetJson());
             Assert.True(productModReq.UnapprovedProduct.Equals(product));
+
+            result = await client.GetAsync(
+                Util.GetRequestUri($"products/{product.Id}"));
+
+            Assert.Equal(HttpStatusCode.OK, result.StatusCode);
+        }
+
+        [Fact]
+        public async Task Approve_ActionEdit_Existing_ResultsInOkAndItemUpdated()
+        {
+            Util.ReinitializeDbForTests(factory.CreateDbContext());
+
+            ProductModRequest productModReq = await GetProductModRequest("edit_prod_mod_req_id");
+            var result = await client.PostAsync(
+                Util.GetRequestUri($"{Uri}/approve/{productModReq.Id}"),
+                productModReq.GetStringContent());
+
+            Assert.Equal(HttpStatusCode.OK, result.StatusCode);
+
+            Product product = JsonConvert.DeserializeObject<Product>(result.GetJson());
+            Assert.True(productModReq.UnapprovedProduct.Equals(product, checkId: false));
+
+            result = await client.GetAsync(
+                Util.GetRequestUri($"products/{product.Id}"));
+
+            Assert.Equal(HttpStatusCode.OK, result.StatusCode);
+
+            // Test equality of item behind GET products/{id}
+            product = JsonConvert.DeserializeObject<Product>(result.GetJson());
+            Assert.True(productModReq.UnapprovedProduct.Equals(product, checkId: false));
+        }
+
+        [Fact]
+        public async Task Approve_ActionEdit_Missing_ResultsInBadRequestAndErrorResponse()
+        {
+            Util.ReinitializeDbForTests(factory.CreateDbContext());
+
+            ProductModRequest productModReq = await GetProductModRequest("edit_prod_mod_req_id");
+
+            // Delete the product being edited
+            await client.DeleteAsync(Util.GetRequestUri($"products/{productModReq.ExistingProductId}"));
+
+            var result = await client.PostAsync(
+                Util.GetRequestUri($"{Uri}/approve/{productModReq.Id}"),
+                productModReq.GetStringContent());
+
+            Assert.Equal(HttpStatusCode.BadRequest, result.StatusCode);
+
+            var err = JsonConvert.DeserializeObject<ValidationProblemDetails>(result.GetJson());
+            Assert.NotNull(err);
         }
 
         private HttpContent CreateMultipartContent()

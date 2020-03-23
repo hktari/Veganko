@@ -52,10 +52,10 @@ namespace Veganko.Common.Models.Products
             product.Type = Type;
         }
 
-        public bool Equals(Product product)
+        public bool Equals(Product product, bool checkId = true)
         {
             return 
-                product.Id == Id &&
+                (!checkId || product.Id == Id) &&
                 product.ImageName == ImageName &&
                 product.Name == Name &&
                 product.Brand == Brand &&
