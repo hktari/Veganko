@@ -48,12 +48,12 @@ namespace Veganko.Common.Models.Products
 
         public void Update(Product product)
         {
-            product.Name = Name;
-            product.Brand = Brand;
-            product.Barcode = Barcode;
-            product.Description = Description;
-            product.ProductClassifiers = ProductClassifiers;
-            product.Type = Type;
+            Name = product.Name;
+            Brand = product.Brand;
+            Barcode = product.Barcode;
+            Description = product.Description;
+            ProductClassifiers = product.ProductClassifiers;
+            Type = product.Type;
         }
     }
 }
