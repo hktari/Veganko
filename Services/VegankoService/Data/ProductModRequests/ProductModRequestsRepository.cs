@@ -48,7 +48,7 @@ namespace VegankoService.Data.ProductModRequests
 
         public Task Update(ProductModRequest productModRequest)
         {
-            context.Entry(productModRequest).State = EntityState.Modified;
+            context.ProductModRequests.Update(productModRequest);
             return context.SaveChangesAsync();
         }
     }

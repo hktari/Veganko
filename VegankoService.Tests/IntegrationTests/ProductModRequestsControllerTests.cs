@@ -1,8 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -295,8 +292,10 @@ namespace VegankoService.Tests.IntegrationTests
         [InlineData(Roles.Manager)]
         public async Task PostImage_UserHasElevatedRights_ResultsInOk(string role)
         {
-            var factory = new CustomWebApplicationFactory<Startup>();
-            factory.FakeUserRole = role;
+            var factory = new CustomWebApplicationFactory<Startup>
+            {
+                FakeUserRole = role
+            };
             var client = factory.CreateClient();
 
             var response = await client.PostAsync(
@@ -389,17 +388,19 @@ namespace VegankoService.Tests.IntegrationTests
         {
             byte[] image = new byte[256];
 
-            var content = new MultipartFormDataContent();
-            content.Add(new StreamContent(new MemoryStream(image)), "DetailImage", "DetailImage.jpg");
-            content.Add(new StreamContent(new MemoryStream(image)), "ThumbImage", "ThumbImage.jpg");
+            var content = new MultipartFormDataContent
+            {
+                { new StreamContent(new MemoryStream(image)), "DetailImage", "DetailImage.jpg" },
+                { new StreamContent(new MemoryStream(image)), "ThumbImage", "ThumbImage.jpg" }
+            };
             return content;
         }
 
         // TODO: manager deletes
 
-            // TODO confirm request
+        // TODO confirm request
 
-            // TODO: adding images
+        // TODO: adding images
         private async Task<ProductModRequest> GetProductModRequest(string id)
         {
             return JsonConvert.DeserializeObject<ProductModRequest>(

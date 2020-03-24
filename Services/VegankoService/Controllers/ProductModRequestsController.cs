@@ -82,7 +82,7 @@ namespace VegankoService.Controllers
 
         // PUT: api/ProductModRequests/5
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutProductModRequest([FromRoute] string id, [FromBody] ProductModRequest productModRequest)
+        public async Task<IActionResult> PutProductModRequest([FromRoute] string id, [FromBody] ProductModRequest input)
         {
             logger.LogInformation($"Executing PutProductModRequest({id})");
 
@@ -91,16 +91,20 @@ namespace VegankoService.Controllers
                 return BadRequest(ModelState);
             }
 
-            if (id != productModRequest.Id)
+            if (id != input.Id)
             {
                 return BadRequest();
             }
 
-            if ((await productModReqRepository.Get(id)) == null)
+            ProductModRequest productModRequest = await productModReqRepository.Get(id);
+
+            if(productModRequest == null)
             {
                 logger.LogWarning("ProductModRequest not found");
                 return NotFound();
             }
+
+            productModRequest.Update(input);
 
             if (productModRequest.Action == ProductModRequestAction.Edit && string.IsNullOrEmpty(productModRequest.ChangedFields))
             {
@@ -108,10 +112,9 @@ namespace VegankoService.Controllers
                 return BadRequest();
             }
 
-            UnapprovedProduct unapprovedProduct = await productRepository.GetUnapproved(productModRequest.UnapprovedProduct.Id);
-            if (unapprovedProduct == null)
+            if (productModRequest.UnapprovedProduct == null)
             {
-                logger.LogError($"Failed to find unapproved product with id: {productModRequest.UnapprovedProduct.Id}");
+                logger.LogError($"Failed to find unapproved product with id: {input.UnapprovedProduct.Id}");
                 return BadRequest();
             }
 
@@ -124,10 +127,10 @@ namespace VegankoService.Controllers
                 return new ConflictObjectResult(err);
             }
 
-            unapprovedProduct.Update(productModRequest.UnapprovedProduct);
-            await productRepository.UpdateUnapproved(unapprovedProduct);
+            // TODO: move to ProductModReqRepository ?
+            await productRepository.UpdateUnapproved(productModRequest.UnapprovedProduct);
 
-            logger.LogInformation($"Updated unapproved product with id: {unapprovedProduct.Id}");
+            logger.LogInformation($"Updated unapproved product with id: {productModRequest.UnapprovedProduct.Id}");
 
             productModRequest.Timestamp = DateTime.Now;
 

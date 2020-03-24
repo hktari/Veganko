@@ -38,5 +38,11 @@ namespace Veganko.Common.Models.Products
         public ProductModRequestState State { get; set; }
 
         public ICollection<ProductModRequestEvaluation> Evaluations { get; set; }
+
+        public void Update(ProductModRequest input)
+        {
+            ChangedFields = input.ChangedFields;
+            UnapprovedProduct?.Update(input.UnapprovedProduct);
+        }
     }
 }
