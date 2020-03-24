@@ -31,7 +31,9 @@ namespace VegankoService.Data.ProductModRequests
 
         public Task<ProductModRequest> Get(string id)
         {
-            return context.ProductModRequests.Include(pmr => pmr.UnapprovedProduct)
+            return context.ProductModRequests
+                .Include(pmr => pmr.UnapprovedProduct)
+                .Include(pmr => pmr.Evaluations)
                 .FirstOrDefaultAsync(pmr => pmr.Id == id);
         }
 
@@ -39,7 +41,10 @@ namespace VegankoService.Data.ProductModRequests
         {
             return new PagedList<ProductModRequest>
             {
-                Items = context.ProductModRequests.Include(pmr => pmr.UnapprovedProduct),
+                Items = context.ProductModRequests
+                    .Include(pmr => pmr.UnapprovedProduct)
+                    .Include(pmr => pmr.Evaluations),
+                
                 Page = page,
                 PageSize = pageSize,
                 TotalCount = context.ProductModRequests.Count(),
