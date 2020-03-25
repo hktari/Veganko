@@ -8,6 +8,7 @@ using ProductModRequestDTO = Veganko.Common.Models.Products.ProductModRequestDTO
 using Veganko.Models;
 using Veganko.Services.Http;
 using Veganko.Services.Http.Errors;
+using Veganko.Common.Models.Products;
 
 namespace Veganko.Services.Products.ProductModRequests
 {
@@ -32,7 +33,7 @@ namespace Veganko.Services.Products.ProductModRequests
             if (response.IsSuccessful)
             {
                 var pmr = JsonConvert.DeserializeObject<ProductModRequestDTO>(response.Content);
-                productHelper.AddImageUrls(Product.MapToProduct(pmr.UnapprovedProduct));
+                productHelper.AddImageUrls(pmr.UnapprovedProduct);
                 return pmr;
             }
             else if (response.StatusCode == System.Net.HttpStatusCode.Conflict)
@@ -56,7 +57,7 @@ namespace Veganko.Services.Products.ProductModRequests
             if (response.IsSuccessful)
             {
                 var pmr = JsonConvert.DeserializeObject<ProductModRequestDTO>(response.Content);
-                productHelper.AddImageUrls(Product.MapToProduct(pmr.UnapprovedProduct));
+                productHelper.AddImageUrls(pmr.UnapprovedProduct);
                 return pmr;
             }
             else if (response.StatusCode == System.Net.HttpStatusCode.Conflict)
@@ -96,8 +97,8 @@ namespace Veganko.Services.Products.ProductModRequests
             request.AddFile("ThumbImage", thumbImageData, "ThumbImage.jpg");
 
             item = await restService.ExecuteAsync<ProductModRequestDTO>(request);
-            productHelper.AddImageUrls(Product.MapToProduct(item.UnapprovedProduct));
-
+            productHelper.AddImageUrls(item.UnapprovedProduct);
+            return item;
         }
     }
 }

@@ -9,6 +9,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Text;
 using System.Threading.Tasks;
+using Veganko.Common.Models.Products;
 using Veganko.Extensions;
 using Veganko.Models;
 using Veganko.Models.User;

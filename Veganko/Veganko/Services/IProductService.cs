@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
+using Veganko.Common.Models.Products;
 using Veganko.Models;
 
 namespace Veganko.Services

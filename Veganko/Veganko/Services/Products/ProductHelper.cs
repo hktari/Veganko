@@ -1,4 +1,5 @@
 ﻿using System;
+using Veganko.Common.Models.Products;
 using Veganko.Models;
 using Veganko.Services.Http;
 

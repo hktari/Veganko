@@ -11,6 +11,7 @@ using Veganko.Droid.Renderers;
 using Veganko.Extensions;
 using Veganko.Converters;
 using System.Collections.Generic;
+using Veganko.Common.Models.Products;
 
 [assembly: ExportRenderer(typeof(DroidProductTypeSpinner), typeof(DroidProductTypeSpinnerRenderer))]
 namespace Veganko.Droid.Renderers

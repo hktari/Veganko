@@ -2,7 +2,9 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using Veganko.Common.Models.Products;
 using Veganko.Models;
+using Veganko.Models.JsonConverters;
 using Veganko.Services.DB;
 using Xamarin.Forms;
 
@@ -31,9 +33,6 @@ namespace Veganko.ViewModels.Products.Partial
         }
 
         public string Id { get; set; }
-
-        // ??
-        public ProductState State { get; set; }
 
         private string name;
         public string Name
@@ -127,9 +126,10 @@ namespace Veganko.ViewModels.Products.Partial
 
         public void Update(Product product)
         {
-            Type = product.Type;
-            ProductClassifiers = new ObservableCollection<ProductClassifier>(
-                product.ProductClassifiers ?? new List<ProductClassifier>());
+            Type = product.ProdType;
+            // TODO: FIX NOW
+            //ProductClassifiers = new ObservableCollection<ProductClassifier>(
+            //    product.ProductClassifiers ?? new List<ProductClassifier>());
             Description = product.Description ?? string.Empty;
             Image = product.DetailImage;
             ThumbnailImage = product.ThumbImage;
@@ -143,6 +143,8 @@ namespace Veganko.ViewModels.Products.Partial
             UpdateIsNew();
         }
 
+        DecimalProductClassifierListConverter converter = new DecimalProductClassifierListConverter();
+
         /// <summary>
         /// Updates the product with the view model data. Image is not updated,
         /// since there's a seperate api for updating images.
@@ -150,9 +152,10 @@ namespace Veganko.ViewModels.Products.Partial
         /// <param name="product"></param>
         public void MapToModel(Product product)
         {
-            product.Type = Type;
-            product.ProductClassifiers = new List<ProductClassifier>(
-                ProductClassifiers ?? new ObservableCollection<ProductClassifier>());
+            product.ProdType = Type;
+            // TODO: FIX NOW
+            //product.ProductClassifiers = new List<ProductClassifier>(
+            //    ProductClassifiers ?? new ObservableCollection<ProductClassifier>());
             product.Description = Description;
             product.Barcode = Barcode;
             product.Brand = Brand;

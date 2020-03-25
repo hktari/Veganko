@@ -3,6 +3,7 @@
     x:Class="Veganko.Views.ProductListPage"
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:common="clr-namespace:Veganko.Common.Models.Products;assembly=Veganko.Common"
     xmlns:controls="clr-namespace:Veganko.Controls"
     xmlns:converters="clr-namespace:Veganko.Converters"
     xmlns:effects="clr-namespace:Veganko.Effects"
@@ -107,7 +108,7 @@
                 <StackLayout Orientation="Vertical">
                     <ContentView x:Name="pickerRoot">
                         <ContentView.Content>
-                            <OnPlatform>
+                            <OnPlatform x:TypeArguments="View">
                                 <OnPlatform.Android>
                                     <controls:DroidProductTypeSpinner SelectedProductType="{Binding SelectedProductType, Mode=TwoWay}" />
                                 </OnPlatform.Android>
@@ -118,31 +119,31 @@
                                                 <DataTrigger
                                                     Binding="{Binding SelectedProductType}"
                                                     TargetType="Image"
-                                                    Value="{x:Static models:ProductType.NOT_SET}">
+                                                    Value="{x:Static common:ProductType.NOT_SET}">
                                                     <Setter Property="IsVisible" Value="False" />
                                                 </DataTrigger>
                                                 <DataTrigger
                                                     Binding="{Binding SelectedProductType}"
                                                     TargetType="Image"
-                                                    Value="{x:Static models:ProductType.Ostalo}">
+                                                    Value="{x:Static common:ProductType.Ostalo}">
                                                     <Setter Property="Source" Value="ico_help.png" />
                                                 </DataTrigger>
                                                 <DataTrigger
                                                     Binding="{Binding SelectedProductType}"
                                                     TargetType="Image"
-                                                    Value="{x:Static models:ProductType.Hrana}">
+                                                    Value="{x:Static common:ProductType.Hrana}">
                                                     <Setter Property="Source" Value="ico_food.png" />
                                                 </DataTrigger>
                                                 <DataTrigger
                                                     Binding="{Binding SelectedProductType}"
                                                     TargetType="Image"
-                                                    Value="{x:Static models:ProductType.Pijaca}">
+                                                    Value="{x:Static common:ProductType.Pijaca}">
                                                     <Setter Property="Source" Value="ico_beverages.png" />
                                                 </DataTrigger>
                                                 <DataTrigger
                                                     Binding="{Binding SelectedProductType}"
                                                     TargetType="Image"
-                                                    Value="{x:Static models:ProductType.Kozmetika}">
+                                                    Value="{x:Static common:ProductType.Kozmetika}">
                                                     <Setter Property="Source" Value="ico_cosmetics.png" />
                                                 </DataTrigger>
                                             </Image.Triggers>
@@ -162,7 +163,7 @@
                     </ContentView>
 
                     <controls:SelectableEnumImageView
-                        x:TypeArguments="models:ProductClassifier"
+                        x:TypeArguments="common:ProductClassifier"
                         ImageSource="{x:Static local:EnumImages.ProductClassifierImages}"
                         VerticalOptions="Center"
                         ViewSize="50"

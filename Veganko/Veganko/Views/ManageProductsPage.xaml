@@ -3,6 +3,7 @@
     x:Class="Veganko.Views.ManageProductsPage"
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:common="clr-namespace:Veganko.Common.Models.Products;assembly=Veganko.Common"
     xmlns:controls="clr-namespace:Veganko.Controls"
     xmlns:converters="clr-namespace:Veganko.Converters"
     xmlns:local="clr-namespace:Veganko"
@@ -71,25 +72,25 @@
                                 <DataTrigger
                                     Binding="{Binding SelectedProductType}"
                                     TargetType="ImageButton"
-                                    Value="{x:Static models:ProductType.NOT_SET}">
+                                    Value="{x:Static common:ProductType.NOT_SET}">
                                     <Setter Property="Source" Value="icon.png" />
                                 </DataTrigger>
                                 <DataTrigger
                                     Binding="{Binding SelectedProductType}"
                                     TargetType="ImageButton"
-                                    Value="{x:Static models:ProductType.Hrana}">
+                                    Value="{x:Static common:ProductType.Hrana}">
                                     <Setter Property="Source" Value="ico_food.png" />
                                 </DataTrigger>
                                 <DataTrigger
                                     Binding="{Binding SelectedProductType}"
                                     TargetType="ImageButton"
-                                    Value="{x:Static models:ProductType.Pijaca}">
+                                    Value="{x:Static common:ProductType.Pijaca}">
                                     <Setter Property="Source" Value="ico_beverages.png" />
                                 </DataTrigger>
                                 <DataTrigger
                                     Binding="{Binding SelectedProductType}"
                                     TargetType="ImageButton"
-                                    Value="{x:Static models:ProductType.Kozmetika}">
+                                    Value="{x:Static common:ProductType.Kozmetika}">
                                     <Setter Property="Source" Value="ico_cosmetics.png" />
                                 </DataTrigger>
                             </ImageButton.Triggers>
@@ -106,13 +107,13 @@
                         </Picker>
                     </StackLayout>
                     <controls:SelectableEnumImageView
-                        x:TypeArguments="models:ProductClassifier"
+                        x:TypeArguments="common:ProductClassifier"
                         ImageSource="{x:Static local:EnumImages.ProductClassifierImages}"
                         IsVisible="{Binding ShowProductClassifiers}"
-                        Selected="{Binding SelectedProductClassifiers}"
-                        Source="{Binding ProductClassifiers}"
                         VerticalOptions="Center"
-                        ViewSize="63" />
+                        ViewSize="63"
+                        Source="{Binding ProductClassifiers}"
+                        Selected="{Binding SelectedProductClassifiers}" />
                 </StackLayout>
             </StackLayout>
 

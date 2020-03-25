@@ -1,6 +1,7 @@
 ﻿using Autofac;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
+using Veganko.Common.Models.Products;
 using Veganko.Models;
 using Veganko.Models.User;
 using Veganko.Other;

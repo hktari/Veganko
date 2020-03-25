@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Text;
 using System.Threading.Tasks;
+using Veganko.Common.Models.Products;
 using Veganko.Models;
 using Veganko.Other;
 using Veganko.Services;
@@ -57,7 +58,7 @@ namespace Veganko.ViewModels
 
         public void Init()
         {
-            SelectedProductType = tmpProduct.Type;
+            SelectedProductType = tmpProduct.ProdType;
             Product = tmpProduct;
             tmpProduct = null;
         }
@@ -69,8 +70,8 @@ namespace Veganko.ViewModels
 
         public Task ApproveProduct()
         {
-            Product.Type = selectedProductType;
-            Product.State = ProductState.Approved;
+            Product.ProdType = selectedProductType;
+            //Product.State = ProductState.Approved; ??
             return productService.UpdateAsync(Product);
         }
     }

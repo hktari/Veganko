@@ -4,6 +4,7 @@ using System.Text;
 using Xamarin.Forms;
 using Veganko.Models;
 using System.Linq;
+using Veganko.Common.Models.Products;
 
 namespace Veganko.Controls
 {

@@ -2,6 +2,10 @@
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using System.Runtime.Serialization;
+using System.ComponentModel.DataAnnotations.Schema;
+using Veganko.Common.Extensions;
+using System.Collections.Generic;
+using System.ComponentModel;
 
 namespace Veganko.Common.Models.Products
 {
@@ -21,18 +25,30 @@ namespace Veganko.Common.Models.Products
         SoyFree = 256,
         NutFree = 512
     }
-    [JsonConverter(typeof(StringEnumConverter))]
+
     public enum ProductType
     {
+        [Description("Brez filtra")]
         [EnumMember(Value = "NOT_SET")]
         NOT_SET,
+
+        [Description("Ostalo")]
+        [EnumMember(Value = "OTHER")]
+        Ostalo,
+
+        [Description("Hrana")]
         [EnumMember(Value = "FOOD")]
         Hrana,
+
+        [Description("Pijača")]
         [EnumMember(Value = "BEVERAGE")]
         Pijaca,
+
+        [Description("Kozmetika")]
         [EnumMember(Value = "COSMETIC")]
         Kozmetika
     }
+
     public class Product
     {
         public string Id { get; set; }
@@ -45,6 +61,35 @@ namespace Veganko.Common.Models.Products
         public string Type { get; set; }
         public DateTime AddedTimestamp { get; set; }
         public DateTime LastUpdateTimestamp { get; set; }
+
+        [NotMapped]
+        [JsonIgnore]
+        public string DetailImage { get; set; }
+
+        [NotMapped]
+        [JsonIgnore]
+        public string ThumbImage { get; set; }
+
+        // Workaround for the field "Type" being already used as a string inside the database.
+        // A better way would be to update the string inside the db to enums (integers).
+        [NotMapped]
+        [JsonIgnore]
+        public ProductType ProdType
+        {
+            get 
+            {
+                foreach (ProductType val in (ProductType[])Enum.GetValues(typeof(ProductType)))
+                {
+                    if (val.GetName() == Type)
+                    {
+                        return val;
+                    }
+                }
+
+                return ProductType.NOT_SET;
+            }
+            set => Type = value.GetName();
+        }
 
         public void Update(Product product)
         {

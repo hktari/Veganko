@@ -6,6 +6,7 @@ using System.Collections.Specialized;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
+using Veganko.Common.Models.Products;
 using Veganko.Extensions;
 using Veganko.Models;
 using Veganko.Models.Products;

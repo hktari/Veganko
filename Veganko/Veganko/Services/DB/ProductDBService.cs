@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using SQLite;
+using Veganko.Common.Models.Products;
 using Veganko.Models;
 using Veganko.Models.Products;
 

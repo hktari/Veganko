@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using Veganko.Common.Models.Products;
 
 namespace Veganko.Models.Products
 {

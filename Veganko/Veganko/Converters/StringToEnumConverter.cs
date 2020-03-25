@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Globalization;
 using System.Linq;
 using System.Text;
+using Veganko.Common.Models.Products;
 using Veganko.Extensions;
 using Veganko.Models;
 using Xamarin.Forms;

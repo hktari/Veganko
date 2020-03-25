@@ -1,54 +1,67 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<views:BaseContentPage xmlns="http://xamarin.com/schemas/2014/forms"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:views="clr-namespace:Veganko.Views"
-			 xmlns:converters="clr-namespace:Veganko.Converters"
-             xmlns:controls="clr-namespace:Veganko.Controls"
-             xmlns:models="clr-namespace:Veganko.Models"
-             xmlns:vm="clr-namespace:Veganko.ViewModels"
-             xmlns:local="clr-namespace:Veganko"
-             x:Class="Veganko.Views.FavoritesPage">
+<views:BaseContentPage
+    x:Class="Veganko.Views.FavoritesPage"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:common="clr-namespace:Veganko.Common.Models.Products;assembly=Veganko.Common"
+    xmlns:controls="clr-namespace:Veganko.Controls"
+    xmlns:converters="clr-namespace:Veganko.Converters"
+    xmlns:local="clr-namespace:Veganko"
+    xmlns:models="clr-namespace:Veganko.Models"
+    xmlns:views="clr-namespace:Veganko.Views"
+    xmlns:vm="clr-namespace:Veganko.ViewModels">
     <ContentPage.Content>
-		<ListView 
+        <ListView
             x:Name="ProductsListView"
-            ItemsSource="{Binding Items}" 
-            HasUnevenRows="True" 
-            VerticalOptions="FillAndExpand"
-            ItemSelected="OnProductSelected"
-            RefreshCommand="{Binding LoadItemsCommand}"
+            CachingStrategy="RecycleElement"
+            HasUnevenRows="True"
             IsPullToRefreshEnabled="true"
             IsRefreshing="{Binding IsBusy, Mode=OneWay}"
-            CachingStrategy="RecycleElement">
-			<ListView.ItemTemplate>
-				<DataTemplate>
-					<ViewCell>
-						<Grid RowSpacing="10" ColumnSpacing="10">
-							<Grid.RowDefinitions>
-								<RowDefinition Height="Auto"/>
-								<RowDefinition Height="Auto"/>
-								<RowDefinition Height="Auto"/>
-							</Grid.RowDefinitions>
-							<Grid.ColumnDefinitions>
-								<ColumnDefinition Width="Auto"/>
-								<ColumnDefinition Width="Auto"/>
-							</Grid.ColumnDefinitions>
-							<Image
-								HeightRequest="66"
-								WidthRequest="66"
-								HorizontalOptions="Center"
-								VerticalOptions="Fill"
-								Aspect="AspectFill"
-								Source="{Binding Image}"
-								Grid.RowSpan="3"/>
-							<Label Grid.Column="1" Text="{Binding Name}" VerticalOptions="EndAndExpand"/>
-							<Label Grid.Column="1" Grid.Row="1" Text="{Binding Description}" VerticalOptions="Start"/>
-							<controls:EnumImageView x:TypeArguments="models:ProductClassifier" Grid.Column="1" Grid.Row="2" 
-													Source="{Binding ProductClassifiers}" ImageSource="{x:Static local:EnumImages.ProductClassifierImages}" 
-													HorizontalAlignment="Start"/>
-						</Grid>
-					</ViewCell>
-				</DataTemplate>
-			</ListView.ItemTemplate>
-		</ListView>
-	</ContentPage.Content>
+            ItemSelected="OnProductSelected"
+            ItemsSource="{Binding Items}"
+            RefreshCommand="{Binding LoadItemsCommand}"
+            VerticalOptions="FillAndExpand">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <ViewCell>
+                        <Grid ColumnSpacing="10" RowSpacing="10">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+                            <Image
+                                Grid.RowSpan="3"
+                                Aspect="AspectFill"
+                                HeightRequest="66"
+                                HorizontalOptions="Center"
+                                VerticalOptions="Fill"
+                                WidthRequest="66"
+                                Source="{Binding Image}" />
+                            <Label
+                                Grid.Column="1"
+                                Text="{Binding Name}"
+                                VerticalOptions="EndAndExpand" />
+                            <Label
+                                Grid.Row="1"
+                                Grid.Column="1"
+                                Text="{Binding Description}"
+                                VerticalOptions="Start" />
+                            <controls:EnumImageView
+                                Grid.Row="2"
+                                Grid.Column="1"
+                                HorizontalAlignment="Start"
+                                x:TypeArguments="common:ProductClassifier"
+                                ImageSource="{x:Static local:EnumImages.ProductClassifierImages}"
+                                Source="{Binding ProductClassifiers}" />
+                        </Grid>
+                    </ViewCell>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+    </ContentPage.Content>
 </views:BaseContentPage>

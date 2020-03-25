@@ -7,6 +7,7 @@ using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using Veganko.Common.Models.Products;
 using Veganko.Extensions;
 using Veganko.Models;
 using Veganko.Other;

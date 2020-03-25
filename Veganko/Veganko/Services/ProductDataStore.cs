@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Veganko.Models;
 using Veganko.Services.Http;
 using Veganko.Services.Products;
+using Veganko.Common.Models.Products;
 
 namespace Veganko.Services
 {

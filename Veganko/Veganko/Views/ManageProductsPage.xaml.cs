@@ -33,12 +33,13 @@ namespace Veganko.Views
 
         async void OnProductSelected(object sender, SelectedItemChangedEventArgs args)
         {
-            var item = args.SelectedItem as Veganko.Models.Product;
-            if (item == null)
-                return;
+            throw new NotImplementedException();
+            //var item = args.SelectedItem as Veganko.Models.Product;
+            //if (item == null)
+            //    return;
 
-            await Navigation.PushAsync(
-                new ApproveProductPage(new ApproveProductViewModel(item)));
+            //await Navigation.PushAsync(
+            //    new ApproveProductPage(new ApproveProductViewModel(item)));
 
             // Manually deselect item.
             ProductsListView.SelectedItem = null;

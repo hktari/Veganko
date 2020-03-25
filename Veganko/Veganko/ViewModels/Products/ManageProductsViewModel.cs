@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Veganko.Common.Models.Products;
 using Veganko.Models;
 using Veganko.ViewModels.Products.Partial;
 using Veganko.Views;

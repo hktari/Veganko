@@ -9,6 +9,7 @@ using Veganko.ViewModels;
 using Veganko.ViewModels.Products;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
+using Veganko.Common.Models.Products;
 
 namespace Veganko.Views
 {
@@ -30,9 +31,9 @@ namespace Veganko.Views
 
         async void OnProductSelected(object sender, SelectedItemChangedEventArgs args)
         {
-            var item = args.SelectedItem as Veganko.Models.Product;
-            if (item == null)
-                return;
+            //var item = args.SelectedItem as Product;
+            //if (item == null)
+            //    return;
 
             throw new NotImplementedException();
             //await Navigation.PushAsync(new ProductDetailPage(new ProductDetailViewModel(item)));

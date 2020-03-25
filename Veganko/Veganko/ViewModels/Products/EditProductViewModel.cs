@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Text;
+using Veganko.Common.Models.Products;
 using Veganko.Extensions;
 using Veganko.Models;
 using Veganko.Services;

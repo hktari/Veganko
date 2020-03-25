@@ -20,6 +20,7 @@ using Veganko.ViewModels.Products.Partial;
 using Veganko.Services.Logging;
 using Veganko.ViewModels.Stores;
 using Veganko.Views.Stores;
+using Veganko.Common.Models.Products;
 
 namespace Veganko.ViewModels.Products
 {

@@ -3,6 +3,7 @@
     x:Class="Veganko.Views.Product.Partial.ProductView"
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:common="clr-namespace:Veganko.Common.Models.Products;assembly=Veganko.Common"
     xmlns:controls="clr-namespace:Veganko.Controls"
     xmlns:converters="clr-namespace:Veganko.Converters"
     xmlns:forms="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
@@ -68,7 +69,7 @@
                 Grid.Row="1"
                 Grid.Column="1"
                 HorizontalAlignment="Start"
-                x:TypeArguments="models:ProductClassifier"
+                x:TypeArguments="common:ProductClassifier"
                 ImageSource="{x:Static local:EnumImages.ProductClassifierImages}"
                 ViewSize="45"
                 Source="{Binding ProductClassifiers}">

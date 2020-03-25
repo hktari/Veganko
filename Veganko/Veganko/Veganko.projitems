@@ -102,7 +102,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\HelpViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\Images\SelectableImageId.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\JsonConverters\DecimalProductClassifierListConverter.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Models\Product.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\ImageId.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Other\EnumImages.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Other\EnumConfiguration.cs" />
