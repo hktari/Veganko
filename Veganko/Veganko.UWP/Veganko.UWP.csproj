@@ -301,6 +301,12 @@
     <Folder Include="ViewModels\" />
     <Folder Include="Views\" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Common\Veganko.Common\Veganko.Common.csproj">
+      <Project>{2907cf68-b7fb-4f41-95ef-5c8f52d9a670}</Project>
+      <Name>Veganko.Common</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="..\Veganko\Veganko.projitems" Label="Shared" />
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>

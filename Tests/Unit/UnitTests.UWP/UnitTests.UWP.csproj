@@ -279,6 +279,12 @@
     <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\Common\Veganko.Common\Veganko.Common.csproj">
+      <Project>{2907cf68-b7fb-4f41-95ef-5c8f52d9a670}</Project>
+      <Name>Veganko.Common</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="..\UnitTests.Shared\UnitTests.Shared.projitems" Label="Shared" />
   <Import Project="..\..\..\Veganko\Veganko\Veganko.projitems" Label="Shared" />
   <Import Project="$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets" Condition="Exists('$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets')" />
