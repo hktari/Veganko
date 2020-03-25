@@ -3,6 +3,7 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using Veganko.Common.Models.Products;
 using Veganko.Models;
 using Veganko.Models.JsonConverters;
 
@@ -22,7 +23,7 @@ namespace UnitTests.Shared.Converters
 
             JsonSerializerSettings jsonSerializerSettings = new JsonSerializerSettings
             {
-                Converters = new List<JsonConverter> { new DecimalProductClassifierListConverter() }
+                Converters = new List<JsonConverter> { new DecimalProductClassifierListJsonConverter() }
             };
 
             string json = JsonConvert.SerializeObject(classifiers, jsonSerializerSettings);
@@ -43,7 +44,7 @@ namespace UnitTests.Shared.Converters
 
             JsonSerializerSettings jsonSerializerSettings = new JsonSerializerSettings
             {
-                Converters = new List<JsonConverter> { new DecimalProductClassifierListConverter() }
+                Converters = new List<JsonConverter> { new DecimalProductClassifierListJsonConverter() }
             };
 
             string json = JsonConvert.SerializeObject(classifiers, jsonSerializerSettings);
@@ -60,7 +61,7 @@ namespace UnitTests.Shared.Converters
 
             JsonSerializerSettings jsonSerializerSettings = new JsonSerializerSettings
             {
-                Converters = new List<JsonConverter> { new DecimalProductClassifierListConverter() }
+                Converters = new List<JsonConverter> { new DecimalProductClassifierListJsonConverter() }
             };
 
             string json = JsonConvert.SerializeObject(classifiers, jsonSerializerSettings);
