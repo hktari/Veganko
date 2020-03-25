@@ -252,6 +252,29 @@ namespace VegankoService.Tests.IntegrationTests
             Assert.Equal(HttpStatusCode.NotFound, result.StatusCode);
         }
 
+        [Theory]
+        [InlineData(Roles.Admin)]
+        [InlineData(Roles.Moderator)]
+        [InlineData(Roles.Manager)]
+        public async Task Delete_PrivilegedUser_ResultsInOkAndItemRemoved(string role)
+        {
+            var factory = new CustomWebApplicationFactory<Startup>
+            {
+                FakeUserRole = role
+            };
+            var client = factory.CreateClient();
+
+            var result = await client.DeleteAsync(
+                Util.GetRequestUri($"{Uri}/new_prod_mod_req_id"));
+
+            Assert.Equal(HttpStatusCode.OK, result.StatusCode);
+
+            result = await client.GetAsync(
+                Util.GetRequestUri($"{Uri}/new_prod_mod_req_id"));
+
+            Assert.Equal(HttpStatusCode.NotFound, result.StatusCode);
+        }
+
         [Fact]
         public async Task PostImages_ResultsInOkAndContent()
         {
@@ -396,11 +419,6 @@ namespace VegankoService.Tests.IntegrationTests
             return content;
         }
 
-        // TODO: manager deletes
-
-        // TODO confirm request
-
-        // TODO: adding images
         private async Task<ProductModRequest> GetProductModRequest(string id)
         {
             return JsonConvert.DeserializeObject<ProductModRequest>(

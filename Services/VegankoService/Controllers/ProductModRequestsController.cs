@@ -268,7 +268,6 @@ namespace VegankoService.Controllers
             }
         }
 
-        // TODO: submit / accept mode request
         [HttpPut("approve/{id}")]
         public async Task<IActionResult> ApproveProductModRequest([FromRoute] string id, [FromBody] ProductModRequest proModReqUpdate)
         {
