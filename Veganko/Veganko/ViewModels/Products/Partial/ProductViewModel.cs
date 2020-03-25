@@ -5,6 +5,7 @@ using System.Collections.ObjectModel;
 using Veganko.Common.Models.Products;
 using Veganko.Models;
 using Veganko.Models.JsonConverters;
+using Veganko.Other;
 using Veganko.Services.DB;
 using Xamarin.Forms;
 
@@ -16,6 +17,8 @@ namespace Veganko.ViewModels.Products.Partial
         /// The duration during which a product is still considered as new after it's been added.
         /// </summary>
         public static readonly TimeSpan IsNewProductTimespan = TimeSpan.FromDays(2);
+
+        private DecimalProductClassifierListConverter classifierConverter = new DecimalProductClassifierListConverter();
 
         public ProductViewModel()
         {
@@ -127,9 +130,8 @@ namespace Veganko.ViewModels.Products.Partial
         public void Update(Product product)
         {
             Type = product.ProdType;
-            // TODO: FIX NOW
-            //ProductClassifiers = new ObservableCollection<ProductClassifier>(
-            //    product.ProductClassifiers ?? new List<ProductClassifier>());
+            ProductClassifiers = new ObservableCollection<ProductClassifier>(
+                classifierConverter.Convert(product.ProductClassifiers));
             Description = product.Description ?? string.Empty;
             Image = product.DetailImage;
             ThumbnailImage = product.ThumbImage;
@@ -143,8 +145,6 @@ namespace Veganko.ViewModels.Products.Partial
             UpdateIsNew();
         }
 
-        DecimalProductClassifierListConverter converter = new DecimalProductClassifierListConverter();
-
         /// <summary>
         /// Updates the product with the view model data. Image is not updated,
         /// since there's a seperate api for updating images.
@@ -153,9 +153,7 @@ namespace Veganko.ViewModels.Products.Partial
         public void MapToModel(Product product)
         {
             product.ProdType = Type;
-            // TODO: FIX NOW
-            //product.ProductClassifiers = new List<ProductClassifier>(
-            //    ProductClassifiers ?? new ObservableCollection<ProductClassifier>());
+            product.ProductClassifiers = ProductClassifiers == null ? default : classifierConverter.ConvertBack(ProductClassifiers);
             product.Description = Description;
             product.Barcode = Barcode;
             product.Brand = Brand;

@@ -7,7 +7,7 @@ using Veganko.Common.Models.Products;
 
 namespace Veganko.Models.JsonConverters
 {
-    public class DecimalProductClassifierListConverter : JsonConverter
+    public class DecimalProductClassifierListJsonConverter : JsonConverter
     {
         public override bool CanConvert(Type objectType)
         {
@@ -22,15 +22,8 @@ namespace Veganko.Models.JsonConverters
             int? flag = int.Parse(reader.Value.ToString());
             if (flag == null)
                 throw new ArgumentException($"Invalid flag value '{reader.Value}'", "reader.Value");
-            IList<ProductClassifier> classifiers = new List<ProductClassifier>();
-            int curFlag = 1;
-            while (flag > 0)
-            {
-                if (flag % 2 != 0)
-                    classifiers.Add((ProductClassifier)curFlag);
-                flag /= 2;
-                curFlag *= 2;
-            }
+
+            IList<ProductClassifier> classifiers = new Veganko.Other.DecimalProductClassifierListConverter().Convert(flag.Value);
             return classifiers;
         }
 
@@ -39,9 +32,7 @@ namespace Veganko.Models.JsonConverters
             IList<ProductClassifier> classifiers = value as IList<ProductClassifier>;
             if (classifiers == null)
                 throw new ArgumentException($"Invalid value type ! Value is {value?.GetType()}", "value");
-            int flag = 0;
-            foreach (var classifier in classifiers)
-                flag += (int)classifier;
+            int flag = new Veganko.Other.DecimalProductClassifierListConverter().ConvertBack(classifiers);
             writer.WriteValue(flag);
         }
     }
