@@ -33,7 +33,7 @@ namespace VegankoService.Tests.IntegrationTests
             var result = await client.GetAsync(Util.GetRequestUri(Uri));
 
             Assert.Equal(HttpStatusCode.OK, result.StatusCode);
-            var pmrs = JsonConvert.DeserializeObject<PagedList<ProductModRequest>>(result.GetJson());
+            var pmrs = JsonConvert.DeserializeObject<PagedList<ProductModRequestDTO>>(result.GetJson());
             Assert.True(pmrs.Items.Count() > 0);
             Assert.All(pmrs.Items, pmr => Assert.NotNull(pmr.UnapprovedProduct));
         }
@@ -56,7 +56,7 @@ namespace VegankoService.Tests.IntegrationTests
                 Util.GetRequestUri($"{Uri}/existing_prod_mod_req_id"));
 
             Assert.Equal(HttpStatusCode.OK, result.StatusCode);
-            var pmr = JsonConvert.DeserializeObject<ProductModRequest>(result.GetJson());
+            var pmr = JsonConvert.DeserializeObject<ProductModRequestDTO>(result.GetJson());
             Assert.NotNull(pmr.UnapprovedProduct);
         }
 
@@ -92,7 +92,7 @@ namespace VegankoService.Tests.IntegrationTests
         [Fact]
         public async Task Put_EditUnprvdProduct_ResultsInOkAndChangesApplied()
         {
-            ProductModRequest pmr = await GetProductModRequest("edit_prod_mod_req_id");
+            ProductModRequestDTO pmr = await GetProductModRequest("edit_prod_mod_req_id");
             pmr.UnapprovedProduct.Description = "Banana descriptions";
             pmr.UnapprovedProduct.Name = "Hot chocolate bananas";
             pmr.UnapprovedProduct.Type = "BEVERAGE";
@@ -104,7 +104,7 @@ namespace VegankoService.Tests.IntegrationTests
 
             Assert.Equal(HttpStatusCode.NoContent, result.StatusCode);
 
-            ProductModRequest updatedPMR = await GetProductModRequest("edit_prod_mod_req_id");
+            ProductModRequestDTO updatedPMR = await GetProductModRequest("edit_prod_mod_req_id");
 
             Assert.Equal(pmr.UnapprovedProduct.Description, updatedPMR.UnapprovedProduct.Description);
             Assert.Equal(pmr.UnapprovedProduct.Name, updatedPMR.UnapprovedProduct.Name);
@@ -115,7 +115,7 @@ namespace VegankoService.Tests.IntegrationTests
         [Fact]
         public async Task Put_ActionNew_ConflictBarcode_ResultsInConflict()
         {
-            ProductModRequest pmr = await GetProductModRequest("existing_prod_mod_req_id");
+            ProductModRequestDTO pmr = await GetProductModRequest("existing_prod_mod_req_id");
             pmr.UnapprovedProduct.Barcode = "conflicting_barcode";
 
             var result = await client.PutAsync(
@@ -128,10 +128,10 @@ namespace VegankoService.Tests.IntegrationTests
         [Fact]
         public async Task Post_ActionEdit_InvalidModelState_ResultsInBadRequest()
         {
-            ProductModRequest pmr = new ProductModRequest
+            ProductModRequestDTO pmr = new ProductModRequestDTO
             {
                 ExistingProductId = "existing_product_id",
-                UnapprovedProduct = new UnapprovedProduct
+                UnapprovedProduct = new Product
                 {
                     Name = "new product name"
                 },
@@ -148,7 +148,7 @@ namespace VegankoService.Tests.IntegrationTests
         [Fact]
         public async Task Post_ActionNew_InvalidModelState_ResultsInBadRequest()
         {
-            ProductModRequest pmr = new ProductModRequest
+            ProductModRequestDTO pmr = new ProductModRequestDTO
             {
                 ExistingProductId = null,
                 UnapprovedProduct = null,
@@ -165,10 +165,10 @@ namespace VegankoService.Tests.IntegrationTests
         [Fact]
         public async Task Post_ActionNew_ResultsInOk()
         {
-            ProductModRequest pmr = new ProductModRequest
+            ProductModRequestDTO pmr = new ProductModRequestDTO
             {
                 ExistingProductId = null,
-                UnapprovedProduct = new UnapprovedProduct
+                UnapprovedProduct = new Product
                 {
                     Name = "Orange leaf tea",
                     ProductClassifiers = 257,
@@ -186,10 +186,10 @@ namespace VegankoService.Tests.IntegrationTests
         [Fact]
         public async Task Post_ActionEdit_ConflictBarcode_ResultsInConflict()
         {
-            ProductModRequest pmr = new ProductModRequest
+            ProductModRequestDTO pmr = new ProductModRequestDTO
             {
                 ExistingProductId = "existing_product_id",
-                UnapprovedProduct = new UnapprovedProduct
+                UnapprovedProduct = new Product
                 {
                     Barcode = "conflicting_barcode"
                 },
@@ -206,10 +206,10 @@ namespace VegankoService.Tests.IntegrationTests
         [Fact]
         public async Task Post_ActionNew_ConflictBarcode_ResultsInConflict()
         {
-            ProductModRequest pmr = new ProductModRequest
+            ProductModRequestDTO pmr = new ProductModRequestDTO
             {
                 ExistingProductId = null,
-                UnapprovedProduct = new UnapprovedProduct
+                UnapprovedProduct = new Product
                 {
                     Name = "Orange leaf tea",
                     ProductClassifiers = 257,
@@ -284,7 +284,7 @@ namespace VegankoService.Tests.IntegrationTests
 
             Assert.Equal(HttpStatusCode.OK, response.StatusCode);
 
-            var pmr = JsonConvert.DeserializeObject<ProductModRequest>(response.GetJson());
+            var pmr = JsonConvert.DeserializeObject<ProductModRequestDTO>(response.GetJson());
 
             response = await client.GetAsync($"images/detail/{pmr.UnapprovedProduct.ImageName}");
 
@@ -333,7 +333,7 @@ namespace VegankoService.Tests.IntegrationTests
         {
             Util.ReinitializeDbForTests(factory.CreateDbContext());
 
-            ProductModRequest productModReq = await GetProductModRequest("new_prod_mod_req_id");
+            ProductModRequestDTO productModReq = await GetProductModRequest("new_prod_mod_req_id");
             var result = await client.PutAsync(
                 Util.GetRequestUri($"{Uri}/approve/{productModReq.Id}"),
                 productModReq.GetStringContent());
@@ -341,7 +341,7 @@ namespace VegankoService.Tests.IntegrationTests
             Assert.Equal(HttpStatusCode.OK, result.StatusCode);
 
             Product product = JsonConvert.DeserializeObject<Product>(result.GetJson());
-            Assert.True(productModReq.UnapprovedProduct.Equals(product));
+            Assert.True(DoProductsEqual(productModReq.UnapprovedProduct, product));
 
             result = await client.GetAsync(
                 Util.GetRequestUri($"products/{product.Id}"));
@@ -354,7 +354,7 @@ namespace VegankoService.Tests.IntegrationTests
         {
             Util.ReinitializeDbForTests(factory.CreateDbContext());
 
-            ProductModRequest productModReq = await GetProductModRequest("edit_prod_mod_req_id");
+            ProductModRequestDTO productModReq = await GetProductModRequest("edit_prod_mod_req_id");
             var result = await client.PutAsync(
                 Util.GetRequestUri($"{Uri}/approve/{productModReq.Id}"),
                 productModReq.GetStringContent());
@@ -362,7 +362,7 @@ namespace VegankoService.Tests.IntegrationTests
             Assert.Equal(HttpStatusCode.OK, result.StatusCode);
 
             Product product = JsonConvert.DeserializeObject<Product>(result.GetJson());
-            Assert.True(productModReq.UnapprovedProduct.Equals(product, checkId: false));
+            Assert.True(DoProductsEqual(productModReq.UnapprovedProduct, product, checkId: false));
 
             result = await client.GetAsync(
                 Util.GetRequestUri($"products/{product.Id}"));
@@ -371,7 +371,7 @@ namespace VegankoService.Tests.IntegrationTests
 
             // Test equality of item behind GET products/{id}
             product = JsonConvert.DeserializeObject<Product>(result.GetJson());
-            Assert.True(productModReq.UnapprovedProduct.Equals(product, checkId: false));
+            Assert.True(DoProductsEqual(productModReq.UnapprovedProduct, product, checkId: false));
         }
 
         [Fact]
@@ -379,7 +379,7 @@ namespace VegankoService.Tests.IntegrationTests
         {
             Util.ReinitializeDbForTests(factory.CreateDbContext());
 
-            ProductModRequest productModReq = await GetProductModRequest("edit_prod_mod_req_id");
+            ProductModRequestDTO productModReq = await GetProductModRequest("edit_prod_mod_req_id");
 
             // Delete the product being edited
             await client.DeleteAsync(Util.GetRequestUri($"products/{productModReq.ExistingProductId}"));
@@ -399,12 +399,25 @@ namespace VegankoService.Tests.IntegrationTests
         {
             Util.ReinitializeDbForTests(factory.CreateDbContext());
 
-            ProductModRequest productModReq = await GetProductModRequest("edit_prod_mod_req_id");
+            ProductModRequestDTO productModReq = await GetProductModRequest("edit_prod_mod_req_id");
             var result = await client.GetAsync(Util.GetRequestUri($"{Uri}/reject/{productModReq.Id}"));
 
             Assert.Equal(HttpStatusCode.OK, result.StatusCode);
-            productModReq = JsonConvert.DeserializeObject<ProductModRequest>(result.GetJson());
+            productModReq = JsonConvert.DeserializeObject<ProductModRequestDTO>(result.GetJson());
             Assert.Equal(ProductModRequestState.Rejected, productModReq.State);
+        }
+
+        private bool DoProductsEqual(Product first, Product second, bool checkId = true)
+        {
+            return
+              (!checkId || first.Id == second.Id) &&
+              first.ImageName == second.ImageName &&
+              first.Name == second.Name &&
+              first.Brand == second.Brand &&
+              first.Barcode == second.Barcode &&
+              first.Description == second.Description &&
+              first.ProductClassifiers == second.ProductClassifiers &&
+              first.Type == second.Type;
         }
 
         private HttpContent CreateMultipartContent()
@@ -419,9 +432,9 @@ namespace VegankoService.Tests.IntegrationTests
             return content;
         }
 
-        private async Task<ProductModRequest> GetProductModRequest(string id)
+        private async Task<ProductModRequestDTO> GetProductModRequest(string id)
         {
-            return JsonConvert.DeserializeObject<ProductModRequest>(
+            return JsonConvert.DeserializeObject<ProductModRequestDTO>(
                             (await client.GetAsync(Util.GetRequestUri($"{Uri}/{id}")))
                             .GetJson());
         }

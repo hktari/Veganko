@@ -8,6 +8,15 @@ namespace Veganko.Common.Models.Products
     /// </summary>
     public class UnapprovedProduct
     {
+        public UnapprovedProduct()
+        {
+        }
+
+        public UnapprovedProduct(Product product)
+        {
+            MapToUnapprovedProduct(product);
+        }
+
         public string Id { get; set; }
         public string Name { get; set; }
         public string Brand { get; set; }
@@ -52,17 +61,18 @@ namespace Veganko.Common.Models.Products
             product.Type = Type;
         }
 
-        public bool Equals(Product product, bool checkId = true)
+        public void MapToUnapprovedProduct(Product product)
         {
-            return 
-                (!checkId || product.Id == Id) &&
-                product.ImageName == ImageName &&
-                product.Name == Name &&
-                product.Brand == Brand &&
-                product.Barcode == Barcode &&
-                product.Description == Description &&
-                product.ProductClassifiers == ProductClassifiers &&
-                product.Type == Type;
+            Id = product.Id;
+            ImageName = product.ImageName;
+            AddedTimestamp = product.AddedTimestamp;
+            LastUpdateTimestamp = product.LastUpdateTimestamp;
+            Name = product.Name;
+            Brand = product.Brand;
+            Barcode = product.Barcode;
+            Description = product.Description;
+            ProductClassifiers = product.ProductClassifiers;
+            Type = product.Type;
         }
     }
 }

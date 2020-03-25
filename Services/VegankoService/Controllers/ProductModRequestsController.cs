@@ -47,7 +47,7 @@ namespace VegankoService.Controllers
 
         // GET: api/ProductModRequests
         [HttpGet]
-        public ActionResult<PagedList<ProductModRequest>> GetProductModRequests(int page = 1, int pageSize = 10)
+        public ActionResult<PagedList<ProductModRequestDTO>> GetProductModRequests(int page = 1, int pageSize = 10)
         {
             logger.LogInformation($"GetProductModRequest({page}, {pageSize})");
 
@@ -82,7 +82,7 @@ namespace VegankoService.Controllers
 
         // PUT: api/ProductModRequests/5
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutProductModRequest([FromRoute] string id, [FromBody] ProductModRequest input)
+        public async Task<IActionResult> PutProductModRequest([FromRoute] string id, [FromBody] ProductModRequestDTO input)
         {
             logger.LogInformation($"Executing PutProductModRequest({id})");
 
@@ -96,19 +96,21 @@ namespace VegankoService.Controllers
                 return BadRequest();
             }
 
+            ProductModRequest inputAsModel = input.MapToModel();
+
             ProductModRequest productModRequest = await productModReqRepository.Get(id);
 
             if(productModRequest == null)
             {
-                logger.LogWarning("ProductModRequest not found");
+                logger.LogWarning("ProductModRequestDTO not found");
                 return NotFound();
             }
 
-            productModRequest.Update(input);
+            productModRequest.Update(inputAsModel);
 
             if (productModRequest.Action == ProductModRequestAction.Edit && string.IsNullOrEmpty(productModRequest.ChangedFields))
             {
-                logger.LogWarning($"Change requests of action {ProductModRequestAction.Edit} require {nameof(ProductModRequest.ChangedFields)}");
+                logger.LogWarning($"Change requests of action {ProductModRequestAction.Edit} require {nameof(ProductModRequestDTO.ChangedFields)}");
                 return BadRequest();
             }
 
@@ -141,36 +143,38 @@ namespace VegankoService.Controllers
 
         // POST: api/ProductModRequests
         [HttpPost]
-        public async Task<IActionResult> PostProductModRequest([FromBody] ProductModRequest productModRequest)
+        public async Task<IActionResult> PostProductModRequest([FromBody] ProductModRequestDTO input)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            productModRequest.Action = productModRequest.ExistingProductId != null ? ProductModRequestAction.Edit : ProductModRequestAction.Add;
+            ProductModRequest inputAsModel = input.MapToModel();
+
+            inputAsModel.Action = inputAsModel.ExistingProductId != null ? ProductModRequestAction.Edit : ProductModRequestAction.Add;
 
             Product product = new Product();
 
-            if (productModRequest.Action == ProductModRequestAction.Edit)
+            if (inputAsModel.Action == ProductModRequestAction.Edit)
             {
-                if (string.IsNullOrEmpty(productModRequest.ChangedFields))
+                if (string.IsNullOrEmpty(inputAsModel.ChangedFields))
                 {
-                    logger.LogWarning($"Field {nameof(ProductModRequest.ChangedFields)} is required when action is {nameof(ProductModRequestAction.Edit)}");
+                    logger.LogWarning($"Field {nameof(ProductModRequestDTO.ChangedFields)} is required when action is {nameof(ProductModRequestAction.Edit)}");
                     return BadRequest();
                 }
 
-                logger.LogInformation($"Retrieving product with id: {productModRequest.ExistingProductId} which is being edited.");
-                product = productRepository.Get(productModRequest.ExistingProductId);
+                logger.LogInformation($"Retrieving product with id: {inputAsModel.ExistingProductId} which is being edited.");
+                product = productRepository.Get(inputAsModel.ExistingProductId);
 
                 if (product == null)
                 {
-                    logger.LogInformation($"Product with id: {productModRequest.ExistingProductId} not found.");
+                    logger.LogInformation($"Product with id: {inputAsModel.ExistingProductId} not found.");
                     return BadRequest();
                 }
             }
 
-            productModRequest.UnapprovedProduct.MapToProduct(product);
+            inputAsModel.UnapprovedProduct.MapToProduct(product);
 
             // Check if the auid already exists
             if (productRepository.Contains(product) is DuplicateProblemDetails err)
@@ -178,14 +182,14 @@ namespace VegankoService.Controllers
                 return new ConflictObjectResult(err);
             }
 
-            await productRepository.CreateUnapproved(productModRequest.UnapprovedProduct);
+            await productRepository.CreateUnapproved(inputAsModel.UnapprovedProduct);
 
-            productModRequest.UserId = Identity.GetUserIdentityId(httpContextAccessor.HttpContext.User);
-            productModRequest.Timestamp = DateTime.Now;
+            inputAsModel.UserId = Identity.GetUserIdentityId(httpContextAccessor.HttpContext.User);
+            inputAsModel.Timestamp = DateTime.Now;
 
-            await productModReqRepository.Create(productModRequest);
+            await productModReqRepository.Create(inputAsModel);
 
-            return CreatedAtAction("GetProductModRequest", new { id = productModRequest.Id }, productModRequest);
+            return CreatedAtAction("GetProductModRequest", new { id = inputAsModel.Id }, inputAsModel);
         }
 
         // DELETE: api/ProductModRequests/5
@@ -225,7 +229,7 @@ namespace VegankoService.Controllers
         }
 
         [HttpPost("{id}/image")]
-        public async Task<ActionResult<ProductModRequest>> PostImage(string id, [FromForm] ProductImageInput input)
+        public async Task<ActionResult<ProductModRequestDTO>> PostImage(string id, [FromForm] ProductImageInput input)
         {
             logger.LogInformation($"PostImage({id})");
 
@@ -233,7 +237,7 @@ namespace VegankoService.Controllers
 
             if (prodRequest == null)
             {
-                logger.LogWarning($"ProductModRequest not found");
+                logger.LogWarning($"ProductModRequestDTO not found");
                 return NotFound();
             }
 
@@ -259,7 +263,7 @@ namespace VegankoService.Controllers
 
                 prodRequest.UnapprovedProduct.ImageName = newImageName;
                 await productRepository.UpdateUnapproved(prodRequest.UnapprovedProduct);
-                return prodRequest;
+                return new ProductModRequestDTO(prodRequest);
             }
             catch (Exception ex)
             {
@@ -269,24 +273,25 @@ namespace VegankoService.Controllers
         }
 
         [HttpPut("approve/{id}")]
-        public async Task<IActionResult> ApproveProductModRequest([FromRoute] string id, [FromBody] ProductModRequest proModReqUpdate)
+        public async Task<IActionResult> ApproveProductModRequest([FromRoute] string id, [FromBody] ProductModRequestDTO input)
         {
             logger.LogInformation($"Executing ApproveProductModRequest({id}, productModRequest)");
 
-            if (id != proModReqUpdate.Id)
+            if (id != input.Id)
             {
                 logger.LogWarning("Route id and model id don't match");
                 return BadRequest();
             }
 
+            ProductModRequest inputAsModel = input.MapToModel();
             ProductModRequest productRequest = await productModReqRepository.Get(id);
             if (productRequest == null)
             {
-                logger.LogWarning($"ProductModRequest not found");
+                logger.LogWarning($"ProductModRequestDTO not found");
                 return NotFound();
             }
 
-            productRequest.UnapprovedProduct.Update(proModReqUpdate.UnapprovedProduct);
+            productRequest.UnapprovedProduct.Update(inputAsModel.UnapprovedProduct);
 
             IActionResult result;
             ProductModRequestState? newState;
@@ -311,7 +316,7 @@ namespace VegankoService.Controllers
 
                     newState = ProductModRequestState.Missing;
                     result = new RequestError(
-                        nameof(ProductModRequest.ExistingProductId), "Product to update was not found. It might've been deleted.")
+                        nameof(ProductModRequestDTO.ExistingProductId), "Product to update was not found. It might've been deleted.")
                         .SetStatusCode((int)HttpStatusCode.BadRequest)
                         .ToActionResult();
                 }
@@ -362,7 +367,7 @@ namespace VegankoService.Controllers
             ProductModRequest productRequest = await productModReqRepository.Get(id);
             if (productRequest == null)
             {
-                logger.LogWarning($"ProductModRequest not found");
+                logger.LogWarning($"ProductModRequestDTO not found");
                 return NotFound();
             }
 

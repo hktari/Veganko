@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Text;
 
 namespace Veganko.Common.Models.Products
 {
@@ -18,12 +16,11 @@ namespace Veganko.Common.Models.Products
         public string ExistingProductId { get; set; }
 
         public ProductModRequestAction Action { get; set; }
-        
+
         public DateTime Timestamp { get; set; }
-        
-        [Required]
+
         public UnapprovedProduct UnapprovedProduct { get; set; }
-        
+
         public string ChangedFields { get; set; }
 
         public ProductModRequestState State { get; set; }
