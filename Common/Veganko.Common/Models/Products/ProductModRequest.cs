@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Veganko.Common.Models.Products
 {
+    // TODO: move to VegankoService project
     public class ProductModRequest
     {
         public string Id { get; set; }

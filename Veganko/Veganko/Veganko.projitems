@@ -75,6 +75,10 @@
     <Compile Include="$(MSBuildThisFileDirectory)Services\ImageManager\ImageProcessor.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\Logging\ILogger.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\Logging\Logger.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Services\Products\IProductHelper.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Services\Products\ProductHelper.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Services\Products\ProductModRequests\IProductModRequestService.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Services\Products\ProductModRequests\ProductModRequestService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\Products\Stores\IStoresService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\Products\Stores\MockStoresService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\Products\Stores\StoresService.cs" />

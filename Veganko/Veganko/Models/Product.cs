@@ -10,6 +10,8 @@ using Veganko.Models.JsonConverters;
 using System.IO;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel;
+using Veganko.Common.Models.Products;
+using ProductDto = Veganko.Common.Models.Products.Product;
 
 namespace Veganko.Models
 {
@@ -94,6 +96,20 @@ namespace Veganko.Models
         {
             Name = Brand = Barcode = Description = "";
             //Comments = new ObservableCollection<Comment>();
+        }
+
+        internal ProductDto MapToDto()
+        {
+            // TODO: remove this local Product class and use only ProductDto
+            return JsonConvert.DeserializeObject<ProductDto>(
+                JsonConvert.SerializeObject(this));
+        }
+
+        internal static Product MapToProduct(ProductDto dto)
+        {
+            // TODO: remove this local Product class and use only ProductDto
+            return JsonConvert.DeserializeObject<Product>(
+                JsonConvert.SerializeObject(dto));
         }
     }
 }

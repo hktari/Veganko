@@ -6,18 +6,19 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Veganko.Models;
 using Veganko.Services.Http;
+using Veganko.Services.Products;
 
 namespace Veganko.Services
 {
     public class ProductDataStore : IProductService
     {
         private readonly IRestService restService;
-        private const string DetailImageEndpoint = "images/detail/";
-        private const string ThumbImageEndpoint = "images/thumb/";
+        private readonly IProductHelper productHelper;
 
-        public ProductDataStore(IRestService restService)
+        public ProductDataStore(IRestService restService, IProductHelper productHelper)
         {
             this.restService = restService;
+            this.productHelper = productHelper;
         }
 
         public async Task<Product> AddAsync(Product item)
@@ -29,13 +30,13 @@ namespace Veganko.Services
             if (response.IsSuccessful)
             {
                 var product = JsonConvert.DeserializeObject<Product>(response.Content);
-                AddImageUrls(product);
+                productHelper.AddImageUrls(product);
                 return product;
             }
             else if (response.StatusCode == System.Net.HttpStatusCode.Conflict)
             {
                 var err = JsonConvert.DeserializeObject<RequestConflictError<Product>>(response.Content);
-                AddImageUrls(err.ConflictingItem);
+                productHelper.AddImageUrls(err.ConflictingItem);
                 throw new ServiceConflictException<Product>(err);
             }
             else
@@ -55,46 +56,9 @@ namespace Veganko.Services
             RestRequest request = new RestRequest($"products/{id}", Method.GET);
 
             Product product = await restService.ExecuteAsync<Product>(request);
-            AddImageUrls(product);
+            productHelper.AddImageUrls(product);
 
             return product;
-        }
-
-        /// <summary>
-        /// Constructs the urls for the detail and thumb images from the image name and endpoint.
-        /// </summary>
-        private void AddImageUrls(Product product)
-        {
-            if (product.ImageName == null)
-            {
-                return;
-            }
-
-            // TODO: take only hostname; no relative paths
-            string endpoint = RestService.Endpoint
-                .Replace("https", "http")
-                .Replace("5001", "5000")
-                .Replace("api", string.Empty);
-
-            if (!endpoint.EndsWith("/"))
-            {
-                endpoint += "/";
-            }
-
-            product.DetailImage =
-                new Uri(
-                    new Uri(
-                        new Uri(endpoint),
-                        DetailImageEndpoint),
-                    product.ImageName)
-                .AbsoluteUri;
-
-            product.ThumbImage = new Uri(
-                    new Uri(
-                        new Uri(endpoint),
-                        ThumbImageEndpoint),
-                    product.ImageName)
-                .AbsoluteUri;
         }
 
         public async Task<PagedList<Product>> AllAsync(int page = 1, int pageSize = 10, bool forceRefresh = false, bool includeUnapproved = false)
@@ -106,7 +70,7 @@ namespace Veganko.Services
             var productPage = await restService.ExecuteAsync<PagedList<Product>>(request);
             foreach (var product in productPage.Items)
             {
-                AddImageUrls(product);
+                productHelper.AddImageUrls(product);
             }
 
             return productPage;
@@ -118,7 +82,7 @@ namespace Veganko.Services
             request.AddJsonBody(item);
 
             Product product = await restService.ExecuteAsync<Product>(request);
-            AddImageUrls(product);
+            productHelper.AddImageUrls(product);
 
             return product;
         }
@@ -130,7 +94,7 @@ namespace Veganko.Services
             request.AddFile("ThumbImage", thumbImageData, "ThumbImage.jpg");
 
             product = await restService.ExecuteAsync<Product>(request);
-            AddImageUrls(product);
+            productHelper.AddImageUrls(product);
 
             return product;
         }
