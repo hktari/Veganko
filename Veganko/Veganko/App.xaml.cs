@@ -19,6 +19,7 @@ using Veganko.Services.ImageManager;
 using System.Net.Http;
 using Veganko.Services.Products.Stores;
 using Veganko.Services.DB;
+using Veganko.Services.Products;
 
 namespace Veganko
 {
@@ -137,6 +138,7 @@ namespace Veganko
                 builder.RegisterType<ProductDBService>().As<IProductDBService>().SingleInstance();
             }
 
+            builder.RegisterType<ProductHelper>().As<IProductHelper>().SingleInstance();
             builder.RegisterType<Logger>().As<ILogger>().SingleInstance();
 
             builder.RegisterType<ImageProcessor>().As<IImageProcessor>().SingleInstance();
