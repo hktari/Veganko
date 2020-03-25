@@ -225,7 +225,7 @@ namespace VegankoService.Controllers
                 imageService.DeleteImages(productModRequest.UnapprovedProduct.ImageName);
             }
 
-            return Ok(productModRequest);
+            return Ok();
         }
 
         [HttpPost("{id}/image")]
