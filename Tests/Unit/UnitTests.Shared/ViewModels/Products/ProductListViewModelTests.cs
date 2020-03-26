@@ -8,6 +8,7 @@ using Veganko.Models;
 using Veganko.ViewModels.Products;
 using Veganko.Services.DB;
 using Veganko.Models.Products;
+using Veganko.Common.Models.Products;
 
 namespace UnitTests.Shared.ViewModels.Products
 {

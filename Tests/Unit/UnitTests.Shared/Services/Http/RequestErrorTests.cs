@@ -1,6 +1,7 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Newtonsoft.Json;
 using Veganko.Services.Http;
+using Veganko.Services.Http.Errors;
 
 namespace UnitTests.Shared.Services.Http
 {

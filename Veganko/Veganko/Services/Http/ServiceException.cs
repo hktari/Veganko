@@ -68,7 +68,7 @@ namespace Veganko.Services.Http
         public string StatusCodeDescription { get; }
         public string Resource { get; }
         public string Method { get; }
-        public IDictionary<string, string[]> Errors { get; private set; } = new Dictionary<string, string[]>();
+        public IDictionary<string, string[]> Errors { get; set; } = new Dictionary<string, string[]>();
 
         /// <summary>
         /// The content as JSON

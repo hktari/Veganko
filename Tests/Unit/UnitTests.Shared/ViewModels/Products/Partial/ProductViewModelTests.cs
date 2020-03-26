@@ -4,7 +4,9 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
+using Veganko.Common.Models.Products;
 using Veganko.Models;
+using Veganko.Other;
 using Veganko.ViewModels.Products.Partial;
 
 namespace UnitTests.Shared.ViewModels.Products.Partial
@@ -54,6 +56,8 @@ namespace UnitTests.Shared.ViewModels.Products.Partial
             AssertProductEquality(product, prodVM);
         }
 
+        private static DecimalProductClassifierListConverter classConv = new DecimalProductClassifierListConverter();
+
         private static void AssertProductVMEquality(ProductViewModel productVM, ProductViewModel updatedProdVM)
         {
             Assert.AreEqual(updatedProdVM.Barcode, productVM.Barcode);
@@ -78,11 +82,11 @@ namespace UnitTests.Shared.ViewModels.Products.Partial
             Assert.AreEqual(updatedProdVM.Description, product.Description);
             Assert.AreEqual(updatedProdVM.Id, product.Id);
             Assert.AreEqual(updatedProdVM.Name, product.Name);
-            Assert.AreEqual(updatedProdVM.Type, product.Type);
+            Assert.AreEqual(updatedProdVM.Type, product.ProdType);
 
             Assert.AreNotEqual(updatedProdVM.ProductClassifiers, product.ProductClassifiers);
             Assert.IsTrue(updatedProdVM.ProductClassifiers
-                .Zip(product.ProductClassifiers, (first, second) => first == second)
+                .Zip(classConv.Convert(product.ProductClassifiers), (first, second) => first == second)
                 .All(@bool => @bool));
         }
 
@@ -111,8 +115,8 @@ namespace UnitTests.Shared.ViewModels.Products.Partial
                 Brand = "brand",
                 Id = "some-id",
                 Name = "prod-name",
-                Type = ProductType.Hrana,
-                ProductClassifiers = new List<ProductClassifier> { ProductClassifier.Bio },
+                ProdType = ProductType.Hrana,
+                ProductClassifiers = (int)ProductClassifier.Bio,
                 DetailImage = "detail-image-url",
                 ThumbImage = "thumb-image-url",
             };

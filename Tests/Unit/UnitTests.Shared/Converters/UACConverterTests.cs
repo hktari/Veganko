@@ -16,7 +16,7 @@ namespace UnitTests.Shared.Converters
         public void TestConvertMatchingMask()
         {
             var mask = UserAccessRights.ProductsDelete;
-            var uac = UserAccessRights.All;
+            var uac = UserRole.Moderator;
             
             Assert.IsTrue((bool)converter.Convert(uac, typeof(bool), mask, null));
         }
@@ -25,7 +25,7 @@ namespace UnitTests.Shared.Converters
         public void TestConvertNonMatchingMask()
         {
             var mask = UserAccessRights.ProductsDelete;
-            var uac = UserAccessRights.ProductsRead | UserAccessRights.ProductsWrite;
+            var uac = UserRole.Member;
 
             Assert.IsFalse((bool)converter.Convert(uac, typeof(bool), mask, null));
         }

@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Text;
 using Veganko.Models;
 using System.Linq;
+using Veganko.Common.Models.Products;
 
 namespace UnitTests.Shared.Models
 {
@@ -21,13 +22,12 @@ namespace UnitTests.Shared.Models
             Product product = JsonConvert.DeserializeObject<Product>(json);
 
             Assert.AreEqual("14bbbd61-2f8c-4dfe-b6c4-51291ad88667", product.Id);
-            Assert.AreEqual(ProductState.PendingApproval, product.State);
             Assert.AreEqual("MS. 🐈", product.Name);
             Assert.AreEqual("ZALAS CUPS", product.Brand);
             Assert.AreEqual("barcode", product.Barcode);
             Assert.AreEqual("a5b1b2b9-2e40-4631-bb06-17619aa957b0.jpg", product.ImageName);
             Assert.AreEqual("A relatively cute cup.\\n", product.Description);
-            Assert.AreEqual(128, product.ProductClassifiers.Aggregate(0, (f, cl) => f | (int)cl));
+            Assert.AreEqual(128, product.ProductClassifiers);
             Assert.AreEqual(ProductType.Pijaca, product.Type);
         }
     }
