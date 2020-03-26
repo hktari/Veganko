@@ -10,7 +10,7 @@ namespace Veganko.Services.Products.ProductModRequests
     public interface IProductModRequestService
     {
         Task<ProductModRequestDTO> AddAsync(ProductModRequestDTO item);
-        Task<PagedList<ProductModRequestDTO>> AllAsync(int page = 1, int pageSize = 10, bool forceRefresh = false);
+        Task<PagedList<ProductModRequestDTO>> AllAsync(int page = 1, int pageSize = 10, string userId = null, bool forceRefresh = false);
         Task DeleteAsync(ProductModRequestDTO item);
         Task<ProductModRequestDTO> GetAsync(string id);
         Task<ProductModRequestDTO> UpdateAsync(ProductModRequestDTO item);

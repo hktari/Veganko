@@ -37,6 +37,21 @@ namespace VegankoService.Data.ProductModRequests
                 .FirstOrDefaultAsync(pmr => pmr.Id == id);
         }
 
+        public PagedList<ProductModRequest> GetAll(string userId, int page, int pageSize = 10)
+        {
+            return new PagedList<ProductModRequest>
+            {
+                Items = context.ProductModRequests
+                    .Include(pmr => pmr.UnapprovedProduct)
+                    .Include(pmr => pmr.Evaluations)
+                    .Where(pmr => pmr.UserId == userId),
+
+                Page = page,
+                PageSize = pageSize,
+                TotalCount = context.ProductModRequests.Count(pmr => pmr.UserId == userId),
+            };
+        }
+
         public PagedList<ProductModRequest> GetAll(int page, int pageSize = 10)
         {
             return new PagedList<ProductModRequest>

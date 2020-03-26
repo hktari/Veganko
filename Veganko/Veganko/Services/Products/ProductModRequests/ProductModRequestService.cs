@@ -1,8 +1,5 @@
 ﻿using Newtonsoft.Json;
 using RestSharp;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 using ProductModRequestDTO = Veganko.Common.Models.Products.ProductModRequestDTO;
 using Veganko.Models;
@@ -78,15 +75,21 @@ namespace Veganko.Services.Products.ProductModRequests
             return restService.ExecuteAsync(request);
         }
 
-        public Task<ProductModRequestDTO> GetAsync(string id) 
+        public Task<ProductModRequestDTO> GetAsync(string id)
         {
             RestRequest request = new RestRequest($"{Uri}/{id}", Method.GET);
             return restService.ExecuteAsync<ProductModRequestDTO>(request);
         }
 
-        public Task<PagedList<ProductModRequestDTO>> AllAsync(int page = 1, int pageSize = 10, bool forceRefresh = false)
+        public Task<PagedList<ProductModRequestDTO>> AllAsync(int page = 1, int pageSize = 10, string userId = null, bool forceRefresh = false)
         {
-            RestRequest request = new RestRequest($"{Uri}?page={page}&pageSize={pageSize}", Method.GET);
+            string url = $"{Uri}?page={page}&pageSize={pageSize}";
+            if (userId != null)
+            {
+                url += $"&userId={userId}";
+            }
+
+            RestRequest request = new RestRequest(url, Method.GET);
             return restService.ExecuteAsync<PagedList<ProductModRequestDTO>>(request);
         }
 

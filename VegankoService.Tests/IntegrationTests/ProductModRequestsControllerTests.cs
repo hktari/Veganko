@@ -28,6 +28,18 @@ namespace VegankoService.Tests.IntegrationTests
         }
 
         [Fact]
+        public async Task GetAll_UserId_ResultsInOkAndOnlyUsersProductData()
+        {
+            var result = await client.GetAsync(Util.GetRequestUri($"{Uri}?userId=user_id"));
+
+            Assert.Equal(HttpStatusCode.OK, result.StatusCode);
+            var pmrs = JsonConvert.DeserializeObject<PagedList<ProductModRequestDTO>>(result.GetJson());
+            Assert.True(pmrs.Items.Count() > 0);
+            Assert.All(pmrs.Items, pmr => Assert.NotNull(pmr.UnapprovedProduct));
+            Assert.All(pmrs.Items, pmr => Assert.Equal("user_id", pmr.UserId));
+        }
+
+        [Fact]
         public async Task GetAll_ResultsInOkAndNonEmptyListWithProductData()
         {
             var result = await client.GetAsync(Util.GetRequestUri(Uri));
