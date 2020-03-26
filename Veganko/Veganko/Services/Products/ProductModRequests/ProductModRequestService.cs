@@ -81,12 +81,17 @@ namespace Veganko.Services.Products.ProductModRequests
             return restService.ExecuteAsync<ProductModRequestDTO>(request);
         }
 
-        public Task<PagedList<ProductModRequestDTO>> AllAsync(int page = 1, int pageSize = 10, string userId = null, bool forceRefresh = false)
+        public Task<PagedList<ProductModRequestDTO>> AllAsync(int page = 1, int pageSize = 10, string userId = null, ProductModRequestState? state = null, bool forceRefresh = false)
         {
             string url = $"{Uri}?page={page}&pageSize={pageSize}";
             if (userId != null)
             {
                 url += $"&userId={userId}";
+            }
+            
+            if (state != null)
+            {
+                url += $"&state={state}";
             }
 
             RestRequest request = new RestRequest(url, Method.GET);
