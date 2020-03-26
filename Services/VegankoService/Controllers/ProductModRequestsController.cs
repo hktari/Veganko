@@ -47,7 +47,7 @@ namespace VegankoService.Controllers
 
         // GET: api/ProductModRequests
         [HttpGet]
-        public ActionResult<PagedList<ProductModRequestDTO>> GetProductModRequests(int page = 1, int pageSize = 10, string userId = null)
+        public ActionResult<PagedList<ProductModRequestDTO>> GetProductModRequests(int page = 1, int pageSize = 10, string userId = null, ProductModRequestState? state = null)
         {
             logger.LogInformation($"GetProductModRequest({page}, {pageSize})");
 
@@ -58,16 +58,8 @@ namespace VegankoService.Controllers
                 return BadRequest();
             }
 
-            PagedList<ProductModRequest> result;
-
-            if (userId != null)
-            {
-                result = productModReqRepository.GetAll(userId, page, pageSize);
-            }
-            else 
-            {
-                result = productModReqRepository.GetAll(page, pageSize);
-            }
+            PagedList<ProductModRequest> result = productModReqRepository.GetAll(
+                new ProductModReqQuery(state, userId, page, pageSize));
 
             return Ok(result);
         }

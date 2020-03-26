@@ -39,6 +39,21 @@ namespace VegankoService.Tests.IntegrationTests
             Assert.All(pmrs.Items, pmr => Assert.Equal("user_id", pmr.UserId));
         }
 
+        [Theory]
+        [InlineData(ProductModRequestState.Approved)]
+        [InlineData(ProductModRequestState.Rejected)]
+        [InlineData(ProductModRequestState.Missing)]
+        [InlineData(ProductModRequestState.Pending)]
+        public async Task GetAll_State_ResultsInOkAndOnlyProductReqsInGivenState(ProductModRequestState state)
+        {
+            var result = await client.GetAsync(Util.GetRequestUri($"{Uri}?state={state}"));
+
+            Assert.Equal(HttpStatusCode.OK, result.StatusCode);
+            var pmrs = JsonConvert.DeserializeObject<PagedList<ProductModRequestDTO>>(result.GetJson());
+            Assert.All(pmrs.Items, pmr => Assert.NotNull(pmr.UnapprovedProduct));
+            Assert.All(pmrs.Items, pmr => Assert.Equal(state, pmr.State));
+        }
+
         [Fact]
         public async Task GetAll_ResultsInOkAndNonEmptyListWithProductData()
         {

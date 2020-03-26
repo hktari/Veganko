@@ -55,6 +55,13 @@ namespace VegankoService.Tests
                     Name = "Chocolate Bananas",
                     Barcode = "123",
                     ProductClassifiers = 512,
+                },
+                new UnapprovedProduct
+                {
+                    Id = "rejected_prod_id",
+                    Name = "Chocolate Bananas",
+                    Barcode = "123",
+                    ProductClassifiers = 512,
                 }
             };
 
@@ -72,6 +79,7 @@ namespace VegankoService.Tests
                     ChangedFields = "PRODUCTCLASSIFIERS, TYPE",
                     Timestamp = DateTime.Now,
                     UnapprovedProduct = unapprovedProducts[0],
+                    State = ProductModRequestState.Pending,
                 },
                 new ProductModRequest
                 {
@@ -82,6 +90,7 @@ namespace VegankoService.Tests
                     ChangedFields = null,
                     Timestamp = DateTime.Now,
                     UnapprovedProduct = unapprovedProducts[1],
+                    State = ProductModRequestState.Pending,
                 },
                 new ProductModRequest
                 {
@@ -92,6 +101,7 @@ namespace VegankoService.Tests
                     ChangedFields = null,
                     Timestamp = DateTime.Now,
                     UnapprovedProduct = unapprovedProducts[2],
+                    State = ProductModRequestState.Pending,
                 },
                 new ProductModRequest
                 {
@@ -102,6 +112,18 @@ namespace VegankoService.Tests
                     ChangedFields = null,
                     Timestamp = DateTime.Now,
                     UnapprovedProduct = unapprovedProducts[3],
+                    State = ProductModRequestState.Pending,
+                },
+                new ProductModRequest
+                {
+                    Id = "rejected_prod_mod_req_id",
+                    UserId = "user_id",
+                    ExistingProductId = null,
+                    Action = ProductModRequestAction.Add,
+                    ChangedFields = null,
+                    Timestamp = DateTime.Now,
+                    UnapprovedProduct = unapprovedProducts[3],
+                    State = ProductModRequestState.Rejected,
                 }
             };
 

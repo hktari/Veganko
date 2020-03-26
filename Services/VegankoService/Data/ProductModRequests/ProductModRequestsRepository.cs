@@ -1,5 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System;
+using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using Veganko.Common.Models.Products;
@@ -37,32 +39,30 @@ namespace VegankoService.Data.ProductModRequests
                 .FirstOrDefaultAsync(pmr => pmr.Id == id);
         }
 
-        public PagedList<ProductModRequest> GetAll(string userId, int page, int pageSize = 10)
+        public PagedList<ProductModRequest> GetAll(ProductModReqQuery query)
         {
+            IQueryable<ProductModRequest> items = context.ProductModRequests
+                .Include(pmr => pmr.UnapprovedProduct)
+                .Include(pmr => pmr.Evaluations);
+
+            if (query.UserId != null)
+            {
+                items = items.Where(pmr => pmr.UserId == query.UserId);
+            }
+            
+            if (query.State != null)
+            {
+                items = items.Where(pmr => pmr.State == query.State);
+            }
+
+            int pageModifier = Math.Max(0, query.Page - 1); // Min value is 0
+
             return new PagedList<ProductModRequest>
             {
-                Items = context.ProductModRequests
-                    .Include(pmr => pmr.UnapprovedProduct)
-                    .Include(pmr => pmr.Evaluations)
-                    .Where(pmr => pmr.UserId == userId),
-
-                Page = page,
-                PageSize = pageSize,
-                TotalCount = context.ProductModRequests.Count(pmr => pmr.UserId == userId),
-            };
-        }
-
-        public PagedList<ProductModRequest> GetAll(int page, int pageSize = 10)
-        {
-            return new PagedList<ProductModRequest>
-            {
-                Items = context.ProductModRequests
-                    .Include(pmr => pmr.UnapprovedProduct)
-                    .Include(pmr => pmr.Evaluations),
-                
-                Page = page,
-                PageSize = pageSize,
-                TotalCount = context.ProductModRequests.Count(),
+                Items = items.Skip(pageModifier * query.PageSize).Take(query.PageSize),
+                Page = query.Page,
+                PageSize = query.PageSize,
+                TotalCount = items.Count(),
             };
         }
 

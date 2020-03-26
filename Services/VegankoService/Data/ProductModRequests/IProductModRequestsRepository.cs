@@ -9,8 +9,7 @@ namespace VegankoService.Data.ProductModRequests
 {
     public interface IProductModRequestsRepository
     {
-        PagedList<ProductModRequest> GetAll(string userId, int page, int pageSize = 10);
-        PagedList<ProductModRequest> GetAll(int page, int pageSize = 10);
+        PagedList<ProductModRequest> GetAll(ProductModReqQuery query);
         Task<ProductModRequest> Get(string id);
         Task Create(ProductModRequest productModRequest);
         Task Update(ProductModRequest productModRequest);
