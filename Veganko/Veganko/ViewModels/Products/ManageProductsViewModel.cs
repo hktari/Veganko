@@ -17,10 +17,11 @@ namespace Veganko.ViewModels.Products
     {
         protected override Task OnProductSelected(ProductViewModel product)
         {
+            throw new NotImplementedException();
             // TODO: move to product view model.
             Product productModel = new Product();
             product.MapToModel(productModel);
-            return App.Navigation.PushAsync(new ApproveProductPage(new ApproveProductViewModel(productModel)));
+            //return App.Navigation.PushAsync(new ApproveProductPage(new ProductModRequestDetailViewModel(productModel)));
         }
 
         protected async override Task<List<ProductViewModel>> GetProducts()

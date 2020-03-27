@@ -18,6 +18,9 @@
     </TabbedPage.Effects>
     <TabbedPage.Children>
         <NavigationPage>
+            <x:Arguments>
+                <views:ProductListPage />
+            </x:Arguments>
             <NavigationPage.IconImageSource>
                 <OnPlatform
                     x:TypeArguments="forms:ImageSource"
@@ -25,12 +28,6 @@
                     iOS="{FontImage FontFamily='Material Icons',
                                     Glyph={x:Static other:MaterialDesignIcons.Search}}" />
             </NavigationPage.IconImageSource>
-            <!--<NavigationPage.Title>
-                <OnPlatform UWP="Products" />
-            </NavigationPage.Title>-->
-            <x:Arguments>
-                <views:ProductListPage />
-            </x:Arguments>
         </NavigationPage>
         <views:NewProductPage>
             <ContentPage.IconImageSource>
@@ -40,14 +37,11 @@
                     iOS="{FontImage FontFamily='Material Icons',
                                     Glyph={x:Static other:MaterialDesignIcons.AddCircle}}" />
             </ContentPage.IconImageSource>
-            <!--<Page.Title>
-                <OnPlatform UWP="New" />
-            </Page.Title>-->
         </views:NewProductPage>
-        <views:ProfilePage>
-            <!--<Page.Title>
-                <OnPlatform UWP="Profile" />
-            </Page.Title>-->
-        </views:ProfilePage>
+        <NavigationPage>
+            <x:Arguments>
+                <views:ProfilePage />
+            </x:Arguments>
+        </NavigationPage>
     </TabbedPage.Children>
 </TabbedPage>

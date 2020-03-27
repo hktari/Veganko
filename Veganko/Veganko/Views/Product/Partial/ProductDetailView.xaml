@@ -1,0 +1,103 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<ContentView
+    x:Class="Veganko.Views.Product.Partial.ProductDetailView"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:behaviors="clr-namespace:Veganko.Behaviors"
+    xmlns:common="clr-namespace:Veganko.Common.Models.Products;assembly=Veganko.Common"
+    xmlns:controls="clr-namespace:Veganko.Controls"
+    xmlns:converters="clr-namespace:Veganko.Converters"
+    xmlns:effects="clr-namespace:Veganko.Effects"
+    xmlns:forms="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
+    xmlns:local="clr-namespace:Veganko"
+    xmlns:views="clr-namespace:Veganko.Views">
+    <ContentView.Resources>
+        <ResourceDictionary>
+            <converters:StringToEnumConverter x:Key="StringEnumConverter" UseDescriptionAttribute="True" />
+        </ResourceDictionary>
+    </ContentView.Resources>
+    <ContentView.Content>
+        <StackLayout Padding="5,0" Spacing="10">
+            <Grid
+                Grid.Row="0"
+                Grid.Column="0"
+                Grid.ColumnSpan="3">
+                <Frame Padding="1" CornerRadius="0">
+                    <forms:CachedImage
+                        Aspect="AspectFill"
+                        BindingContext="{Binding Product}"
+                        HeightRequest="300"
+                        HorizontalOptions="Center"
+                        Source="{Binding Image}" />
+                </Frame>
+                <ImageButton
+                    Margin="10"
+                    BackgroundColor="Transparent"
+                    Command="{Binding EditCommand}"
+                    HorizontalOptions="End"
+                    VerticalOptions="Start"
+                    WidthRequest="35"
+                    Source="edit.png" />
+            </Grid>
+            <Grid
+                Margin="5,0,12.5,15"
+                ColumnSpacing="30"
+                RowSpacing="15">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="45" />
+                </Grid.ColumnDefinitions>
+                <Label VerticalOptions="Start">
+                    <Label.FormattedText>
+                        <FormattedString>
+                            <Span
+                                BindingContext="{Binding Product}"
+                                FontFamily="{StaticResource VarelaRoundFont}"
+                                FontSize="Large"
+                                Text="{Binding Name, Mode=OneWay}" />
+                            <Span Text="&#10;" />
+                            <Span FontSize="15" Text="{Binding ProductRating, Converter={StaticResource IntToStarConverter}}" />
+                            <Span Text="&#10;" />
+                            <Span
+                                FontAttributes="Italic"
+                                FontFamily="{StaticResource QuicksandFont}"
+                                FontSize="Small"
+                                Text="{Binding Product.Brand}" />
+                        </FormattedString>
+                    </Label.FormattedText>
+                </Label>
+
+                <Label
+                    Grid.Row="1"
+                    Grid.ColumnSpan="2"
+                    FontFamily="{StaticResource RalewayRegularFont}"
+                    FontSize="Small"
+                    LineBreakMode="WordWrap"
+                    Text="{Binding Product.Description}" />
+
+                <ImageButton
+                    Grid.Column="1"
+                    BackgroundColor="{StaticResource LightBackgroundColor}"
+                    Command="{Binding WhereToBuyCommand}"
+                    IsEnabled="False"
+                    VerticalOptions="Start"
+                    Source="ico_where_to_buy.png" />
+            </Grid>
+            <controls:EnumImageView
+                Grid.Row="4"
+                Grid.Column="1"
+                HorizontalAlignment="Start"
+                x:TypeArguments="common:ProductClassifier"
+                CascadeInputTransparent="True"
+                ImageSource="{x:Static local:EnumImages.ProductClassifierImages}"
+                InputTransparent="False"
+                VerticalOptions="Center"
+                ViewSize="60"
+                Source="{Binding Product.ProductClassifiers}" />
+        </StackLayout>
+    </ContentView.Content>
+</ContentView>

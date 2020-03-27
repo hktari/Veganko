@@ -1,26 +1,15 @@
 ﻿using Autofac;
-using Newtonsoft.Json;
-using Plugin.Media;
-using Plugin.Media.Abstractions;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Diagnostics;
-using System.IO;
-using System.Text;
-using System.Threading.Tasks;
 using Veganko.Common.Models.Products;
 using Veganko.Extensions;
-using Veganko.Models;
 using Veganko.Models.User;
-using Veganko.Other;
-using Veganko.Services;
 using Veganko.Services.DB;
-using Veganko.Services.Http;
 using Veganko.Services.Http.Errors;
-using Veganko.Services.Logging;
+using Veganko.ViewModels.Products.ModRequests;
 using Veganko.ViewModels.Products.Partial;
 using Veganko.Views;
+using Veganko.Views.Product.ModRequests;
 using Xamarin.Forms;
 
 namespace Veganko.ViewModels.Products
@@ -42,22 +31,45 @@ namespace Veganko.ViewModels.Products
                     IsBusy = true;
 
                     Product productModel = CreateModel();
-                    productModel = await productService.AddAsync(productModel);
-                    productModel = await PostProductImages(productModel);
 
-                    Product.Update(productModel);
+                    if (userService.CurrentUser.Role == UserRole.Member)
+                    {
+                        ProductModRequestDTO addProdRequest = new ProductModRequestDTO
+                        {
+                            UnapprovedProduct = productModel,
+                        };
+                        addProdRequest = await productModReqService.AddAsync(addProdRequest);
+                        addProdRequest = await PostProductImages(addProdRequest);
+                        productModel = addProdRequest.UnapprovedProduct;
 
-                    // Mark the product as seen
-                    Product.SetHasBeenSeen(true);
-                    await App.IoC.Resolve<IProductDBService>().SetProductsAsSeen(new[] { productModel });
+                        Product.Update(productModel);
+                        ((MainPage)App.Current.MainPage)?.SetCurrentTab(2); // Profile page
 
-                    ((MainPage)App.Current.MainPage)?.SetCurrentTab(0);
-                    MessagingCenter.Send(this, ProductAddedMsg, Product);
 
-                    // Navigate to product detail page from the ProductList page
-                    await App.Navigation.PushAsync(
-                        new ProductDetailPage(
-                            new ProductDetailViewModel(Product)));
+                        // Navigate to product detail page from the ProductList page
+                        await App.Navigation.PushAsync(
+                            new ProductModRequestDetailPage(
+                                new ProductModRequestDetailViewModel(addProdRequest)));
+                    }
+                    else
+                    {
+                        productModel = await productService.AddAsync(productModel);
+                        productModel = await PostProductImages(productModel);
+
+                        Product.Update(productModel);
+
+                        // Mark the product as seen
+                        Product.SetHasBeenSeen(true);
+                        await App.IoC.Resolve<IProductDBService>().SetProductsAsSeen(new[] { productModel });
+
+                        ((MainPage)App.Current.MainPage)?.SetCurrentTab(0);
+                        MessagingCenter.Send(this, ProductAddedMsg, Product);
+
+                        // Navigate to product detail page from the ProductList page
+                        await App.Navigation.PushAsync(
+                            new ProductDetailPage(
+                                new ProductDetailViewModel(Product)));
+                    }
 
                     // Mark product to be initialized the next the page appears.
                     Product = null;

@@ -15,6 +15,7 @@ using Veganko.Services;
 using Veganko.Services.Http.Errors;
 using Veganko.Services.ImageManager;
 using Veganko.Services.Logging;
+using Veganko.Services.Products.ProductModRequests;
 using Veganko.Validations;
 using Veganko.ViewModels.Products.Partial;
 using Veganko.Views;
@@ -31,11 +32,15 @@ namespace Veganko.ViewModels.Products
 
         private readonly IImageProcessor imageProcessor;
         protected readonly IProductService productService;
+        protected readonly IProductModRequestService productModReqService;
+        protected readonly IUserService userService;
 
         public BaseEditProductViewModel()
         {
             imageProcessor = App.IoC.Resolve<IImageProcessor>();
             productService = App.IoC.Resolve<IProductService>();
+            productModReqService = App.IoC.Resolve<IProductModRequestService>();
+            userService = App.IoC.Resolve<IUserService>();
 
             SelectedProductType = ProductType.Ostalo;
             SetupValidations();
@@ -45,6 +50,8 @@ namespace Veganko.ViewModels.Products
         {
             imageProcessor = App.IoC.Resolve<IImageProcessor>();
             productService = App.IoC.Resolve<IProductService>();
+            productModReqService = App.IoC.Resolve<IProductModRequestService>();
+            userService = App.IoC.Resolve<IUserService>();
 
             this.product = product;
 
@@ -171,6 +178,12 @@ namespace Veganko.ViewModels.Products
         {
             await GenerateThumbnail();
             return await productService.UpdateImagesAsync(product, ProductDetailImageData, ProductThumbnailImageData);
+        }
+        
+        protected async Task<ProductModRequestDTO> PostProductImages(ProductModRequestDTO product)
+        {
+            await GenerateThumbnail();
+            return await productModReqService.UpdateImagesAsync(product, ProductDetailImageData, ProductThumbnailImageData);
         }
 
         protected async Task GenerateThumbnail()

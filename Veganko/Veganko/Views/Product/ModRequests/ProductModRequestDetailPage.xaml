@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<views:BaseContentPage
+    x:Class="Veganko.Views.Product.ModRequests.ProductModRequestDetailPage"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:converters="clr-namespace:Veganko.Converters"
+    xmlns:partials="clr-namespace:Veganko.Views.Product.Partial"
+    xmlns:views="clr-namespace:Veganko.Views"
+    Padding="10"
+    ControlTemplate="{StaticResource LodingIndicatorTemplate}">
+    <ContentPage.Content>
+        <ScrollView>
+            <StackLayout>
+                <partials:ProductDetailView />
+                <ImageButton
+                    Command="{Binding DeleteRequestCommand}"
+                    HorizontalOptions="Start"
+                    VerticalOptions="EndAndExpand"
+                    Source="delete.png" />
+                <ImageButton Command="{Binding RejectRequestCommand}" Source="ico_vegan" />
+                <ImageButton
+                    Command="{Binding ApproveRequestCommand}"
+                    HorizontalOptions="End"
+                    Source="checkmark.png" />
+            </StackLayout>
+        </ScrollView>
+    </ContentPage.Content>
+</views:BaseContentPage>

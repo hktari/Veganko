@@ -12,6 +12,14 @@
     <EmbeddedResource Include="$(MSBuildThisFileDirectory)App.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Views\Product\ModRequests\ProductModRequestDetailPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Views\Product\Partial\ProductDetailView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)App.xaml.cs">
@@ -123,13 +131,14 @@
     <Compile Include="$(MSBuildThisFileDirectory)Services\MockProductDataStore.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\ProductDataStore.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\AboutViewModel.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)ViewModels\ApproveProductViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\BaseViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\FavoritesViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\LoginViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\PasswordRecovery\EditAccountViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\Products\ManageProductsViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\Products\EditProductViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ViewModels\Products\ModRequests\Partial\ProductModRequestViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ViewModels\Products\ModRequests\ProductModRequestDetailViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\Products\NewProductViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\EnumImageItemViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\PasswordRecovery\PasswordRecoveryViewModel.cs" />
@@ -183,6 +192,13 @@
     <Compile Include="$(MSBuildThisFileDirectory)Views\PasswordRecovery\ValidateOTPPage.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Views\Product\ModRequests\ProductModRequestDetailPage.xaml.cs">
+      <SubType>Code</SubType>
+      <DependentUpon>ProductModRequestDetailPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Views\Product\Partial\ProductDetailView.xaml.cs">
+      <DependentUpon>ProductDetailView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Views\Profile\Partial\UserProfileView.xaml.cs">
       <DependentUpon>UserProfileView.xaml</DependentUpon>
       <SubType>Code</SubType>
@@ -193,10 +209,6 @@
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Views\Stores\AddStorePage.xaml.cs">
       <DependentUpon>AddStorePage.xaml</DependentUpon>
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="$(MSBuildThisFileDirectory)Views\Product\ApproveProductPage.xaml.cs">
-      <DependentUpon>ApproveProductPage.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Views\Product\DTS\CommentDataTemplateSelector.cs" />
@@ -325,12 +337,6 @@
     <EmbeddedResource Include="$(MSBuildThisFileDirectory)Views\ManageProductsPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
-    </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Views\Product\ApproveProductPage.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

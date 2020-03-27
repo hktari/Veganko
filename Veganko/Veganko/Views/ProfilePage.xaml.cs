@@ -1,16 +1,14 @@
 ﻿using Veganko.Extensions;
 using Autofac;
 using System;
-using Veganko.Extensions;
 using Veganko.Other;
 using Veganko.Services.Auth;
 using Veganko.Services.Http;
 using Veganko.ViewModels;
-using Veganko.ViewModels.Profile;
-using Veganko.Views.Profile;
 using Xamarin.Forms;
 using Xamarin.Forms.PlatformConfiguration.iOSSpecific;
 using Xamarin.Forms.Xaml;
+using System.Diagnostics;
 
 namespace Veganko.Views
 {
@@ -21,18 +19,28 @@ namespace Veganko.Views
         public ProfilePage()
         {
             InitializeComponent();
+            vm = (ProfileViewModel)BindingContext;
+
             if (Device.RuntimePlatform == Device.iOS)
             {
-                IconImageSource = new FontImageSource { FontFamily = "Material Icons", Glyph = MaterialDesignIcons.AccountCircle };
+                Xamarin.Forms.NavigationPage.SetTitleIconImageSource(
+                    this.Parent,
+                    new FontImageSource { FontFamily = "Material Icons", Glyph = MaterialDesignIcons.AccountCircle });
             }
             else
             {
-                SetBinding(IconImageSourceProperty, new Binding("AvatarImage"));
+                //SetBinding(IconImageSourceProperty, new Binding("AvatarImage"));
             }
 
             On<Xamarin.Forms.PlatformConfiguration.iOS>().SetUseSafeArea(false);
-            vm = (ProfileViewModel)BindingContext;
         }
+        protected override void OnParentSet()
+        {
+            base.OnParentSet();
+            Debug.Assert(Parent != null);
+            Parent?.SetBinding(Xamarin.Forms.NavigationPage.IconImageSourceProperty, new Binding("AvatarImage", source: vm));
+        }
+
         protected override async void CustomOnAppearing()
         {
             await vm.Refresh();
