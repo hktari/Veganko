@@ -161,6 +161,7 @@
     <AndroidAsset Include="Assets\Raleway-Medium.ttf" />
     <AndroidAsset Include="Assets\Raleway-Regular.ttf" />
     <AndroidAsset Include="Assets\Raleway-Light.ttf" />
+    <AndroidAsset Include="Assets\MaterialIcons-Regular.ttf" />
     <None Include="Resources\AboutResources.txt" />
     <None Include="Assets\AboutAssets.txt" />
   </ItemGroup>

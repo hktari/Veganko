@@ -4,24 +4,119 @@
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:converters="clr-namespace:Veganko.Converters"
+    xmlns:other="clr-namespace:Veganko.Other"
     xmlns:partials="clr-namespace:Veganko.Views.Product.Partial"
+    xmlns:products="clr-namespace:Veganko.Common.Models.Products;assembly=Veganko.Common"
     xmlns:views="clr-namespace:Veganko.Views"
-    Padding="10"
+    BackgroundColor="{StaticResource DarkBackgroundColor}"
     ControlTemplate="{StaticResource LodingIndicatorTemplate}">
     <ContentPage.Content>
         <ScrollView>
             <StackLayout>
-                <partials:ProductDetailView />
-                <ImageButton
-                    Command="{Binding DeleteRequestCommand}"
-                    HorizontalOptions="Start"
-                    VerticalOptions="EndAndExpand"
-                    Source="delete.png" />
-                <ImageButton Command="{Binding RejectRequestCommand}" Source="ico_vegan" />
-                <ImageButton
-                    Command="{Binding ApproveRequestCommand}"
-                    HorizontalOptions="End"
-                    Source="checkmark.png" />
+                <partials:ProductDetailView Padding="0,0,0,20" BackgroundColor="{StaticResource LightBackgroundColor}" />
+                <Grid Padding="10">
+                    <Grid.Resources>
+                        <Style TargetType="ImageButton">
+                            <Setter Property="BackgroundColor" Value="{StaticResource DarkBackgroundColor}" />
+                            <Setter Property="WidthRequest" Value="45" />
+                            <Setter Property="HeightRequest" Value="45" />
+                        </Style>
+                    </Grid.Resources>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+                    <Label
+                        FontFamily="{StaticResource RalewayMediumFont}"
+                        FontSize="16"
+                        Text="Status: " />
+                    <Label
+                        Grid.Column="1"
+                        FontFamily="{StaticResource RalewayRegularFont}"
+                        Text="{Binding ProdModReq.State, Converter={StaticResource EnumToDescriptionConverter}}">
+                        <Label.Triggers>
+                            <DataTrigger
+                                Binding="{Binding ProdModReq.State}"
+                                TargetType="Label"
+                                Value="{x:Static products:ProductModRequestState.Approved}">
+                                <Setter Property="TextColor" Value="{StaticResource Primary}" />
+                            </DataTrigger>
+                            <DataTrigger
+                                Binding="{Binding ProdModReq.State}"
+                                TargetType="Label"
+                                Value="{x:Static products:ProductModRequestState.Rejected}">
+                                <Setter Property="TextColor" Value="{StaticResource TransparentErrorColor}" />
+                            </DataTrigger>
+                            <DataTrigger
+                                Binding="{Binding ProdModReq.State}"
+                                TargetType="Label"
+                                Value="{x:Static products:ProductModRequestState.Missing}">
+                                <Setter Property="TextColor" Value="#B5B228" />
+                                <Setter Property="Text" Value="IZGINJENO (produkt je bil verjetno izbrisan)" />
+                            </DataTrigger>
+                        </Label.Triggers>
+                    </Label>
+                    <Label
+                        Grid.Row="1"
+                        FontFamily="{StaticResource RalewayMediumFont}"
+                        FontSize="16"
+                        Text="Obravnavali so: " />
+                    <Label
+                        Grid.Row="1"
+                        Grid.Column="1"
+                        FontFamily="{StaticResource RalewayRegularFont}"
+                        Text="{Binding EvaluatorsText}" />
+                    <ImageButton
+                        Grid.Row="3"
+                        Grid.ColumnSpan="2"
+                        Command="{Binding DeleteRequestCommand}"
+                        HorizontalOptions="Start">
+                        <ImageButton.Source>
+                            <FontImageSource
+                                FontFamily="{StaticResource MaterialDesignFont}"
+                                Color="Black"
+                                Glyph="{x:Static other:MaterialDesignIcons.Delete}" />
+                        </ImageButton.Source>
+                    </ImageButton>
+                    <Button
+                        Grid.Row="2"
+                        Grid.ColumnSpan="2"
+                        Padding="5,0,7,0"
+                        Command="{Binding ApproveRequestCommand}"
+                        FontFamily="{StaticResource RalewayMediumFont}"
+                        HorizontalOptions="End"
+                        Text="POTRDI"
+                        TextColor="{StaticResource Primary}">
+                        <Button.ImageSource>
+                            <FontImageSource
+                                FontFamily="{StaticResource MaterialDesignFont}"
+                                Color="{StaticResource Primary}"
+                                Glyph="{x:Static other:MaterialDesignIcons.Check}" />
+                        </Button.ImageSource>
+                    </Button>
+                    <Button
+                        Grid.Row="3"
+                        Grid.ColumnSpan="2"
+                        Padding="5,0,7,0"
+                        Command="{Binding RejectRequestCommand}"
+                        FontFamily="{StaticResource RalewayMediumFont}"
+                        HorizontalOptions="End"
+                        Text="ZAVRNI"
+                        TextColor="{StaticResource TransparentErrorColor}">
+                        <Button.ImageSource>
+                            <FontImageSource
+                                FontFamily="{StaticResource MaterialDesignFont}"
+                                Color="{StaticResource TransparentErrorColor}"
+                                Glyph="{x:Static other:MaterialDesignIcons.Block}" />
+                        </Button.ImageSource>
+                    </Button>
+                </Grid>
             </StackLayout>
         </ScrollView>
     </ContentPage.Content>

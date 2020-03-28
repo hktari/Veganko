@@ -10,10 +10,17 @@
             <Color x:Key="PrimaryDark">#448e00</Color>
             <Color x:Key="Accent">#96d1ff</Color>
             <Color x:Key="LightBackgroundColor">#FAFAFA</Color>
-            <Color x:Key="DarkBackgroundColor">#C0C0C0</Color>
+            <Color x:Key="DarkBackgroundColor">#8DDD</Color>
             <Color x:Key="MediumGrayTextColor">#4d4d4d</Color>
             <Color x:Key="LightTextColor">#999999</Color>
             <Color x:Key="TransparentErrorColor">#DDFF4438</Color>
+
+            <OnPlatform
+                x:Key="MaterialDesignFont"
+                x:TypeArguments="x:String"
+                Android="MaterialIcons-Regular.ttf#Material Icons"
+                Default="null"
+                iOS="Material Icons" />
 
             <OnPlatform
                 x:Key="QuicksandFont"
@@ -93,6 +100,7 @@
                 <Setter Property="FontFamily" Value="{StaticResource RalewayMediumFont}" />
             </Style>
 
+            <converters:StringToEnumConverter x:Key="EnumToDescriptionConverter" UseDescriptionAttribute="True" />
             <converters:BoolInverter x:Key="BoolInverter" />
             <converters:FirstValidationErrorConverter x:Key="FirstValidationErrorConverter" />
             <converters:IntToStarConverter x:Key="IntToStarConverter" />

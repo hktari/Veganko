@@ -7,6 +7,7 @@ using Veganko.Models.User;
 using Veganko.Services.DB;
 using Veganko.Services.Http.Errors;
 using Veganko.ViewModels.Products.ModRequests;
+using Veganko.ViewModels.Products.ModRequests.Partial;
 using Veganko.ViewModels.Products.Partial;
 using Veganko.Views;
 using Veganko.Views.Product.ModRequests;
@@ -42,14 +43,13 @@ namespace Veganko.ViewModels.Products
                         addProdRequest = await PostProductImages(addProdRequest);
                         productModel = addProdRequest.UnapprovedProduct;
 
-                        Product.Update(productModel);
                         ((MainPage)App.Current.MainPage)?.SetCurrentTab(2); // Profile page
-
 
                         // Navigate to product detail page from the ProductList page
                         await App.Navigation.PushAsync(
                             new ProductModRequestDetailPage(
-                                new ProductModRequestDetailViewModel(addProdRequest)));
+                                new ProductModRequestDetailViewModel(
+                                    new ProductModRequestViewModel(addProdRequest))));
                     }
                     else
                     {

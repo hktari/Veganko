@@ -11,6 +11,7 @@ using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 using XamarinImageUploader;
 using Plugin.Media;
+using Xamarin.Forms.PlatformConfiguration;
 
 namespace Veganko.Views.Product.ModRequests
 {
@@ -23,6 +24,10 @@ namespace Veganko.Views.Product.ModRequests
 		{
 			InitializeComponent ();
             BindingContext = this.vm = vm;
+            if (Device.RuntimePlatform != Device.iOS)
+            {
+                Padding = new Thickness(0, Padding.VerticalThickness);
+            }
         }
 
         //private async void OnApproveProductClicked(object sender, EventArgs arg)
