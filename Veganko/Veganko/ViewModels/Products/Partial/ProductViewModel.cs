@@ -163,6 +163,12 @@ namespace Veganko.ViewModels.Products.Partial
             product.LastUpdateTimestamp = LastUpdateTimestamp;
         }
 
+        public Product MapToModel()
+        {
+            Product product = new Product();
+            MapToModel(product);
+            return product;
+        }
         public void SetHasBeenSeen(bool hasBeenSeen)
         {
             HasBeenSeen = hasBeenSeen;

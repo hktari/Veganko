@@ -14,6 +14,10 @@
         <ScrollView>
             <StackLayout>
                 <partials:ProductDetailView Padding="0,0,0,20" BackgroundColor="{StaticResource LightBackgroundColor}" />
+                <BoxView
+                    BackgroundColor="Black"
+                    HeightRequest="1"
+                    VerticalOptions="Start" />
                 <Grid Padding="10">
                     <Grid.Resources>
                         <Style TargetType="ImageButton">

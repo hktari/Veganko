@@ -311,6 +311,8 @@ namespace VegankoService.Controllers
             }
             else if (productRequest.Action == ProductModRequestAction.Edit)
             {
+                // TODO: conflict ?
+
                 product = productRepository.Get(productRequest.ExistingProductId);
 
                 if (product == null)

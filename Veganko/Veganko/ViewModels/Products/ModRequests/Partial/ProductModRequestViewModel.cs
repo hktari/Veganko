@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Veganko.Common.Models.Products;
 using Veganko.ViewModels.Products.Partial;
 
@@ -17,13 +18,14 @@ namespace Veganko.ViewModels.Products.ModRequests.Partial
             Id = model.Id;
             UserId = model.UserId;
             ExistingProductId = model.ExistingProductId;
-
             Action = model.Action;
             Timestamp = model.Timestamp;
             UnapprovedProduct = new ProductViewModel(model.UnapprovedProduct);
             ChangedFields = model.ChangedFields;
             State = model.State;
             Evaluations = new List<ProductModRequestEvaluation>(model.Evaluations);
+            // TODO
+            //EvaluationsText = model.Evaluations.Aggregate("", (str, pmr) => str += pmr.)
         }
 
         public string Id { get; set; }
@@ -67,6 +69,23 @@ namespace Veganko.ViewModels.Products.ModRequests.Partial
         {
             get => evaluations;
             set => SetProperty(ref evaluations, value);
+        }
+
+
+        public ProductModRequestDTO MapToModel()
+        {
+            ProductModRequestDTO model = new ProductModRequestDTO();
+            model.Id = Id;
+            model.UserId = UserId;
+            model.ExistingProductId = ExistingProductId;
+            model.Action = Action;
+            model.Timestamp = Timestamp;
+            model.UnapprovedProduct = UnapprovedProduct.MapToModel();
+            model.ChangedFields = ChangedFields;
+            model.State = State;
+            model.Evaluations = Evaluations;
+
+            return model;
         }
     }
 }

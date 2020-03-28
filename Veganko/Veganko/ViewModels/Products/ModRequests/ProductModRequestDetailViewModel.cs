@@ -39,7 +39,9 @@ namespace Veganko.ViewModels.Products.ModRequests
                 try
                 {
                     IsBusy = true;
-                    //////await ProductModRequestService.Approve(ProdModReq);
+                    ProductModRequestDTO model = ProdModReq.MapToModel();
+                    model = await ProductModRequestService.ApproveAsync(model);
+                    ProdModReq.Update(model);
                 }
                 catch (ServiceException ex)
                 {
@@ -57,7 +59,9 @@ namespace Veganko.ViewModels.Products.ModRequests
                 try
                 {
                     IsBusy = true;
-                    //await ProductModRequestService.Reject(ProdModReq);
+                    ProductModRequestDTO model = ProdModReq.MapToModel();
+                    model = await ProductModRequestService.RejectAsync(model);
+                    ProdModReq.Update(model);
                 }
                 catch (ServiceException ex)
                 {
@@ -75,7 +79,11 @@ namespace Veganko.ViewModels.Products.ModRequests
                 try
                 {
                     IsBusy = true;
-                    //await ProductModRequestService.DeleteAsync(ProdModReq);
+                    ProductModRequestDTO model = ProdModReq.MapToModel();
+                    await ProductModRequestService.DeleteAsync(model);
+
+                    // TODO: delete item from list
+                    await App.Navigation.PopAsync();
                 }
                 catch (ServiceException ex)
                 {

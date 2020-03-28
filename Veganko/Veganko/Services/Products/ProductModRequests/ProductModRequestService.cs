@@ -98,6 +98,36 @@ namespace Veganko.Services.Products.ProductModRequests
             return restService.ExecuteAsync<PagedList<ProductModRequestDTO>>(request);
         }
 
+        public async Task<ProductModRequestDTO> ApproveAsync(ProductModRequestDTO item)
+        {
+            RestRequest request = new RestRequest($"{Uri}/approve/{item.Id}", Method.PUT);
+            request.AddJsonBody(item);
+
+            var response = await restService.ExecuteAsync(request, throwIfUnsuccessful: false);
+            if (response.IsSuccessful)
+            {
+                var pmr = JsonConvert.DeserializeObject<ProductModRequestDTO>(response.Content);
+                productHelper.AddImageUrls(pmr.UnapprovedProduct);
+                return pmr;
+            }
+            else if (response.StatusCode == System.Net.HttpStatusCode.Conflict)
+            {
+                var err = JsonConvert.DeserializeObject<RequestConflictError<Product>>(response.Content);
+                productHelper.AddImageUrls(err.ConflictingItem);
+                throw new ServiceConflictException<Product>(err);
+            }
+            else
+            {
+                throw new ServiceException(response);
+            }
+        }
+
+        public Task<ProductModRequestDTO> RejectAsync(ProductModRequestDTO item)
+        {
+            RestRequest request = new RestRequest($"{Uri}/reject/{item.Id}", Method.GET);
+            return restService.ExecuteAsync<ProductModRequestDTO>(request);
+        }
+
         public async Task<ProductModRequestDTO> UpdateImagesAsync(ProductModRequestDTO item, byte[] detailImageData, byte[] thumbImageData)
         {
             RestRequest request = new RestRequest($"{Uri}/{item.Id}/image", Method.POST);
