@@ -23,6 +23,22 @@ namespace VegankoService.Models.Stores
         public double Price { get; set; }
 
         public Coordinates Coordinates { get; set; }
+
+        public override bool Equals(object obj)
+        {
+            return obj is Store store &&
+                   Id == store.Id &&
+                   ProductId == store.ProductId &&
+                   Name == store.Name &&
+                   EqualityComparer<Address>.Default.Equals(Address, store.Address) &&
+                   Price == store.Price &&
+                   EqualityComparer<Coordinates>.Default.Equals(Coordinates, store.Coordinates);
+        }
+
+        public override int GetHashCode()
+        {
+            return HashCode.Combine(Id, ProductId, Name, Address, Price, Coordinates);
+        }
     }
 
     public class Coordinates
@@ -32,5 +48,18 @@ namespace VegankoService.Models.Stores
         public double Latitude { get; set; }
 
         public double Longitude { get; set; }
+
+        public override bool Equals(object obj)
+        {
+            return obj is Coordinates coordinates &&
+                   Id == coordinates.Id &&
+                   Latitude == coordinates.Latitude &&
+                   Longitude == coordinates.Longitude;
+        }
+
+        public override int GetHashCode()
+        {
+            return HashCode.Combine(Id, Latitude, Longitude);
+        }
     }
 }

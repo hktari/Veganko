@@ -97,7 +97,7 @@ namespace VegankoService.Controllers
                 return BadRequest(ModelState);
             }
 
-            if (productRepository.Get(store.ProductId) == null)
+            if (productRepository.Get(store.ProductId) == null && productRepository.GetUnapproved(store.ProductId) == null)
             {
                 return BadRequest("Product not found.");
             }

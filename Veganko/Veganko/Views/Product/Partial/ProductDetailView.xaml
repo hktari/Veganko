@@ -83,7 +83,7 @@
                     Grid.Column="1"
                     BackgroundColor="{StaticResource LightBackgroundColor}"
                     Command="{Binding WhereToBuyCommand}"
-                    IsEnabled="False"
+                    IsVisible="{Binding CanAddStores}"
                     VerticalOptions="Start"
                     Source="ico_where_to_buy.png" />
             </Grid>

@@ -26,5 +26,34 @@ namespace VegankoService.Models.Stores
         public string RawJson { get; set; }
 
         public string RetrievedFrom { get; set; }
+
+        public override bool Equals(object obj)
+        {
+            return obj is Address address &&
+                   Id == address.Id &&
+                   FormattedAddress == address.FormattedAddress &&
+                   Street == address.Street &&
+                   StreetNumber == address.StreetNumber &&
+                   PostalCode == address.PostalCode &&
+                   Town == address.Town &&
+                   Country == address.Country &&
+                   RawJson == address.RawJson &&
+                   RetrievedFrom == address.RetrievedFrom;
+        }
+
+        public override int GetHashCode()
+        {
+            HashCode hash = new HashCode();
+            hash.Add(Id);
+            hash.Add(FormattedAddress);
+            hash.Add(Street);
+            hash.Add(StreetNumber);
+            hash.Add(PostalCode);
+            hash.Add(Town);
+            hash.Add(Country);
+            hash.Add(RawJson);
+            hash.Add(RetrievedFrom);
+            return hash.ToHashCode();
+        }
     }
 }

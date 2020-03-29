@@ -9,14 +9,16 @@ using Veganko.Services.Http;
 using Veganko.Services.Products.ProductModRequests;
 using Veganko.ViewModels.Products.ModRequests.Partial;
 using Veganko.ViewModels.Products.Partial;
+using Veganko.ViewModels.Stores;
+using Veganko.Views.Product;
+using Veganko.Views.Stores;
 using Xamarin.Forms;
 
 namespace Veganko.ViewModels.Products.ModRequests
 {
     public class ProductModRequestDetailViewModel : BaseViewModel
     {
-        // TODO: mapping from model to vm
-        // TODO: show / hide: store btn?, state, evaluators, time?
+        // TODO: show / hide: store btn?, time?
             // TODO: list on profile page
 
         public ProductModRequestDetailViewModel(ProductModRequestViewModel prodModReq)
@@ -24,11 +26,15 @@ namespace Veganko.ViewModels.Products.ModRequests
             ProdModReq = prodModReq;
             CanChangeState = UserService.CurrentUser.Role != Models.User.UserRole.Member;
             Product = new ProductViewModel(prodModReq.UnapprovedProduct);
+            CanAddStores = prodModReq.Action == ProductModRequestAction.Add; // Edit requests can't add stores here coz productId is different.
+            MessagingCenter.Unsubscribe<EditProductViewModel, ProductViewModel>(this, EditProductViewModel.ProductUpdatedMsg);
+            MessagingCenter.Subscribe<EditProductViewModel, ProductViewModel>(this, EditProductViewModel.ProductUpdatedMsg, OnProductUpdated);
         }
 
         public ProductModRequestViewModel ProdModReq { get; }
-        public ProductViewModel Product { get; set; }
+        public ProductViewModel Product { get; }
         public bool CanChangeState { get; }
+        public bool CanAddStores { get; }
 
         private IUserService UserService => App.IoC.Resolve<IUserService>();
         private IProductModRequestService ProductModRequestService => App.IoC.Resolve<IProductModRequestService>();
@@ -95,5 +101,21 @@ namespace Veganko.ViewModels.Products.ModRequests
 
                 }
             });
+
+        public Command WhereToBuyCommand => new Command(
+            async () => await App.Navigation.PushAsync(new StoreListPage(new StoreListViewModel(Product.Id))));
+
+        public Command EditCommand => new Command(
+               async () =>
+               {
+                   await App.Navigation.PushModalAsync(
+                       new NavigationPage(
+                           new EditProductPage(new EditProductViewModel(Product))));
+               });
+
+        private void OnProductUpdated(EditProductViewModel sender, ProductViewModel updatedProductViewModel)
+        {
+            Product.Update(updatedProductViewModel);
+        }
     }
 }

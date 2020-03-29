@@ -148,6 +148,8 @@ namespace Veganko.ViewModels.Products
             return Task.CompletedTask;
         }
 
+        public bool CanAddStores => true;
+
         public Command WhereToBuyCommand => new Command(
             () => 
             {

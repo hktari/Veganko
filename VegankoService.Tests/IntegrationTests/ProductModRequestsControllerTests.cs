@@ -7,6 +7,7 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using Veganko.Common.Models.Products;
 using VegankoService.Models;
+using VegankoService.Models.Stores;
 using VegankoService.Tests.Helpers;
 using Xunit;
 using static VegankoService.Helpers.Constants.Strings;
@@ -432,6 +433,37 @@ namespace VegankoService.Tests.IntegrationTests
             Assert.Equal(HttpStatusCode.OK, result.StatusCode);
             productModReq = JsonConvert.DeserializeObject<ProductModRequestDTO>(result.GetJson());
             Assert.Equal(ProductModRequestState.Rejected, productModReq.State);
+        }
+
+        [Fact]
+        public async Task Approve_PersistsAddedStores()
+        {
+            Util.ReinitializeDbForTests(factory.CreateDbContext());
+            ProductModRequestDTO productModReq = await GetProductModRequest("edit_prod_mod_req_id");
+
+            var store = new Store
+            {
+                Address = new Address { FormattedAddress = "address" },
+                ProductId = productModReq.UnapprovedProduct.Id,
+                Name = "Address name",
+                Price = 2,
+            };
+            var result = await client.PostAsync(Util.GetRequestUri("stores"), store.GetStringContent());
+
+            Assert.Equal(HttpStatusCode.Created, result.StatusCode);
+
+            store = JsonConvert.DeserializeObject<Store>(result.GetJson());
+
+            result = await client.PutAsync(
+               Util.GetRequestUri($"{Uri}/approve/{productModReq.Id}"),
+               productModReq.GetStringContent());
+
+            result = await client.GetAsync(
+                Util.GetRequestUri($"stores/{store.Id}"));
+
+            var storeDuplicate = JsonConvert.DeserializeObject<Store>(result.GetJson());
+
+            Assert.Equal(storeDuplicate, store);
         }
 
         private bool DoProductsEqual(Product first, Product second, bool checkId = true)
