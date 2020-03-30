@@ -20,6 +20,7 @@ namespace Veganko.ViewModels.Products.ModRequests
     {
         public ProductModRequestDetailViewModel(ProductModRequestViewModel prodModReq)
         {
+            Product = prodModReq;
             CanChangeState = UserService.CurrentUser.Role != Models.User.UserRole.Member;
             CanAddStores = prodModReq.Model.Action == ProductModRequestAction.Add; // Edit requests can't add stores here coz productId is different.
             MessagingCenter.Unsubscribe<EditProdModRequestViewModel, ProductModRequestDTO>(this, EditProdModRequestViewModel.ProductModReqUpdatedMsg);

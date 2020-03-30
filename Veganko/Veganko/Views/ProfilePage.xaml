@@ -25,7 +25,7 @@
                             Clicked="OnDeleteProductClicked"
                             CommandParameter="{Binding .}"
                             IsDestructive="True"
-                            Text="Delete" />
+                            Text="Izbriši" />
                     </ViewCell.ContextActions>
                     <productPartial:ProductView Margin="10,0" />
                 </ViewCell>

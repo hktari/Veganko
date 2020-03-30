@@ -16,11 +16,14 @@ using Veganko.Extensions;
 using System.Linq;
 using Veganko.Views.Product.ModRequests;
 using Veganko.ViewModels.Products.ModRequests;
+using Veganko.Models;
 
 namespace Veganko.ViewModels
 {
     public class ProfileViewModel : BaseUserProfileViewModel
     {
+        // TODO: deletion from detail view model
+
         public const string ProfileChangedMsg = "ProfileChangedMsg";
 
         public Command ReloadProductModReqsCommand => new Command(
@@ -110,7 +113,8 @@ namespace Veganko.ViewModels
                         IsBusy = true;
                         ProductModRequestDTO model = pmr.GetModel();
                         await productModReqService.DeleteAsync(model);
-                        ProductModRequests?.Remove(pmr);
+                        ProductModRequests.Remove(pmr);
+                        UpdateAnyProdModRequstsExist();
                     }
                 }
                 catch (ServiceException ex)
@@ -132,7 +136,10 @@ namespace Veganko.ViewModels
 
         public override async void OnPageAppearing()
         {
-            await ReloadProductModReqs();
+            if (!AnyProdModRequestsExist)
+            {
+                await ReloadProductModReqs();
+            }
         }
 
         private async Task ReloadProductModReqs()
@@ -146,7 +153,7 @@ namespace Veganko.ViewModels
                     page.Items
                     .OrderByDescending(p => p.Timestamp)
                     .Select(dto => new ProductModRequestViewModel(dto)));
-                AnyProdModRequestsExist = page.Items.Count() > 0;
+                UpdateAnyProdModRequstsExist();
             }
             catch (ServiceException ex)
             {
@@ -156,6 +163,11 @@ namespace Veganko.ViewModels
             {
                 IsBusy = false;
             }
+        }
+
+        private void UpdateAnyProdModRequstsExist()
+        {
+            AnyProdModRequestsExist = ProductModRequests?.Count() > 0;
         }
 
         public async Task SaveProfile()
