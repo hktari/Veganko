@@ -2,7 +2,6 @@
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using Veganko.Common.Models.Products;
-using Veganko.Models;
 using Veganko.Models.User;
 using Veganko.Other;
 using Veganko.Services;
@@ -15,6 +14,8 @@ using Veganko.Services.Products.ProductModRequests;
 using Veganko.Services.Http;
 using Veganko.Extensions;
 using System.Linq;
+using Veganko.Views.Product.ModRequests;
+using Veganko.ViewModels.Products.ModRequests;
 
 namespace Veganko.ViewModels
 {
@@ -49,14 +50,20 @@ namespace Veganko.ViewModels
             userService = App.IoC.Resolve<IUserService>();
             Title = "Profile";
             User = userService.CurrentUser;
-            CanDeleteProducts = User.Role != UserRole.Member; 
+            CanDeleteProducts = User.Role != UserRole.Member;
             HandleNewData();
-            // TODO: fix memory leak
             MessagingCenter.Subscribe<BackgroundImageViewModel, string>(this, BackgroundImageViewModel.SaveMsg, OnBackgroundImageChanged);
             MessagingCenter.Subscribe<SelectAvatarViewModel, string>(this, SelectAvatarViewModel.SaveMsg, OnAvatarImageChanged);
             commentDataStore = App.IoC.Resolve<ICommentsService>();
             productDataStore = App.IoC.Resolve<IProductService>();
             productModReqService = App.IoC.Resolve<IProductModRequestService>();
+        }
+
+        private bool anyProdModRequestsExist;
+        public bool AnyProdModRequestsExist
+        {
+            get => anyProdModRequestsExist;
+            set => SetProperty(ref anyProdModRequestsExist, value);
         }
 
         public bool CanDeleteProducts { get; }
@@ -83,15 +90,28 @@ namespace Veganko.ViewModels
             set => SetProperty(ref focusEditorCommand, value);
         }
 
+        public Command<ProductModRequestViewModel> ProductSelectedCommand => new Command<ProductModRequestViewModel>(
+            async selection =>
+            {
+                await App.Navigation.PushAsync(
+                    new ProductModRequestDetailPage(
+                        new ProductModRequestDetailViewModel(selection)))
+                .ConfigureAwait(false);
+            });
+
         public Command<ProductModRequestViewModel> DeleteProdModReqCommand => new Command<ProductModRequestViewModel>(
             async pmr =>
             {
                 try
                 {
-                    IsBusy = true;
-                    ProductModRequestDTO model = pmr.GetModel();
-                    await productModReqService.DeleteAsync(model);
-                    ProductModRequests.Remove(pmr);
+                    string result = await App.CurrentPage.DisplayActionSheet("Prosim potrdi da želiš izbrisati ta produkt.", "Prekliči", "Izbriši");
+                    if (result == "Izbriši")
+                    {
+                        IsBusy = true;
+                        ProductModRequestDTO model = pmr.GetModel();
+                        await productModReqService.DeleteAsync(model);
+                        ProductModRequests?.Remove(pmr);
+                    }
                 }
                 catch (ServiceException ex)
                 {
@@ -126,6 +146,7 @@ namespace Veganko.ViewModels
                     page.Items
                     .OrderByDescending(p => p.Timestamp)
                     .Select(dto => new ProductModRequestViewModel(dto)));
+                AnyProdModRequestsExist = page.Items.Count() > 0;
             }
             catch (ServiceException ex)
             {

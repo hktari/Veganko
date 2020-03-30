@@ -22,7 +22,7 @@
                 <ViewCell>
                     <ViewCell.ContextActions>
                         <MenuItem
-                            Command="{Binding Source={x:Reference root}, Path=DeleteProdModReqCommand}"
+                            Clicked="OnDeleteProductClicked"
                             CommandParameter="{Binding .}"
                             IsDestructive="True"
                             Text="Delete" />
@@ -34,12 +34,16 @@
     </ContentPage.Resources>
     <ContentPage.Content>
         <ListView
+            x:Name="listView"
             BackgroundColor="{StaticResource DarkBackgroundColor}"
             CachingStrategy="RetainElement"
             HasUnevenRows="False"
+            IsPullToRefreshEnabled="True"
+            IsRefreshing="{Binding IsBusy, Mode=OneWay}"
+            ItemSelected="ProductSelected"
             ItemTemplate="{StaticResource RemovableProductTemplate}"
             ItemsSource="{Binding ProductModRequests}"
-            RefreshCommand="{Binding}"
+            RefreshCommand="{Binding ReloadProductModReqsCommand}"
             RowHeight="143"
             SeparatorVisibility="None">
             <ListView.Header>
@@ -73,13 +77,17 @@
                         VerticalOptions="Start"
                         WidthRequest="38"
                         Source="ico_help.png" />
-                    <BoxView Grid.Row="1" BackgroundColor="{StaticResource PrimaryDark}" />
+                    <BoxView
+                        Grid.Row="1"
+                        BackgroundColor="{StaticResource PrimaryDark}"
+                        IsVisible="{Binding AnyProdModRequestsExist}" />
                     <Label
                         Grid.Row="1"
                         Margin="10,20"
                         FontFamily="{StaticResource QuicksandFont}"
                         FontSize="17"
-                        Text="Tvoje prošnje za spremembe produktov so tukaj"
+                        IsVisible="{Binding AnyProdModRequestsExist}"
+                        Text="Tukaj so tvoje prošnje za spremembe produktov"
                         TextColor="White" />
                 </Grid>
             </ListView.Header>

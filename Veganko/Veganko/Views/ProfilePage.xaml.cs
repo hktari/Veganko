@@ -9,6 +9,7 @@ using Xamarin.Forms;
 using Xamarin.Forms.PlatformConfiguration.iOSSpecific;
 using Xamarin.Forms.Xaml;
 using System.Diagnostics;
+using Veganko.ViewModels.Products.ModRequests.Partial;
 
 namespace Veganko.Views
 {
@@ -61,6 +62,23 @@ namespace Veganko.Views
             {
                 await this.Err(ex.StatusCodeDescription);
             }
+        }
+
+        void OnDeleteProductClicked(object sender, EventArgs e)
+        {
+            var mi = ((MenuItem)sender);
+            vm.DeleteProdModReqCommand.Execute((ProductModRequestViewModel)mi.CommandParameter);
+        }
+        private void ProductSelected(object sender, SelectedItemChangedEventArgs args)
+        {
+            if (args?.SelectedItem == null)
+            {
+                return;
+            }
+
+            vm.ProductSelectedCommand.Execute(args.SelectedItem);
+
+            listView.SelectedItem = null;
         }
     }
 }

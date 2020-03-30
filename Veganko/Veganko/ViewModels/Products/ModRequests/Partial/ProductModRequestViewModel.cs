@@ -9,6 +9,7 @@ namespace Veganko.ViewModels.Products.ModRequests.Partial
     {
         public ProductModRequestViewModel(ProductModRequestDTO model)
         {
+            Model = model;
             Update(model);
         }
 
