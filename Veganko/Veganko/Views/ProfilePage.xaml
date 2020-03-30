@@ -4,8 +4,10 @@
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:partial="clr-namespace:Veganko.Views.Profile.Partial"
+    xmlns:productPartial="clr-namespace:Veganko.Views.Product.Partial"
     xmlns:views="clr-namespace:Veganko.Views"
-    xmlns:vm="clr-namespace:Veganko.ViewModels">
+    xmlns:vm="clr-namespace:Veganko.ViewModels"
+    x:Name="root">
     <ContentPage.BindingContext>
         <vm:ProfileViewModel />
     </ContentPage.BindingContext>
@@ -16,42 +18,71 @@
                     <x:Double>10</x:Double>
                 </x:Arguments>
             </Thickness>
+            <DataTemplate x:Key="RemovableProductTemplate">
+                <ViewCell>
+                    <ViewCell.ContextActions>
+                        <MenuItem
+                            Command="{Binding Source={x:Reference root}, Path=DeleteProdModReqCommand}"
+                            CommandParameter="{Binding .}"
+                            IsDestructive="True"
+                            Text="Delete" />
+                    </ViewCell.ContextActions>
+                    <productPartial:ProductView />
+                </ViewCell>
+            </DataTemplate>
+            <DataTemplate x:Key="DefaultProductTemplate">
+                <ViewCell>
+                    <productPartial:ProductView />
+                </ViewCell>
+            </DataTemplate>
         </ResourceDictionary>
     </ContentPage.Resources>
     <ContentPage.Content>
-        <Grid ColumnSpacing="0" RowSpacing="0">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="*" />
-            </Grid.RowDefinitions>
-            <partial:UserProfileView />
-            <Button
-                Grid.Row="1"
-                Margin="{StaticResource ViewPadding}"
-                Clicked="OnLogoutClicked"
-                HorizontalOptions="End"
-                Style="{StaticResource NeutralBtn}"
-                Text="Logout"
-                VerticalOptions="End" />
-            <Button
-                Grid.Row="1"
-                Margin="{StaticResource ViewPadding}"
-                Clicked="OnSaveClicked"
-                HorizontalOptions="Start"
-                IsVisible="{Binding IsDirty}"
-                Style="{StaticResource PositiveBtn}"
-                Text="Shrani spremembe"
-                VerticalOptions="End" />
-            <ImageButton
-                Grid.Row="1"
-                Margin="{StaticResource ViewPadding}"
-                BackgroundColor="White"
-                Command="{Binding HelpCommand}"
-                HeightRequest="38"
-                HorizontalOptions="End"
-                VerticalOptions="Start"
-                WidthRequest="38"
-                Source="ico_help.png" />
-        </Grid>
+        <ListView ItemTemplate="{StaticResource DefaultProductTemplate}" ItemsSource="{Binding ProductModRequests}">
+            <ListView.Triggers>
+                <DataTrigger
+                    Binding="{Binding CanDeleteProducts}"
+                    TargetType="ListView"
+                    Value="True">
+                    <Setter Property="ItemTemplate" Value="{StaticResource RemovableProductTemplate}" />
+                </DataTrigger>
+            </ListView.Triggers>
+            <ListView.Header>
+                <Grid ColumnSpacing="0" RowSpacing="0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+                    <partial:UserProfileView />
+                    <Button
+                        Grid.Row="1"
+                        Margin="{StaticResource ViewPadding}"
+                        Clicked="OnLogoutClicked"
+                        HorizontalOptions="End"
+                        Style="{StaticResource NeutralBtn}"
+                        Text="Logout"
+                        VerticalOptions="End" />
+                    <Button
+                        Grid.Row="1"
+                        Margin="{StaticResource ViewPadding}"
+                        Clicked="OnSaveClicked"
+                        HorizontalOptions="Start"
+                        IsVisible="{Binding IsDirty}"
+                        Style="{StaticResource PositiveBtn}"
+                        Text="Shrani spremembe"
+                        VerticalOptions="End" />
+                    <ImageButton
+                        Grid.Row="1"
+                        Margin="{StaticResource ViewPadding}"
+                        BackgroundColor="White"
+                        Command="{Binding HelpCommand}"
+                        HeightRequest="38"
+                        HorizontalOptions="End"
+                        VerticalOptions="Start"
+                        WidthRequest="38"
+                        Source="ico_help.png" />
+                </Grid>
+            </ListView.Header>
+        </ListView>
     </ContentPage.Content>
 </views:BaseContentPage>

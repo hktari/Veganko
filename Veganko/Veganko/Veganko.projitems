@@ -137,6 +137,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\PasswordRecovery\EditAccountViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\Products\ManageProductsViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\Products\EditProductViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ViewModels\Products\ModRequests\EditProdModRequestViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\Products\ModRequests\Partial\ProductModRequestViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\Products\ModRequests\ProductModRequestDetailViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\Products\NewProductViewModel.cs" />

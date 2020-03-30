@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Veganko.ViewModels;
 using Veganko.ViewModels.Products;
+using Veganko.ViewModels.Products.ModRequests;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -19,6 +20,12 @@ namespace Veganko.Views.Product
         {
             InitializeComponent();
             BindingContext = this.vm = vm;
+        }
+
+        public EditProductPage(EditProdModRequestViewModel vm)
+        {
+            InitializeComponent();
+            BindingContext = vm;
         }
     }
 }

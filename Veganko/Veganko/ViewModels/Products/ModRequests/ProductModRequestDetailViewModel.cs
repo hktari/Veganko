@@ -18,7 +18,6 @@ namespace Veganko.ViewModels.Products.ModRequests
 {
     public class ProductModRequestDetailViewModel : BaseViewModel
     {
-        // TODO: show / hide: store btn?, time?
             // TODO: list on profile page
 
         public ProductModRequestDetailViewModel(ProductModRequestViewModel prodModReq)
@@ -27,8 +26,8 @@ namespace Veganko.ViewModels.Products.ModRequests
             CanChangeState = UserService.CurrentUser.Role != Models.User.UserRole.Member;
             Product = new ProductViewModel(prodModReq.UnapprovedProduct);
             CanAddStores = prodModReq.Action == ProductModRequestAction.Add; // Edit requests can't add stores here coz productId is different.
-            MessagingCenter.Unsubscribe<EditProductViewModel, ProductViewModel>(this, EditProductViewModel.ProductUpdatedMsg);
-            MessagingCenter.Subscribe<EditProductViewModel, ProductViewModel>(this, EditProductViewModel.ProductUpdatedMsg, OnProductUpdated);
+            MessagingCenter.Unsubscribe<EditProdModRequestViewModel, ProductModRequestDTO>(this, EditProdModRequestViewModel.ProductModReqUpdatedMsg);
+            MessagingCenter.Subscribe<EditProdModRequestViewModel, ProductModRequestDTO>(this, EditProdModRequestViewModel.ProductModReqUpdatedMsg, OnProductUpdated);
         }
 
         public ProductModRequestViewModel ProdModReq { get; }
@@ -110,12 +109,12 @@ namespace Veganko.ViewModels.Products.ModRequests
                {
                    await App.Navigation.PushModalAsync(
                        new NavigationPage(
-                           new EditProductPage(new EditProductViewModel(Product))));
+                           new EditProductPage(new EditProdModRequestViewModel(ProdModReq))));
                });
 
-        private void OnProductUpdated(EditProductViewModel sender, ProductViewModel updatedProductViewModel)
+        private void OnProductUpdated(EditProdModRequestViewModel sender, ProductModRequestDTO updatedPMR)
         {
-            Product.Update(updatedProductViewModel);
+            Product.Update(updatedPMR.UnapprovedProduct);
         }
     }
 }

@@ -12,13 +12,14 @@
     ControlTemplate="{StaticResource LodingIndicatorTemplate}">
     <ContentPage.Content>
         <ScrollView>
-            <StackLayout>
+            <StackLayout Spacing="0">
                 <partials:ProductDetailView Padding="0,0,0,20" BackgroundColor="{StaticResource LightBackgroundColor}" />
                 <BoxView
-                    BackgroundColor="Black"
+                    Margin="0,0,0,20"
+                    BackgroundColor="DarkGray"
                     HeightRequest="1"
                     VerticalOptions="Start" />
-                <Grid Padding="10">
+                <Grid Padding="10,0,10,10">
                     <Grid.Resources>
                         <Style TargetType="ImageButton">
                             <Setter Property="BackgroundColor" Value="{StaticResource DarkBackgroundColor}" />
@@ -95,6 +96,7 @@
                         Command="{Binding ApproveRequestCommand}"
                         FontFamily="{StaticResource RalewayMediumFont}"
                         HorizontalOptions="End"
+                        IsVisible="{Binding CanChangeState}"
                         Text="POTRDI"
                         TextColor="{StaticResource Primary}">
                         <Button.ImageSource>
@@ -111,6 +113,7 @@
                         Command="{Binding RejectRequestCommand}"
                         FontFamily="{StaticResource RalewayMediumFont}"
                         HorizontalOptions="End"
+                        IsVisible="{Binding CanChangeState}"
                         Text="ZAVRNI"
                         TextColor="{StaticResource TransparentErrorColor}">
                         <Button.ImageSource>

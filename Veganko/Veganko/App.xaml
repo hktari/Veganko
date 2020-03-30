@@ -104,6 +104,7 @@
             <converters:BoolInverter x:Key="BoolInverter" />
             <converters:FirstValidationErrorConverter x:Key="FirstValidationErrorConverter" />
             <converters:IntToStarConverter x:Key="IntToStarConverter" />
+            <converters:UACConverter x:Key="UACConverter" />
 
             <Style x:Key="LinkSpanStyle" TargetType="Span">
                 <Setter Property="FontFamily" Value="{StaticResource RalewayLightFont}" />

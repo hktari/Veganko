@@ -7,9 +7,14 @@ using Veganko.Models.User;
 using Veganko.Other;
 using Veganko.Services;
 using Veganko.Services.Comments;
+using Veganko.ViewModels.Products.ModRequests.Partial;
 using Veganko.ViewModels.Profile;
 using Veganko.Views;
 using Xamarin.Forms;
+using Veganko.Services.Products.ProductModRequests;
+using Veganko.Services.Http;
+using Veganko.Extensions;
+using System.Linq;
 
 namespace Veganko.ViewModels
 {
@@ -45,6 +50,7 @@ namespace Veganko.ViewModels
 
         private ICommentsService commentDataStore;
         private IProductService productDataStore;
+        private readonly IProductModRequestService productModReqService;
         private readonly IAccountService accountService;
         private readonly IUserService userService;
         private Command focusEditorCommand;
@@ -56,6 +62,7 @@ namespace Veganko.ViewModels
             userService = App.IoC.Resolve<IUserService>();
             Title = "Profile";
             User = userService.CurrentUser;
+            CanDeleteProducts = User.Role != UserRole.Member; 
             HandleNewData();
             // TODO: fix memory leak
             MessagingCenter.Subscribe<BackgroundImageViewModel, string>(this, BackgroundImageViewModel.SaveMsg, OnBackgroundImageChanged);
@@ -63,7 +70,10 @@ namespace Veganko.ViewModels
             Comments = new ObservableCollection<ProfileComment>();
             commentDataStore = App.IoC.Resolve<ICommentsService>();
             productDataStore = App.IoC.Resolve<IProductService>();
+            productModReqService = App.IoC.Resolve<IProductModRequestService>();
         }
+
+        public bool CanDeleteProducts { get; }
 
         public Command StartEditingDescriptionCommand => new Command(
             () =>
@@ -83,13 +93,55 @@ namespace Veganko.ViewModels
 
         public Command FocusEditorCommand
         {
-            get
+            get => focusEditorCommand;
+            set => SetProperty(ref focusEditorCommand, value);
+        }
+
+        public Command<ProductModRequestViewModel> DeleteProdModReqCommand => new Command<ProductModRequestViewModel>(
+            async pmr =>
             {
-                return focusEditorCommand;
+                try
+                {
+                    IsBusy = true;
+                    ProductModRequestDTO model = pmr.MapToModel();
+                    await productModReqService.DeleteAsync(model);
+                    ProductModRequests.Remove(pmr);
+                }
+                catch (ServiceException ex)
+                {
+                    await App.CurrentPage.Err("Brisanje ni uspelo", ex);
+                }
+                finally
+                {
+                    IsBusy = false;
+                }
+            });
+
+        private ObservableCollection<ProductModRequestViewModel> productModRequests;
+        public ObservableCollection<ProductModRequestViewModel> ProductModRequests
+        {
+            get => productModRequests;
+            set => SetProperty(ref productModRequests, value);
+        }
+
+        public override async void OnPageAppearing()
+        {
+            try
+            {
+                IsBusy = true;
+                // TODO : -1 == get all
+                var page = await productModReqService.AllAsync(pageSize: 100, userId: User.Id);
+                ProductModRequests = new ObservableCollection<ProductModRequestViewModel>(
+                    page.Items.Select(
+                        dto => new ProductModRequestViewModel(dto)));
             }
-            set
+            catch (ServiceException ex)
             {
-                SetProperty(ref focusEditorCommand, value);
+                await App.CurrentPage.Err("Nalaganje produktov ni uspelo.", ex);
+            }
+            finally
+            {
+                IsBusy = false;
             }
         }
 
