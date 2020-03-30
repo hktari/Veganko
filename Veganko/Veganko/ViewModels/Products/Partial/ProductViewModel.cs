@@ -1,16 +1,21 @@
-﻿using Autofac;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.Collections.ObjectModel;
 using Veganko.Common.Models.Products;
-using Veganko.Models;
-using Veganko.Models.JsonConverters;
 using Veganko.Other;
-using Veganko.Services.DB;
 using Xamarin.Forms;
 
 namespace Veganko.ViewModels.Products.Partial
 {
+    public enum ProductStateIndicator
+    {
+        None,
+        New,
+        Pending,
+        Approved,
+        Rejected,
+        Missing
+    }
+
     public class ProductViewModel : BaseViewModel
     {
         /// <summary>
@@ -99,12 +104,55 @@ namespace Veganko.ViewModels.Products.Partial
         public bool IsNew
         {
             get => isNew;
-            set => SetProperty(ref isNew, value);
+            set 
+            {
+                SetStateIndicatorImage(value ? ProductStateIndicator.New : ProductStateIndicator.None);
+                isNew = value;
+            }
         }
+
+        private ImageSource stateIndicatorImage;
+        public ImageSource StateIndicatorImage
+        {
+            get => stateIndicatorImage;
+            private set => SetProperty(ref stateIndicatorImage, value);
+        }
+
+        public ProductStateIndicator CurIndicatorState { get; private set; }
 
         public DateTime AddedTimestamp { get; set; }
 
         public DateTime LastUpdateTimestamp { get; set; }
+
+        public void SetStateIndicatorImage(ProductStateIndicator indicatator)
+        {
+            string indicatorImg = null;
+            switch (indicatator)
+            {
+                case ProductStateIndicator.None:
+                    break;
+                case ProductStateIndicator.New:
+                    indicatorImg = "new_product.png";
+                    break;
+                case ProductStateIndicator.Pending:
+                    indicatorImg = "pending_product.png";
+                    break;
+                case ProductStateIndicator.Approved:
+                    indicatorImg = "approved_product.png";
+                    break;
+                case ProductStateIndicator.Rejected:
+                    indicatorImg = "rejected_product.png";
+                    break;
+                case ProductStateIndicator.Missing:
+                    indicatorImg = "missing_product.png";
+                    break;
+                default:
+                    break;
+            }
+
+            CurIndicatorState = indicatator;
+            StateIndicatorImage = indicatorImg;
+        }
 
         public void Update(ProductViewModel productViewModel)
         {

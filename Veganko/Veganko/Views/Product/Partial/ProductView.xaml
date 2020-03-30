@@ -47,10 +47,9 @@
                         Source="{Binding ThumbnailImage}" />
                     <Image
                         HorizontalOptions="End"
-                        IsVisible="{Binding IsNew}"
                         VerticalOptions="Start"
                         WidthRequest="50"
-                        Source="new_product.png" />
+                        Source="{Binding StateIndicatorImage}" />
                 </Grid>
             </Frame>
             <Label

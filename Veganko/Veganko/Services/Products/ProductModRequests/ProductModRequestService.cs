@@ -75,27 +75,35 @@ namespace Veganko.Services.Products.ProductModRequests
             return restService.ExecuteAsync(request);
         }
 
-        public Task<ProductModRequestDTO> GetAsync(string id)
+        public async Task<ProductModRequestDTO> GetAsync(string id)
         {
             RestRequest request = new RestRequest($"{Uri}/{id}", Method.GET);
-            return restService.ExecuteAsync<ProductModRequestDTO>(request);
+            var pmr = await restService.ExecuteAsync<ProductModRequestDTO>(request);
+            productHelper.AddImageUrls(pmr.UnapprovedProduct);
+            return pmr;
         }
 
-        public Task<PagedList<ProductModRequestDTO>> AllAsync(int page = 1, int pageSize = 10, string userId = null, ProductModRequestState? state = null, bool forceRefresh = false)
+        public async Task<PagedList<ProductModRequestDTO>> AllAsync(int page = 1, int pageSize = 10, string userId = null, ProductModRequestState? state = null, bool forceRefresh = false)
         {
             string url = $"{Uri}?page={page}&pageSize={pageSize}";
             if (userId != null)
             {
                 url += $"&userId={userId}";
             }
-            
+
             if (state != null)
             {
                 url += $"&state={state}";
             }
 
             RestRequest request = new RestRequest(url, Method.GET);
-            return restService.ExecuteAsync<PagedList<ProductModRequestDTO>>(request);
+            var result = await restService.ExecuteAsync<PagedList<ProductModRequestDTO>>(request);
+            foreach (ProductModRequestDTO item in result.Items)
+            {
+                productHelper.AddImageUrls(item.UnapprovedProduct);
+            }
+
+            return result;
         }
 
         public async Task<ProductModRequestDTO> ApproveAsync(ProductModRequestDTO item)
@@ -122,10 +130,12 @@ namespace Veganko.Services.Products.ProductModRequests
             }
         }
 
-        public Task<ProductModRequestDTO> RejectAsync(ProductModRequestDTO item)
+        public async Task<ProductModRequestDTO> RejectAsync(ProductModRequestDTO item)
         {
             RestRequest request = new RestRequest($"{Uri}/reject/{item.Id}", Method.GET);
-            return restService.ExecuteAsync<ProductModRequestDTO>(request);
+            var pmr = await restService.ExecuteAsync<ProductModRequestDTO>(request);
+            productHelper.AddImageUrls(pmr.UnapprovedProduct);
+            return pmr;
         }
 
         public async Task<ProductModRequestDTO> UpdateImagesAsync(ProductModRequestDTO item, byte[] detailImageData, byte[] thumbImageData)

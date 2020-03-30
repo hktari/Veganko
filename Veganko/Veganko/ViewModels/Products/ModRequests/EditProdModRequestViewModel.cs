@@ -17,7 +17,7 @@ namespace Veganko.ViewModels.Products.ModRequests
         private readonly ProductModRequestViewModel productModReq;
 
         public EditProdModRequestViewModel(ProductModRequestViewModel productModReq)
-            : base(new ProductViewModel(productModReq.UnapprovedProduct))
+            : base(new ProductViewModel(productModReq))
         {
             this.productModReq = productModReq;
         }
@@ -33,7 +33,7 @@ namespace Veganko.ViewModels.Products.ModRequests
                try
                {
                    IsBusy = true;
-                   ProductModRequestDTO pmrModel = productModReq.MapToModel();
+                   ProductModRequestDTO pmrModel = productModReq.GetModel();
                    pmrModel.UnapprovedProduct = base.CreateModel();
                    pmrModel = await productModReqService.UpdateAsync(pmrModel);
                    if (HasImageBeenChanged)

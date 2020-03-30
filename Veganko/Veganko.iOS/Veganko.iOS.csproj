@@ -555,6 +555,12 @@
       <Name>Veganko.Common</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\approved_product.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\rejected_product.png" />
+  </ItemGroup>
   <Import Project="..\Veganko\Veganko.projitems" Label="Shared" />
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
 </Project>

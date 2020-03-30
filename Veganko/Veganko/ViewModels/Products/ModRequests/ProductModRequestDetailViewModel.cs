@@ -18,20 +18,15 @@ namespace Veganko.ViewModels.Products.ModRequests
 {
     public class ProductModRequestDetailViewModel : BaseViewModel
     {
-            // TODO: list on profile page
-
         public ProductModRequestDetailViewModel(ProductModRequestViewModel prodModReq)
         {
-            ProdModReq = prodModReq;
             CanChangeState = UserService.CurrentUser.Role != Models.User.UserRole.Member;
-            Product = new ProductViewModel(prodModReq.UnapprovedProduct);
-            CanAddStores = prodModReq.Action == ProductModRequestAction.Add; // Edit requests can't add stores here coz productId is different.
+            CanAddStores = prodModReq.Model.Action == ProductModRequestAction.Add; // Edit requests can't add stores here coz productId is different.
             MessagingCenter.Unsubscribe<EditProdModRequestViewModel, ProductModRequestDTO>(this, EditProdModRequestViewModel.ProductModReqUpdatedMsg);
             MessagingCenter.Subscribe<EditProdModRequestViewModel, ProductModRequestDTO>(this, EditProdModRequestViewModel.ProductModReqUpdatedMsg, OnProductUpdated);
         }
 
-        public ProductModRequestViewModel ProdModReq { get; }
-        public ProductViewModel Product { get; }
+        public ProductModRequestViewModel Product { get; }
         public bool CanChangeState { get; }
         public bool CanAddStores { get; }
 
@@ -44,9 +39,9 @@ namespace Veganko.ViewModels.Products.ModRequests
                 try
                 {
                     IsBusy = true;
-                    ProductModRequestDTO model = ProdModReq.MapToModel();
+                    ProductModRequestDTO model = Product.GetModel();
                     model = await ProductModRequestService.ApproveAsync(model);
-                    ProdModReq.Update(model);
+                    Product.Update(model);
                 }
                 catch (ServiceException ex)
                 {
@@ -64,9 +59,9 @@ namespace Veganko.ViewModels.Products.ModRequests
                 try
                 {
                     IsBusy = true;
-                    ProductModRequestDTO model = ProdModReq.MapToModel();
+                    ProductModRequestDTO model = Product.GetModel();
                     model = await ProductModRequestService.RejectAsync(model);
-                    ProdModReq.Update(model);
+                    Product.Update(model);
                 }
                 catch (ServiceException ex)
                 {
@@ -84,7 +79,7 @@ namespace Veganko.ViewModels.Products.ModRequests
                 try
                 {
                     IsBusy = true;
-                    ProductModRequestDTO model = ProdModReq.MapToModel();
+                    ProductModRequestDTO model = Product.GetModel();
                     await ProductModRequestService.DeleteAsync(model);
 
                     // TODO: delete item from list
@@ -109,12 +104,12 @@ namespace Veganko.ViewModels.Products.ModRequests
                {
                    await App.Navigation.PushModalAsync(
                        new NavigationPage(
-                           new EditProductPage(new EditProdModRequestViewModel(ProdModReq))));
+                           new EditProductPage(new EditProdModRequestViewModel(Product))));
                });
 
         private void OnProductUpdated(EditProdModRequestViewModel sender, ProductModRequestDTO updatedPMR)
         {
-            Product.Update(updatedPMR.UnapprovedProduct);
+            Product.Update(updatedPMR);
         }
     }
 }

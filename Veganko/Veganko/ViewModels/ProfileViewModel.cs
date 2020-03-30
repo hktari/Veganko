@@ -22,24 +22,11 @@ namespace Veganko.ViewModels
     {
         public const string ProfileChangedMsg = "ProfileChangedMsg";
 
-        public class ProfileComment
-        {
-            public Comment Comment { get; set; }
-            public Product Product { get; set; }
-        }
-
-        public Command LoadItemsCommand => new Command(
-            async () => await Refresh());
+        public Command ReloadProductModReqsCommand => new Command(
+            async () => await ReloadProductModReqs());
 
         public Command HelpCommand => new Command(
             async () => await App.Navigation.PushModalAsync(new NavigationPage(new HelpPage())));
-
-        private ObservableCollection<ProfileComment> comments;
-        public ObservableCollection<ProfileComment> Comments
-        {
-            get => comments;
-            set => SetProperty(ref comments, value);
-        }
 
         private bool isDirty;
         public bool IsDirty
@@ -67,7 +54,6 @@ namespace Veganko.ViewModels
             // TODO: fix memory leak
             MessagingCenter.Subscribe<BackgroundImageViewModel, string>(this, BackgroundImageViewModel.SaveMsg, OnBackgroundImageChanged);
             MessagingCenter.Subscribe<SelectAvatarViewModel, string>(this, SelectAvatarViewModel.SaveMsg, OnAvatarImageChanged);
-            Comments = new ObservableCollection<ProfileComment>();
             commentDataStore = App.IoC.Resolve<ICommentsService>();
             productDataStore = App.IoC.Resolve<IProductService>();
             productModReqService = App.IoC.Resolve<IProductModRequestService>();
@@ -103,7 +89,7 @@ namespace Veganko.ViewModels
                 try
                 {
                     IsBusy = true;
-                    ProductModRequestDTO model = pmr.MapToModel();
+                    ProductModRequestDTO model = pmr.GetModel();
                     await productModReqService.DeleteAsync(model);
                     ProductModRequests.Remove(pmr);
                 }
@@ -126,14 +112,20 @@ namespace Veganko.ViewModels
 
         public override async void OnPageAppearing()
         {
+            await ReloadProductModReqs();
+        }
+
+        private async Task ReloadProductModReqs()
+        {
             try
             {
                 IsBusy = true;
                 // TODO : -1 == get all
                 var page = await productModReqService.AllAsync(pageSize: 100, userId: User.Id);
                 ProductModRequests = new ObservableCollection<ProductModRequestViewModel>(
-                    page.Items.Select(
-                        dto => new ProductModRequestViewModel(dto)));
+                    page.Items
+                    .OrderByDescending(p => p.Timestamp)
+                    .Select(dto => new ProductModRequestViewModel(dto)));
             }
             catch (ServiceException ex)
             {
@@ -161,48 +153,6 @@ namespace Veganko.ViewModels
             MessagingCenter.Send(this, ProfileChangedMsg, updatedUser);
         }
 
-        public async Task Refresh()
-        {
-            // TODO remove if not needed 
-
-            //if (IsBusy)
-            //    return;
-            //IsBusy = true;
-            //try
-            //{
-            //    var productData = await productDataStore.GetItemsAsync();
-
-            //    if (productData != null)
-            //    {
-            //        var commentData = await commentDataStore.GetItemsAsync(productData.);
-            //        foreach (var comment in commentData)
-            //        {
-            //            var product = productData.FirstOrDefault(p => p.Id == comment.ProductId);
-            //            // If for some reason the corresponding product isn't found, just ignore the comment
-            //            if (product == null)
-            //            {
-            //                Console.WriteLine($"Ignoring comment {comment.Id} " +
-            //                    $"because the corresponding product {product.Id} couldn't be found.");
-            //                continue;
-            //            }
-            //            var profileComment = new ProfileComment
-            //            {
-            //                Comment = comment,
-            //                Product = product
-            //            };
-            //            Comments.Add(profileComment);
-            //        }
-            //    }
-            //}
-            //catch (Exception e)
-            //{
-            //    Console.WriteLine("Could not refresh profile comments: " + e.Message + " " + e.StackTrace);
-            //}
-            //finally
-            //{
-            //    IsBusy = false;
-            //}
-        }
         protected override void HandleNewData()
         {
             base.HandleNewData();

@@ -76,7 +76,7 @@
                         Grid.Row="1"
                         Grid.Column="1"
                         FontFamily="{StaticResource RalewayRegularFont}"
-                        Text="{Binding EvaluatorsText}" />
+                        Text="{Binding ProdModReq.EvaluatorsText}" />
                     <ImageButton
                         Grid.Row="3"
                         Grid.ColumnSpan="2"

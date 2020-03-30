@@ -34,16 +34,13 @@ namespace Veganko.Views
 
             On<Xamarin.Forms.PlatformConfiguration.iOS>().SetUseSafeArea(false);
         }
+
         protected override void OnParentSet()
         {
             base.OnParentSet();
             Debug.Assert(Parent != null);
+            // Icon has to be bound to the NavigationPage that is the parent of ProfilePage
             Parent?.SetBinding(Xamarin.Forms.NavigationPage.IconImageSourceProperty, new Binding("AvatarImage", source: vm));
-        }
-
-        protected override async void CustomOnAppearing()
-        {
-            await vm.Refresh();
         }
 
         private void OnLogoutClicked(object sender, EventArgs e)

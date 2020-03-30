@@ -4,15 +4,16 @@ using System.Net;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Veganko.Common.Models.Products;
 using VegankoService.Data;
 using VegankoService.Data.ProductModRequests;
+using VegankoService.Data.Users;
 using VegankoService.Helpers;
 using VegankoService.Models;
 using VegankoService.Models.ErrorHandling;
 using VegankoService.Models.Products;
+using VegankoService.Models.User;
 using VegankoService.Services.Images;
 using static VegankoService.Helpers.Constants.Strings;
 
@@ -27,6 +28,7 @@ namespace VegankoService.Controllers
         private readonly IProductRepository productRepository;
         private readonly ILogger<ProductModRequestsController> logger;
         private readonly IImageService imageService;
+        private readonly IUsersRepository usersRepository;
         private readonly IProductModRequestsRepository productModReqRepository;
 
         public ProductModRequestsController(
@@ -35,6 +37,7 @@ namespace VegankoService.Controllers
             IProductRepository productRepository,
             ILogger<ProductModRequestsController> logger,
             IImageService imageService,
+            IUsersRepository usersRepository,
             IProductModRequestsRepository productModReqRepository)
         {
             this.context = context;
@@ -42,6 +45,7 @@ namespace VegankoService.Controllers
             this.productRepository = productRepository;
             this.logger = logger;
             this.imageService = imageService;
+            this.usersRepository = usersRepository;
             this.productModReqRepository = productModReqRepository;
         }
 
@@ -49,7 +53,7 @@ namespace VegankoService.Controllers
         [HttpGet]
         public ActionResult<PagedList<ProductModRequestDTO>> GetProductModRequests(int page = 1, int pageSize = 10, string userId = null, ProductModRequestState? state = null)
         {
-            logger.LogInformation($"GetProductModRequest({page}, {pageSize})");
+            logger.LogInformation($"GetProductModRequest({page}, {pageSize}, {userId}, {state})");
 
             int pageIdx = page - 1;
             if (pageIdx < 0)
@@ -58,9 +62,18 @@ namespace VegankoService.Controllers
                 return BadRequest();
             }
 
-            PagedList<ProductModRequest> result = productModReqRepository.GetAll(
-                new ProductModReqQuery(state, userId, page, pageSize));
+            // Get IdentityID
+            Customer customer = usersRepository.Get(userId);
+            if (customer == null)
+            {
+                logger.LogWarning($"Failed to find user identity id with customer id: {userId}");
+                return NotFound();
+            }
 
+            PagedList<ProductModRequest> result = productModReqRepository.GetAll(
+                new ProductModReqQuery(state, customer.IdentityId, page, pageSize));
+
+            logger.LogDebug($"Total count: {result.TotalCount} {result.Items.Count()}, page: {result.Page}, pageSize: {result.PageSize}");
             return Ok(result);
         }
 
@@ -103,7 +116,7 @@ namespace VegankoService.Controllers
 
             ProductModRequest productModRequest = await productModReqRepository.Get(id);
 
-            if(productModRequest == null)
+            if (productModRequest == null)
             {
                 logger.LogWarning("ProductModRequestDTO not found");
                 return NotFound();
@@ -191,6 +204,8 @@ namespace VegankoService.Controllers
             inputAsModel.Timestamp = DateTime.Now;
 
             await productModReqRepository.Create(inputAsModel);
+
+            logger.LogInformation($"Created product mod request for user: {inputAsModel.UserId}");
 
             return CreatedAtAction("GetProductModRequest", new { id = inputAsModel.Id }, inputAsModel);
         }
@@ -379,7 +394,7 @@ namespace VegankoService.Controllers
 
             productRequest.State = ProductModRequestState.Rejected;
             await productModReqRepository.Update(productRequest);
-            context.ProductModRequestEvaluations.Add(new ProductModRequestEvaluation 
+            context.ProductModRequestEvaluations.Add(new ProductModRequestEvaluation
             {
                 EvaluatorUserId = Identity.GetUserIdentityId(httpContextAccessor.HttpContext.User),
                 ProductModRequest = productRequest,
