@@ -60,7 +60,8 @@ namespace Veganko.ViewModels
             MessagingCenter.Subscribe<BackgroundImageViewModel, string>(this, BackgroundImageViewModel.SaveMsg, OnBackgroundImageChanged);
             MessagingCenter.Subscribe<SelectAvatarViewModel, string>(this, SelectAvatarViewModel.SaveMsg, OnAvatarImageChanged);
             MessagingCenter.Subscribe<ProductModRequestDetailViewModel, ProductModRequestViewModel>(this, ProductModRequestDetailViewModel.DeletedMsg, OnProductModReqDeleted);
-            MessagingCenter.Subscribe<BaseEditProductViewModel, ProductModRequestViewModel>(this, BaseEditProductViewModel.ProductModReqAddedMsg, OnProductModReqAdded);
+            MessagingCenter.Subscribe<EditProductViewModel, ProductModRequestViewModel>(this, BaseEditProductViewModel.ProductModReqAddedMsg, OnProductModReqAdded);
+            MessagingCenter.Subscribe<NewProductViewModel, ProductModRequestViewModel>(this, BaseEditProductViewModel.ProductModReqAddedMsg, OnProductModReqAdded);
             commentDataStore = App.IoC.Resolve<ICommentsService>();
             productDataStore = App.IoC.Resolve<IProductService>();
             productModReqService = App.IoC.Resolve<IProductModRequestService>();

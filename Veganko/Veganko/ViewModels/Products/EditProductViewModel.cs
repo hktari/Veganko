@@ -48,6 +48,7 @@ namespace Veganko.ViewModels.Products
                         {
                             UnapprovedProduct = updatedProduct,
                             ChangedFieldsAsList = GetChangedFields(originalProduct),
+                            ExistingProductId = Product.Id,
                         };
                         editProductReq = await productModReqService.AddAsync(editProductReq);
                         if (HasImageBeenChanged)
@@ -56,6 +57,8 @@ namespace Veganko.ViewModels.Products
                         }
 
                         await App.CurrentPage.Inform("Produkt uspešno spremenjen. Takoj ko bo moderator potrdil vnešene informacije bodo spremembe vidne vsem !");
+
+                        await App.Navigation.PopModalAsync();
 
                         ((MainPage)App.Current.MainPage)?.SetCurrentTab(2); // Profile page
 

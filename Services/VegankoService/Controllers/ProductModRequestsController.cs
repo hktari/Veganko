@@ -154,7 +154,7 @@ namespace VegankoService.Controllers
 
             await productModReqRepository.Update(productModRequest);
 
-            return NoContent();
+            return Ok(productModRequest);
         }
 
         // POST: api/ProductModRequests
