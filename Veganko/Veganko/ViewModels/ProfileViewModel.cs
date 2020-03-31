@@ -178,7 +178,6 @@ namespace Veganko.ViewModels
         {
             UserPublicInfo updatedUser = new UserPublicInfo(userService.CurrentUser)
             {
-                Label = UserLabel,
                 Description = UserDescription,
                 AvatarId = Images.GetProfileAvatarId(AvatarImage),
                 ProfileBackgroundId = Images.GetProfileBackgroundImageId(BackgroundImage),
@@ -213,8 +212,7 @@ namespace Veganko.ViewModels
             IsDirty =
                 Images.GetProfileBackgroundImageId(BackgroundImage) != user.ProfileBackgroundId ||
                 Images.GetProfileAvatarId(AvatarImage) != user.AvatarId ||
-                UserDescription != user.Description ||
-                UserLabel != user.Label;
+                UserDescription != user.Description;
         }
 
         private void OnAvatarImageChanged(SelectAvatarViewModel sender, string newAvatarId)

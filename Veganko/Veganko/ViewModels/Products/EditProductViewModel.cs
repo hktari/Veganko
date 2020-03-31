@@ -37,7 +37,7 @@ namespace Veganko.ViewModels.Products
                     IsBusy = true;
                     Product updatedProduct = CreateModel();
                     updatedProduct = await productService.UpdateAsync(updatedProduct);
-
+                    // TODO: prod mod req
                     if (HasImageBeenChanged)
                     {
                         updatedProduct = await PostProductImages(updatedProduct);

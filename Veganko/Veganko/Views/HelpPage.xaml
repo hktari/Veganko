@@ -23,7 +23,7 @@
                 FontFamily="{StaticResource RalewayRegularFont}"
                 FontSize="17"
                 LineBreakMode="WordWrap"
-                Text="Si našel kakšno napako ali želiš dati feedback ? Piši nam na email : )&#x0a;Če prijavljaš napako prosim dodaj številko verzije Vegankona, ki jo vidiš spodaj." />
+                Text="Si našel kakšno napako ali želiš dati feedback ? Obišči nas na redditu ali pa nam piši na email : )&#x0a;Če prijavljaš napako prosim dodaj številko verzije Vegankona, ki jo vidiš spodaj." />
             <Grid RowSpacing="0">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="25" />

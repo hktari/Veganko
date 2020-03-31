@@ -36,13 +36,6 @@ namespace Veganko.ViewModels.Profile
             set => SetProperty(ref userDescription, value);
         }
 
-        private string userLabel;
-        public string UserLabel
-        {
-            get => userLabel;
-            set => SetProperty(ref userLabel, value);
-        }
-
         private string avatarImage;
         public string AvatarImage
         {
@@ -101,7 +94,6 @@ namespace Veganko.ViewModels.Profile
         {
             Debug.Assert(User != null);
             UserDescription = User.Description;
-            UserLabel = User.Label;
             AvatarImage = Images.GetProfileAvatarById(User.AvatarId);
             BackgroundImage = Images.GetProfileBackgroundImageById(User.ProfileBackgroundId);
         }
