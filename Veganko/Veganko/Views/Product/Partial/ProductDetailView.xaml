@@ -32,7 +32,7 @@
                 </Frame>
                 <ImageButton
                     Margin="10"
-                    BackgroundColor="Transparent"
+                    BackgroundColor="Orange"
                     Command="{Binding EditCommand}"
                     HorizontalOptions="End"
                     VerticalOptions="Start"

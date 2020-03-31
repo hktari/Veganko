@@ -17,6 +17,8 @@ using System.Linq;
 using Veganko.Views.Product.ModRequests;
 using Veganko.ViewModels.Products.ModRequests;
 using Veganko.Models;
+using System;
+using Veganko.ViewModels.Products;
 
 namespace Veganko.ViewModels
 {
@@ -57,6 +59,8 @@ namespace Veganko.ViewModels
             HandleNewData();
             MessagingCenter.Subscribe<BackgroundImageViewModel, string>(this, BackgroundImageViewModel.SaveMsg, OnBackgroundImageChanged);
             MessagingCenter.Subscribe<SelectAvatarViewModel, string>(this, SelectAvatarViewModel.SaveMsg, OnAvatarImageChanged);
+            MessagingCenter.Subscribe<ProductModRequestDetailViewModel, ProductModRequestViewModel>(this, ProductModRequestDetailViewModel.DeletedMsg, OnProductModReqDeleted);
+            MessagingCenter.Subscribe<NewProductViewModel, ProductModRequestViewModel>(this, NewProductViewModel.ProductAddedMsg, OnProductModReqAdded);
             commentDataStore = App.IoC.Resolve<ICommentsService>();
             productDataStore = App.IoC.Resolve<IProductService>();
             productModReqService = App.IoC.Resolve<IProductModRequestService>();
@@ -127,7 +131,7 @@ namespace Veganko.ViewModels
                 }
             });
 
-        private ObservableCollection<ProductModRequestViewModel> productModRequests;
+        private ObservableCollection<ProductModRequestViewModel> productModRequests = new ObservableCollection<ProductModRequestViewModel>();
         public ObservableCollection<ProductModRequestViewModel> ProductModRequests
         {
             get => productModRequests;
@@ -217,6 +221,27 @@ namespace Veganko.ViewModels
         {
             AvatarImage = Images.GetProfileAvatarById(newAvatarId);
             UpdateIsDirty();
+        }
+
+        private void OnProductModReqDeleted(ProductModRequestDetailViewModel sender, ProductModRequestViewModel deleteItem)
+        {
+            ProductModRequests.Remove(deleteItem);
+            UpdateAnyProdModRequstsExist();
+        }
+
+        private void OnProductModReqAdded(NewProductViewModel sender, ProductModRequestViewModel newItem)
+        {
+            // Push to front
+            if (ProductModRequests.Count == 0)
+            {
+                ProductModRequests.Add(newItem);
+            }
+            else
+            {
+                ProductModRequests.Insert(0, newItem);
+            }
+
+            UpdateAnyProdModRequstsExist();
         }
     }
 }

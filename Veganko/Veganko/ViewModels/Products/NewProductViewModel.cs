@@ -42,14 +42,16 @@ namespace Veganko.ViewModels.Products
                         addProdRequest = await productModReqService.AddAsync(addProdRequest);
                         addProdRequest = await PostProductImages(addProdRequest);
                         productModel = addProdRequest.UnapprovedProduct;
-
                         ((MainPage)App.Current.MainPage)?.SetCurrentTab(2); // Profile page
-
+                        
                         // Navigate to product detail page from the ProductList page
+                        ProductModRequestViewModel pmrVM = new ProductModRequestViewModel(addProdRequest);
+                        MessagingCenter.Send(this, ProductAddedMsg, pmrVM);
+
                         await App.Navigation.PushAsync(
                             new ProductModRequestDetailPage(
                                 new ProductModRequestDetailViewModel(
-                                    new ProductModRequestViewModel(addProdRequest))));
+                                    pmrVM)));
                     }
                     else
                     {

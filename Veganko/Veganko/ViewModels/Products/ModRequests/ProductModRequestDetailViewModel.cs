@@ -18,6 +18,8 @@ namespace Veganko.ViewModels.Products.ModRequests
 {
     public class ProductModRequestDetailViewModel : BaseViewModel
     {
+        public const string DeletedMsg = "DeletedMsg";
+
         public ProductModRequestDetailViewModel(ProductModRequestViewModel prodModReq)
         {
             Product = prodModReq;
@@ -83,7 +85,7 @@ namespace Veganko.ViewModels.Products.ModRequests
                     ProductModRequestDTO model = Product.GetModel();
                     await ProductModRequestService.DeleteAsync(model);
 
-                    // TODO: delete item from list
+                    MessagingCenter.Send(this, DeletedMsg, Product);
                     await App.Navigation.PopAsync();
                 }
                 catch (ServiceException ex)

@@ -3,6 +3,7 @@
     x:Class="Veganko.Views.ProfilePage"
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:other="clr-namespace:Veganko.Other"
     xmlns:partial="clr-namespace:Veganko.Views.Profile.Partial"
     xmlns:productPartial="clr-namespace:Veganko.Views.Product.Partial"
     xmlns:views="clr-namespace:Veganko.Views"
@@ -70,13 +71,19 @@
                         VerticalOptions="End" />
                     <ImageButton
                         Margin="{StaticResource ViewPadding}"
-                        BackgroundColor="White"
+                        BackgroundColor="Transparent"
                         Command="{Binding HelpCommand}"
                         HeightRequest="38"
-                        HorizontalOptions="End"
+                        HorizontalOptions="Start"
                         VerticalOptions="Start"
-                        WidthRequest="38"
-                        Source="ico_help.png" />
+                        WidthRequest="38">
+                        <ImageButton.Source>
+                            <FontImageSource
+                                FontFamily="{StaticResource MaterialDesignFont}"
+                                Color="{StaticResource DarkBackgroundColor}"
+                                Glyph="{x:Static other:MaterialDesignIcons.Info}" />
+                        </ImageButton.Source>
+                    </ImageButton>
                     <BoxView
                         Grid.Row="1"
                         BackgroundColor="{StaticResource PrimaryDark}"
