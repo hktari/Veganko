@@ -60,7 +60,7 @@ namespace Veganko.ViewModels
             MessagingCenter.Subscribe<BackgroundImageViewModel, string>(this, BackgroundImageViewModel.SaveMsg, OnBackgroundImageChanged);
             MessagingCenter.Subscribe<SelectAvatarViewModel, string>(this, SelectAvatarViewModel.SaveMsg, OnAvatarImageChanged);
             MessagingCenter.Subscribe<ProductModRequestDetailViewModel, ProductModRequestViewModel>(this, ProductModRequestDetailViewModel.DeletedMsg, OnProductModReqDeleted);
-            MessagingCenter.Subscribe<NewProductViewModel, ProductModRequestViewModel>(this, NewProductViewModel.ProductAddedMsg, OnProductModReqAdded);
+            MessagingCenter.Subscribe<BaseEditProductViewModel, ProductModRequestViewModel>(this, BaseEditProductViewModel.ProductModReqAddedMsg, OnProductModReqAdded);
             commentDataStore = App.IoC.Resolve<ICommentsService>();
             productDataStore = App.IoC.Resolve<IProductService>();
             productModReqService = App.IoC.Resolve<IProductModRequestService>();
@@ -227,7 +227,7 @@ namespace Veganko.ViewModels
             UpdateAnyProdModRequstsExist();
         }
 
-        private void OnProductModReqAdded(NewProductViewModel sender, ProductModRequestViewModel newItem)
+        private void OnProductModReqAdded(BaseEditProductViewModel sender, ProductModRequestViewModel newItem)
         {
             // Push to front
             if (ProductModRequests.Count == 0)

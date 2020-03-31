@@ -1,6 +1,8 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Linq;
 using System.Text;
 
 namespace Veganko.Common.Models.Products
@@ -21,6 +23,24 @@ namespace Veganko.Common.Models.Products
 
         [Required]
         new public Product UnapprovedProduct { get; set; }
+
+        [JsonIgnore]
+        public List<string> ChangedFieldsAsList 
+        {
+            get
+            {
+                List<string> changes = new List<string>();
+                if (ChangedFields != null)
+                {
+                    changes = ChangedFields.Split(';').ToList();
+                }
+                return changes;
+            }
+            set
+            {
+                ChangedFields = string.Join(";", value);
+            }
+        }
 
         public void MapToDto(ProductModRequest model)
         {

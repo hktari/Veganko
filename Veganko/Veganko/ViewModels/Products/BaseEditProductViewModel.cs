@@ -20,11 +20,17 @@ using Veganko.Validations;
 using Veganko.ViewModels.Products.Partial;
 using Veganko.Views;
 using Xamarin.Forms;
+using ProductModel = Veganko.Common.Models.Products.Product;
 
 namespace Veganko.ViewModels.Products
 {
     public class BaseEditProductViewModel : BaseViewModel
     {
+        /// <summary>
+        /// Identifier for the message, that a product has been added or edited by a user whose role is member.
+        /// </summary>
+        public const string ProductModReqAddedMsg = "ProductModReqAdded";
+
         public const int maxPhotoWidthHeightInPix = 2160;
         //public const int maxPhotoHeightInDips = 300;
         public const int thumbnailPhotoWidthInPix = 400;
@@ -179,7 +185,7 @@ namespace Veganko.ViewModels.Products
             await GenerateThumbnail();
             return await productService.UpdateImagesAsync(product, ProductDetailImageData, ProductThumbnailImageData);
         }
-        
+
         protected async Task<ProductModRequestDTO> PostProductImages(ProductModRequestDTO product)
         {
             await GenerateThumbnail();
@@ -227,6 +233,49 @@ namespace Veganko.ViewModels.Products
             Product.MapToModel(updatedProduct);
             updatedProduct.Name = Name.Value;
             return updatedProduct;
+        }
+
+        protected List<string> GetChangedFields(ProductModel originalProduct)
+        {
+            ProductModel updatedProduct = CreateModel();
+
+            List<string> changedFields = new List<string>();
+            if (originalProduct.Name != updatedProduct.Name)
+            {
+                changedFields.Add(nameof(ProductModel.Name));
+            }
+
+            if (originalProduct.Brand != updatedProduct.Brand)
+            {
+                changedFields.Add(nameof(ProductModel.Brand));
+            }
+
+            if (originalProduct.Barcode != updatedProduct.Barcode)
+            {
+                changedFields.Add(nameof(ProductModel.Barcode));
+            }
+
+            if (HasImageBeenChanged)
+            {
+                changedFields.Add(nameof(ProductModel.ImageName));
+            }
+
+            if (originalProduct.Description != updatedProduct.Description)
+            {
+                changedFields.Add(nameof(ProductModel.Description));
+            }
+
+            if (originalProduct.ProductClassifiers != updatedProduct.ProductClassifiers)
+            {
+                changedFields.Add(nameof(ProductModel.ProductClassifiers));
+            }
+
+            if (originalProduct.Type != updatedProduct.Type)
+            {
+                changedFields.Add(nameof(ProductModel.Type));
+            }
+
+            return changedFields;
         }
 
         private void SetupValidations()

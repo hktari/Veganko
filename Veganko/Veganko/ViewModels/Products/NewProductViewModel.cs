@@ -43,13 +43,13 @@ namespace Veganko.ViewModels.Products
                         addProdRequest = await PostProductImages(addProdRequest);
                         productModel = addProdRequest.UnapprovedProduct;
 
-                        await App.CurrentPage.Inform("Produkt uspešno dodan. Takoj ko bo moderator potrdil, da so vnešene informacije v redu, bo produkt viden vsem !");
+                        await App.CurrentPage.Inform("Produkt uspešno dodan. Takoj ko bo moderator potrdil vnešene informacije bo produkt viden vsem !");
 
                         ((MainPage)App.Current.MainPage)?.SetCurrentTab(2); // Profile page
                         
                         // Navigate to product detail page from the ProductList page
                         ProductModRequestViewModel pmrVM = new ProductModRequestViewModel(addProdRequest);
-                        MessagingCenter.Send(this, ProductAddedMsg, pmrVM);
+                        MessagingCenter.Send(this, BaseEditProductViewModel.ProductModReqAddedMsg, pmrVM);
 
                         await App.Navigation.PushAsync(
                             new ProductModRequestDetailPage(
