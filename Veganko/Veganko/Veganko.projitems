@@ -50,12 +50,12 @@
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\ContentPageExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\EnumExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\StringExtensions.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)InfiniteScrolling\IInfiniteScrollDetector.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)InfiniteScrolling\IInfiniteScrollLoader.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)InfiniteScrolling\IInfiniteScrollLoading.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)InfiniteScrolling\InfiniteScrollBehavior.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)InfiniteScrolling\InfiniteScrollCollection.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)InfiniteScrolling\LoadingMoreEventArgs.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\InfiniteScrolling\IInfiniteScrollDetector.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\InfiniteScrolling\IInfiniteScrollLoader.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\InfiniteScrolling\IInfiniteScrollLoading.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\InfiniteScrolling\InfiniteScrollBehavior.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\InfiniteScrolling\InfiniteScrollCollection.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\InfiniteScrolling\LoadingMoreEventArgs.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\TaskExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\Comment.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\FacebookProfile.cs" />
@@ -141,7 +141,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\FavoritesViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\LoginViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\PasswordRecovery\EditAccountViewModel.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)ViewModels\Management\ManageProductsViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ViewModels\Management\ManagementViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\Products\EditProductViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\Products\ModRequests\EditProdModRequestViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\Products\ModRequests\Partial\ProductModRequestViewModel.cs" />
@@ -189,8 +189,8 @@
       <DependentUpon>HelpPage.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="$(MSBuildThisFileDirectory)Views\Management\ManageProductsPage.xaml.cs">
-      <DependentUpon>ManageProductsPage.xaml</DependentUpon>
+    <Compile Include="$(MSBuildThisFileDirectory)Views\Management\ManagementPage.xaml.cs">
+      <DependentUpon>ManagementPage.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Views\PasswordRecovery\PasswordResetPage.xaml.cs">
@@ -341,9 +341,9 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Views\Management\ManageProductsPage.xaml">
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Views\Management\ManagementPage.xaml">
       <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
@@ -476,9 +476,6 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="$(MSBuildThisFileDirectory)InfiniteScrolling\InfiniteScrolling.csproj" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="$(MSBuildThisFileDirectory)Controls\NumberEntry.xaml">

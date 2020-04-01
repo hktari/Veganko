@@ -28,7 +28,6 @@ namespace VegankoService.Data.ProductModRequests
         {
             context.ProductModRequests.Remove(productModRequest);
             return context.SaveChangesAsync();
-
         }
 
         public Task<ProductModRequest> Get(string id)
@@ -56,6 +55,9 @@ namespace VegankoService.Data.ProductModRequests
             }
 
             int pageModifier = Math.Max(0, query.Page - 1); // Min value is 0
+
+            // Order by newest first
+            items = items.OrderByDescending(pmr => pmr.Timestamp);
 
             return new PagedList<ProductModRequest>
             {

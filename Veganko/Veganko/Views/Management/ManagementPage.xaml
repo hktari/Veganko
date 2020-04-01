@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <views:BaseContentPage
-    x:Class="Veganko.Views.Management.ManageProductsPage"
+    x:Class="Veganko.Views.Management.ManagementPage"
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:common="clr-namespace:Veganko.Common.Models.Products;assembly=Veganko.Common"
@@ -9,6 +9,7 @@
     xmlns:local="clr-namespace:Veganko"
     xmlns:models="clr-namespace:Veganko.Models"
     xmlns:partial="clr-namespace:Veganko.Views.Product.Partial"
+    xmlns:scroll="clr-namespace:Xamarin.Forms.Extended"
     xmlns:user="clr-namespace:Veganko.Models.User"
     xmlns:views="clr-namespace:Veganko.Views"
     xmlns:vm="clr-namespace:Veganko.ViewModels">
@@ -38,8 +39,8 @@
         </ResourceDictionary>
     </ContentPage.Resources>
     <ContentPage.Content>
-        <StackLayout Padding="10">
-            <!--<StackLayout>
+        <!--<StackLayout Padding="10">-->
+        <!--<StackLayout>
                 <StackLayout Margin="0,0,0,5" Orientation="Horizontal">
                     <StackLayout
                         Padding="5,0"
@@ -59,9 +60,9 @@
                     </StackLayout>
                 </StackLayout>
                 <StackLayout Orientation="Horizontal">
-            -->
-            <!--<Button Command="{Binding SwitchFilteringOptions}" Image="icon.png" />-->
-            <!--
+        -->
+        <!--<Button Command="{Binding SwitchFilteringOptions}" Image="icon.png" />-->
+        <!--
                     <StackLayout>
                         <ImageButton
                             BackgroundColor="Transparent"
@@ -119,19 +120,40 @@
                 </StackLayout>
             </StackLayout>-->
 
-            <ListView
-                x:Name="ProductsListView"
-                CachingStrategy="RecycleElement"
-                HasUnevenRows="False"
-                IsPullToRefreshEnabled="true"
-                IsRefreshing="{Binding IsBusy, Mode=OneWay}"
-                ItemSelected="OnProductSelected"
-                ItemTemplate="{StaticResource RemovableProductTemplate}"
-                ItemsSource="{Binding SearchResult}"
-                RefreshCommand="{Binding LoadItemsCommand}"
-                RowHeight="173"
-                SeparatorVisibility="None"
-                VerticalOptions="FillAndExpand" />
-        </StackLayout>
+        <ListView
+            x:Name="ProductsListView"
+            Grid.Row="1"
+            CachingStrategy="RetainElement"
+            HasUnevenRows="False"
+            IsPullToRefreshEnabled="true"
+            IsRefreshing="{Binding IsBusy, Mode=OneWay}"
+            ItemSelected="OnProductSelected"
+            ItemTemplate="{StaticResource RemovableProductTemplate}"
+            ItemsSource="{Binding ProductModReqs}"
+            RefreshCommand="{Binding RefreshCommand}"
+            RowHeight="143"
+            SeparatorVisibility="None"
+            VerticalOptions="FillAndExpand">
+            <ListView.Behaviors>
+                <scroll:InfiniteScrollBehavior IsLoadingMore="{Binding IsBusy}" />
+            </ListView.Behaviors>
+            <!--  the "loading..." view, with visibility bound to IsWorking  -->
+            <ListView.Footer>
+                <Grid Padding="6" IsVisible="{Binding IsBusy}">
+                    <!--  set the footer to have a zero height when invisible  -->
+                    <Grid.Triggers>
+                        <Trigger TargetType="Grid" Property="IsVisible" Value="False">
+                            <Setter Property="HeightRequest" Value="0" />
+                        </Trigger>
+                    </Grid.Triggers>
+                    <!--  the loading content  -->
+                    <Label
+                        HorizontalOptions="Center"
+                        Text="Nalaganje..."
+                        VerticalOptions="Center" />
+                </Grid>
+            </ListView.Footer>
+        </ListView>
+        <!--</StackLayout>-->
     </ContentPage.Content>
 </views:BaseContentPage>

@@ -4,6 +4,7 @@ using Veganko.Models;
 using Veganko.Services;
 using Veganko.ViewModels;
 using Veganko.ViewModels.Products;
+using Veganko.Views.Management;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -26,6 +27,7 @@ namespace Veganko.Views
             //            Icon = Device.RuntimePlatform == Device.UWP ? null : "icon.png"
             //        });
             //}
+            Children.Add(new NavigationPage(new ManagementPage()));
         }
 
         private NavigationPage lastPage;

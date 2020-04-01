@@ -36,13 +36,6 @@ namespace Veganko.ViewModels.Products.ModRequests.Partial
             set => SetProperty(ref evaluatorsText, value);
         }
 
-        private List<string> changedFields;
-        public List<string> ChangedFields
-        {
-            get => changedFields;
-            set => SetProperty(ref changedFields, value);
-        }
-
         public void Update(ProductModRequestDTO model)
         {
             // Update the product properties

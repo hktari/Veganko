@@ -62,17 +62,20 @@ namespace VegankoService.Controllers
                 return BadRequest();
             }
 
-            // Get IdentityID
-            Customer customer = usersRepository.Get(userId);
-            if (customer == null)
+            var query = new ProductModReqQuery(state, null, page, pageSize);
+            if (userId != null) 
             {
-                logger.LogWarning($"Failed to find user identity id with customer id: {userId}");
-                return NotFound();
+                // Get IdentityID
+                Customer customer = usersRepository.Get(userId);
+                if (customer == null)
+                {
+                    logger.LogWarning($"Failed to find user identity id with customer id: {userId}");
+                    return NotFound();
+                }
+                query.UserId = customer.IdentityId;
             }
 
-            PagedList<ProductModRequest> result = productModReqRepository.GetAll(
-                new ProductModReqQuery(state, customer.IdentityId, page, pageSize));
-
+            PagedList<ProductModRequest> result = productModReqRepository.GetAll(query);
             logger.LogDebug($"Total count: {result.TotalCount} {result.Items.Count()}, page: {result.Page}, pageSize: {result.PageSize}");
             return Ok(result);
         }

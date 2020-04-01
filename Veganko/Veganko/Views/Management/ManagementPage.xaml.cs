@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Veganko.Extensions;
 using Veganko.Services.Http;
 using Veganko.ViewModels;
+using Veganko.ViewModels.Management;
 using Veganko.ViewModels.Products;
 using Veganko.ViewModels.Products.Partial;
 using Veganko.Views.Product;
@@ -15,14 +16,14 @@ using Xamarin.Forms.Xaml;
 namespace Veganko.Views.Management
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class ManageProductsPage : BaseContentPage
+    public partial class ManagementPage : BaseContentPage
     {
-        ManageProductsViewModel vm;
+        ManagementViewModel vm;
 
-        public ManageProductsPage()
+        public ManagementPage()
         {
             InitializeComponent();
-            BindingContext = vm = new ManageProductsViewModel();
+            BindingContext = vm = new ManagementViewModel();
         }
 
         protected override void CustomOnAppearing()
@@ -42,29 +43,29 @@ namespace Veganko.Views.Management
             //    new ApproveProductPage(new ApproveProductViewModel(item)));
 
             // Manually deselect item.
-            ProductsListView.SelectedItem = null;
+            //ProductsListView.SelectedItem = null;
         }
 
         async void OnDeleteProduct(object sender, EventArgs e)
         {
-            string result = await DisplayActionSheet("Are you sure you wish to delete this product ?", "Cancel", "Yes");
-            if (result == "Yes")
-            {
-                var mi = ((MenuItem)sender);
-                try
-                {
-                    await vm.DeleteProduct((ProductViewModel)mi.CommandParameter);
-                }
-                catch (ServiceException ex)
-                {
-                    await this.Err("Napak pri brisanju: " + ex.Response); 
-                }
-            }
+            //string result = await DisplayActionSheet("Are you sure you wish to delete this product ?", "Cancel", "Yes");
+            //if (result == "Yes")
+            //{
+            //    var mi = ((MenuItem)sender);
+            //    try
+            //    {
+            //        await vm.DeleteProduct((ProductViewModel)mi.CommandParameter);
+            //    }
+            //    catch (ServiceException ex)
+            //    {
+            //        await this.Err("Napak pri brisanju: " + ex.Response);
+            //    }
+            //}
         }
 
         private void OnSearchTextInputCompleted(object sender, EventArgs e)
         {
-            vm.SearchClickedCommand.Execute(null);
+            //vm.SearchClickedCommand.Execute(null);
         }
 
     }
