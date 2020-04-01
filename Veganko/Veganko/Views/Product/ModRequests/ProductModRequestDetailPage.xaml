@@ -44,7 +44,7 @@
                     <Label
                         Grid.Column="1"
                         FontFamily="{StaticResource RalewayRegularFont}"
-                        Text="{Binding ProdModReq.State, Converter={StaticResource EnumToDescriptionConverter}}">
+                        Text="{Binding Product.State, Converter={StaticResource EnumToDescriptionConverter}}">
                         <Label.Triggers>
                             <DataTrigger
                                 Binding="{Binding ProdModReq.State}"
@@ -76,7 +76,7 @@
                         Grid.Row="1"
                         Grid.Column="1"
                         FontFamily="{StaticResource RalewayRegularFont}"
-                        Text="{Binding ProdModReq.EvaluatorsText}" />
+                        Text="{Binding Product.EvaluatorsText}" />
                     <ImageButton
                         Grid.Row="3"
                         Grid.ColumnSpan="2"

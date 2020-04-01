@@ -24,8 +24,6 @@ namespace Veganko.ViewModels
 {
     public class ProfileViewModel : BaseUserProfileViewModel
     {
-        // TODO: deletion from detail view model
-
         public const string ProfileChangedMsg = "ProfileChangedMsg";
 
         public Command ReloadProductModReqsCommand => new Command(
@@ -47,7 +45,7 @@ namespace Veganko.ViewModels
         private readonly IAccountService accountService;
         private readonly IUserService userService;
         private Command focusEditorCommand;
-
+        // TODO: if description has emoji DB err. but only for unapproved products
         public ProfileViewModel()
             : base(true)
         {

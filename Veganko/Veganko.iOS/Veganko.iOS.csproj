@@ -561,6 +561,15 @@
   <ItemGroup>
     <BundleResource Include="Resources\rejected_product.png" />
   </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\new_product.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\pending_product.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\missing_product.png" />
+  </ItemGroup>
   <Import Project="..\Veganko\Veganko.projitems" Label="Shared" />
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
 </Project>

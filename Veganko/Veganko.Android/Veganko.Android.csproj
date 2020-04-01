@@ -595,6 +595,8 @@
     <Content Include="app_icon-playstore.png" />
     <AndroidResource Include="Resources\drawable\approved_product.png" />
     <AndroidResource Include="Resources\drawable\rejected_product.png" />
+    <AndroidResource Include="Resources\drawable\missing_product.png" />
+    <AndroidResource Include="Resources\drawable\pending_product.png" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Common\Veganko.Common\Veganko.Common.csproj">
