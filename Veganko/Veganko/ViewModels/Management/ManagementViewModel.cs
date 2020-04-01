@@ -15,20 +15,23 @@ namespace Veganko.ViewModels.Management
 {
     public class ManagementViewModel : BaseViewModel
     {
-        private const int PageSize = 30;
+        private const int PageSize = 2;
         
         public ManagementViewModel()
         {
+            ResetCollection();
             ProductModReqs = new InfiniteScrollCollection<ProductModRequestViewModel>()
             {
-                OnCanLoadMore = () => CurrentPage <= TotalPages,
+                OnCanLoadMore = () => CurrentPage + 1 <= TotalPages,
                 OnLoadMore = async () =>
                 {
                     try
                     {
                         IsBusy = true;
                         // load the next page
-                        PagedList<ProductModRequestDTO> page = await ProductModRequestService.AllAsync(CurrentPage + 1, PageSize, state: ProductModRequestState.Pending);
+                        var nextPage = ProductModReqs.Count == 0 ? 1 : CurrentPage + 1;
+
+                        PagedList<ProductModRequestDTO> page = await ProductModRequestService.AllAsync(nextPage, PageSize, state: ProductModRequestState.Pending);
                         TotalPages = page.TotalPages;
 
                         // return the items that need to be added
@@ -47,7 +50,7 @@ namespace Veganko.ViewModels.Management
             };
         }
 
-        public int CurrentPage => ProductModReqs.Count / PageSize;
+        public int CurrentPage => (ProductModReqs.Count / TotalPages) + 1;
         public int TotalPages { get; private set; }
 
         private InfiniteScrollCollection<ProductModRequestViewModel> productModReqs = new InfiniteScrollCollection<ProductModRequestViewModel>();
@@ -57,11 +60,16 @@ namespace Veganko.ViewModels.Management
             set => SetProperty(ref productModReqs, value);
         }
 
+        private void ResetCollection()
+        {
+            ProductModReqs.Clear();
+            TotalPages = 0;
+        }
+
         public Command RefreshCommand => new Command(
             async _ => 
             {
-                ProductModReqs.Clear();
-                TotalPages = 0;
+                ResetCollection();
                 await ProductModReqs.LoadMoreAsync();
             });
 

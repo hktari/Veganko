@@ -1,7 +1,10 @@
-﻿using System;
+﻿using Autofac;
+using System;
 using System.Linq;
 using Veganko.Models;
+using Veganko.Other;
 using Veganko.Services;
+using Veganko.Services.Resources;
 using Veganko.ViewModels;
 using Veganko.ViewModels.Products;
 using Veganko.Views.Management;
@@ -27,7 +30,16 @@ namespace Veganko.Views
             //            Icon = Device.RuntimePlatform == Device.UWP ? null : "icon.png"
             //        });
             //}
-            Children.Add(new NavigationPage(new ManagementPage()));
+            var resProvider = App.IoC.Resolve<IResourceProvider>();
+            Children.Add(new NavigationPage(new ManagementPage())
+            {
+                IconImageSource = new FontImageSource 
+                {
+                    Glyph = MaterialDesignIcons.SupervisorAccount,
+                    Color = Color.Black,
+                    FontFamily = resProvider.GetByKey<OnPlatform<string>>("MaterialDesignFont")
+                }
+            });
         }
 
         private NavigationPage lastPage;

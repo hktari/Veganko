@@ -123,6 +123,7 @@
         <ListView
             x:Name="ProductsListView"
             Grid.Row="1"
+            Margin="10"
             CachingStrategy="RetainElement"
             HasUnevenRows="False"
             IsPullToRefreshEnabled="true"
@@ -135,7 +136,7 @@
             SeparatorVisibility="None"
             VerticalOptions="FillAndExpand">
             <ListView.Behaviors>
-                <scroll:InfiniteScrollBehavior IsLoadingMore="{Binding IsBusy}" />
+                <scroll:InfiniteScrollBehavior IsLoadingMore="{Binding IsBusy, Mode=OneWay}" />
             </ListView.Behaviors>
             <!--  the "loading..." view, with visibility bound to IsWorking  -->
             <ListView.Footer>
