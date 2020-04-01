@@ -30,16 +30,19 @@ namespace Veganko.Views
             //            Icon = Device.RuntimePlatform == Device.UWP ? null : "icon.png"
             //        });
             //}
-            var resProvider = App.IoC.Resolve<IResourceProvider>();
-            Children.Add(new NavigationPage(new ManagementPage())
+            if (isManager)
             {
-                IconImageSource = new FontImageSource 
+                var resProvider = App.IoC.Resolve<IResourceProvider>();
+                Children.Add(new NavigationPage(new ManagementPage())
                 {
-                    Glyph = MaterialDesignIcons.SupervisorAccount,
-                    Color = Color.Black,
-                    FontFamily = resProvider.GetByKey<OnPlatform<string>>("MaterialDesignFont")
-                }
-            });
+                    IconImageSource = new FontImageSource
+                    {
+                        Glyph = MaterialDesignIcons.SupervisorAccount,
+                        Color = Color.Black,
+                        FontFamily = resProvider.GetByKey<OnPlatform<string>>("MaterialDesignFont")
+                    }
+                });
+            }
         }
 
         private NavigationPage lastPage;
