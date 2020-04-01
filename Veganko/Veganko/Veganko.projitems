@@ -135,7 +135,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\FavoritesViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\LoginViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\PasswordRecovery\EditAccountViewModel.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)ViewModels\Products\ManageProductsViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ViewModels\Management\ManageProductsViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\Products\EditProductViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\Products\ModRequests\EditProdModRequestViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\Products\ModRequests\Partial\ProductModRequestViewModel.cs" />
@@ -183,7 +183,7 @@
       <DependentUpon>HelpPage.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="$(MSBuildThisFileDirectory)Views\ManageProductsPage.xaml.cs">
+    <Compile Include="$(MSBuildThisFileDirectory)Views\Management\ManageProductsPage.xaml.cs">
       <DependentUpon>ManageProductsPage.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
@@ -335,7 +335,7 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Views\ManageProductsPage.xaml">
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Views\Management\ManageProductsPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </EmbeddedResource>
@@ -482,6 +482,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="$(MSBuildThisFileDirectory)ViewModels\Management\" />
+    <Folder Include="$(MSBuildThisFileDirectory)Views\Management\" />
   </ItemGroup>
   <!--#if (CreateBackendProject)
     <Compile Include="$(MSBuildThisFileDirectory)Services\AzureDataStore.cs" />

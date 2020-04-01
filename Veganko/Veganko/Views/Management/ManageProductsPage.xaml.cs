@@ -12,7 +12,7 @@ using Veganko.Views.Product;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
-namespace Veganko.Views
+namespace Veganko.Views.Management
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class ManageProductsPage : BaseContentPage

@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <views:BaseContentPage
-    x:Class="Veganko.Views.ManageProductsPage"
+    x:Class="Veganko.Views.Management.ManageProductsPage"
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:common="clr-namespace:Veganko.Common.Models.Products;assembly=Veganko.Common"
@@ -38,8 +38,8 @@
         </ResourceDictionary>
     </ContentPage.Resources>
     <ContentPage.Content>
-        <StackLayout Padding="10,0,10,10">
-            <StackLayout>
+        <StackLayout Padding="10">
+            <!--<StackLayout>
                 <StackLayout Margin="0,0,0,5" Orientation="Horizontal">
                     <StackLayout
                         Padding="5,0"
@@ -59,7 +59,9 @@
                     </StackLayout>
                 </StackLayout>
                 <StackLayout Orientation="Horizontal">
-                    <!--<Button Command="{Binding SwitchFilteringOptions}" Image="icon.png" />-->
+            -->
+            <!--<Button Command="{Binding SwitchFilteringOptions}" Image="icon.png" />-->
+            <!--
                     <StackLayout>
                         <ImageButton
                             BackgroundColor="Transparent"
@@ -115,7 +117,7 @@
                         Source="{Binding ProductClassifiers}"
                         Selected="{Binding SelectedProductClassifiers}" />
                 </StackLayout>
-            </StackLayout>
+            </StackLayout>-->
 
             <ListView
                 x:Name="ProductsListView"
