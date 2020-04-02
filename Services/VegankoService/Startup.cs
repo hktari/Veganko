@@ -61,7 +61,13 @@ namespace VegankoService
             //    return dbContext;
             //});
             services.AddDbContext<VegankoContext>(
-                opts => opts.UseMySql(Configuration["DBConnection"]));
+                opts => opts.UseMySql(Configuration["DBConnection"],
+                mysqlOpts => 
+                {
+                    mysqlOpts
+                    .UnicodeCharSet(Pomelo.EntityFrameworkCore.MySql.Infrastructure.CharSet.Utf8mb4)
+                    .CharSetBehavior(Pomelo.EntityFrameworkCore.MySql.Infrastructure.CharSetBehavior.AppendToAllColumns);
+                }));
 
             services.AddScoped<IStoresRepository, StoresRepository>();
             services.AddScoped<IProductRepository, ProductRepository>();
