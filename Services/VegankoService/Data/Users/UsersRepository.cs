@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Veganko.Common.Models.Users;
 using VegankoService.Models;
 using VegankoService.Models.User;
 
@@ -21,56 +22,55 @@ namespace VegankoService.Data.Users
 
         public CustomerProfile GetProfile(string identityId)
         {
-             IQueryable<CustomerProfile> query = 
-                from customer in context.Customer
-                where customer.IdentityId == identityId
-                join appUser in context.Users on customer.IdentityId equals appUser.Id
-                join userRole in context.UserRoles on customer.IdentityId equals userRole.UserId
-                join role in context.Roles on userRole.RoleId equals role.Id
-                select new CustomerProfile
-                {
-                    Id = customer.Id,
-                    Username = appUser.UserName,
-                    Email = appUser.Email,
-                    AvatarId = customer.AvatarId,
-                    Description = customer.Description,
-                    Label = customer.Label,
-                    ProfileBackgroundId = customer.ProfileBackgroundId,
-                    Role = role.Name
-                };
+            IQueryable<CustomerProfile> query =
+               from customer in context.Customer
+               where customer.IdentityId == identityId
+               join appUser in context.Users on customer.IdentityId equals appUser.Id
+               join userRole in context.UserRoles on customer.IdentityId equals userRole.UserId
+               join role in context.Roles on userRole.RoleId equals role.Id
+               select new CustomerProfile
+               {
+                   Id = customer.Id,
+                   Username = appUser.UserName,
+                   Email = appUser.Email,
+                   AvatarId = customer.AvatarId,
+                   Description = customer.Description,
+                   Label = customer.Label,
+                   ProfileBackgroundId = customer.ProfileBackgroundId,
+                   Role = role.Name
+               };
 
             return query.FirstOrDefault();
         }
 
-        public PagedList<CustomerProfile> GetAll(int page, int pageSize = 10)
-        { 
-            // Paged customers
-            IQueryable<Customer> customers = context.Customer
-                .Skip(page * pageSize)
-                .Take(pageSize);
+        public PagedList<CustomerProfile> GetAll(UserQuery query)
+        {
+            IQueryable<Customer> customers = context.Customer;
 
-            IQueryable<CustomerProfile> customerProfiles =
+            if (query.PageSize > 0)
+            {
+                customers = customers
+                    .Skip((query.Page - 1) * query.PageSize)
+                    .Take(query.PageSize);
+            }
+
+            IQueryable<CustomerProfile> customerProfiles = 
                 from customer in customers
                 join appUser in context.Users on customer.IdentityId equals appUser.Id
                 join userRole in context.UserRoles on customer.IdentityId equals userRole.UserId
                 join role in context.Roles on userRole.RoleId equals role.Id
-                select new CustomerProfile
-                {
-                    Id = customer.Id,
-                    Username = appUser.UserName,
-                    Email = appUser.Email,
-                    AvatarId = customer.AvatarId,
-                    Description = customer.Description,
-                    Label = customer.Label,
-                    ProfileBackgroundId = customer.ProfileBackgroundId,
-                    Role = role.Name
-                };
+                select CreateCustomerProfile(customer, appUser, role);
+
+            if (query.Role != null)
+            {
+                customerProfiles = customerProfiles.Where(cp => cp.Role == query.Role.ToString());
+            }
 
             return new PagedList<CustomerProfile>
             {
                 Items = customerProfiles.ToList(),
-                Page = page,
-                PageSize = pageSize,
+                Page = query.Page,
+                PageSize = query.PageSize,
                 TotalCount = context.Customer.Count()
             };
         }
@@ -108,6 +108,21 @@ namespace VegankoService.Data.Users
             }
 
             await context.SaveChangesAsync();
+        }
+
+        private CustomerProfile CreateCustomerProfile(Customer customer, ApplicationUser appUser, IdentityRole role)
+        {
+            return new CustomerProfile
+            {
+                Id = customer.Id,
+                Username = appUser.UserName,
+                Email = appUser.Email,
+                AvatarId = customer.AvatarId,
+                Description = customer.Description,
+                Label = customer.Label,
+                ProfileBackgroundId = customer.ProfileBackgroundId,
+                Role = role.Name
+            };
         }
     }
 }

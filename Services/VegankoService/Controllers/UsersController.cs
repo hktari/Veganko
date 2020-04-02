@@ -8,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Veganko.Common.Models.Users;
 using VegankoService.Data;
 using VegankoService.Data.Users;
 using VegankoService.Helpers;
@@ -79,15 +80,9 @@ namespace VegankoService.Controllers
 
         [Authorize(Roles = Constants.Strings.Roles.Admin + ", " + Constants.Strings.Roles.Manager)]
         [HttpGet]
-        public ActionResult<PagedList<CustomerProfile>> GetAll(int page = 1, int pageSize = 20)
+        public ActionResult<PagedList<CustomerProfile>> GetAll([FromQuery]UserQuery query)
         {
-            page--;
-            if (page < 0)
-            {
-                return BadRequest("Pages start with index 1");
-            }
-
-            return usersRepository.GetAll(page, pageSize);
+            return usersRepository.GetAll(query);
         }
     }
 }

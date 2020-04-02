@@ -1,17 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using Veganko.Common.Models.Users;
 
 namespace Veganko.Models.User
 {
-    public enum UserRole
-    {
-        Member,
-        Moderator,
-        Manager,
-        Admin
-    }
-
     public static class UserRoleExtensions
     {
         public static UserAccessRights ToUAC(this UserRole userRole)

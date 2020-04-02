@@ -19,6 +19,7 @@ using Veganko.ViewModels.Products.ModRequests;
 using Veganko.Models;
 using System;
 using Veganko.ViewModels.Products;
+using Veganko.Common.Models.Users;
 
 namespace Veganko.ViewModels
 {

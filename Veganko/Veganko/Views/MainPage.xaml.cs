@@ -33,7 +33,17 @@ namespace Veganko.Views
             if (isManager)
             {
                 var resProvider = App.IoC.Resolve<IResourceProvider>();
-                Children.Add(new NavigationPage(new ManagementPage())
+                //Children.Add(new NavigationPage(new ManagementPage())
+                //{
+                //    IconImageSource = new FontImageSource
+                //    {
+                //        Glyph = MaterialDesignIcons.SupervisorAccount,
+                //        Color = Color.Black,
+                //        FontFamily = resProvider.GetByKey<OnPlatform<string>>("MaterialDesignFont")
+                //    }
+                //});
+                // Only manager and admin
+                Children.Add(new NavigationPage(new ManageUsersPage())
                 {
                     IconImageSource = new FontImageSource
                     {

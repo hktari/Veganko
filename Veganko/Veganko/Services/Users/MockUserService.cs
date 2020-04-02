@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Veganko.Common.Models.Users;
+using Veganko.Models;
 using Veganko.Models.User;
 
 namespace Veganko.Services
@@ -66,7 +68,7 @@ namespace Veganko.Services
                 users.FirstOrDefault(user => user.Id == id)) ?? throw new Exception("User not found!");
         }
 
-        public Task<IEnumerable<UserPublicInfo>> GetAll(int page = 1, int pageSize = 20)
+        public Task<IEnumerable<UserPublicInfo>> GetAll(UserQuery query)
         {
             throw new NotImplementedException();
         }
@@ -83,6 +85,16 @@ namespace Veganko.Services
         public void SetCurrentUser(UserPublicInfo user)
         {
             CurrentUser = user;
+        }
+
+        public Task SetRole(UserPublicInfo user, UserRole role)
+        {
+            throw new NotImplementedException();
+        }
+
+        Task<PagedList<UserPublicInfo>> IUserService.GetAll(UserQuery query)
+        {
+            throw new NotImplementedException();
         }
     }
 }

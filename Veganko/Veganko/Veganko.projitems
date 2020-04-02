@@ -12,6 +12,14 @@
     <EmbeddedResource Include="$(MSBuildThisFileDirectory)App.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Views\Management\ManageUsersPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Views\Management\Partial\UserItemView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
     <EmbeddedResource Include="$(MSBuildThisFileDirectory)Views\Product\ModRequests\ProductModRequestDetailPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
@@ -142,6 +150,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\BaseViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\FavoritesViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\LoginViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ViewModels\Management\ManageUsersViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\PasswordRecovery\EditAccountViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\Management\ManagementViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\Products\EditProductViewModel.cs" />
@@ -168,6 +177,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\Profile\SelectAvatarViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\RegisterViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\Stores\StoreViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ViewModels\Users\UserProfileViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Views\Account\FinishRegistrationInstructPage.xaml.cs">
       <DependentUpon>FinishRegistrationInstructPage.xaml</DependentUpon>
       <SubType>Code</SubType>
@@ -179,6 +189,13 @@
     <Compile Include="$(MSBuildThisFileDirectory)Views\FavoritesPage.xaml.cs">
       <DependentUpon>FavoritesPage.xaml</DependentUpon>
       <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Views\Management\ManageUsersPage.xaml.cs">
+      <DependentUpon>ManageUsersPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Views\Management\Partial\UserItemView.xaml.cs">
+      <SubType>Code</SubType>
+      <DependentUpon>UserItemView.xaml</DependentUpon>
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Views\Partials\EditAccountTemplate.xaml.cs">
       <SubType>Code</SubType>
@@ -490,10 +507,6 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="$(MSBuildThisFileDirectory)ViewModels\Management\" />
-    <Folder Include="$(MSBuildThisFileDirectory)Views\Management\" />
   </ItemGroup>
   <!--#if (CreateBackendProject)
     <Compile Include="$(MSBuildThisFileDirectory)Services\AzureDataStore.cs" />

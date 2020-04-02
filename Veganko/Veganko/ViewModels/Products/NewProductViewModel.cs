@@ -2,6 +2,7 @@
 using System;
 using System.Collections.ObjectModel;
 using Veganko.Common.Models.Products;
+using Veganko.Common.Models.Users;
 using Veganko.Extensions;
 using Veganko.Models.User;
 using Veganko.Services.DB;

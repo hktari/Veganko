@@ -1,0 +1,64 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<ContentView
+    x:Class="Veganko.Views.Product.Partial.UserItemView"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:circleImageControl="clr-namespace:ImageCircle.Forms.Plugin.Abstractions;assembly=ImageCircle.Forms.Plugin"
+    xmlns:converter="clr-namespace:Veganko.Converters"
+    xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+    <ContentView.Content>
+        <Grid
+            Padding="10"
+            ColumnSpacing="10"
+            RowSpacing="10">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="66" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="70" />
+            </Grid.ColumnDefinitions>
+
+            <circleImageControl:CircleImage
+                Grid.RowSpan="2"
+                Aspect="AspectFill"
+                BorderColor="Transparent"
+                BorderThickness="1"
+                HeightRequest="66"
+                HorizontalOptions="CenterAndExpand"
+                VerticalOptions="CenterAndExpand"
+                WidthRequest="66"
+                Source="{Binding AvatarImage}" />
+            <Label
+                Grid.Column="1"
+                FontFamily="{StaticResource VarelaRoundFont}"
+                Text="{Binding Username}"
+                VerticalOptions="EndAndExpand" />
+            <!--<Label
+                Grid.Row="1"
+                Grid.Column="2"
+                FontFamily="{StaticResource QuicksandFont}"
+                FontSize="Caption"
+                HorizontalTextAlignment="End"
+                MaxLines="1"
+                Text="{Binding DatePosted, StringFormat='{}{0:dd.MM.yyyy}'}"
+                VerticalTextAlignment="End" />-->
+            <Label
+                Grid.Row="1"
+                Grid.Column="1"
+                FontFamily="{StaticResource RalewayRegularFont}"
+                Text="{Binding Email}"
+                VerticalOptions="Start" />
+            <Label
+                Grid.Row="0"
+                Grid.Column="2"
+                FontFamily="{StaticResource RalewayRegularFont}"
+                Text="{Binding Role}"
+                VerticalOptions="Start" />
+        </Grid>
+    </ContentView.Content>
+</ContentView>

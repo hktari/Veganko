@@ -3,6 +3,7 @@ using Newtonsoft.Json.Converters;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using Veganko.Common.Models.Users;
 
 namespace Veganko.Models.User
 {

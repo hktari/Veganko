@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Globalization;
 using System.Text;
+using Veganko.Common.Models.Users;
 using Veganko.Models.User;
 using Xamarin.Forms;
 

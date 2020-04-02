@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using Veganko.Common.Models.Products;
+using Veganko.Common.Models.Users;
 using Veganko.Extensions;
 using Veganko.Services;
 using Veganko.Services.Http;
@@ -23,7 +24,7 @@ namespace Veganko.ViewModels.Products.ModRequests
         public ProductModRequestDetailViewModel(ProductModRequestViewModel prodModReq)
         {
             Product = prodModReq;
-            CanChangeState = UserService.CurrentUser.Role != Models.User.UserRole.Member;
+            CanChangeState = UserService.CurrentUser.Role != UserRole.Member;
             CanAddStores = prodModReq.Model.Action == ProductModRequestAction.Add; // Edit requests can't add stores here coz productId is different.
             MessagingCenter.Unsubscribe<EditProdModRequestViewModel, ProductModRequestDTO>(this, EditProdModRequestViewModel.ProductModReqUpdatedMsg);
             MessagingCenter.Subscribe<EditProdModRequestViewModel, ProductModRequestDTO>(this, EditProdModRequestViewModel.ProductModReqUpdatedMsg, OnProductUpdated);

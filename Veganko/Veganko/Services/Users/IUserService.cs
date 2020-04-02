@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
+using Veganko.Common.Models.Users;
+using Veganko.Models;
 using Veganko.Models.User;
 
 namespace Veganko.Services
@@ -14,7 +16,8 @@ namespace Veganko.Services
         UserPublicInfo CurrentUser { get; }
         Task<UserPublicInfo> Get(string id);
         Task<IEnumerable<UserPublicInfo>> GetByIds(IEnumerable<string> id);
-        Task<IEnumerable<UserPublicInfo>> GetAll(int page = 1, int pageSize = 20);
         Task<UserPublicInfo> Edit(UserPublicInfo user);
+        Task SetRole(UserPublicInfo user, UserRole role);
+        Task<PagedList<UserPublicInfo>> GetAll(UserQuery query);
     }
 }

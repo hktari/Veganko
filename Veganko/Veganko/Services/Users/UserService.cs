@@ -8,6 +8,8 @@ using Veganko.Services.Http;
 using RestSharp.Serialization;
 using Newtonsoft.Json;
 using Xamarin.Essentials;
+using Veganko.Common.Models.Users;
+using Veganko.Models;
 
 namespace Veganko.Services.Users
 {
@@ -65,16 +67,17 @@ namespace Veganko.Services.Users
             return restService.ExecuteAsync<UserPublicInfo>(request);
         }
 
-        public async Task<IEnumerable<UserPublicInfo>> GetAll(int page = 1, int pageSize = 20)
+        public async Task<PagedList<UserPublicInfo>> GetAll(UserQuery query)
         {
             RestRequest request = new RestRequest("users", Method.GET);
-            request.AddQueryParameter(nameof(page), page.ToString());
-            request.AddQueryParameter(nameof(pageSize), pageSize.ToString());
+            request.AddQueryParameter(nameof(UserQuery.Role), query.Role.ToString());
+            request.AddQueryParameter(nameof(UserQuery.Page), query.Page.ToString());
+            request.AddQueryParameter(nameof(UserQuery.PageSize), query.PageSize.ToString());
 
             IRestResponse response = await restService.ExecuteAsync(request, throwIfUnsuccessful: false);
             if (response.IsSuccessful)
             {
-                return JsonConvert.DeserializeObject<IEnumerable<UserPublicInfo>>(response.Content);
+                return JsonConvert.DeserializeObject<PagedList<UserPublicInfo>>(response.Content);
             }
             else
             {
@@ -85,6 +88,13 @@ namespace Veganko.Services.Users
         public Task<IEnumerable<UserPublicInfo>> GetByIds(IEnumerable<string> id)
         {
             throw new NotImplementedException();
+        }
+
+        public Task SetRole(UserPublicInfo user, UserRole role)
+        {
+            RestRequest request = new RestRequest($"userroles/userId={user.Id}", Method.PUT);
+            request.AddJsonBody(new { role = role });
+            return restService.ExecuteAsync(request);
         }
 
         public void EnsureCurrentUserIsSet()

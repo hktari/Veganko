@@ -5,6 +5,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Text;
 using Veganko.Common.Models.Products;
+using Veganko.Common.Models.Users;
 using Veganko.Extensions;
 using Veganko.Models;
 using Veganko.Services;
@@ -42,7 +43,7 @@ namespace Veganko.ViewModels.Products
                     IsBusy = true;
                     Product updatedProduct = CreateModel();
                     Product originalProduct = originalProductVM.MapToModel();
-                    if (userService.CurrentUser.Role == Models.User.UserRole.Member)
+                    if (userService.CurrentUser.Role == UserRole.Member)
                     {
                         ProductModRequestDTO editProductReq = new ProductModRequestDTO
                         {
