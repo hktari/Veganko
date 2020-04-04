@@ -1,15 +1,15 @@
 ﻿using Autofac;
-using System;
 using System.Collections.Generic;
-using System.Text;
+using System.Linq;
+using System.Threading.Tasks;
 using Veganko.Common.Models.Products;
 using Veganko.Common.Models.Users;
 using Veganko.Extensions;
 using Veganko.Services;
 using Veganko.Services.Http;
+using Veganko.Services.Logging;
 using Veganko.Services.Products.ProductModRequests;
 using Veganko.ViewModels.Products.ModRequests.Partial;
-using Veganko.ViewModels.Products.Partial;
 using Veganko.ViewModels.Stores;
 using Veganko.Views.Product;
 using Veganko.Views.Stores;
@@ -36,6 +36,7 @@ namespace Veganko.ViewModels.Products.ModRequests
 
         private IUserService UserService => App.IoC.Resolve<IUserService>();
         private IProductModRequestService ProductModRequestService => App.IoC.Resolve<IProductModRequestService>();
+        private ILogger Logger => App.IoC.Resolve<ILogger>();
 
         public Command ApproveRequestCommand => new Command(
             async _ =>
@@ -78,7 +79,7 @@ namespace Veganko.ViewModels.Products.ModRequests
             });
 
         public Command DeleteRequestCommand => new Command(
-            async _ => 
+            async _ =>
             {
                 try
                 {
@@ -110,6 +111,41 @@ namespace Veganko.ViewModels.Products.ModRequests
                        new NavigationPage(
                            new EditProductPage(new EditProdModRequestViewModel(Product))));
                });
+
+        private string evaluatorsText;
+        public string EvaluatorsText
+        {
+            get => evaluatorsText;
+            set => SetProperty(ref evaluatorsText, value);
+        }
+
+        public List<UserPublicInfo> Evaluators { get; set; }
+
+        public override async void OnPageAppearing()
+        {
+            base.OnPageAppearing();
+            await LoadEvaluators();
+        }
+
+        public async Task LoadEvaluators()
+        {
+            try
+            {
+                Evaluators = new List<UserPublicInfo>();
+                foreach (var evaluation in Product.Model.Evaluations)
+                {
+                    Evaluators.Add(
+                        await UserService.Get(evaluation.EvaluatorUserId));
+                }
+
+                EvaluatorsText = string.Join(", ", Evaluators.Select(eval => eval.Username));
+            }
+            catch (ServiceException ex)
+            {
+                Logger.LogException(ex);
+                EvaluatorsText = "napaka pri nalaganju.";
+            }
+        }
 
         private void OnProductUpdated(EditProdModRequestViewModel sender, ProductModRequestDTO updatedPMR)
         {

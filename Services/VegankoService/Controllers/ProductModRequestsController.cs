@@ -312,12 +312,21 @@ namespace VegankoService.Controllers
                 return NotFound();
             }
 
+
+            Customer user = usersRepository.GetByIdentityId(Identity.GetUserIdentityId(httpContextAccessor.HttpContext.User));
+
+            if (user == null)
+            {
+                logger.LogError("Failed to get user id");
+                return BadRequest();
+            }
+
             productRequest.UnapprovedProduct.Update(inputAsModel.UnapprovedProduct);
 
-            IActionResult result;
+            IActionResult result = null;
             ProductModRequestState? newState;
 
-            Product product = null;
+            Product product;
             if (productRequest.Action == ProductModRequestAction.Add)
             {
                 product = new Product();
@@ -371,7 +380,7 @@ namespace VegankoService.Controllers
             context.ProductModRequestEvaluations.Add(new ProductModRequestEvaluation
             {
                 ProductModRequest = productRequest,
-                EvaluatorUserId = Identity.GetUserIdentityId(httpContextAccessor.HttpContext.User),
+                EvaluatorUserId = user.Id,
                 State = newState.Value,
                 Timestamp = DateTime.Now,
             });

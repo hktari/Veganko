@@ -1,6 +1,11 @@
-﻿using System;
+﻿using Autofac;
+using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using Veganko.Common.Models.Products;
+using Veganko.Common.Models.Users;
+using Veganko.Services;
 using Veganko.ViewModels.Products.Partial;
 
 namespace Veganko.ViewModels.Products.ModRequests.Partial
@@ -27,13 +32,6 @@ namespace Veganko.ViewModels.Products.ModRequests.Partial
         {
             get => state;
             set => SetProperty(ref state, value);
-        }
-
-        private string evaluatorsText;
-        public string EvaluatorsText
-        {
-            get => evaluatorsText;
-            set => SetProperty(ref evaluatorsText, value);
         }
 
         public void Update(ProductModRequestDTO model)
@@ -63,8 +61,6 @@ namespace Veganko.ViewModels.Products.ModRequests.Partial
             SetStateIndicatorImage(indState);
             Timestamp = model.Timestamp;
             State = model.State;
-            // TODO
-            //EvaluationsText = model.Evaluations.Aggregate("", (str, pmr) => str += pmr.)
         }
 
         /// <summary>

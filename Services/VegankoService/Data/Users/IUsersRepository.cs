@@ -15,5 +15,6 @@ namespace VegankoService.Data.Users
         void Update(UserPublicInfo customerProfile);
         Task Delete(string identityId);
         PagedList<UserPublicInfo> GetAll(UserQuery query);
+        Customer GetByIdentityId(string identityId);
     }
 }

@@ -81,6 +81,11 @@ namespace VegankoService.Data.Users
             context.SaveChanges();
         }
 
+        public Customer GetByIdentityId(string identityId)
+        {
+            return context.Customer.FirstOrDefault(c => c.IdentityId == identityId);
+        }
+
         public Customer Get(string id)
         {
             return context.Customer.FirstOrDefault(c => c.Id == id);
