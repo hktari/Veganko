@@ -73,6 +73,7 @@ namespace Veganko.Services.Users
             request.AddQueryParameter(nameof(UserQuery.Role), query.Role.ToString());
             request.AddQueryParameter(nameof(UserQuery.Page), query.Page.ToString());
             request.AddQueryParameter(nameof(UserQuery.PageSize), query.PageSize.ToString());
+            request.AddQueryParameter(nameof(UserQuery.Name), query.Name);
 
             IRestResponse response = await restService.ExecuteAsync(request, throwIfUnsuccessful: false);
             if (response.IsSuccessful)

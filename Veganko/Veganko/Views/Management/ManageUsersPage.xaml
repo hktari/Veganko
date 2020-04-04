@@ -14,7 +14,6 @@
     xmlns:user="clr-namespace:Veganko.Models.User"
     xmlns:views="clr-namespace:Veganko.Views"
     xmlns:vm="clr-namespace:Veganko.ViewModels"
-    Padding="10"
     ControlTemplate="{StaticResource LodingIndicatorTemplate}">
     <ContentPage.Content>
         <Grid>
@@ -23,12 +22,13 @@
                 <RowDefinition Height="*" />
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="70" />
                 <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="105" />
             </Grid.ColumnDefinitions>
             <Picker
                 Title="Vloge"
-                Grid.Column="0"
+                Grid.Column="1"
+                Margin="0,0,10,0"
                 ItemsSource="{Binding Roles}"
                 SelectedItem="{Binding SelectedFilter}">
                 <Picker.Behaviors>
@@ -36,13 +36,14 @@
                 </Picker.Behaviors>
             </Picker>
             <SearchBar
-                Grid.Column="1"
                 SearchCommand="{Binding RefreshUsersCommand}"
-                Text="{Binding SearchText}" />
+                Text="{Binding SearchText}"
+                TextChanged="OnTextChanged" />
             <ListView
                 x:Name="listView"
                 Grid.Row="1"
                 Grid.ColumnSpan="2"
+                Margin="10,0"
                 CachingStrategy="RecycleElement"
                 HasUnevenRows="True"
                 IsPullToRefreshEnabled="true"

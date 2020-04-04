@@ -1,15 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Veganko.Extensions;
-using Veganko.Services.Http;
-using Veganko.ViewModels;
+﻿using System.Linq;
 using Veganko.ViewModels.Management;
-using Veganko.ViewModels.Products;
-using Veganko.ViewModels.Products.Partial;
-using Veganko.Views.Product;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -26,14 +16,22 @@ namespace Veganko.Views.Management
             BindingContext = vm = new ManageUsersViewModel();
         }
 
-        private void OnItemSelected(object sender, SelectionChangedEventArgs args)
+        private void OnTextChanged(object sender, TextChangedEventArgs args)
         {
-            if (args.CurrentSelection != null)
+            if (string.IsNullOrEmpty(args.NewTextValue) && !string.IsNullOrEmpty(args.OldTextValue))
+            {
+                vm.RefreshUsersCommand?.Execute(null);
+            }
+        }
+
+        private void OnItemSelected(object sender, SelectedItemChangedEventArgs args)
+        {
+            if (args.SelectedItem == null)
             {
                 return;
             }
 
-            vm.UserSelectedCommand.Execute(args.CurrentSelection.First());
+            vm.UserSelectedCommand.Execute(args.SelectedItem);
 
             listView.SelectedItem = null;
         }
