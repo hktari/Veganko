@@ -74,8 +74,15 @@ namespace Veganko.ViewModels.Users
             set => SetProperty(ref isDirty, value);
         }
 
+        private string formattedUserEmail;
+        public string FormattedUserEmail
+        {
+            get => formattedUserEmail;
+            set => SetProperty(ref formattedUserEmail, value);
+        }
+
         public Command ApplyChangesCommand => new Command(
-            async _ => 
+            async _ =>
             {
                 IsBusy = true;
                 await ChangeRole(Role);
@@ -122,6 +129,12 @@ namespace Veganko.ViewModels.Users
         {
             base.HandleNewData();
             Role = User.Role.ToString();
+            FormattedUserEmail = User.Email;
+            if (!User.IsEmailConfirmed)
+            {
+                FormattedUserEmail += " (nepotrjen)";
+            }
+
             RefreshIsDirty();
         }
     }
