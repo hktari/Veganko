@@ -14,7 +14,6 @@ namespace UnitTests.Shared.Services
     [TestClass]
     public class UserServicesTests
     {
-
         class MockRestService : IRestService
         {
             public Task<IRestResponse> ExecuteAsync(RestRequest request, bool authorize = true, bool throwIfUnsuccessful = true)

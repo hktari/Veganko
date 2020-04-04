@@ -5,7 +5,6 @@ using Xamarin.Forms;
 
 namespace Veganko.ViewModels
 {
-    // TODO: invalidate token after role change ?
     // TODO: evaluating usernames ? link to profile detail ?
     public class AboutViewModel : BaseViewModel
     {
