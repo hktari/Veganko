@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using Veganko.Common.Models.Products;
 using VegankoService.Data;
+using VegankoService.Models.User;
 
 namespace VegankoService.Tests
 {
@@ -128,6 +129,11 @@ namespace VegankoService.Tests
             };
 
             db.ProductModRequests.AddRange(productModRequests);
+
+            db.Customer.AddRange(new[]
+            {
+                new Customer { Id = "user_id", IdentityId = "user_id" }
+            });
 
             db.SaveChanges();
         }

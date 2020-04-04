@@ -47,7 +47,7 @@ namespace Veganko.ViewModels.Users
             {
                 IsBusy = true;
                 await UserService.SetRole(User, role);
-                User.Role = Enum.Parse<UserRole>(newRole);
+                User.Role = role;
                 Role = newRole;
             }
             catch (ServiceException ex)

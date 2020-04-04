@@ -130,7 +130,7 @@ namespace VegankoService.Tests.IntegrationTests
                 Util.GetRequestUri($"{Uri}/edit_prod_mod_req_id"),
                 pmr.GetStringContent());
 
-            Assert.Equal(HttpStatusCode.NoContent, result.StatusCode);
+            Assert.Equal(HttpStatusCode.OK, result.StatusCode);
 
             ProductModRequestDTO updatedPMR = await GetProductModRequest("edit_prod_mod_req_id");
 
