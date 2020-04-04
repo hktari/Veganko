@@ -3,6 +3,7 @@
     x:Class="Veganko.Views.Profile.UserProfileDetailPage"
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:behaviors="clr-namespace:Veganko.Behaviors"
     xmlns:d="http://xamarin.com/schemas/2014/forms/design"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:partial="clr-namespace:Veganko.Views.Profile.Partial"
@@ -10,12 +11,52 @@
     ControlTemplate="{StaticResource LodingIndicatorTemplate}"
     mc:Ignorable="d">
     <ContentPage.Content>
-        <Grid>
+        <Grid ColumnSpacing="0">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
+                <RowDefinition Height="40" />
                 <RowDefinition Height="*" />
             </Grid.RowDefinitions>
-            <partial:UserProfileView />
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="60" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <partial:UserProfileView Grid.ColumnSpan="2" />
+            <Label
+                Grid.Row="1"
+                Margin="10,0,0,0"
+                FontFamily="{StaticResource RalewayRegularFont}"
+                Text="Vloga:"
+                VerticalOptions="Center" />
+            <Label
+                Grid.Row="1"
+                Grid.Column="1"
+                FontFamily="{StaticResource RalewayRegularFont}"
+                IsVisible="{Binding CanUserBeModerated, Converter={StaticResource BoolInverter}}"
+                Text="{Binding Role}" />
+            <Picker
+                Grid.Row="1"
+                Grid.Column="1"
+                FontFamily="{StaticResource RalewayRegularFont}"
+                HorizontalOptions="Start"
+                IsVisible="{Binding CanUserBeModerated}"
+                ItemsSource="{Binding AllRoles}"
+                SelectedItem="{Binding Role, Mode=TwoWay}"
+                WidthRequest="100">
+                <Picker.Behaviors>
+                    <behaviors:EventToCommandBehavior Command="{Binding RefreshIsDirtyCommand}" EventName="SelectedIndexChanged" />
+                </Picker.Behaviors>
+            </Picker>
+            <Button
+                Grid.Row="2"
+                Grid.ColumnSpan="2"
+                Margin="10"
+                Command="{Binding ApplyChangesCommand}"
+                HorizontalOptions="End"
+                IsVisible="{Binding IsDirty}"
+                Style="{StaticResource PositiveBtn}"
+                Text="Shrani spremembe"
+                VerticalOptions="End" />
         </Grid>
     </ContentPage.Content>
 </views:BaseContentPage>

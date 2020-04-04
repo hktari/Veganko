@@ -93,8 +93,9 @@ namespace Veganko.Services.Users
 
         public Task SetRole(UserPublicInfo user, UserRole role)
         {
-            RestRequest request = new RestRequest($"userroles/userId={user.Id}", Method.PUT);
-            request.AddJsonBody(new { role = role });
+            RestRequest request = new RestRequest($"userroles", Method.PUT);
+            request.AddQueryParameter("userId", user.Id);
+            request.AddJsonBody(new { role = role.ToString() });
             return restService.ExecuteAsync(request);
         }
 
