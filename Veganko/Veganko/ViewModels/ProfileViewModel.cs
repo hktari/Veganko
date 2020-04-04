@@ -46,7 +46,7 @@ namespace Veganko.ViewModels
         private readonly IAccountService accountService;
         private readonly IUserService userService;
         private Command focusEditorCommand;
-        // TODO: if description has emoji DB err. but only for unapproved products
+
         public ProfileViewModel()
             : base(true)
         {

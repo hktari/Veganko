@@ -54,7 +54,7 @@ namespace VegankoService.Data.Users
                     .Take(query.PageSize);
             }
 
-            IQueryable<CustomerProfile> customerProfiles = 
+            IQueryable<CustomerProfile> customerProfiles =
                 from customer in customers
                 join appUser in context.Users on customer.IdentityId equals appUser.Id
                 join userRole in context.UserRoles on customer.IdentityId equals userRole.UserId
@@ -66,12 +66,17 @@ namespace VegankoService.Data.Users
                 customerProfiles = customerProfiles.Where(cp => cp.Role == query.Role.ToString());
             }
 
+            if (!string.IsNullOrEmpty(query.Name))
+            {
+                customerProfiles = customerProfiles.Where(cp => cp.Username.Contains(query.Name) || cp.Email.Contains(query.Name));
+            }
+
             return new PagedList<CustomerProfile>
             {
                 Items = customerProfiles.ToList(),
                 Page = query.Page,
                 PageSize = query.PageSize,
-                TotalCount = context.Customer.Count()
+                TotalCount = customerProfiles.Count()
             };
         }
 

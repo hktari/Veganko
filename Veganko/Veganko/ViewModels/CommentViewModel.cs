@@ -5,6 +5,7 @@ using Veganko.Models;
 using Veganko.Models.User;
 using Veganko.Other;
 using Veganko.ViewModels.Profile;
+using Veganko.ViewModels.Users;
 using Veganko.Views.Profile;
 using Xamarin.Forms;
 
@@ -43,6 +44,6 @@ namespace Veganko.ViewModels
         public Command ProfileTappedCommand => profileTappedCommand 
             ?? (profileTappedCommand = new Command(
                 async () => await App.Navigation.PushAsync(
-                    new UserProfilePage(new UserProfileViewModel(UserId)))));
+                    new UserProfileDetailPage(new UserProfileDetailViewModel(UserId)))));
     }
 }

@@ -13,34 +13,49 @@
     xmlns:scroll="clr-namespace:Xamarin.Forms.Extended"
     xmlns:user="clr-namespace:Veganko.Models.User"
     xmlns:views="clr-namespace:Veganko.Views"
-    ControlTemplate="{StaticResource LodingIndicatorTemplate}"
     xmlns:vm="clr-namespace:Veganko.ViewModels"
-    Padding="10">
+    Padding="10"
+    ControlTemplate="{StaticResource LodingIndicatorTemplate}">
     <ContentPage.Content>
-        <StackLayout Spacing="15">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="50" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="70" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
             <Picker
                 Title="Vloge"
+                Grid.Column="0"
                 ItemsSource="{Binding Roles}"
                 SelectedItem="{Binding SelectedFilter}">
                 <Picker.Behaviors>
                     <behaviors:EventToCommandBehavior Command="{Binding RefreshUsersCommand}" EventName="SelectedIndexChanged" />
                 </Picker.Behaviors>
             </Picker>
+            <SearchBar
+                Grid.Column="1"
+                SearchCommand="{Binding RefreshUsersCommand}"
+                Text="{Binding SearchText}" />
             <ListView
+                x:Name="listView"
                 Grid.Row="1"
+                Grid.ColumnSpan="2"
                 CachingStrategy="RecycleElement"
-                HasUnevenRows="False"
+                HasUnevenRows="True"
                 IsPullToRefreshEnabled="true"
                 IsRefreshing="{Binding IsBusy, Mode=OneWay}"
+                ItemSelected="OnItemSelected"
                 ItemsSource="{Binding Users}"
                 RefreshCommand="{Binding RefreshUsersCommand}"
-                RowHeight="143"
                 SeparatorVisibility="None"
                 VerticalOptions="FillAndExpand">
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <ViewCell>
-                            <partial:UserItemView />
+                            <partial:UserItemView Margin="0,10" />
                         </ViewCell>
                     </DataTemplate>
                 </ListView.ItemTemplate>
@@ -60,6 +75,6 @@
                     </Grid>
                 </ListView.Footer>
             </ListView>
-        </StackLayout>
+        </Grid>
     </ContentPage.Content>
 </views:BaseContentPage>

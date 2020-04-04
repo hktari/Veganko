@@ -18,10 +18,24 @@ namespace Veganko.Views.Management
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class ManageUsersPage : BaseContentPage
     {
+        private ManageUsersViewModel vm;
+
         public ManageUsersPage()
         {
             InitializeComponent();
-            BindingContext = new ManageUsersViewModel();
+            BindingContext = vm = new ManageUsersViewModel();
+        }
+
+        private void OnItemSelected(object sender, SelectionChangedEventArgs args)
+        {
+            if (args.CurrentSelection != null)
+            {
+                return;
+            }
+
+            vm.UserSelectedCommand.Execute(args.CurrentSelection.First());
+
+            listView.SelectedItem = null;
         }
     }
 }

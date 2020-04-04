@@ -10,6 +10,7 @@ using Veganko.Models.User;
 using Veganko.Services;
 using Veganko.Services.Http;
 using Veganko.ViewModels.Users;
+using Veganko.Views.Profile;
 using Xamarin.Forms;
 
 namespace Veganko.ViewModels.Management
@@ -18,7 +19,9 @@ namespace Veganko.ViewModels.Management
     {
         public ManageUsersViewModel()
         {
-            Roles = Enum.GetNames(typeof(UserRole)).ToList();
+            Roles = Enum.GetNames(typeof(UserRole))
+                        .Where(n => n != UserRole.Admin.ToString())
+                        .ToList();
             Roles.Insert(0, "Brez filtra");
         }
 
@@ -28,6 +31,14 @@ namespace Veganko.ViewModels.Management
             get => users;
             set => SetProperty(ref users, value);
         }
+
+        public Command<UserProfileViewModel> UserSelectedCommand => new Command<UserProfileViewModel>(
+            async selectedUser =>
+            {
+                await App.Navigation.PushAsync(
+                    new UserProfileDetailPage(
+                        new UserProfileDetailViewModel(selectedUser)));
+            });
 
         public Command RefreshUsersCommand => new Command(
             async _ => await RefreshUsers());
@@ -39,6 +50,13 @@ namespace Veganko.ViewModels.Management
         {
             get => selectedFilter;
             set => SetProperty(ref selectedFilter, value);
+        }
+
+        private string searchText;
+        public string SearchText
+        {
+            get => searchText;
+            set => SetProperty(ref searchText, value);
         }
 
         public Command FilterChangedCommand => new Command(
@@ -60,19 +78,21 @@ namespace Veganko.ViewModels.Management
         {
             try
             {
-                UserQuery query;
+                UserQuery query = new UserQuery();
                 if (Enum.TryParse(SelectedFilter, out UserRole role))
                 {
-                    query = new UserQuery(role);
+                    query.Role = role;
                 }
-                else
+
+                if (!string.IsNullOrEmpty(SearchText))
                 {
-                    query = new UserQuery();
+                    query.Name = SearchText.Trim();
                 }
 
                 IsBusy = true;
                 PagedList<UserPublicInfo> page = await UserService.GetAll(query);
                 Users = page.Items
+                    .Where(u => u.Role != UserRole.Admin) // Don't show admin account
                     .Select(u => new UserProfileViewModel(u))
                     .ToList();
             }

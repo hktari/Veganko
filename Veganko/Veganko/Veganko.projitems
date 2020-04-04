@@ -165,7 +165,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\Products\ProductListViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\Products\BaseEditProductViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\Profile\BaseUserProfileViewModel.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)ViewModels\Profile\UserProfileViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\Stores\AddStoreViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\Stores\EditStoreViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\Stores\Partial\AddressViewModel.cs" />
@@ -177,6 +176,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\Profile\SelectAvatarViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\RegisterViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\Stores\StoreViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ViewModels\Users\UserProfileDetailViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\Users\UserProfileViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Views\Account\FinishRegistrationInstructPage.xaml.cs">
       <DependentUpon>FinishRegistrationInstructPage.xaml</DependentUpon>
@@ -229,8 +229,8 @@
       <DependentUpon>UserProfileView.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="$(MSBuildThisFileDirectory)Views\Profile\UserProfilePage.xaml.cs">
-      <DependentUpon>UserProfilePage.xaml</DependentUpon>
+    <Compile Include="$(MSBuildThisFileDirectory)Views\Profile\UserProfileDetailPage.xaml.cs">
+      <DependentUpon>UserProfileDetailPage.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Views\Stores\AddStorePage.xaml.cs">
@@ -485,7 +485,7 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Views\Profile\UserProfilePage.xaml">
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Views\Profile\UserProfileDetailPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </EmbeddedResource>

@@ -36,6 +36,7 @@ namespace Veganko.Services.Http
             client = new RestClient(Endpoint)
                 .UseSerializer(() => new JsonNetSerializer(logger));
             client.RemoteCertificateValidationCallback = (p1, p2, p3, p4) => true;
+            client.Timeout = 10000; // 10s
             this.logger = logger;
         }
 

@@ -10,7 +10,7 @@
     mc:Ignorable="d">
     <ContentView.Content>
         <Grid
-            Padding="10"
+            Padding="0"
             ColumnSpacing="10"
             RowSpacing="10">
             <Grid.RowDefinitions>
@@ -30,7 +30,7 @@
                 BorderThickness="1"
                 HeightRequest="66"
                 HorizontalOptions="CenterAndExpand"
-                VerticalOptions="CenterAndExpand"
+                VerticalOptions="Start"
                 WidthRequest="66"
                 Source="{Binding AvatarImage}" />
             <Label
@@ -51,8 +51,10 @@
                 Grid.Row="1"
                 Grid.Column="1"
                 FontFamily="{StaticResource RalewayRegularFont}"
+                LineBreakMode="TailTruncation"
+                MaxLines="1"
                 Text="{Binding Email}"
-                VerticalOptions="Start" />
+                VerticalOptions="Fill" />
             <Label
                 Grid.Row="0"
                 Grid.Column="2"

@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <views:BaseContentPage
-    x:Class="Veganko.Views.Profile.UserProfilePage"
+    x:Class="Veganko.Views.Profile.UserProfileDetailPage"
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:d="http://xamarin.com/schemas/2014/forms/design"
@@ -9,7 +9,6 @@
     xmlns:views="clr-namespace:Veganko.Views"
     ControlTemplate="{StaticResource LodingIndicatorTemplate}"
     mc:Ignorable="d">
-
     <ContentPage.Content>
         <Grid>
             <Grid.RowDefinitions>
