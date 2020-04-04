@@ -72,7 +72,7 @@ namespace Veganko.ViewModels
                     await authService.RefreshToken();
                 }
 
-                SetupCurrentUser();
+                await SetupCurrentUser();
                 NavigateToMainPage();
             }
             catch (Exception ex)
@@ -102,7 +102,7 @@ namespace Veganko.ViewModels
                 IAuthService.LoginStatus loginStatus = await authService.Login(email, password);
                 if (loginStatus == IAuthService.LoginStatus.Success)
                 {
-                    SetupCurrentUser();
+                    await SetupCurrentUser();
                     NavigateToMainPage();
                 }
                 else
@@ -155,9 +155,9 @@ namespace Veganko.ViewModels
             App.Current.MainPage = new MainPage(IsManager);
         }
 
-        private void SetupCurrentUser()
+        private async Task SetupCurrentUser()
         {
-            userService.EnsureCurrentUserIsSet();
+            await userService.EnsureCurrentUserIsSet();
             IsManager = userService.CurrentUser.IsManager();
         }
     }

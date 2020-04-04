@@ -58,8 +58,9 @@ namespace Veganko.Services
             return Task.FromResult(CurrentUser);
         }
 
-        public void EnsureCurrentUserIsSet()
+        public Task EnsureCurrentUserIsSet()
         {
+            return Task.CompletedTask;
         }
 
         public Task<UserPublicInfo> Get(string id)

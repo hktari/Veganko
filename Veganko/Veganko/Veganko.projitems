@@ -106,6 +106,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Services\Products\Stores\StoresService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\Resources\IResourceProvider.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\Resources\ResourceProvider.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Services\Storage\IPreferences.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\Users\IUserService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\Users\MockUserService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\Users\UserService.cs" />

@@ -7,20 +7,22 @@ using Veganko.Models.User;
 using Veganko.Services.Http;
 using RestSharp.Serialization;
 using Newtonsoft.Json;
-using Xamarin.Essentials;
 using Veganko.Common.Models.Users;
 using Veganko.Models;
+using Veganko.Services.Storage;
 
 namespace Veganko.Services.Users
 {
     public class UserService : IUserService
     {
         private readonly IRestService restService;
+        private readonly IPreferences preferences;
         private UserPublicInfo currentUser;
 
-        public UserService(IRestService restService)
+        public UserService(IRestService restService, IPreferences preferences)
         {
             this.restService = restService;
+            this.preferences = preferences;
         }
 
         public UserPublicInfo CurrentUser
@@ -49,7 +51,7 @@ namespace Veganko.Services.Users
                 // Update the CurrentUser reference and cache if the user being edited is the current user.
                 if (currentUser?.Id == updatedUser.Id)
                 {
-                    Preferences.Set("currentUser", response.Content);
+                    preferences.Set("currentUser", response.Content);
                     currentUser.Update(updatedUser);
                 }
 
@@ -99,22 +101,27 @@ namespace Veganko.Services.Users
             return restService.ExecuteAsync(request);
         }
 
-        public void EnsureCurrentUserIsSet()
+        public async Task EnsureCurrentUserIsSet()
         {
             if (currentUser == null)
             {
-                string serializedCurUser = Preferences.Get("currentUser", null);
+                string serializedCurUser = preferences.Get("currentUser", null);
                 if (serializedCurUser != null)
                 {
                     try
                     {
                         currentUser = JsonConvert.DeserializeObject<UserPublicInfo>(serializedCurUser);
+                        currentUser = await Get(currentUser.Id); // Reload the data, since User.Role might've changed.
                         CoerceInvalidProperties(currentUser);
                     }
                     catch (JsonSerializationException ex)
                     {
                         throw new Exception($"Failed to deserialize {nameof(CurrentUser)} from cache.", ex);
                     }
+                }
+                else
+                {
+                    throw new Exception($"Failed to load current user from cache. This means a valid token exists, but user data doesn't.");
                 }
             }
         }
@@ -123,12 +130,12 @@ namespace Veganko.Services.Users
         {
             CoerceInvalidProperties(user);
             currentUser = user;
-            Preferences.Set("currentUser", JsonConvert.SerializeObject(user));
+            preferences.Set("currentUser", JsonConvert.SerializeObject(user));
         }
 
         public void ClearCurrentUser()
         {
-            Preferences.Remove("currentUser");
+            preferences.Remove("currentUser");
             currentUser = null;
         }
 

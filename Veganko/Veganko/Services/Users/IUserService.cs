@@ -12,7 +12,7 @@ namespace Veganko.Services
     {
         void ClearCurrentUser();
         void SetCurrentUser(UserPublicInfo user);
-        void EnsureCurrentUserIsSet();
+        Task EnsureCurrentUserIsSet();
         UserPublicInfo CurrentUser { get; }
         Task<UserPublicInfo> Get(string id);
         Task<IEnumerable<UserPublicInfo>> GetByIds(IEnumerable<string> id);
