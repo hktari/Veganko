@@ -10,6 +10,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
+using Veganko.Common.Models.Users;
 using VegankoService.Models;
 using VegankoService.Models.User;
 using VegankoService.Services;
@@ -100,7 +101,7 @@ namespace VegankoService.Tests.IntegrationTests
             response = await client.GetAsync(
                 Util.GetRequestUri("users"));
 
-            var customerPage = JsonConvert.DeserializeObject<PagedList<CustomerProfile>>(response.GetJson());
+            var customerPage = JsonConvert.DeserializeObject<PagedList<UserPublicInfo>>(response.GetJson());
 
             Assert.DoesNotContain(customerPage.Items, cp => cp.Username == "test");
             Assert.Contains(customerPage.Items, cp => cp.Username == "test2" && cp.Email == "test@email.com");

@@ -49,7 +49,7 @@ namespace VegankoService.Controllers
         }
 
         [HttpPut("{id}")]
-        public ActionResult<CustomerProfile> Edit(string id, [FromBody]CustomerProfile input)
+        public ActionResult<UserPublicInfo> Edit(string id, [FromBody]UserPublicInfo input)
         {
             Customer customer = usersRepository.Get(id);
 
@@ -66,9 +66,9 @@ namespace VegankoService.Controllers
         }
 
         [HttpGet("{id}")]
-        public ActionResult<PagedList<CustomerProfile>> Get(string id)
+        public ActionResult<PagedList<UserPublicInfo>> Get(string id)
         {
-            CustomerProfile customer = usersRepository.GetProfile(id);
+            UserPublicInfo customer = usersRepository.GetProfile(id);
             if (customer == null)
             {
                 logger.LogWarning($"Customer by id: {id} not found.");
@@ -80,7 +80,7 @@ namespace VegankoService.Controllers
 
         [Authorize(Roles = Constants.Strings.Roles.Admin + ", " + Constants.Strings.Roles.Manager)]
         [HttpGet]
-        public ActionResult<PagedList<CustomerProfile>> GetAll([FromQuery]UserQuery query)
+        public ActionResult<PagedList<UserPublicInfo>> GetAll([FromQuery]UserQuery query)
         {
             return usersRepository.GetAll(query);
         }

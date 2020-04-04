@@ -1,9 +1,6 @@
 ﻿using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
 using System;
-using System.Collections.Generic;
-using System.Text;
-using Veganko.Common.Models.Users;
+using System.Diagnostics;
 
 namespace Veganko.Common.Models.Users
 {
@@ -43,10 +40,9 @@ namespace Veganko.Common.Models.Users
         public string Description { get; set; }
 
         public string Label { get; set; }
-        
+
         public bool IsEmailConfirmed { get; set; }
 
-        [JsonConverter(typeof(StringEnumConverter))]
         public UserRole Role { get; set; }
 
         public bool IsManager()

@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,38 +14,29 @@ namespace VegankoService.Data.Users
     {
         private readonly VegankoContext context;
         private readonly UserManager<ApplicationUser> userManager;
+        private readonly ILogger<UsersRepository> logger;
 
-        public UsersRepository(VegankoContext context, UserManager<ApplicationUser> userManager)
+        public UsersRepository(VegankoContext context, UserManager<ApplicationUser> userManager, ILogger<UsersRepository> logger)
         {
             this.context = context;
             this.userManager = userManager;
+            this.logger = logger;
         }
 
-        public CustomerProfile GetProfile(string identityId)
+        public UserPublicInfo GetProfile(string identityId)
         {
-            IQueryable<CustomerProfile> query =
+            IQueryable<UserPublicInfo> query =
                from customer in context.Customer
                where customer.IdentityId == identityId
                join appUser in context.Users on customer.IdentityId equals appUser.Id
                join userRole in context.UserRoles on customer.IdentityId equals userRole.UserId
                join role in context.Roles on userRole.RoleId equals role.Id
-               select new CustomerProfile
-               {
-                   Id = customer.Id,
-                   Username = appUser.UserName,
-                   Email = appUser.Email,
-                   AvatarId = customer.AvatarId,
-                   Description = customer.Description,
-                   Label = customer.Label,
-                   ProfileBackgroundId = customer.ProfileBackgroundId,
-                   Role = role.Name,
-                   Email
-               };
+               select CreateCustomerProfile(customer, appUser, role);
 
             return query.FirstOrDefault();
         }
 
-        public PagedList<CustomerProfile> GetAll(UserQuery query)
+        public PagedList<UserPublicInfo> GetAll(UserQuery query)
         {
             IQueryable<Customer> customers = context.Customer;
 
@@ -55,7 +47,7 @@ namespace VegankoService.Data.Users
                     .Take(query.PageSize);
             }
 
-            IQueryable<CustomerProfile> customerProfiles =
+            IQueryable<UserPublicInfo> userProfiles =
                 from customer in customers
                 join appUser in context.Users on customer.IdentityId equals appUser.Id
                 join userRole in context.UserRoles on customer.IdentityId equals userRole.UserId
@@ -64,24 +56,24 @@ namespace VegankoService.Data.Users
 
             if (query.Role != null)
             {
-                customerProfiles = customerProfiles.Where(cp => cp.Role == query.Role.ToString());
+                userProfiles = userProfiles.Where(cp => cp.Role == query.Role);
             }
 
             if (!string.IsNullOrEmpty(query.Name))
             {
-                customerProfiles = customerProfiles.Where(cp => cp.Username.Contains(query.Name) || cp.Email.Contains(query.Name));
+                userProfiles = userProfiles.Where(cp => cp.Username.Contains(query.Name) || cp.Email.Contains(query.Name));
             }
 
-            return new PagedList<CustomerProfile>
+            return new PagedList<UserPublicInfo>
             {
-                Items = customerProfiles.ToList(),
+                Items = userProfiles.ToList(),
                 Page = query.Page,
                 PageSize = query.PageSize,
-                TotalCount = customerProfiles.Count()
+                TotalCount = userProfiles.Count()
             };
         }
 
-        public void Update(CustomerProfile customerProfile)
+        public void Update(UserPublicInfo customerProfile)
         {
             Customer customer = context.Customer.FirstOrDefault(c => c.Id == customerProfile.Id);
             customerProfile.MapToCustomer(customer);
@@ -116,9 +108,9 @@ namespace VegankoService.Data.Users
             await context.SaveChangesAsync();
         }
 
-        private CustomerProfile CreateCustomerProfile(Customer customer, ApplicationUser appUser, IdentityRole role)
+        private UserPublicInfo CreateCustomerProfile(Customer customer, ApplicationUser appUser, IdentityRole role)
         {
-            return new CustomerProfile
+            return new UserPublicInfo
             {
                 Id = customer.Id,
                 Username = appUser.UserName,
@@ -127,8 +119,19 @@ namespace VegankoService.Data.Users
                 Description = customer.Description,
                 Label = customer.Label,
                 ProfileBackgroundId = customer.ProfileBackgroundId,
-                Role = role.Name
+                Role = ParseRoleName(role.Name),
+                IsEmailConfirmed = appUser.EmailConfirmed
             };
+        }
+
+        private UserRole ParseRoleName(string roleName)
+        {
+            if (!Enum.TryParse<UserRole>(roleName, out UserRole userRole))
+            {
+                logger.LogWarning($"Failed to parse user role name: {roleName} to {typeof(UserRole)}. Using default value.");
+            }
+
+            return userRole;
         }
     }
 }

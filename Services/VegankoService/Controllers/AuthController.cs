@@ -15,6 +15,7 @@ using VegankoService.Data.Users;
 using Microsoft.Extensions.Logging;
 using VegankoService.Models.ErrorHandling;
 using Veganko.Common.Models.Auth;
+using Veganko.Common.Models.Users;
 
 namespace VegankoService.Controllers
 {
@@ -75,7 +76,7 @@ namespace VegankoService.Controllers
             IList<string> roles = await _userManager.GetRolesAsync(userToVerify);
             ClaimsIdentity identity = _jwtFactory.GenerateClaimsIdentity(credentials.Email, userToVerify.Id, roles);
 
-            CustomerProfile customerProfile = usersRepository.GetProfile(userToVerify.Id);
+            UserPublicInfo customerProfile = usersRepository.GetProfile(userToVerify.Id);
             if (customerProfile == null)
             {
                 logger.LogError($"Customer profile not found in database: {userToVerify.Id}");
