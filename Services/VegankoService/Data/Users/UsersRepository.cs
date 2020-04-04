@@ -37,7 +37,8 @@ namespace VegankoService.Data.Users
                    Description = customer.Description,
                    Label = customer.Label,
                    ProfileBackgroundId = customer.ProfileBackgroundId,
-                   Role = role.Name
+                   Role = role.Name,
+                   Email
                };
 
             return query.FirstOrDefault();

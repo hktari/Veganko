@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
+using Veganko.Common.Models.Users;
 using Veganko.Models;
 using Veganko.Models.User;
 using Veganko.Services.Http;

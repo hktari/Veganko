@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
+using Veganko.Common.Models.Users;
 using Veganko.Extensions;
 using Veganko.Models.User;
 using Veganko.Other;

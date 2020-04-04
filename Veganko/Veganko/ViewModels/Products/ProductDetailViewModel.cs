@@ -21,6 +21,7 @@ using Veganko.Services.Logging;
 using Veganko.ViewModels.Stores;
 using Veganko.Views.Stores;
 using Veganko.Common.Models.Products;
+using Veganko.Common.Models.Users;
 
 namespace Veganko.ViewModels.Products
 {

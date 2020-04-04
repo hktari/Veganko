@@ -5,6 +5,9 @@ using Xamarin.Forms;
 
 namespace Veganko.ViewModels
 {
+    // TODO: pending product images
+    // TODO: invalidate token after role change ?
+    // TODO: evaluating usernames ? link to profile detail ?
     public class AboutViewModel : BaseViewModel
     {
         public AboutViewModel()

@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Text;
 using Veganko.Common.Models.Users;
 
-namespace Veganko.Models.User
+namespace Veganko.Common.Models.Users
 {
     public class UserPublicInfo
     {
@@ -43,6 +43,8 @@ namespace Veganko.Models.User
         public string Description { get; set; }
 
         public string Label { get; set; }
+        
+        public bool IsEmailConfirmed { get; set; }
 
         [JsonConverter(typeof(StringEnumConverter))]
         public UserRole Role { get; set; }

@@ -8,6 +8,7 @@ using Veganko.Services;
 using Autofac.Core;
 using Autofac;
 using Veganko.Models.User;
+using Veganko.Common.Models.Users;
 
 namespace Veganko.Views.Product.DTS
 {

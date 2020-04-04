@@ -74,7 +74,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)Models\Stores\Address.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\Stores\Store.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\User\UserAccessRights.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Models\User\UserPublicInfo.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\User\UserRole.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Other\DecimalProductClassifierListJsonConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Other\MaterialDesignIcons.cs" />

@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using Veganko.Common.Models.Users;
 using Veganko.Models.User;
 using Veganko.Services.Http.Errors;
 

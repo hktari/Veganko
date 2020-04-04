@@ -1,5 +1,6 @@
 ﻿using Autofac;
 using System.Diagnostics;
+using Veganko.Common.Models.Users;
 using Veganko.Models.User;
 using Veganko.Other;
 using Veganko.Services;
