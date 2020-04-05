@@ -8,6 +8,8 @@ using Veganko.Services.Products.ProductModRequests;
 using Veganko.ViewModels.Products.ModRequests.Partial;
 using Xamarin.Forms;
 using Xamarin.Forms.Extended;
+using Veganko.Views.Product.ModRequests;
+using Veganko.ViewModels.Products.ModRequests;
 
 namespace Veganko.ViewModels.Management
 {
@@ -80,15 +82,27 @@ namespace Veganko.ViewModels.Management
                 await ProductModReqs.LoadMoreAsync();
             });
 
+        public Command<ProductModRequestViewModel> ProductSelectedCommand => new Command<ProductModRequestViewModel>(
+            async selected => 
+            {
+               await App.Navigation.PushAsync(
+                   new ProductModRequestDetailPage(
+                       new ProductModRequestDetailViewModel(selected)));
+            });
+
         public Command<ProductModRequestViewModel> DeleteProductModReqCommand => new Command<ProductModRequestViewModel>(
             async pmr =>
             {
                 try
                 {
-                    IsBusy = true;
-                    ProductModRequestDTO model = pmr.GetModel();
-                    await ProductModRequestService.DeleteAsync(model);
-                    ProductModReqs.Remove(pmr);
+                    string result = await App.CurrentPage.DisplayActionSheet("Prosim potrdi da želiš izbrisati ta produkt.", "Prekliči", "Izbriši");
+                    if (result == "Izbriši")
+                    {
+                        IsBusy = true;
+                        ProductModRequestDTO model = pmr.GetModel();
+                        await ProductModRequestService.DeleteAsync(model);
+                        ProductModReqs.Remove(pmr);
+                    }
                 }
                 catch (ServiceException ex)
                 {
