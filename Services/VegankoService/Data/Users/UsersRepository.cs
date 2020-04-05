@@ -23,11 +23,24 @@ namespace VegankoService.Data.Users
             this.logger = logger;
         }
 
-        public UserPublicInfo GetProfile(string identityId)
+        public UserPublicInfo GetProfileByIdentityId(string identityId)
+        {
+            IQueryable<UserPublicInfo> query =
+             from customer in context.Customer
+             where customer.IdentityId == identityId
+             join appUser in context.Users on customer.IdentityId equals appUser.Id
+             join userRole in context.UserRoles on customer.IdentityId equals userRole.UserId
+             join role in context.Roles on userRole.RoleId equals role.Id
+             select CreateCustomerProfile(customer, appUser, role);
+
+            return query.FirstOrDefault();
+        }
+
+        public UserPublicInfo GetProfile(string id)
         {
             IQueryable<UserPublicInfo> query =
                from customer in context.Customer
-               where customer.IdentityId == identityId
+               where customer.Id == id
                join appUser in context.Users on customer.IdentityId equals appUser.Id
                join userRole in context.UserRoles on customer.IdentityId equals userRole.UserId
                join role in context.Roles on userRole.RoleId equals role.Id

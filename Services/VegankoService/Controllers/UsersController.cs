@@ -66,7 +66,7 @@ namespace VegankoService.Controllers
         }
 
         [HttpGet("{id}")]
-        public ActionResult<PagedList<UserPublicInfo>> Get(string id)
+        public ActionResult<UserPublicInfo> Get(string id)
         {
             UserPublicInfo customer = usersRepository.GetProfile(id);
             if (customer == null)
