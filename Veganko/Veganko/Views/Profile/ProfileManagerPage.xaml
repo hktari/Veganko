@@ -1,0 +1,97 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<views:BaseContentPage
+    x:Class="Veganko.Views.Profile.ProfileManagerPage"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:other="clr-namespace:Veganko.Other"
+    xmlns:partial="clr-namespace:Veganko.Views.Profile.Partial"
+    xmlns:productPartial="clr-namespace:Veganko.Views.Product.Partial"
+    xmlns:views="clr-namespace:Veganko.Views"
+    xmlns:vm="clr-namespace:Veganko.ViewModels"
+    x:Name="root">
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <Thickness x:Key="ViewPadding">
+                <x:Arguments>
+                    <x:Double>10</x:Double>
+                </x:Arguments>
+            </Thickness>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+    <ContentPage.Content>
+        <ListView
+            x:Name="listView"
+            BackgroundColor="{StaticResource DarkBackgroundColor}"
+            CachingStrategy="RetainElement"
+            HasUnevenRows="False"
+            IsPullToRefreshEnabled="False"
+            ItemSelected="ItemSelected"
+            ItemsSource="{Binding Items}"
+            SeparatorVisibility="None">
+            <ListView.Header>
+                <Grid ColumnSpacing="0" RowSpacing="0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <partial:UserProfileView />
+                    <Button
+                        Margin="{StaticResource ViewPadding}"
+                        Clicked="OnLogoutClicked"
+                        HorizontalOptions="End"
+                        Style="{StaticResource NeutralBtn}"
+                        Text="Logout"
+                        VerticalOptions="End" />
+                    <Button
+                        Margin="{StaticResource ViewPadding}"
+                        Clicked="OnSaveClicked"
+                        HorizontalOptions="Start"
+                        IsVisible="{Binding IsDirty}"
+                        Style="{StaticResource PositiveBtn}"
+                        Text="Shrani spremembe"
+                        VerticalOptions="End" />
+                    <ImageButton
+                        Margin="{StaticResource ViewPadding}"
+                        BackgroundColor="Transparent"
+                        Command="{Binding HelpCommand}"
+                        HeightRequest="38"
+                        HorizontalOptions="Start"
+                        VerticalOptions="Start"
+                        WidthRequest="38">
+                        <ImageButton.Source>
+                            <FontImageSource
+                                FontFamily="{StaticResource MaterialDesignFont}"
+                                Color="{StaticResource DarkBackgroundColor}"
+                                Glyph="{x:Static other:MaterialDesignIcons.Info}" />
+                        </ImageButton.Source>
+                    </ImageButton>
+                </Grid>
+            </ListView.Header>
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <ViewCell>
+                        <Grid Margin="0,10" Padding="10,0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="30" />
+                            </Grid.ColumnDefinitions>
+                            <Label
+                                FontFamily="{StaticResource RalewayMediumFont}"
+                                Text="{Binding Title}"
+                                VerticalTextAlignment="Center" />
+                            <Image Grid.Column="1" VerticalOptions="Center">
+                                <Image.Source>
+                                    <FontImageSource
+                                        FontFamily="{StaticResource MaterialDesignFont}"
+                                        Size="24"
+                                        Color="#737373"
+                                        Glyph="{x:Static other:MaterialDesignIcons.NavigateNext}" />
+                                </Image.Source>
+                            </Image>
+                        </Grid>
+                    </ViewCell>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+    </ContentPage.Content>
+</views:BaseContentPage>

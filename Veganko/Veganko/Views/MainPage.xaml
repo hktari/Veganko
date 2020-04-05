@@ -38,10 +38,5 @@
                                     Glyph={x:Static other:MaterialDesignIcons.AddCircle}}" />
             </ContentPage.IconImageSource>
         </views:NewProductPage>
-        <NavigationPage>
-            <x:Arguments>
-                <views:ProfilePage />
-            </x:Arguments>
-        </NavigationPage>
     </TabbedPage.Children>
 </TabbedPage>

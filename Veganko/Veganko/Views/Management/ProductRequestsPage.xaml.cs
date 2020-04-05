@@ -16,14 +16,14 @@ using Xamarin.Forms.Xaml;
 namespace Veganko.Views.Management
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class ManagementPage : BaseContentPage
+    public partial class ProductRequestsPage : BaseContentPage
     {
-        ManagementViewModel vm;
+        ProductRequestsViewModel vm;
 
-        public ManagementPage()
+        public ProductRequestsPage()
         {
             InitializeComponent();
-            BindingContext = vm = new ManagementViewModel();
+            BindingContext = vm = new ProductRequestsViewModel();
         }
 
         protected override void CustomOnAppearing()

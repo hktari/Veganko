@@ -8,6 +8,7 @@ using Veganko.Services.Resources;
 using Veganko.ViewModels;
 using Veganko.ViewModels.Products;
 using Veganko.Views.Management;
+using Veganko.Views.Profile;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -42,16 +43,21 @@ namespace Veganko.Views
                 //        FontFamily = resProvider.GetByKey<OnPlatform<string>>("MaterialDesignFont")
                 //    }
                 //});
+                Children.Add(new NavigationPage(new ProfileManagerPage()));
                 // Only manager and admin
-                Children.Add(new NavigationPage(new ManageUsersPage())
-                {
-                    IconImageSource = new FontImageSource
-                    {
-                        Glyph = MaterialDesignIcons.SupervisorAccount,
-                        Color = Color.Black,
-                        FontFamily = resProvider.GetByKey<OnPlatform<string>>("MaterialDesignFont")
-                    }
-                });
+                //Children.Add(new NavigationPage(new ManageUsersPage())
+                //{
+                //    IconImageSource = new FontImageSource
+                //    {
+                //        Glyph = MaterialDesignIcons.SupervisorAccount,
+                //        Color = Color.Black,
+                //        FontFamily = resProvider.GetByKey<OnPlatform<string>>("MaterialDesignFont")
+                //    }
+                //});
+            }
+            else
+            {
+                Children.Add(new NavigationPage(new ProfilePage()));
             }
         }
 

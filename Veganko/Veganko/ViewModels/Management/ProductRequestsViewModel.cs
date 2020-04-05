@@ -13,11 +13,11 @@ using Xamarin.Forms.Extended;
 
 namespace Veganko.ViewModels.Management
 {
-    public class ManagementViewModel : BaseViewModel
+    public class ProductRequestsViewModel : BaseViewModel
     {
         private const int PageSize = 2;
         
-        public ManagementViewModel()
+        public ProductRequestsViewModel()
         {
             ResetCollection();
             ProductModReqs = new InfiniteScrollCollection<ProductModRequestViewModel>()

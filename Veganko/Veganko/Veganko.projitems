@@ -28,6 +28,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Views\Profile\ProfileManagerPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)App.xaml.cs">
@@ -152,7 +156,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\LoginViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\Management\ManageUsersViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\PasswordRecovery\EditAccountViewModel.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)ViewModels\Management\ManagementViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ViewModels\Management\ProductRequestsViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\Products\EditProductViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\Products\ModRequests\EditProdModRequestViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\Products\ModRequests\Partial\ProductModRequestViewModel.cs" />
@@ -165,6 +169,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\Products\ProductListViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\Products\BaseEditProductViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\Profile\BaseUserProfileViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ViewModels\Profile\ProfileManagerViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\Stores\AddStoreViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\Stores\EditStoreViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\Stores\Partial\AddressViewModel.cs" />
@@ -208,8 +213,8 @@
       <DependentUpon>HelpPage.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="$(MSBuildThisFileDirectory)Views\Management\ManagementPage.xaml.cs">
-      <DependentUpon>ManagementPage.xaml</DependentUpon>
+    <Compile Include="$(MSBuildThisFileDirectory)Views\Management\ProductRequestsPage.xaml.cs">
+      <DependentUpon>ProductRequestsPage.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Views\PasswordRecovery\PasswordResetPage.xaml.cs">
@@ -228,6 +233,10 @@
     <Compile Include="$(MSBuildThisFileDirectory)Views\Profile\Partial\UserProfileView.xaml.cs">
       <DependentUpon>UserProfileView.xaml</DependentUpon>
       <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Views\Profile\ProfileManagerPage.xaml.cs">
+      <SubType>Code</SubType>
+      <DependentUpon>ProfileManagerPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Views\Profile\UserProfileDetailPage.xaml.cs">
       <DependentUpon>UserProfileDetailPage.xaml</DependentUpon>
@@ -360,7 +369,7 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Views\Management\ManagementPage.xaml">
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Views\Management\ProductRequestsPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
