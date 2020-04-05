@@ -1,5 +1,4 @@
 ﻿using Autofac;
-using System.Collections.Generic;
 using System.Linq;
 using Veganko.Common.Models.Products;
 using Veganko.Extensions;
@@ -7,7 +6,6 @@ using Veganko.Models;
 using Veganko.Services.Http;
 using Veganko.Services.Products.ProductModRequests;
 using Veganko.ViewModels.Products.ModRequests.Partial;
-using Veganko.ViewModels.Products.Partial;
 using Xamarin.Forms;
 using Xamarin.Forms.Extended;
 
@@ -16,7 +14,7 @@ namespace Veganko.ViewModels.Management
     public class ProductRequestsViewModel : BaseViewModel
     {
         private const int PageSize = 2;
-        
+
         public ProductRequestsViewModel()
         {
             ResetCollection();
@@ -33,6 +31,8 @@ namespace Veganko.ViewModels.Management
 
                         PagedList<ProductModRequestDTO> page = await ProductModRequestService.AllAsync(nextPage, PageSize, state: ProductModRequestState.Pending);
                         TotalPages = page.TotalPages;
+
+                        AnyItems = page.Items.Count() > 0;
 
                         // return the items that need to be added
                         return page?.Items.Select(p => new ProductModRequestViewModel(p));
@@ -53,6 +53,13 @@ namespace Veganko.ViewModels.Management
         public int CurrentPage => (ProductModReqs.Count / TotalPages) + 1;
         public int TotalPages { get; private set; }
 
+        private bool anyItems;
+        public bool AnyItems
+        {
+            get => anyItems;
+            set => SetProperty(ref anyItems, value);
+        }
+
         private InfiniteScrollCollection<ProductModRequestViewModel> productModReqs = new InfiniteScrollCollection<ProductModRequestViewModel>();
         public InfiniteScrollCollection<ProductModRequestViewModel> ProductModReqs
         {
@@ -67,14 +74,14 @@ namespace Veganko.ViewModels.Management
         }
 
         public Command RefreshCommand => new Command(
-            async _ => 
+            async _ =>
             {
                 ResetCollection();
                 await ProductModReqs.LoadMoreAsync();
             });
 
         public Command<ProductModRequestViewModel> DeleteProductModReqCommand => new Command<ProductModRequestViewModel>(
-            async pmr => 
+            async pmr =>
             {
                 try
                 {
