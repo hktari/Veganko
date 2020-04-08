@@ -63,7 +63,7 @@ namespace VegankoService.Controllers
             }
 
             var query = new ProductModReqQuery(state, null, page, pageSize);
-            if (userId != null) 
+            if (userId != null)
             {
                 // Get IdentityID
                 Customer customer = usersRepository.Get(userId);
@@ -329,25 +329,31 @@ namespace VegankoService.Controllers
             }
 
             productRequest.UnapprovedProduct.Update(inputAsModel.UnapprovedProduct);
+
             ProductModRequestState? newState;
-
             Product product;
-
             IActionResult result;
             if (productRequest.Action == ProductModRequestAction.Add)
             {
                 product = new Product();
                 productRequest.UnapprovedProduct.MapToProduct(product, mapAllFields: true);
-                productRepository.Create(product);
 
-                newState = ProductModRequestState.Approved;
-                productRequest.NewlyCreatedProductId = product.Id; 
-                result = Ok(productRequest);
+                if (productRepository.Contains(product) is DuplicateProblemDetails err)
+                {
+                    logger.LogInformation($"Add product conflicts: {string.Join(", ", err.ConflictingFields ?? new string[] { })}");
+                    return Conflict(err);
+                }
+                else
+                {
+                    productRepository.Create(product);
+
+                    newState = ProductModRequestState.Approved;
+                    productRequest.NewlyCreatedProductId = product.Id;
+                    result = Ok(productRequest);
+                }
             }
             else if (productRequest.Action == ProductModRequestAction.Edit)
             {
-                // TODO: conflict ?
-
                 product = productRepository.Get(productRequest.ExistingProductId);
 
                 if (product == null)
@@ -359,6 +365,11 @@ namespace VegankoService.Controllers
                         nameof(ProductModRequestDTO.ExistingProductId), "Product to update was not found. It might've been deleted.")
                         .SetStatusCode((int)HttpStatusCode.BadRequest)
                         .ToActionResult();
+                }
+                else if (productRepository.Contains(product) is DuplicateProblemDetails err)
+                {
+                    logger.LogInformation($"Edit product conflicts: {string.Join(", ", err.ConflictingFields ?? new string[] { })}");
+                    return Conflict(err);
                 }
                 else
                 {
