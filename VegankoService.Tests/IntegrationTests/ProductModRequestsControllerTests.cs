@@ -434,6 +434,34 @@ namespace VegankoService.Tests.IntegrationTests
         }
 
         [Fact]
+        public async Task Approve_ActionNew_ExistingBarcode_ResultsInConflict()
+        {
+            Util.ReinitializeDbForTests(factory.CreateDbContext());
+
+            ProductModRequestDTO productModReq = await GetProductModRequest("new_prod_mod_req_id");
+            productModReq.UnapprovedProduct.Barcode = "conflicting_barcode";
+            var result = await client.PutAsync(
+                Util.GetRequestUri($"{Uri}/approve/{productModReq.Id}"),
+                productModReq.GetStringContent());
+
+            Assert.Equal(HttpStatusCode.Conflict, result.StatusCode);
+        }
+
+        [Fact]
+        public async Task Approve_ActionEdit_ExistingBarcode_ResultsInConflict()
+        {
+            Util.ReinitializeDbForTests(factory.CreateDbContext());
+
+            ProductModRequestDTO productModReq = await GetProductModRequest("edit_prod_mod_req_id");
+            productModReq.UnapprovedProduct.Barcode = "conflicting_barcode";
+            var result = await client.PutAsync(
+                Util.GetRequestUri($"{Uri}/approve/{productModReq.Id}"),
+                productModReq.GetStringContent());
+
+            Assert.Equal(HttpStatusCode.Conflict, result.StatusCode);
+        }
+
+        [Fact]
         public async Task Approve_ActionEdit_Missing_ResultsInBadRequestAndErrorResponse()
         {
             Util.ReinitializeDbForTests(factory.CreateDbContext());

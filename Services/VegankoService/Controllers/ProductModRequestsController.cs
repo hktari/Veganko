@@ -297,6 +297,9 @@ namespace VegankoService.Controllers
         [HttpPut("approve/{id}")]
         public async Task<IActionResult> ApproveProductModRequest([FromRoute] string id, [FromBody] ProductModRequestDTO input)
         {
+            // TODO: move conflict handling to ProductRepository
+
+
             logger.LogInformation($"Executing ApproveProductModRequest({id}, productModRequest)");
 
             if (id != input.Id)
@@ -355,7 +358,7 @@ namespace VegankoService.Controllers
             else if (productRequest.Action == ProductModRequestAction.Edit)
             {
                 product = productRepository.Get(productRequest.ExistingProductId);
-
+                
                 if (product == null)
                 {
                     logger.LogError($"Product with id: {productRequest.ExistingProductId} not found. Might've been deleted.");
@@ -366,26 +369,30 @@ namespace VegankoService.Controllers
                         .SetStatusCode((int)HttpStatusCode.BadRequest)
                         .ToActionResult();
                 }
-                else if (productRepository.Contains(product) is DuplicateProblemDetails err)
-                {
-                    logger.LogInformation($"Edit product conflicts: {string.Join(", ", err.ConflictingFields ?? new string[] { })}");
-                    return Conflict(err);
-                }
                 else
                 {
-                    // Delete old images before updating the reference to them
-                    if (product.ImageName != null && product.ImageName != productRequest.UnapprovedProduct.ImageName)
-                    {
-                        imageService.DeleteImages(product.ImageName);
-                    }
-
                     productRequest.UnapprovedProduct.MapToProduct(product);
-                    // ImageName is readonly and not being mapped by MapToProduct()
-                    product.ImageName = productRequest.UnapprovedProduct.ImageName;
 
-                    productRepository.Update(product);
-                    newState = ProductModRequestState.Approved;
-                    result = Ok(productRequest);
+                    if (productRepository.Contains(product) is DuplicateProblemDetails err)
+                    {
+                        logger.LogInformation($"Edit product conflicts: {string.Join(", ", err.ConflictingFields ?? new string[] { })}");
+                        return Conflict(err);
+                    }
+                    else
+                    {
+                        // Delete old images before updating the reference to them
+                        if (product.ImageName != null && product.ImageName != productRequest.UnapprovedProduct.ImageName)
+                        {
+                            imageService.DeleteImages(product.ImageName);
+                        }
+
+                        // ImageName is readonly and not being mapped by MapToProduct()
+                        product.ImageName = productRequest.UnapprovedProduct.ImageName;
+
+                        productRepository.Update(product);
+                        newState = ProductModRequestState.Approved;
+                        result = Ok(productRequest);
+                    }
                 }
             }
             else
