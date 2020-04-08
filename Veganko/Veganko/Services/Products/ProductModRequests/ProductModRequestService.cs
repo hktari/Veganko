@@ -114,13 +114,15 @@ namespace Veganko.Services.Products.ProductModRequests
             var response = await restService.ExecuteAsync(request, throwIfUnsuccessful: false);
             if (response.IsSuccessful)
             {
-                var pmr = JsonConvert.DeserializeObject<ProductModRequestDTO>(response.Content);
+                var pmr = JsonConvert.DeserializeObject<ProductModRequestDTO>(response.Content)
+                    ?? throw new ServiceException("Deserialization returned null", response);
                 productHelper.AddImageUrls(pmr.UnapprovedProduct);
                 return pmr;
             }
             else if (response.StatusCode == System.Net.HttpStatusCode.Conflict)
             {
-                var err = JsonConvert.DeserializeObject<RequestConflictError<Product>>(response.Content);
+                var err = JsonConvert.DeserializeObject<RequestConflictError<Product>>(response.Content)
+                    ?? throw new ServiceException("Deserialization returned null", response);
                 productHelper.AddImageUrls(err.ConflictingItem);
                 throw new ServiceConflictException<Product>(err);
             }
