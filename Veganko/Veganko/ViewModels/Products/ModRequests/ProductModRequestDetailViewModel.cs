@@ -132,10 +132,13 @@ namespace Veganko.ViewModels.Products.ModRequests
             try
             {
                 Evaluators = new List<UserPublicInfo>();
-                foreach (var evaluation in Product.Model.Evaluations)
+                if (Product.Model.Evaluations != null)
                 {
-                    Evaluators.Add(
-                        await UserService.Get(evaluation.EvaluatorUserId));
+                    foreach (var evaluation in Product.Model.Evaluations)
+                    {
+                        Evaluators.Add(
+                            await UserService.Get(evaluation.EvaluatorUserId));
+                    }
                 }
 
                 EvaluatorsText = string.Join(", ", Evaluators.Select(eval => eval.Username));

@@ -14,7 +14,7 @@ namespace Veganko.ViewModels.Products.ModRequests.Partial
     {
         public ProductModRequestViewModel(ProductModRequestDTO model)
         {
-            Model = model;
+            Model = model ?? throw new ArgumentNullException(nameof(model));
             Update(model);
         }
 

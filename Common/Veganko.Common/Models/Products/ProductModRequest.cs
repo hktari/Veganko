@@ -26,7 +26,7 @@ namespace Veganko.Common.Models.Products
 
         public ProductModRequestState State { get; set; }
 
-        public ICollection<ProductModRequestEvaluation> Evaluations { get; set; }
+        public ICollection<ProductModRequestEvaluation> Evaluations { get; set; } = new List<ProductModRequestEvaluation>();
 
         public void Update(ProductModRequest input)
         {
