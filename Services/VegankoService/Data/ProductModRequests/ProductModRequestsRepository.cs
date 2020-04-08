@@ -70,6 +70,7 @@ namespace VegankoService.Data.ProductModRequests
 
         public Task Update(ProductModRequest productModRequest)
         {
+            productModRequest.Timestamp = DateTime.Now;
             context.ProductModRequests.Update(productModRequest);
             return context.SaveChangesAsync();
         }

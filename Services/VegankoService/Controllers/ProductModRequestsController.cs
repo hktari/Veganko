@@ -313,6 +313,12 @@ namespace VegankoService.Controllers
                 return NotFound();
             }
 
+            // ProductModRequest was already approved
+            if (productRequest.State == ProductModRequestState.Approved)
+            {
+                logger.LogInformation("ProductModRequest has already been approved");
+                return Ok(productRequest);
+            }
 
             Customer user = usersRepository.GetByIdentityId(Identity.GetUserIdentityId(httpContextAccessor.HttpContext.User));
 
@@ -323,11 +329,11 @@ namespace VegankoService.Controllers
             }
 
             productRequest.UnapprovedProduct.Update(inputAsModel.UnapprovedProduct);
-
-            IActionResult result = null;
             ProductModRequestState? newState;
 
             Product product;
+
+            IActionResult result;
             if (productRequest.Action == ProductModRequestAction.Add)
             {
                 product = new Product();
@@ -335,7 +341,8 @@ namespace VegankoService.Controllers
                 productRepository.Create(product);
 
                 newState = ProductModRequestState.Approved;
-                result = Ok(product);
+                productRequest.NewlyCreatedProductId = product.Id; 
+                result = Ok(productRequest);
             }
             else if (productRequest.Action == ProductModRequestAction.Edit)
             {
@@ -366,9 +373,8 @@ namespace VegankoService.Controllers
                     product.ImageName = productRequest.UnapprovedProduct.ImageName;
 
                     productRepository.Update(product);
-
                     newState = ProductModRequestState.Approved;
-                    result = Ok(product);
+                    result = Ok(productRequest);
                 }
             }
             else
@@ -389,7 +395,6 @@ namespace VegankoService.Controllers
             productRequest.State = newState.Value;
             await productModReqRepository.Update(productRequest);
 
-            // TODO return ProductModRequest
             return result;
         }
 
@@ -403,6 +408,12 @@ namespace VegankoService.Controllers
             {
                 logger.LogWarning($"ProductModRequestDTO not found");
                 return NotFound();
+            }
+
+            if (productRequest.State != ProductModRequestState.Pending)
+            {
+                logger.LogInformation($"ProductModRequest has state {productRequest.State}. Only pending requests can be rejected.");
+                return Ok(productRequest);
             }
 
             productRequest.State = ProductModRequestState.Rejected;

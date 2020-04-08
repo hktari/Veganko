@@ -401,13 +401,15 @@ namespace VegankoService.Tests.IntegrationTests
 
             Assert.Equal(HttpStatusCode.OK, result.StatusCode);
 
-            Product product = JsonConvert.DeserializeObject<Product>(result.GetJson());
-            Assert.True(DoProductsEqual(productModReq.UnapprovedProduct, product));
+            ProductModRequestDTO approvedProdModReq = JsonConvert.DeserializeObject<ProductModRequestDTO>(result.GetJson());
 
             result = await client.GetAsync(
-                Util.GetRequestUri($"products/{product.Id}"));
+                    Util.GetRequestUri($"products/{approvedProdModReq.NewlyCreatedProductId}"));
 
             Assert.Equal(HttpStatusCode.OK, result.StatusCode);
+            Product newProduct = JsonConvert.DeserializeObject<Product>(result.GetJson());
+
+            Assert.True(DoProductsEqual(productModReq.UnapprovedProduct, newProduct));
         }
 
         [Fact]
@@ -422,17 +424,13 @@ namespace VegankoService.Tests.IntegrationTests
 
             Assert.Equal(HttpStatusCode.OK, result.StatusCode);
 
-            Product product = JsonConvert.DeserializeObject<Product>(result.GetJson());
-            Assert.True(DoProductsEqual(productModReq.UnapprovedProduct, product, checkId: false));
-
-            result = await client.GetAsync(
-                Util.GetRequestUri($"products/{product.Id}"));
-
+            ProductModRequestDTO approvedPMR = JsonConvert.DeserializeObject<ProductModRequestDTO>(result.GetJson());
+            result = await client.GetAsync(Util.GetRequestUri($"products/{approvedPMR.ExistingProductId}"));
             Assert.Equal(HttpStatusCode.OK, result.StatusCode);
-
-            // Test equality of item behind GET products/{id}
-            product = JsonConvert.DeserializeObject<Product>(result.GetJson());
-            Assert.True(DoProductsEqual(productModReq.UnapprovedProduct, product, checkId: false));
+            
+            Assert.True(DoProductsEqual(productModReq.UnapprovedProduct,
+                                        JsonConvert.DeserializeObject<Product>(result.GetJson()),
+                                        checkId: false));
         }
 
         [Fact]

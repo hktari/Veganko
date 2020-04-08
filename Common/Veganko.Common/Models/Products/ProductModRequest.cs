@@ -12,7 +12,12 @@ namespace Veganko.Common.Models.Products
         public string UserId { get; set; }
 
         /// <summary>
-        /// The reference to the product being edited with this mod request.
+        /// The reference to the product that has been created with this mod request (action NEW).
+        /// </summary>
+        public string NewlyCreatedProductId { get; set; }
+
+        /// <summary>
+        /// The reference to the product being edited with this mod request (action EDIT).
         /// </summary>
         public string ExistingProductId { get; set; }
 
