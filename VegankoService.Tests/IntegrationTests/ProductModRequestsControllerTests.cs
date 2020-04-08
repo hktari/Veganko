@@ -254,6 +254,39 @@ namespace VegankoService.Tests.IntegrationTests
         }
 
         [Fact]
+        public async Task Post_ActionEdit_SameItemTwice_ResultsInOkAndDifferentUnapprovedProducts()
+        {
+            Util.ReinitializeDbForTests(factory.CreateDbContext());
+
+            var result = await client.GetAsync(Util.GetRequestUri("products/existing_product_id"));
+            Product product = JsonConvert.DeserializeObject<Product>(result.GetJson());
+            product.Name = "new name";
+
+            ProductModRequestDTO pmr = new ProductModRequestDTO
+            {
+                ExistingProductId = product.Id,
+                UnapprovedProduct = product,
+                ChangedFields = "name",
+            };
+
+            result = await client.PostAsync(
+                Util.GetRequestUri(Uri),
+                pmr.GetStringContent());
+
+            Assert.True(result.IsSuccessStatusCode);
+            ProductModRequestDTO created_first = JsonConvert.DeserializeObject<ProductModRequestDTO>(result.GetJson());
+
+            result = await client.PostAsync(
+                Util.GetRequestUri(Uri),
+                pmr.GetStringContent());
+
+            Assert.True(result.IsSuccessStatusCode);
+            ProductModRequestDTO created_second = JsonConvert.DeserializeObject<ProductModRequestDTO>(result.GetJson());
+
+            Assert.NotEqual(created_first.UnapprovedProduct.Id, created_second.UnapprovedProduct.Id);
+        }
+
+        [Fact]
         public async Task Delete_MemberNotAuthor_ResultsInForbidden()
         {
             Util.ReinitializeDbForTests(factory.CreateDbContext());

@@ -170,6 +170,7 @@ namespace VegankoService.Controllers
             }
 
             ProductModRequest inputAsModel = input.MapToModel();
+            inputAsModel.UnapprovedProduct.Id = null; // An existing entry is being posted here. Set Id to null to avoid conflicts.
 
             inputAsModel.Action = inputAsModel.ExistingProductId != null ? ProductModRequestAction.Edit : ProductModRequestAction.Add;
 
