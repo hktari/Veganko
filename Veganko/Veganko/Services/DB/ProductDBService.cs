@@ -111,33 +111,6 @@ namespace Veganko.Services.DB
             }
 
             return Task.CompletedTask;
-
-            ////IEnumerable<CachedProduct> cachedProds = Database.Table<CachedProduct>()
-
-            ////List<Product> toAdd = products.ToList();
-            ////foreach (var prod in cachedProds)
-            ////{
-            ////    prod.HasBeenSeen = true;
-
-            ////}
-
-            //// All unseen products which have to be set as seen
-            //IEnumerable<Tuple<CachedProduct, Product>> unseenProds = 
-            //    Database.Table<CachedProduct>()
-            //    .Join(products, cp => cp.ProductId, prod => prod.Id, (cp, prod) => Tuple.Create(cp, prod))
-            //    .Where(pp => !pp.Item1.HasBeenSeen);
-
-            //// All products which don't exist in the cache.
-            //IEnumerable<Product> justSeenProds = products.Except(
-            //    unseenProds.Select(pp => pp.Item2));
-
-            //Database.U
-
-            //foreach (var prod in collection)
-            //{
-
-            //}
-            //unseenProds.Select(pp => pp.Item1)
         }
     }
 }
