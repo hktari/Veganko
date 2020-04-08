@@ -96,11 +96,19 @@ namespace Veganko.Services.DB
                 }
             }
 
-            int cnt = Database.UpdateAll(toUpdate);
-            Debug.WriteLine($"DB Service: updated: {cnt} entries.");
+            // Avoid Sqlite Exception "no such savepoint: S6128D0"
+            if (toUpdate.Count > 0)
+            {
+                int cnt = Database.UpdateAll(toUpdate);
+                Debug.WriteLine($"DB Service: updated: {cnt} entries.");
+            }
 
-            cnt = Database.InsertAll(toInsert);
-            Debug.WriteLine($"DB Service: inserted: {cnt} entries.");
+            // Avoid Sqlite Exception "no such savepoint: S6128D0"
+            if (toInsert.Count > 0)
+            {
+                int cnt = Database.InsertAll(toInsert);
+                Debug.WriteLine($"DB Service: inserted: {cnt} entries.");
+            }
 
             return Task.CompletedTask;
 
