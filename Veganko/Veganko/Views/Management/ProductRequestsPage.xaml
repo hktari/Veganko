@@ -144,7 +144,7 @@
                         FontFamily="{StaticResource RalewayRegularFont}"
                         FontSize="16"
                         IsVisible="{Binding AnyItems, Converter={StaticResource BoolInverter}}"
-                        Text="Ni produktov." />
+                        Text="Ni nepotrjenih produktov :D" />
                 </ContentView>
             </ListView.Header>
             <!--  the "loading..." view, with visibility bound to IsWorking  -->

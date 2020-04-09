@@ -10,7 +10,8 @@
     xmlns:effects="clr-namespace:Veganko.Effects"
     xmlns:forms="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
     xmlns:local="clr-namespace:Veganko"
-    xmlns:views="clr-namespace:Veganko.Views">
+    xmlns:views="clr-namespace:Veganko.Views"
+    x:Name="root">
     <ContentView.Resources>
         <ResourceDictionary>
             <converters:StringToEnumConverter x:Key="StringEnumConverter" UseDescriptionAttribute="True" />
@@ -35,6 +36,7 @@
                     BackgroundColor="Transparent"
                     Command="{Binding EditCommand}"
                     HorizontalOptions="End"
+                    IsVisible="{Binding Source={x:Reference root}, Path=CanEditProduct}"
                     VerticalOptions="Start"
                     WidthRequest="35"
                     Source="edit.png" />
