@@ -62,7 +62,7 @@ namespace VegankoService.Data.Comments
                     Text = comment.Text,
                     UserAvatarId = customer.AvatarId,
                     UserEmail = appUser.Email,
-                    UserId = appUser.Id,
+                    UserId = customer.Id,
                     Username = appUser.UserName,
                     UserProfileBackgroundId = customer.ProfileBackgroundId,
                     UserRole = role.Name,

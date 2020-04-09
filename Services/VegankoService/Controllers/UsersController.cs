@@ -78,7 +78,7 @@ namespace VegankoService.Controllers
             return Ok(customer);
         }
 
-        [Authorize(Roles = Constants.Strings.Roles.Admin + ", " + Constants.Strings.Roles.Manager)]
+        [Authorize(Roles = Constants.Strings.Roles.RestrictedAccessRoles)]
         [HttpGet]
         public ActionResult<PagedList<UserPublicInfo>> GetAll([FromQuery]UserQuery query)
         {
