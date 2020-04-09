@@ -93,6 +93,8 @@ namespace VegankoService.Data
             
             // Add index to product id since usage will be mostly 'get stores by product id'
             modelBuilder.Entity<Store>().HasIndex(entity => entity.ProductId);
+
+            //modelBuilder.Entity<ProductModRequest>().Property(pmr => pmr.UnapprovedProduct).IsRequired(true);
         }
     }
 }

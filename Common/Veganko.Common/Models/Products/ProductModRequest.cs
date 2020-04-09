@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Veganko.Common.Models.Products
 {
@@ -25,6 +26,8 @@ namespace Veganko.Common.Models.Products
 
         public DateTime Timestamp { get; set; }
 
+        // Attribute tells EF to on delete cascade delete the product as well.
+        [Required]
         public UnapprovedProduct UnapprovedProduct { get; set; }
 
         public string ChangedFields { get; set; }
