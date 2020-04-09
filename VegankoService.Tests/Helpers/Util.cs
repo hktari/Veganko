@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using Veganko.Common.Models.Products;
 using VegankoService.Data;
+using VegankoService.Models.Comments;
 using VegankoService.Models.User;
 
 namespace VegankoService.Tests
@@ -132,7 +133,13 @@ namespace VegankoService.Tests
 
             db.Customer.AddRange(new[]
             {
-                new Customer { Id = "user_id", IdentityId = "user_id" }
+                new Customer { Id = "user_id", IdentityId = "user_identity_id" },
+                new Customer { Id = "other_user_id", IdentityId = "other_user_identity_id" }
+            });
+
+            db.Comment.AddRange(new[] 
+            {
+                new Comment { Id = "existing_comment_id", Text = "Comment text", Rating = 3, ProductId = "existing_product_id", UserId = "other_user_id" }
             });
 
             db.SaveChanges();

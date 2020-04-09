@@ -22,7 +22,7 @@ namespace VegankoService.Tests
             new Claim(ClaimTypes.Name, "Test user"),
             new Claim(ClaimTypes.Email, "test@example.com"),
             new Claim(ClaimTypes.Role, Role),
-            new Claim("id", "user_id"),
+            new Claim("id", "user_identity_id"),
         }));
 
             await next();

@@ -11,7 +11,7 @@ namespace VegankoService.Data.Users
     public interface IUsersRepository
     {
         Customer Get(string id);
-        UserPublicInfo GetProfile(string identityId);
+        UserPublicInfo GetProfile(string id);
         void Update(UserPublicInfo customerProfile);
         Task Delete(string identityId);
         PagedList<UserPublicInfo> GetAll(UserQuery query);

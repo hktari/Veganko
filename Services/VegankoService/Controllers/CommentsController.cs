@@ -23,17 +23,17 @@ namespace VegankoService.Controllers
     public class CommentsController : Controller
     {
         private readonly ICommentRepository commentRepository;
+        private readonly IHttpContextAccessor httpContextAccessor;
         private readonly VegankoContext context;
         private readonly UserManager<ApplicationUser> userManager;
-        private readonly ClaimsPrincipal caller;
 
         public CommentsController(
             ICommentRepository commentRepository, IHttpContextAccessor httpContextAccessor, VegankoContext context, UserManager<ApplicationUser> userManager)
         {
             this.commentRepository = commentRepository;
+            this.httpContextAccessor = httpContextAccessor;
             this.context = context;
             this.userManager = userManager;
-            caller = httpContextAccessor.HttpContext.User;
         }
 
         // GET: api/Comments
@@ -69,7 +69,7 @@ namespace VegankoService.Controllers
         [HttpPost]
         public async Task<ActionResult<Comment>> Post([FromBody] CommentInput input)
         {
-            Models.User.Customer customer = await Identity.CurrentCustomer(caller, context);
+            Models.User.Customer customer = await Identity.CurrentCustomer(httpContextAccessor.HttpContext.User, context);
 
             Comment comment = new Comment();
             comment.UtcDatePosted = DateTime.UtcNow;
@@ -90,7 +90,7 @@ namespace VegankoService.Controllers
                 return NotFound();
             }
 
-            var user = await Identity.CurrentCustomer(caller, context);
+            var user = await Identity.CurrentCustomer(httpContextAccessor.HttpContext.User, context);
             if (user.Id != comment.UserId)
             {
                 return Forbid();
@@ -105,7 +105,7 @@ namespace VegankoService.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(string id)
         {
-            Models.User.Customer customer = await Identity.CurrentCustomer(caller, context);
+            Models.User.Customer customer = await Identity.CurrentCustomer(httpContextAccessor.HttpContext.User, context);
             
             var comment = commentRepository.Get(id);
             if (comment == null)
@@ -114,7 +114,7 @@ namespace VegankoService.Controllers
             }
 
             var userIdentity = await userManager.FindByIdAsync(
-                Identity.GetUserIdentityId(caller));
+                Identity.GetUserIdentityId(httpContextAccessor.HttpContext.User));
             var userRole = (await userManager.GetRolesAsync(userIdentity)).FirstOrDefault();
             if (!CanRoleModifyComment(userRole) && comment.UserId != customer.Id)
             {
