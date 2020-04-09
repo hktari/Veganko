@@ -140,7 +140,8 @@ namespace Veganko.ViewModels
 
         public override async void OnPageAppearing()
         {
-            if (!AnyProdModRequestsExist)
+            // Non-member users don't show their product mod requests
+            if (!AnyProdModRequestsExist && User.Role == UserRole.Member)
             {
                 await ReloadProductModReqs();
             }
