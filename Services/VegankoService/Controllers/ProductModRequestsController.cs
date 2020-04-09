@@ -434,11 +434,18 @@ namespace VegankoService.Controllers
                 return Ok(productRequest);
             }
 
+            Customer user = usersRepository.GetByIdentityId(Identity.GetUserIdentityId(httpContextAccessor.HttpContext.User));
+            if (user == null)
+            {
+                logger.LogWarning("Failed to retrieve logged in customer data.");
+                return Unauthorized();
+            }
+
             productRequest.State = ProductModRequestState.Rejected;
             await productModReqRepository.Update(productRequest);
             context.ProductModRequestEvaluations.Add(new ProductModRequestEvaluation
             {
-                EvaluatorUserId = Identity.GetUserIdentityId(httpContextAccessor.HttpContext.User),
+                EvaluatorUserId = user.Id,
                 ProductModRequest = productRequest,
                 State = ProductModRequestState.Rejected,
                 Timestamp = DateTime.Now,

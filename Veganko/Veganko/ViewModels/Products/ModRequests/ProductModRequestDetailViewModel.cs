@@ -1,4 +1,5 @@
 ﻿using Autofac;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -24,14 +25,20 @@ namespace Veganko.ViewModels.Products.ModRequests
         public ProductModRequestDetailViewModel(ProductModRequestViewModel prodModReq)
         {
             Product = prodModReq;
-            CanChangeState = UserService.CurrentUser.Role != UserRole.Member;
+            UpdateCanChangeState();
             CanAddStores = prodModReq.Model.Action == ProductModRequestAction.Add; // Edit requests can't add stores here coz productId is different.
             MessagingCenter.Unsubscribe<EditProdModRequestViewModel, ProductModRequestDTO>(this, EditProdModRequestViewModel.ProductModReqUpdatedMsg);
             MessagingCenter.Subscribe<EditProdModRequestViewModel, ProductModRequestDTO>(this, EditProdModRequestViewModel.ProductModReqUpdatedMsg, OnProductUpdated);
         }
 
         public ProductModRequestViewModel Product { get; }
-        public bool CanChangeState { get; }
+
+        private bool canChangeState;
+        public bool CanChangeState
+        {
+            get => canChangeState;
+            set => SetProperty(ref canChangeState, value);
+        }
         public bool CanAddStores { get; }
 
         private IUserService UserService => App.IoC.Resolve<IUserService>();
@@ -47,6 +54,7 @@ namespace Veganko.ViewModels.Products.ModRequests
                     ProductModRequestDTO model = Product.GetModel();
                     model = await ProductModRequestService.ApproveAsync(model);
                     Product.Update(model);
+                    UpdateCanChangeState();
                 }
                 catch (ServiceException ex)
                 {
@@ -67,6 +75,7 @@ namespace Veganko.ViewModels.Products.ModRequests
                     ProductModRequestDTO model = Product.GetModel();
                     model = await ProductModRequestService.RejectAsync(model);
                     Product.Update(model);
+                    UpdateCanChangeState();
                 }
                 catch (ServiceException ex)
                 {
@@ -148,6 +157,11 @@ namespace Veganko.ViewModels.Products.ModRequests
                 Logger.LogException(ex);
                 EvaluatorsText = "napaka pri nalaganju.";
             }
+        }
+
+        private void UpdateCanChangeState()
+        {
+            CanChangeState = UserService.CurrentUser.Role != UserRole.Member && Product.State == ProductModRequestState.Pending;
         }
 
         private void OnProductUpdated(EditProdModRequestViewModel sender, ProductModRequestDTO updatedPMR)

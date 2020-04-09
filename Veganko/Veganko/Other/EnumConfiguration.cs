@@ -16,7 +16,8 @@ namespace Veganko.Other
             },
             {
                 ProductType.Ostalo,
-                GetAllProdClassifiers()
+                GetAllProdClassifiers().Except(new[]{ProductClassifier.Pesketarijansko, ProductClassifier.Vegeterijansko })
+                                       .ToList()
             },
             {
                 ProductType.Hrana, new List<ProductClassifier>
