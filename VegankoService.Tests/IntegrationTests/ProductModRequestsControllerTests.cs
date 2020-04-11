@@ -293,6 +293,7 @@ namespace VegankoService.Tests.IntegrationTests
 
             var result = await client.GetAsync(Util.GetRequestUri("products/existing_product_id"));
             Product product = JsonConvert.DeserializeObject<Product>(result.GetJson());
+            string originalName = product.Name;
             product.Name = "new name";
 
             ProductModRequestDTO pmr = new ProductModRequestDTO
@@ -319,7 +320,7 @@ namespace VegankoService.Tests.IntegrationTests
             Assert.Equal(first.ProductClassifiers, second.ProductClassifiers);
             Assert.Equal(first.Type, second.Type);
 
-            Assert.NotEqual(second.Name, first.Name);
+            Assert.NotEqual(originalName, first.Name);
         }
 
         [Fact]

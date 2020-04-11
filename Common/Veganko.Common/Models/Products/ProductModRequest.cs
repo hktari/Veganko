@@ -8,6 +8,11 @@ namespace Veganko.Common.Models.Products
     // TODO: move to VegankoService project
     public class ProductModRequest
     {
+        public ProductModRequest()
+        {
+            UnapprovedProduct = new UnapprovedProduct();
+        }
+
         public string Id { get; set; }
 
         public string UserId { get; set; }
@@ -38,8 +43,9 @@ namespace Veganko.Common.Models.Products
 
         public void Update(ProductModRequest input)
         {
+            ExistingProductId = input.ExistingProductId;
             ChangedFields = input.ChangedFields;
-            UnapprovedProduct?.Update(input.UnapprovedProduct);
+            UnapprovedProduct.Update(input.UnapprovedProduct);
         }
     }
 }

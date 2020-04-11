@@ -62,18 +62,7 @@ namespace VegankoService.Controllers
                 return BadRequest();
             }
 
-            var query = new ProductModReqQuery(state, null, page, pageSize);
-            if (userId != null)
-            {
-                // Get IdentityID
-                Customer customer = usersRepository.Get(userId);
-                if (customer == null)
-                {
-                    logger.LogWarning($"Failed to find user identity id with customer id: {userId}");
-                    return NotFound();
-                }
-                query.UserId = customer.IdentityId;
-            }
+            var query = new ProductModReqQuery(state, userId, page, pageSize);
 
             PagedList<ProductModRequest> result = productModReqRepository.GetAll(query);
             logger.LogDebug($"Total count: {result.TotalCount} {result.Items.Count()}, page: {result.Page}, pageSize: {result.PageSize}");
@@ -116,48 +105,52 @@ namespace VegankoService.Controllers
             }
 
             ProductModRequest inputAsModel = input.MapToModel();
+            ProductModRequest prodModRequest = await productModReqRepository.Get(id);
 
-            ProductModRequest productModRequest = await productModReqRepository.Get(id);
-
-            if (productModRequest == null)
+            if (prodModRequest == null)
             {
                 logger.LogWarning("ProductModRequestDTO not found");
                 return NotFound();
             }
 
-            productModRequest.Update(inputAsModel);
+            if (prodModRequest.ExistingProductId != inputAsModel.ExistingProductId)
+            {
+                logger.LogWarning($"Field {nameof(ProductModRequest.ExistingProductId)} can't be updated");
+                return BadRequest();
+            }
 
-            if (productModRequest.Action == ProductModRequestAction.Edit && string.IsNullOrEmpty(productModRequest.ChangedFields))
+            if (prodModRequest.Action == ProductModRequestAction.Edit && string.IsNullOrEmpty(input.ChangedFields))
             {
                 logger.LogWarning($"Change requests of action {ProductModRequestAction.Edit} require {nameof(ProductModRequestDTO.ChangedFields)}");
                 return BadRequest();
             }
 
-            if (productModRequest.UnapprovedProduct == null)
+            if (prodModRequest.UnapprovedProduct == null)
             {
                 logger.LogError($"Failed to find unapproved product with id: {input.UnapprovedProduct.Id}");
                 return BadRequest();
             }
 
-            Product product = new Product();
-            productModRequest.UnapprovedProduct.MapToProduct(product, mapAllFields: true);
+            prodModRequest.Update(inputAsModel);
 
             // Check if the barcode already exists
+            Product product = new Product();
+            prodModRequest.UnapprovedProduct.MapToProduct(product, mapAllFields: true);
             if (productRepository.Contains(product) is DuplicateProblemDetails err)
             {
                 return new ConflictObjectResult(err);
             }
 
             // TODO: move to ProductModReqRepository ?
-            await productRepository.UpdateUnapproved(productModRequest.UnapprovedProduct);
+            logger.LogInformation($"Updating unapproved product with id: {prodModRequest.UnapprovedProduct.Id}");
+            await productRepository.UpdateUnapproved(prodModRequest.UnapprovedProduct);
 
-            logger.LogInformation($"Updated unapproved product with id: {productModRequest.UnapprovedProduct.Id}");
+            prodModRequest.Timestamp = DateTime.Now;
 
-            productModRequest.Timestamp = DateTime.Now;
+            logger.LogInformation($"Updating product mod request.");
+            await productModReqRepository.Update(prodModRequest);
 
-            await productModReqRepository.Update(productModRequest);
-
-            return Ok(productModRequest);
+            return Ok(prodModRequest);
         }
 
         // POST: api/ProductModRequests
@@ -169,55 +162,75 @@ namespace VegankoService.Controllers
                 return BadRequest(ModelState);
             }
 
-            ProductModRequest inputAsModel = input.MapToModel();
-            
-            inputAsModel.Action = inputAsModel.ExistingProductId != null ? ProductModRequestAction.Edit : ProductModRequestAction.Add;
-
-            Product product = new Product();
-            UnapprovedProduct unapproved = new UnapprovedProduct();
-
-            if (inputAsModel.Action == ProductModRequestAction.Edit)
+            string userId = GetCurrentCustomerId();
+            if (userId == null)
             {
-                if (string.IsNullOrEmpty(inputAsModel.ChangedFields))
+                return BadRequest();
+            }
+
+            ProductModRequest prodModReq = new ProductModRequest();
+            prodModReq.Update(input);
+            prodModReq.Action = input.ExistingProductId != null ? ProductModRequestAction.Edit : ProductModRequestAction.Add;
+
+            logger.LogInformation($"Action: {prodModReq.Action}");
+            if (prodModReq.Action == ProductModRequestAction.Edit)
+            {
+                if (string.IsNullOrEmpty(prodModReq.ChangedFields))
                 {
                     logger.LogWarning($"Field {nameof(ProductModRequestDTO.ChangedFields)} is required when action is {nameof(ProductModRequestAction.Edit)}");
                     return BadRequest();
                 }
 
-                logger.LogInformation($"Retrieving product with id: {inputAsModel.ExistingProductId} which is being edited.");
-                product = productRepository.Get(inputAsModel.ExistingProductId);
+                logger.LogInformation($"Retrieving product with id: {prodModReq.ExistingProductId} which is being edited.");
+                var product = productRepository.Get(prodModReq.ExistingProductId);
                 if (product == null)
                 {
-                    logger.LogInformation($"Product with id: {inputAsModel.ExistingProductId} not found.");
+                    logger.LogInformation($"Product with id: {prodModReq.ExistingProductId} not found.");
                     return BadRequest();
                 }
 
-                unapproved.MapToUnapprovedProduct(product);
+                product.Update(input.UnapprovedProduct);
+
+                logger.LogInformation("Checking for product conflicts");
+                // Check if the auid already exists
+                if (productRepository.Contains(product) is DuplicateProblemDetails err)
+                {
+                    return new ConflictObjectResult(err);
+                }
+
+                prodModReq.UnapprovedProduct = new UnapprovedProduct(product)
+                {
+                    Id = null // Generate a different id on creation than the original.
+                };
+
+                logger.LogInformation("Creating unapproved product");
+                await productRepository.CreateUnapproved(prodModReq.UnapprovedProduct);
             }
             else
             {
-                // ACTION ADD
-                inputAsModel.UnapprovedProduct.Update(unapproved);
+                var product = new Product();
+                product.Update(input.UnapprovedProduct);
+
+                logger.LogInformation("Checking for product conflicts");
+                // Check if the auid already exists
+                if (productRepository.Contains(product) is DuplicateProblemDetails err)
+                {
+                    return new ConflictObjectResult(err);
+                }
+
+                prodModReq.UnapprovedProduct = new UnapprovedProduct(product);
+
+                logger.LogInformation("Creating unapproved product");
+                await productRepository.CreateUnapproved(prodModReq.UnapprovedProduct);
             }
 
-            // Check if the auid already exists
-            inputAsModel.UnapprovedProduct.MapToProduct(product);
-            if (productRepository.Contains(product) is DuplicateProblemDetails err)
-            {
-                return new ConflictObjectResult(err);
-            }
+            prodModReq.UserId = userId;
+            prodModReq.Timestamp = DateTime.Now;
 
+            logger.LogInformation($"Creating product mod request for user: {prodModReq.UserId}");
+            await productModReqRepository.Create(prodModReq);
 
-            await productRepository.CreateUnapproved(unapproved);
-
-            inputAsModel.UserId = Identity.GetUserIdentityId(httpContextAccessor.HttpContext.User);
-            inputAsModel.Timestamp = DateTime.Now;
-
-            await productModReqRepository.Create(inputAsModel);
-
-            logger.LogInformation($"Created product mod request for user: {inputAsModel.UserId}");
-
-            return CreatedAtAction("GetProductModRequest", new { id = inputAsModel.Id }, inputAsModel);
+            return CreatedAtAction("GetProductModRequest", new { id = prodModReq.Id }, prodModReq);
         }
 
         // DELETE: api/ProductModRequests/5
@@ -236,11 +249,13 @@ namespace VegankoService.Controllers
                 return NotFound();
             }
 
-            string userId = Identity.GetUserIdentityId(httpContextAccessor.HttpContext.User);
-            if (productModRequest.UserId != userId
+            Customer user = usersRepository.GetByIdentityId(
+                Identity.GetUserIdentityId(httpContextAccessor.HttpContext.User));
+
+            if (productModRequest.UserId != user?.Id
                 && Identity.GetRole(httpContextAccessor.HttpContext.User) == Constants.Strings.Roles.Member)
             {
-                logger.LogWarning($"Member user {userId} doesn't have rights to delete a product mod request {id}, which he didn't create.");
+                logger.LogWarning($"Member user {user.Id} doesn't have rights to delete a product mod request {id}, which he didn't create.");
                 return Forbid();
             }
 
@@ -269,9 +284,13 @@ namespace VegankoService.Controllers
                 return NotFound();
             }
 
-            // TODO: test for realz
             string role = Identity.GetRole(httpContextAccessor.HttpContext.User);
-            string userId = Identity.GetUserIdentityId(httpContextAccessor.HttpContext.User);
+            string userId = GetCurrentCustomerId();
+
+            if (userId == null)
+            {
+                return BadRequest();
+            }
 
             // If the user is not the author and not inside a privileged role
             if (!Roles.IsInsideRestrictedAccessRoles(role) && prodRequest.UserId != userId)
@@ -364,7 +383,7 @@ namespace VegankoService.Controllers
             else if (productRequest.Action == ProductModRequestAction.Edit)
             {
                 product = productRepository.Get(productRequest.ExistingProductId);
-                
+
                 if (product == null)
                 {
                     logger.LogError($"Product with id: {productRequest.ExistingProductId} not found. Might've been deleted.");
@@ -458,6 +477,18 @@ namespace VegankoService.Controllers
             });
 
             return Ok(productRequest);
+        }
+
+        private string GetCurrentCustomerId()
+        {
+            string userIdentityId = Identity.GetUserIdentityId(httpContextAccessor.HttpContext.User);
+            Customer user = usersRepository.GetByIdentityId(userIdentityId);
+            if (user == null)
+            {
+                logger.LogWarning($"Customer data not found for identity id {userIdentityId}");
+                return null;
+            }
+            return user.Id;
         }
     }
 }
