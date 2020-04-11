@@ -170,11 +170,11 @@ namespace VegankoService.Controllers
             }
 
             ProductModRequest inputAsModel = input.MapToModel();
-            inputAsModel.UnapprovedProduct.Id = null; // An existing entry is being posted here. Set Id to null to avoid conflicts.
-
+            
             inputAsModel.Action = inputAsModel.ExistingProductId != null ? ProductModRequestAction.Edit : ProductModRequestAction.Add;
 
             Product product = new Product();
+            UnapprovedProduct unapproved = new UnapprovedProduct();
 
             if (inputAsModel.Action == ProductModRequestAction.Edit)
             {
@@ -186,23 +186,29 @@ namespace VegankoService.Controllers
 
                 logger.LogInformation($"Retrieving product with id: {inputAsModel.ExistingProductId} which is being edited.");
                 product = productRepository.Get(inputAsModel.ExistingProductId);
-
                 if (product == null)
                 {
                     logger.LogInformation($"Product with id: {inputAsModel.ExistingProductId} not found.");
                     return BadRequest();
                 }
+
+                unapproved.MapToUnapprovedProduct(product);
+            }
+            else
+            {
+                // ACTION ADD
+                inputAsModel.UnapprovedProduct.Update(unapproved);
             }
 
-            inputAsModel.UnapprovedProduct.MapToProduct(product);
-
             // Check if the auid already exists
+            inputAsModel.UnapprovedProduct.MapToProduct(product);
             if (productRepository.Contains(product) is DuplicateProblemDetails err)
             {
                 return new ConflictObjectResult(err);
             }
 
-            await productRepository.CreateUnapproved(inputAsModel.UnapprovedProduct);
+
+            await productRepository.CreateUnapproved(unapproved);
 
             inputAsModel.UserId = Identity.GetUserIdentityId(httpContextAccessor.HttpContext.User);
             inputAsModel.Timestamp = DateTime.Now;
