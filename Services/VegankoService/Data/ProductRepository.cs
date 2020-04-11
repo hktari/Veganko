@@ -61,6 +61,23 @@ namespace VegankoService.Data
             context.SaveChanges();
         }
 
+        // TODO: enforce barcode uniqueness on db level
+        public DuplicateProblemDetails Contains(UnapprovedProduct product, string existingProductId)
+        {
+            if (product.Barcode == null)
+            {
+                return null;
+            }
+
+            Product duplicate = context.Product.FirstOrDefault(p => p.Barcode == product.Barcode && p.Id != existingProductId);
+            if (duplicate != null)
+            {
+                return new DuplicateProblemDetails(duplicate, "barcode");
+            }
+
+            return null;
+        }
+
         public DuplicateProblemDetails Contains(Product product)
         {
             if (product.Barcode == null)

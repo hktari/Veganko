@@ -189,11 +189,10 @@ namespace VegankoService.Controllers
                     return BadRequest();
                 }
 
-                product.Update(input.UnapprovedProduct);
-
                 logger.LogInformation("Checking for product conflicts");
+
                 // Check if the auid already exists
-                if (productRepository.Contains(product) is DuplicateProblemDetails err)
+                if (productRepository.Contains(prodModReq.UnapprovedProduct, prodModReq.ExistingProductId) is DuplicateProblemDetails err)
                 {
                     return new ConflictObjectResult(err);
                 }
@@ -208,17 +207,12 @@ namespace VegankoService.Controllers
             }
             else
             {
-                var product = new Product();
-                product.Update(input.UnapprovedProduct);
-
                 logger.LogInformation("Checking for product conflicts");
                 // Check if the auid already exists
-                if (productRepository.Contains(product) is DuplicateProblemDetails err)
+                if (productRepository.Contains(prodModReq.UnapprovedProduct, null) is DuplicateProblemDetails err)
                 {
                     return new ConflictObjectResult(err);
                 }
-
-                prodModReq.UnapprovedProduct = new UnapprovedProduct(product);
 
                 logger.LogInformation("Creating unapproved product");
                 await productRepository.CreateUnapproved(prodModReq.UnapprovedProduct);
@@ -348,94 +342,83 @@ namespace VegankoService.Controllers
                 return Ok(productRequest);
             }
 
-            Customer user = usersRepository.GetByIdentityId(Identity.GetUserIdentityId(httpContextAccessor.HttpContext.User));
-
-            if (user == null)
+            string userId = GetCurrentCustomerId();
+            if (userId == null)
             {
                 logger.LogError("Failed to get user id");
                 return BadRequest();
             }
 
-            productRequest.UnapprovedProduct.Update(inputAsModel.UnapprovedProduct);
-
-            ProductModRequestState? newState;
-            Product product;
-            IActionResult result;
-            if (productRequest.Action == ProductModRequestAction.Add)
+            if (productRepository.Contains(inputAsModel.UnapprovedProduct, inputAsModel.ExistingProductId) is DuplicateProblemDetails err)
             {
-                product = new Product();
-                productRequest.UnapprovedProduct.MapToProduct(product, mapAllFields: true);
+                logger.LogInformation($"Product conflicts: {string.Join(", ", err.ConflictingFields ?? new string[] { })}");
+                return Conflict(err);
+            }
 
-                if (productRepository.Contains(product) is DuplicateProblemDetails err)
+            ProductModRequestState newState;
+            IActionResult result;
+
+            if (productRequest.Action == ProductModRequestAction.Edit
+                && productRepository.Get(productRequest.ExistingProductId) == null)
+            {
+                logger.LogError($"Product with id: {productRequest.ExistingProductId} not found. Might've been deleted.");
+
+                newState = ProductModRequestState.Missing;
+                result = new RequestError(
+                    nameof(ProductModRequestDTO.ExistingProductId), "Product to update was not found. It might've been deleted.")
+                    .SetStatusCode((int)HttpStatusCode.BadRequest)
+                    .ToActionResult();
+            }
+            else
+            {
+                productRequest.Update(inputAsModel);
+
+                Product product;
+                if (productRequest.Action == ProductModRequestAction.Add)
                 {
-                    logger.LogInformation($"Add product conflicts: {string.Join(", ", err.ConflictingFields ?? new string[] { })}");
-                    return Conflict(err);
-                }
-                else
-                {
+                    product = new Product();
+                    productRequest.UnapprovedProduct.MapToProduct(product, mapAllFields: true);
                     productRepository.Create(product);
 
                     newState = ProductModRequestState.Approved;
                     productRequest.NewlyCreatedProductId = product.Id;
                     result = Ok(productRequest);
                 }
-            }
-            else if (productRequest.Action == ProductModRequestAction.Edit)
-            {
-                product = productRepository.Get(productRequest.ExistingProductId);
-
-                if (product == null)
+                else if (productRequest.Action == ProductModRequestAction.Edit)
                 {
-                    logger.LogError($"Product with id: {productRequest.ExistingProductId} not found. Might've been deleted.");
+                    product = productRepository.Get(productRequest.ExistingProductId);
+                    // Delete old images before updating the reference to them
+                    if (product.ImageName != null && product.ImageName != productRequest.UnapprovedProduct.ImageName)
+                    {
+                        imageService.DeleteImages(product.ImageName);
+                    }
 
-                    newState = ProductModRequestState.Missing;
-                    result = new RequestError(
-                        nameof(ProductModRequestDTO.ExistingProductId), "Product to update was not found. It might've been deleted.")
-                        .SetStatusCode((int)HttpStatusCode.BadRequest)
-                        .ToActionResult();
+                    productRequest.UnapprovedProduct.MapToProduct(product);
+
+                    // ImageName is readonly and not being mapped by MapToProduct()
+                    product.ImageName = productRequest.UnapprovedProduct.ImageName;
+
+                    productRepository.Update(product);
+                    newState = ProductModRequestState.Approved;
+                    result = Ok(productRequest);
                 }
                 else
                 {
-                    productRequest.UnapprovedProduct.MapToProduct(product);
-
-                    if (productRepository.Contains(product) is DuplicateProblemDetails err)
-                    {
-                        logger.LogInformation($"Edit product conflicts: {string.Join(", ", err.ConflictingFields ?? new string[] { })}");
-                        return Conflict(err);
-                    }
-                    else
-                    {
-                        // Delete old images before updating the reference to them
-                        if (product.ImageName != null && product.ImageName != productRequest.UnapprovedProduct.ImageName)
-                        {
-                            imageService.DeleteImages(product.ImageName);
-                        }
-
-                        // ImageName is readonly and not being mapped by MapToProduct()
-                        product.ImageName = productRequest.UnapprovedProduct.ImageName;
-
-                        productRepository.Update(product);
-                        newState = ProductModRequestState.Approved;
-                        result = Ok(productRequest);
-                    }
+                    logger.LogError($"Unhandled product request action: {productRequest.Action}");
+                    throw new NotImplementedException($"Unhandled product request action: {productRequest.Action}");
                 }
-            }
-            else
-            {
-                logger.LogError($"Unhandled product request action: {productRequest.Action}");
-                throw new NotImplementedException($"Unhandled product request action: {productRequest.Action}");
             }
 
             // Add info regarding evaluation
             context.ProductModRequestEvaluations.Add(new ProductModRequestEvaluation
             {
                 ProductModRequest = productRequest,
-                EvaluatorUserId = user.Id,
-                State = newState.Value,
+                EvaluatorUserId = userId,
+                State = newState,
                 Timestamp = DateTime.Now,
             });
 
-            productRequest.State = newState.Value;
+            productRequest.State = newState;
             await productModReqRepository.Update(productRequest);
 
             return result;

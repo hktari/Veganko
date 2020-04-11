@@ -1,10 +1,8 @@
 ﻿using System;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
 using System.Runtime.Serialization;
 using System.ComponentModel.DataAnnotations.Schema;
 using Veganko.Common.Extensions;
-using System.Collections.Generic;
 using System.ComponentModel;
 
 namespace Veganko.Common.Models.Products
@@ -51,6 +49,23 @@ namespace Veganko.Common.Models.Products
 
     public class Product
     {
+        public Product(Product product)
+        {
+            Id = product.Id;
+            Name = product.Name;
+            Brand = product.Brand;
+            Barcode = product.Barcode;
+            ImageName = product.ImageName;
+            Description = product.Description;
+            ProductClassifiers = product.ProductClassifiers;
+            Type = product.Type;
+            AddedTimestamp = product.AddedTimestamp;
+            LastUpdateTimestamp = product.LastUpdateTimestamp;
+        }
+        public Product()
+        {
+        }
+
         public string Id { get; set; }
         public string Name { get; set; }
         public string Brand { get; set; }
@@ -76,7 +91,7 @@ namespace Veganko.Common.Models.Products
         [JsonIgnore]
         public ProductType ProdType
         {
-            get 
+            get
             {
                 foreach (ProductType val in (ProductType[])Enum.GetValues(typeof(ProductType)))
                 {

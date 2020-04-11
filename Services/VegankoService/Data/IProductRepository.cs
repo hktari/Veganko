@@ -20,5 +20,6 @@ namespace VegankoService.Data
         Task<UnapprovedProduct> GetUnapproved(string id);
         Task DeleteUnapproved(UnapprovedProduct product);
         Task UpdateUnapproved(UnapprovedProduct product);
+        DuplicateProblemDetails Contains(UnapprovedProduct product, string existingProductId);
     }
 }
