@@ -119,7 +119,7 @@ namespace VegankoService.Controllers
                 return BadRequest();
             }
 
-            if (prodModRequest.Action == ProductModRequestAction.Edit && string.IsNullOrEmpty(input.ChangedFields))
+            if (prodModRequest.Action == ProductModRequestAction.Edit && string.IsNullOrEmpty(inputAsModel.ChangedFields))
             {
                 logger.LogWarning($"Change requests of action {ProductModRequestAction.Edit} require {nameof(ProductModRequestDTO.ChangedFields)}");
                 return BadRequest();
@@ -127,7 +127,7 @@ namespace VegankoService.Controllers
 
             if (prodModRequest.UnapprovedProduct == null)
             {
-                logger.LogError($"Failed to find unapproved product with id: {input.UnapprovedProduct.Id}");
+                logger.LogError($"Failed to find unapproved product with id: {inputAsModel.UnapprovedProduct.Id}");
                 return BadRequest();
             }
 
@@ -168,9 +168,10 @@ namespace VegankoService.Controllers
                 return BadRequest();
             }
 
+            ProductModRequest inputAsModel = input.MapToModel();
             ProductModRequest prodModReq = new ProductModRequest();
-            prodModReq.Update(input);
-            prodModReq.Action = input.ExistingProductId != null ? ProductModRequestAction.Edit : ProductModRequestAction.Add;
+            prodModReq.Update(inputAsModel);
+            prodModReq.Action = inputAsModel.ExistingProductId != null ? ProductModRequestAction.Edit : ProductModRequestAction.Add;
 
             logger.LogInformation($"Action: {prodModReq.Action}");
             if (prodModReq.Action == ProductModRequestAction.Edit)

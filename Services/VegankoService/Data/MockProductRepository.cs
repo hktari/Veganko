@@ -75,5 +75,10 @@ namespace VegankoService.Data
         {
             throw new NotImplementedException();
         }
+
+        public DuplicateProblemDetails Contains(UnapprovedProduct product, string existingProductId)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

@@ -324,6 +324,36 @@ namespace VegankoService.Tests.IntegrationTests
         }
 
         [Fact]
+        public async Task Post_ActionEdit_DoesNotChangeOriginalProduct()
+        {
+            Util.ReinitializeDbForTests(factory.CreateDbContext());
+
+            var result = await client.GetAsync(Util.GetRequestUri("products/existing_product_id"));
+            Product originalProduct = JsonConvert.DeserializeObject<Product>(result.GetJson());
+            Product unapprovedProduct = JsonConvert.DeserializeObject<Product>(result.GetJson());
+
+            unapprovedProduct.Name = "new name";
+            ProductModRequestDTO pmr = new ProductModRequestDTO
+            {
+                ExistingProductId = unapprovedProduct.Id,
+                UnapprovedProduct = unapprovedProduct,
+                ChangedFields = "name",
+            };
+
+            await client.PostAsync(
+                Util.GetRequestUri(Uri),
+                pmr.GetStringContent());
+
+            result = await client.GetAsync(Util.GetRequestUri("products/existing_product_id"));
+
+            Assert.True(
+                DoProductsEqual(
+                    originalProduct,
+                    JsonConvert.DeserializeObject<Product>(result.GetJson()),
+                    checkId: true));
+        }
+        
+        [Fact]
         public async Task Delete_MemberNotAuthor_ResultsInForbidden()
         {
             Util.ReinitializeDbForTests(factory.CreateDbContext());
