@@ -46,7 +46,8 @@
                 Grid.Column="1"
                 FontFamily="{StaticResource RalewayRegularFont}"
                 IsVisible="{Binding CanUserBeModerated, Converter={StaticResource BoolInverter}}"
-                Text="{Binding Role}" />
+                Text="{Binding Role}"
+                VerticalOptions="Center" />
             <Picker
                 Grid.Row="2"
                 Grid.Column="1"
