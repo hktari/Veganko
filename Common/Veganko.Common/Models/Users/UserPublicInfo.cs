@@ -25,6 +25,7 @@ namespace Veganko.Common.Models.Users
             Description = user.Description;
             Label = user.Label;
             Role = user.Role;
+            IsEmailConfirmed = user.IsEmailConfirmed;
         }
 
         public string Id { get; set; }
