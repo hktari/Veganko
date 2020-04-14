@@ -108,8 +108,7 @@ namespace Veganko.Services.Products.ProductModRequests
 
         public async Task<ProductModRequestDTO> ApproveAsync(ProductModRequestDTO item)
         {
-            RestRequest request = new RestRequest($"{Uri}/approve/{item.Id}", Method.PUT);
-            request.AddJsonBody(item);
+            RestRequest request = new RestRequest($"{Uri}/approve/{item.Id}", Method.GET);
 
             var response = await restService.ExecuteAsync(request, throwIfUnsuccessful: false);
             if (response.IsSuccessful)
