@@ -202,6 +202,7 @@ namespace VegankoService.Controllers
                 {
                     Id = null // Generate a different id on creation than the original.
                 };
+                prodModReq.UnapprovedProduct.Update(inputAsModel.UnapprovedProduct);
 
                 logger.LogInformation("Creating unapproved product");
                 await productRepository.CreateUnapproved(prodModReq.UnapprovedProduct);

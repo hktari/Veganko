@@ -154,26 +154,6 @@ namespace VegankoService.Tests.IntegrationTests
         }
 
         [Fact]
-        public async Task Post_ActionEdit_InvalidModelState_ResultsInBadRequest()
-        {
-            ProductModRequestDTO pmr = new ProductModRequestDTO
-            {
-                ExistingProductId = "existing_product_id",
-                UnapprovedProduct = new Product
-                {
-                    Name = "new product name"
-                },
-                ChangedFields = null,
-            };
-
-            var result = await client.PostAsync(
-                Util.GetRequestUri(Uri),
-                pmr.GetStringContent());
-
-            Assert.Equal(HttpStatusCode.BadRequest, result.StatusCode);
-        }
-
-        [Fact]
         public async Task Post_ActionNew_InvalidModelState_ResultsInBadRequest()
         {
             ProductModRequestDTO pmr = new ProductModRequestDTO
@@ -287,13 +267,53 @@ namespace VegankoService.Tests.IntegrationTests
         }
 
         [Fact]
-        public async Task Post_ActionEdit_ResultsInOkAndCorrectData()
+        public async Task Post_ActionEdit_ResultsInOkAndAllDataChanged()
         {
             Util.ReinitializeDbForTests(factory.CreateDbContext());
 
             var result = await client.GetAsync(Util.GetRequestUri("products/existing_product_id"));
+            Product original = JsonConvert.DeserializeObject<Product>(result.GetJson());
             Product product = JsonConvert.DeserializeObject<Product>(result.GetJson());
-            string originalName = product.Name;
+            product.Name = "new name";
+            product.Description = "new description";
+            product.ProductClassifiers = 258;
+            product.Type = "BEVERAGE";
+            product.Barcode = "new-barcode";
+            product.Brand = "new-brand";
+
+            ProductModRequestDTO pmr = new ProductModRequestDTO
+            {
+                ExistingProductId = product.Id,
+                UnapprovedProduct = product,
+                ChangedFields = "name",
+            };
+
+            result = await client.PostAsync(
+                Util.GetRequestUri(Uri),
+                pmr.GetStringContent());
+
+            Assert.True(result.IsSuccessStatusCode);
+            ProductModRequestDTO created = JsonConvert.DeserializeObject<ProductModRequestDTO>(result.GetJson());
+
+            var second = created.UnapprovedProduct;
+
+            //Assert.Equal(first.ImageName, second.ImageName); // Is readonly 
+            Assert.NotEqual(original.Brand, second.Brand);
+            Assert.NotEqual(original.Barcode, second.Barcode);
+            Assert.NotEqual(original.Description, second.Description);
+            Assert.NotEqual(original.ProductClassifiers, second.ProductClassifiers);
+            Assert.NotEqual(original.Type, second.Type);
+            Assert.NotEqual(original.Name, second.Name);
+        }
+    
+        [Fact]
+        public async Task Post_ActionEdit_ResultsInOkAndDataUnchanged()
+        {
+            Util.ReinitializeDbForTests(factory.CreateDbContext());
+
+            var result = await client.GetAsync(Util.GetRequestUri("products/existing_product_id"));
+            Product original = JsonConvert.DeserializeObject<Product>(result.GetJson());
+            Product product = JsonConvert.DeserializeObject<Product>(result.GetJson());
             product.Name = "new name";
 
             ProductModRequestDTO pmr = new ProductModRequestDTO
@@ -313,14 +333,45 @@ namespace VegankoService.Tests.IntegrationTests
             var first = product;
             var second = created.UnapprovedProduct;
 
-            Assert.Equal(first.ImageName, second.ImageName);
-            Assert.Equal(first.Brand, second.Brand);
-            Assert.Equal(first.Barcode, second.Barcode);
-            Assert.Equal(first.Description, second.Description);
-            Assert.Equal(first.ProductClassifiers, second.ProductClassifiers);
-            Assert.Equal(first.Type, second.Type);
+            Assert.Equal(original.ImageName, second.ImageName);
+            Assert.Equal(original.Brand, second.Brand);
+            Assert.Equal(original.Barcode, second.Barcode);
+            Assert.Equal(original.Description, second.Description);
+            Assert.Equal(original.ProductClassifiers, second.ProductClassifiers);
+            Assert.Equal(original.Type, second.Type);
+        }
 
-            Assert.NotEqual(originalName, first.Name);
+        [Fact]
+        public async Task Post_ExpectCreatedResultToEqualGetResult()
+        {
+            Util.ReinitializeDbForTests(factory.CreateDbContext());
+
+            var result = await client.GetAsync(Util.GetRequestUri("products/existing_product_id"));
+            Product product = JsonConvert.DeserializeObject<Product>(result.GetJson());
+            product.Name = "new name";
+            product.Description = "new description";
+            product.ProductClassifiers = 258;
+            product.Type = "BEVERAGE";
+
+            ProductModRequestDTO pmr = new ProductModRequestDTO
+            {
+                ExistingProductId = product.Id,
+                UnapprovedProduct = product,
+                ChangedFields = "name",
+            };
+
+            result = await client.PostAsync(
+                Util.GetRequestUri(Uri),
+                pmr.GetStringContent());
+
+            Assert.True(result.IsSuccessStatusCode);
+            ProductModRequestDTO created = JsonConvert.DeserializeObject<ProductModRequestDTO>(result.GetJson());
+
+            result = await client.GetAsync(Util.GetRequestUri($"{Uri}/{created.Id}"));
+            ProductModRequestDTO get = JsonConvert.DeserializeObject<ProductModRequestDTO>(result.GetJson());
+
+            Assert.True(
+                DoProductsEqual(created.UnapprovedProduct, get.UnapprovedProduct, checkId: true));
         }
 
         [Fact]
@@ -352,7 +403,27 @@ namespace VegankoService.Tests.IntegrationTests
                     JsonConvert.DeserializeObject<Product>(result.GetJson()),
                     checkId: true));
         }
-        
+
+        [Fact]
+        public async Task Post_ActionEdit_InvalidModelState_ResultsInBadRequest()
+        {
+            ProductModRequestDTO pmr = new ProductModRequestDTO
+            {
+                ExistingProductId = "existing_product_id",
+                UnapprovedProduct = new Product
+                {
+                    Name = "new product name"
+                },
+                ChangedFields = null,
+            };
+
+            var result = await client.PostAsync(
+                Util.GetRequestUri(Uri),
+                pmr.GetStringContent());
+
+            Assert.Equal(HttpStatusCode.BadRequest, result.StatusCode);
+        }
+
         [Fact]
         public async Task Delete_MemberNotAuthor_ResultsInForbidden()
         {
