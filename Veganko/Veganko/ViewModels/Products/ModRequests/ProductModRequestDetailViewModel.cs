@@ -1,16 +1,20 @@
 ﻿using Autofac;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Veganko.Common.Models.Products;
 using Veganko.Common.Models.Users;
 using Veganko.Extensions;
+using Veganko.Other;
 using Veganko.Services;
 using Veganko.Services.Http;
+using Veganko.Services.Http.Errors;
 using Veganko.Services.Logging;
 using Veganko.Services.Products.ProductModRequests;
 using Veganko.ViewModels.Products.ModRequests.Partial;
 using Veganko.ViewModels.Stores;
+using Veganko.Views;
 using Veganko.Views.Product;
 using Veganko.Views.Stores;
 using Xamarin.Forms;
@@ -19,7 +23,8 @@ namespace Veganko.ViewModels.Products.ModRequests
 {
     public class ProductModRequestDetailViewModel : BaseViewModel
     {
-        public const string DeletedMsg = "DeletedMsg";
+        public const string ItemRemovedMsg = "ItemRemovedMsg";
+        private const string RequestHandledErrMsg = "Prošnja je že bila obravnavana.";
 
         public ProductModRequestDetailViewModel(ProductModRequestViewModel prodModReq)
         {
@@ -62,16 +67,45 @@ namespace Veganko.ViewModels.Products.ModRequests
                     model = await ProductModRequestService.ApproveAsync(model);
                     Product.Update(model);
                     OnProductUpdated();
+
+                    await App.Navigation.PopAsync();
+                }
+                catch (ServiceConflictException<Product> conflictEx)
+                {
+                    await App.CurrentPage.Err("Produkt s to črtno kodo že obstaja.");
+                    await App.Navigation.PushAsync(
+                        new ProductDetailPage(
+                            new ProductDetailViewModel(conflictEx.RequestConflict.ConflictingItem)));
                 }
                 catch (ServiceException ex)
                 {
-                    await App.CurrentPage.Err("Napaka pri potrjevanju.", ex);
+                    string errMsg = "Napaka pri potrjevanju.";
+                    if (ex.ErrorCode != null && (ProdModReqErrorCode)ex.ErrorCode == ProdModReqErrorCode.AlreadyHandled)
+                    {
+                        errMsg = RequestHandledErrMsg;
+                        await Refresh();
+                    }
+
+                    await App.CurrentPage.Err(errMsg, ex);
+                }
+                catch (Exception ex)
+                {
+                    Logger.LogException(ex);
+                    await App.CurrentPage.Err(Strings.UnknownErr);
                 }
                 finally
                 {
                     IsBusy = false;
                 }
             });
+
+        private async Task Refresh()
+        {
+            var productUpdate = await ProductModRequestService.GetAsync(Product.Model.Id);
+            Product.Update(productUpdate);
+            OnProductUpdated();
+            await LoadEvaluators();
+        }
 
         public Command RejectRequestCommand => new Command(
             async _ =>
@@ -83,10 +117,23 @@ namespace Veganko.ViewModels.Products.ModRequests
                     model = await ProductModRequestService.RejectAsync(model);
                     Product.Update(model);
                     OnProductUpdated();
+                    await App.Navigation.PopAsync();
                 }
                 catch (ServiceException ex)
                 {
-                    await App.CurrentPage.Err("Napaka pri zavrnitvi.", ex);
+                    string errMsg = "Napaka pri zavrnitvi.";
+                    if (ex.ErrorCode != null && (ProdModReqErrorCode)ex.ErrorCode == ProdModReqErrorCode.AlreadyHandled)
+                    {
+                        errMsg = RequestHandledErrMsg;
+                        await Refresh();
+                    }
+
+                    await App.CurrentPage.Err(errMsg, ex);
+                }
+                catch (Exception ex)
+                {
+                    Logger.LogException(ex);
+                    await App.CurrentPage.Err(Strings.UnknownErr);
                 }
                 finally
                 {
@@ -103,7 +150,7 @@ namespace Veganko.ViewModels.Products.ModRequests
                     ProductModRequestDTO model = Product.GetModel();
                     await ProductModRequestService.DeleteAsync(model);
 
-                    MessagingCenter.Send(this, DeletedMsg, Product);
+                    MessagingCenter.Send(this, ItemRemovedMsg, Product);
                     await App.Navigation.PopAsync();
                 }
                 catch (ServiceException ex)

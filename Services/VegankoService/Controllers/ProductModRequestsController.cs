@@ -327,11 +327,12 @@ namespace VegankoService.Controllers
                 return NotFound();
             }
 
-            // ProductModRequest was already approved
-            if (productRequest.State == ProductModRequestState.Approved)
+            if (productRequest.State != ProductModRequestState.Pending)
             {
-                logger.LogInformation("ProductModRequest has already been approved");
-                return Ok(productRequest);
+                logger.LogInformation("ProductModRequest has already been handled.");
+                return BadRequest(
+                    new RequestError()
+                    .SetStatusCode((int)ProdModReqErrorCode.AlreadyHandled));
             }
 
             string userId = GetCurrentCustomerId();

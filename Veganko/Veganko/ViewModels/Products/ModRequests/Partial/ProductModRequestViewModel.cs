@@ -14,11 +14,10 @@ namespace Veganko.ViewModels.Products.ModRequests.Partial
     {
         public ProductModRequestViewModel(ProductModRequestDTO model)
         {
-            Model = model ?? throw new ArgumentNullException(nameof(model));
             Update(model);
         }
 
-        public ProductModRequestDTO Model { get; }
+        public ProductModRequestDTO Model { get; private set; }
 
         private DateTime timestamp;
         public DateTime Timestamp
@@ -36,6 +35,8 @@ namespace Veganko.ViewModels.Products.ModRequests.Partial
 
         public void Update(ProductModRequestDTO model)
         {
+            Model = model ?? throw new ArgumentNullException(nameof(model));
+         
             // Update the product properties
             base.Update(model.UnapprovedProduct);
 

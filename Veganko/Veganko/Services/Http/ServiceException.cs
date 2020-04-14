@@ -29,9 +29,9 @@ namespace Veganko.Services.Http
                   response.Request.Method.ToString(),
                   ex ?? response.ErrorException)
         {
-            Errors = TryExtractErrors(response);
+            TryParseRequestError(response);
             Content = response.Content;
-            StatusCode = response.StatusCode;
+            HttpStatusCode = response.StatusCode;
         }
 
         public ServiceException(string message, IRestResponse response)
@@ -43,7 +43,7 @@ namespace Veganko.Services.Http
                   response.Request.Method.ToString(),
                   response.ErrorException)
         {
-            Errors = TryExtractErrors(response);
+            TryParseRequestError(response);
             Content = response.Content;
         }
 
@@ -74,19 +74,24 @@ namespace Veganko.Services.Http
         /// The content as JSON
         /// </summary>
         public string Content { get; }
-        
-        public HttpStatusCode StatusCode { get; set; }
 
-        private IDictionary<string, string[]> TryExtractErrors(IRestResponse response)
+        /// <summary>
+        /// Request specific error code
+        /// </summary>
+        public int? ErrorCode { get; set; }
+
+        public HttpStatusCode HttpStatusCode { get; set; }
+
+        private void TryParseRequestError(IRestResponse response)
         {
             try
             {
                 var requestError = JsonConvert.DeserializeObject<RequestError>(response.Content);
-                return requestError.Errors;
+                ErrorCode = requestError.Status;
+                Errors = requestError.Errors;
             }
             catch
             {
-                return null;
             }
         }
     }

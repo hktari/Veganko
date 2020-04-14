@@ -7,5 +7,7 @@ namespace Veganko.Other
     public static class Strings
     {
         public const string ServiceUnreachableErr = "Veganko storitve niso na voljo.";
+
+        public static string UnknownErr = "Neznana napaka";
     }
 }

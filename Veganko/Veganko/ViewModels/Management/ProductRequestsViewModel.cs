@@ -52,6 +52,9 @@ namespace Veganko.ViewModels.Management
             };
         }
 
+        // TODO: approve / reject removes product. Will items be skipped due to CurrentPage and Total pages cache ?
+
+
         public int CurrentPage => (ProductModReqs.Count / TotalPages) + 1;
         public int TotalPages { get; private set; }
 
