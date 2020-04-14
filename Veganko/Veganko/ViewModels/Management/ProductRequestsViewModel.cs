@@ -10,15 +10,22 @@ using Xamarin.Forms;
 using Xamarin.Forms.Extended;
 using Veganko.Views.Product.ModRequests;
 using Veganko.ViewModels.Products.ModRequests;
+using System;
+using Veganko.Services.Logging;
 
 namespace Veganko.ViewModels.Management
 {
     public class ProductRequestsViewModel : BaseViewModel
     {
-        private const int PageSize = 2;
+        private const int PageSize = 10;
 
         public ProductRequestsViewModel()
         {
+            MessagingCenter.Subscribe<ProductModRequestDetailViewModel, ProductModRequestViewModel>(
+                this,
+                ProductModRequestDetailViewModel.RemoveItemMsg,
+                OnRemoveItem);
+
             ResetCollection();
             ProductModReqs = new InfiniteScrollCollection<ProductModRequestViewModel>()
             {
@@ -34,7 +41,7 @@ namespace Veganko.ViewModels.Management
                         PagedList<ProductModRequestDTO> page = await ProductModRequestService.AllAsync(nextPage, PageSize, state: ProductModRequestState.Pending);
                         TotalPages = page.TotalPages;
 
-                        AnyItems = page.Items.Count() > 0;
+                        AnyItems = ProductModReqs.Count() > 0;
 
                         // return the items that need to be added
                         return page?.Items.Select(p => new ProductModRequestViewModel(p));
@@ -48,12 +55,10 @@ namespace Veganko.ViewModels.Management
                     {
                         IsBusy = false;
                     }
-                }
+                },
+                OnAfterLoadMore = () => UpdateAnyItemsProp()
             };
         }
-
-        // TODO: approve / reject removes product. Will items be skipped due to CurrentPage and Total pages cache ?
-
 
         public int CurrentPage => (ProductModReqs.Count / TotalPages) + 1;
         public int TotalPages { get; private set; }
@@ -72,11 +77,7 @@ namespace Veganko.ViewModels.Management
             set => SetProperty(ref productModReqs, value);
         }
 
-        private void ResetCollection()
-        {
-            ProductModReqs.Clear();
-            TotalPages = 0;
-        }
+        private ILogger Logger => App.IoC.Resolve<ILogger>();
 
         public Command RefreshCommand => new Command(
             async _ =>
@@ -86,11 +87,11 @@ namespace Veganko.ViewModels.Management
             });
 
         public Command<ProductModRequestViewModel> ProductSelectedCommand => new Command<ProductModRequestViewModel>(
-            async selected => 
+            async selected =>
             {
-               await App.Navigation.PushAsync(
-                   new ProductModRequestDetailPage(
-                       new ProductModRequestDetailViewModel(selected)));
+                await App.Navigation.PushAsync(
+                    new ProductModRequestDetailPage(
+                        new ProductModRequestDetailViewModel(selected)));
             });
 
         public Command<ProductModRequestViewModel> DeleteProductModReqCommand => new Command<ProductModRequestViewModel>(
@@ -105,6 +106,7 @@ namespace Veganko.ViewModels.Management
                         ProductModRequestDTO model = pmr.GetModel();
                         await ProductModRequestService.DeleteAsync(model);
                         ProductModReqs.Remove(pmr);
+                        UpdateAnyItemsProp();
                     }
                 }
                 catch (ServiceException ex)
@@ -126,6 +128,30 @@ namespace Veganko.ViewModels.Management
             {
                 await ProductModReqs.LoadMoreAsync();
             }
+        }
+
+        private void OnRemoveItem(ProductModRequestDetailViewModel sender, ProductModRequestViewModel item)
+        {
+            try
+            {
+                ProductModReqs.Remove(item);
+                UpdateAnyItemsProp();
+            }
+            catch (Exception ex)
+            {
+                Logger.LogException(ex);
+            }
+        }
+
+        private void UpdateAnyItemsProp()
+        {
+            AnyItems = ProductModReqs.Count() > 0;
+        }
+
+        private void ResetCollection()
+        {
+            ProductModReqs.Clear();
+            TotalPages = 0;
         }
 
         //protected override Task OnProductSelected(ProductViewModel product)

@@ -23,7 +23,7 @@ namespace Veganko.ViewModels.Products.ModRequests
 {
     public class ProductModRequestDetailViewModel : BaseViewModel
     {
-        public const string ItemRemovedMsg = "ItemRemovedMsg";
+        public const string RemoveItemMsg = "RemoveItemMsg";
         private const string RequestHandledErrMsg = "Prošnja je že bila obravnavana.";
 
         public ProductModRequestDetailViewModel(ProductModRequestViewModel prodModReq)
@@ -150,7 +150,7 @@ namespace Veganko.ViewModels.Products.ModRequests
                     ProductModRequestDTO model = Product.GetModel();
                     await ProductModRequestService.DeleteAsync(model);
 
-                    MessagingCenter.Send(this, ItemRemovedMsg, Product);
+                    MessagingCenter.Send(this, RemoveItemMsg, Product);
                     await App.Navigation.PopAsync();
                 }
                 catch (ServiceException ex)
