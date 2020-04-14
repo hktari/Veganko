@@ -64,6 +64,12 @@ namespace VegankoService.Tests
                     Name = "Chocolate Bananas",
                     Barcode = "123",
                     ProductClassifiers = 512,
+                },
+                new UnapprovedProduct
+                {
+                    Id = "conflicting_prod_id",
+                    Name = "Chilli almonds",
+                    Barcode = "conflicting_barcode",
                 }
             };
 
@@ -124,7 +130,18 @@ namespace VegankoService.Tests
                     Action = ProductModRequestAction.Add,
                     ChangedFields = null,
                     Timestamp = DateTime.Now,
-                    UnapprovedProduct = unapprovedProducts[3],
+                    UnapprovedProduct = unapprovedProducts[4],
+                    State = ProductModRequestState.Rejected,
+                },
+                new ProductModRequest
+                {
+                    Id = "conflicting_prod_mod_req_id",
+                    UserId = "user_id",
+                    ExistingProductId = null,
+                    Action = ProductModRequestAction.Add,
+                    ChangedFields = null,
+                    Timestamp = DateTime.Now,
+                    UnapprovedProduct = unapprovedProducts[5],
                     State = ProductModRequestState.Rejected,
                 }
             };

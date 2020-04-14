@@ -125,29 +125,29 @@ namespace VegankoService.Tests.IntegrationTests
             pmr.UnapprovedProduct.Name = "Hot chocolate bananas";
             pmr.UnapprovedProduct.Type = "BEVERAGE";
             pmr.UnapprovedProduct.ProductClassifiers = 515;
+            pmr.UnapprovedProduct.Barcode = "new-barcode";
+            pmr.UnapprovedProduct.Brand = "new-brand";
 
             var result = await client.PutAsync(
-                Util.GetRequestUri($"{Uri}/edit_prod_mod_req_id"),
+                Util.GetRequestUri($"{Uri}/{pmr.Id}"),
                 pmr.GetStringContent());
 
             Assert.Equal(HttpStatusCode.OK, result.StatusCode);
 
             ProductModRequestDTO updatedPMR = await GetProductModRequest("edit_prod_mod_req_id");
 
-            Assert.Equal(pmr.UnapprovedProduct.Description, updatedPMR.UnapprovedProduct.Description);
-            Assert.Equal(pmr.UnapprovedProduct.Name, updatedPMR.UnapprovedProduct.Name);
-            Assert.Equal(pmr.UnapprovedProduct.Type, updatedPMR.UnapprovedProduct.Type);
-            Assert.Equal(pmr.UnapprovedProduct.ProductClassifiers, updatedPMR.UnapprovedProduct.ProductClassifiers);
+            Assert.True(
+                DoProductsEqual(pmr.UnapprovedProduct, updatedPMR.UnapprovedProduct));
         }
 
         [Fact]
         public async Task Put_ActionNew_ConflictBarcode_ResultsInConflict()
         {
-            ProductModRequestDTO pmr = await GetProductModRequest("existing_prod_mod_req_id");
+            ProductModRequestDTO pmr = await GetProductModRequest("edit_prod_mod_req_id");
             pmr.UnapprovedProduct.Barcode = "conflicting_barcode";
 
             var result = await client.PutAsync(
-                Util.GetRequestUri($"{Uri}/existing_prod_mod_req_id"),
+                Util.GetRequestUri($"{Uri}/{pmr.Id}"),
                 pmr.GetStringContent());
 
             Assert.Equal(HttpStatusCode.Conflict, result.StatusCode);
@@ -533,9 +533,8 @@ namespace VegankoService.Tests.IntegrationTests
             Util.ReinitializeDbForTests(factory.CreateDbContext());
 
             ProductModRequestDTO productModReq = await GetProductModRequest("new_prod_mod_req_id");
-            var result = await client.PutAsync(
-                Util.GetRequestUri($"{Uri}/approve/{productModReq.Id}"),
-                productModReq.GetStringContent());
+            var result = await client.GetAsync(
+                Util.GetRequestUri($"{Uri}/approve/{productModReq.Id}"));
 
             Assert.Equal(HttpStatusCode.OK, result.StatusCode);
 
@@ -556,9 +555,8 @@ namespace VegankoService.Tests.IntegrationTests
             Util.ReinitializeDbForTests(factory.CreateDbContext());
 
             ProductModRequestDTO productModReq = await GetProductModRequest("edit_prod_mod_req_id");
-            var result = await client.PutAsync(
-                Util.GetRequestUri($"{Uri}/approve/{productModReq.Id}"),
-                productModReq.GetStringContent());
+            var result = await client.GetAsync(
+                Util.GetRequestUri($"{Uri}/approve/{productModReq.Id}"));
 
             Assert.Equal(HttpStatusCode.OK, result.StatusCode);
 
@@ -576,25 +574,10 @@ namespace VegankoService.Tests.IntegrationTests
         {
             Util.ReinitializeDbForTests(factory.CreateDbContext());
 
-            ProductModRequestDTO productModReq = await GetProductModRequest("new_prod_mod_req_id");
-            productModReq.UnapprovedProduct.Barcode = "conflicting_barcode";
-            var result = await client.PutAsync(
-                Util.GetRequestUri($"{Uri}/approve/{productModReq.Id}"),
-                productModReq.GetStringContent());
+            ProductModRequestDTO productModReq = await GetProductModRequest("conflicting_prod_mod_req_id");
 
-            Assert.Equal(HttpStatusCode.Conflict, result.StatusCode);
-        }
-
-        [Fact]
-        public async Task Approve_ActionEdit_ExistingBarcode_ResultsInConflict()
-        {
-            Util.ReinitializeDbForTests(factory.CreateDbContext());
-
-            ProductModRequestDTO productModReq = await GetProductModRequest("edit_prod_mod_req_id");
-            productModReq.UnapprovedProduct.Barcode = "conflicting_barcode";
-            var result = await client.PutAsync(
-                Util.GetRequestUri($"{Uri}/approve/{productModReq.Id}"),
-                productModReq.GetStringContent());
+            var result = await client.GetAsync(
+                Util.GetRequestUri($"{Uri}/approve/{productModReq.Id}"));
 
             Assert.Equal(HttpStatusCode.Conflict, result.StatusCode);
         }
@@ -609,9 +592,8 @@ namespace VegankoService.Tests.IntegrationTests
             // Delete the product being edited
             await client.DeleteAsync(Util.GetRequestUri($"products/{productModReq.ExistingProductId}"));
 
-            var result = await client.PutAsync(
-                Util.GetRequestUri($"{Uri}/approve/{productModReq.Id}"),
-                productModReq.GetStringContent());
+            var result = await client.GetAsync(
+                Util.GetRequestUri($"{Uri}/approve/{productModReq.Id}"));
 
             Assert.Equal(HttpStatusCode.BadRequest, result.StatusCode);
 
@@ -651,9 +633,8 @@ namespace VegankoService.Tests.IntegrationTests
 
             store = JsonConvert.DeserializeObject<Store>(result.GetJson());
 
-            result = await client.PutAsync(
-               Util.GetRequestUri($"{Uri}/approve/{productModReq.Id}"),
-               productModReq.GetStringContent());
+            result = await client.GetAsync(
+               Util.GetRequestUri($"{Uri}/approve/{productModReq.Id}"));
 
             result = await client.GetAsync(
                 Util.GetRequestUri($"stores/{store.Id}"));

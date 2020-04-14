@@ -133,10 +133,7 @@ namespace VegankoService.Controllers
 
             prodModRequest.Update(inputAsModel);
 
-            // Check if the barcode already exists
-            Product product = new Product();
-            prodModRequest.UnapprovedProduct.MapToProduct(product, mapAllFields: true);
-            if (productRepository.Contains(product) is DuplicateProblemDetails err)
+            if (productRepository.Contains(prodModRequest.UnapprovedProduct, prodModRequest.ExistingProductId) is DuplicateProblemDetails err)
             {
                 return new ConflictObjectResult(err);
             }
@@ -315,21 +312,14 @@ namespace VegankoService.Controllers
             }
         }
 
-        [HttpPut("approve/{id}")]
-        public async Task<IActionResult> ApproveProductModRequest([FromRoute] string id, [FromBody] ProductModRequestDTO input)
+        [HttpGet("approve/{id}")]
+        public async Task<IActionResult> ApproveProductModRequest([FromRoute] string id)
         {
             // TODO: move conflict handling to ProductRepository
 
 
             logger.LogInformation($"Executing ApproveProductModRequest({id}, productModRequest)");
 
-            if (id != input.Id)
-            {
-                logger.LogWarning("Route id and model id don't match");
-                return BadRequest();
-            }
-
-            ProductModRequest inputAsModel = input.MapToModel();
             ProductModRequest productRequest = await productModReqRepository.Get(id);
             if (productRequest == null)
             {
@@ -351,7 +341,7 @@ namespace VegankoService.Controllers
                 return BadRequest();
             }
 
-            if (productRepository.Contains(inputAsModel.UnapprovedProduct, inputAsModel.ExistingProductId) is DuplicateProblemDetails err)
+            if (productRepository.Contains(productRequest.UnapprovedProduct, productRequest.ExistingProductId) is DuplicateProblemDetails err)
             {
                 logger.LogInformation($"Product conflicts: {string.Join(", ", err.ConflictingFields ?? new string[] { })}");
                 return Conflict(err);
@@ -373,8 +363,6 @@ namespace VegankoService.Controllers
             }
             else
             {
-                productRequest.Update(inputAsModel);
-
                 Product product;
                 if (productRequest.Action == ProductModRequestAction.Add)
                 {
