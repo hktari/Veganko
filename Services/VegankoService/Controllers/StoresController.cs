@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using VegankoService.Data;
 using VegankoService.Data.Stores;
 using VegankoService.Helpers;
@@ -22,11 +23,13 @@ namespace VegankoService.Controllers
         private const string RestrictedAccessRoles = Constants.Strings.Roles.Admin + ", " + Constants.Strings.Roles.Manager + ", " + Constants.Strings.Roles.Moderator;
         private readonly IStoresRepository storesRepository;
         private readonly IProductRepository productRepository;
+        private readonly ILogger<StoresController> logger;
 
-        public StoresController(IStoresRepository storesRepository, IProductRepository productRepository)
+        public StoresController(IStoresRepository storesRepository, IProductRepository productRepository, ILogger<StoresController> logger)
         {
             this.storesRepository = storesRepository;
             this.productRepository = productRepository;
+            this.logger = logger;
         }
 
         // GET: api/Stores
@@ -97,9 +100,10 @@ namespace VegankoService.Controllers
                 return BadRequest(ModelState);
             }
 
-            if (productRepository.Get(store.ProductId) == null && productRepository.GetUnapproved(store.ProductId) == null)
+            if (productRepository.Get(store.ProductId) == null && await productRepository.GetUnapproved(store.ProductId) == null)
             {
-                return BadRequest("Product not found.");
+                logger.LogWarning($"Failed to find product with id {store.ProductId}");
+                return BadRequest();
             }
 
             await storesRepository.Create(store);

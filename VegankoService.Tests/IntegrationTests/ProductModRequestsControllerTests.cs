@@ -171,7 +171,7 @@ namespace VegankoService.Tests.IntegrationTests
         }
 
         [Fact]
-        public async Task Post_ActionNew_ResultsInOk()
+        public async Task Post_ActionNew_ResultsInOkAndValidData()
         {
             ProductModRequestDTO pmr = new ProductModRequestDTO
             {
@@ -189,26 +189,11 @@ namespace VegankoService.Tests.IntegrationTests
                 pmr.GetStringContent());
 
             Assert.Equal(HttpStatusCode.Created, result.StatusCode);
-        }
 
-        [Fact]
-        public async Task Post_ActionEdit_ConflictBarcode_ResultsInConflict()
-        {
-            ProductModRequestDTO pmr = new ProductModRequestDTO
-            {
-                ExistingProductId = "existing_product_id",
-                UnapprovedProduct = new Product
-                {
-                    Barcode = "conflicting_barcode"
-                },
-                ChangedFields = "barcode",
-            };
+            ProductModRequestDTO created = JsonConvert.DeserializeObject<ProductModRequestDTO>(result.GetJson());
 
-            var result = await client.PostAsync(
-                Util.GetRequestUri(Uri),
-                pmr.GetStringContent());
-
-            Assert.Equal(HttpStatusCode.Conflict, result.StatusCode);
+            Assert.True(DoProductsEqual(pmr.UnapprovedProduct, created.UnapprovedProduct, checkId: false));
+            Assert.NotNull(created.UnapprovedProduct.Id);
         }
 
         [Fact]
@@ -224,6 +209,26 @@ namespace VegankoService.Tests.IntegrationTests
                     Barcode = "conflicting_barcode",
                 },
                 ChangedFields = null,
+            };
+
+            var result = await client.PostAsync(
+                Util.GetRequestUri(Uri),
+                pmr.GetStringContent());
+
+            Assert.Equal(HttpStatusCode.Conflict, result.StatusCode);
+        }
+
+        [Fact]
+        public async Task Post_ActionEdit_ConflictBarcode_ResultsInConflict()
+        {
+            ProductModRequestDTO pmr = new ProductModRequestDTO
+            {
+                ExistingProductId = "existing_product_id",
+                UnapprovedProduct = new Product
+                {
+                    Barcode = "conflicting_barcode"
+                },
+                ChangedFields = "barcode",
             };
 
             var result = await client.PostAsync(
@@ -618,7 +623,7 @@ namespace VegankoService.Tests.IntegrationTests
         public async Task Approve_PersistsAddedStores()
         {
             Util.ReinitializeDbForTests(factory.CreateDbContext());
-            ProductModRequestDTO productModReq = await GetProductModRequest("edit_prod_mod_req_id");
+            ProductModRequestDTO productModReq = await GetProductModRequest("new_prod_mod_req_id");
 
             var store = new Store
             {
