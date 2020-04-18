@@ -26,9 +26,9 @@ namespace Veganko.Services.Auth
             this.logger = logger;
         }
 
-        public async Task<IAuthService.LoginStatus> Login(string email, string password)
+        public async Task<LoginStatus> Login(string email, string password)
         {
-            IAuthService.LoginStatus status = IAuthService.LoginStatus.Success;
+            LoginStatus status = LoginStatus.Success;
 
             RestRequest loginRequest = new RestRequest("auth/login", Method.POST);
             loginRequest.AddJsonBody(
@@ -66,32 +66,32 @@ namespace Veganko.Services.Auth
                 catch (Exception ex)
                 {
                     logger.LogException(new ServiceException(response, ex));
-                    status = IAuthService.LoginStatus.UnknownError;
+                    status = LoginStatus.UnknownError;
                 }
             }
             else 
             {
-                status = IAuthService.LoginStatus.Unreachable;
+                status = LoginStatus.Unreachable;
             }
 
             return status;
         }
 
-        private IAuthService.LoginStatus ParseErrorCode(AuthErrorCode errorCode)
+        private LoginStatus ParseErrorCode(AuthErrorCode errorCode)
         {
-            IAuthService.LoginStatus status;
+            LoginStatus status;
             switch (errorCode)
             {
                 case AuthErrorCode.InvalidCredentials:
-                    status = IAuthService.LoginStatus.InvalidCredentials;
+                    status = LoginStatus.InvalidCredentials;
                     break;
                 case AuthErrorCode.UnconfirmedEmail:
-                    status = IAuthService.LoginStatus.UnconfirmedEmail;
+                    status = LoginStatus.UnconfirmedEmail;
                     break;
                 case AuthErrorCode.Unknown:
                 case AuthErrorCode.UserProfileNotFound:
                 default:
-                    status = IAuthService.LoginStatus.UnknownError;
+                    status = LoginStatus.UnknownError;
                     break;
             }
 
@@ -128,8 +128,8 @@ namespace Veganko.Services.Auth
                 throw new Exception("Can't refresh token. Invalid credentials");
             }
 
-            IAuthService.LoginStatus status = await Login(email, password);
-            if (status != IAuthService.LoginStatus.Success)
+            LoginStatus status = await Login(email, password);
+            if (status != LoginStatus.Success)
             {
                 logger.LogException(new Exception($"Failed to refresh token. Error code: {status}, email: {email}"));     
             }

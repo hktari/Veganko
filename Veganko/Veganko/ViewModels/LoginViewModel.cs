@@ -99,8 +99,8 @@ namespace Veganko.ViewModels
                 IsBusy = true;
                 IAuthService authService = App.IoC.Resolve<IAuthService>();
 
-                IAuthService.LoginStatus loginStatus = await authService.Login(email, password);
-                if (loginStatus == IAuthService.LoginStatus.Success)
+                LoginStatus loginStatus = await authService.Login(email, password);
+                if (loginStatus == LoginStatus.Success)
                 {
                     await SetupCurrentUser();
                     NavigateToMainPage();
@@ -108,7 +108,7 @@ namespace Veganko.ViewModels
                 else
                 {
                     string errMsg = ParseLoginError(loginStatus);
-                    if (loginStatus == IAuthService.LoginStatus.UnconfirmedEmail)
+                    if (loginStatus == LoginStatus.UnconfirmedEmail)
                     {
                         await App.Navigation.PushModalAsync(
                             new UnconfirmedEmailInstructPage(
@@ -127,20 +127,20 @@ namespace Veganko.ViewModels
             }
         });
 
-        private string ParseLoginError(IAuthService.LoginStatus err)
+        private string ParseLoginError(LoginStatus err)
         {
             switch (err)
             {
-                case IAuthService.LoginStatus.Unreachable:
+                case LoginStatus.Unreachable:
                     msg = Veganko.Other.Strings.ServiceUnreachableErr;
                     break;
-                case IAuthService.LoginStatus.InvalidCredentials:
+                case LoginStatus.InvalidCredentials:
                     msg = "Nepravilen email ali geslo.";
                     break;
-                case IAuthService.LoginStatus.UnknownError:
+                case LoginStatus.UnknownError:
                     msg = "Neznana napaka";
                     break;
-                case IAuthService.LoginStatus.UnconfirmedEmail:
+                case LoginStatus.UnconfirmedEmail:
                     msg = "Email ni potrjen.";
                     break;
                 default:

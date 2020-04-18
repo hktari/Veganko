@@ -84,6 +84,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Other\Strings.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\Auth\AuthService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\Auth\MockAuthService.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Services\Auth\LoginStatus.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\Comments\ICommentsService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\DB\IProductDBService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\DB\MockProductDBService.cs" />

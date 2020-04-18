@@ -7,15 +7,6 @@ namespace Veganko.Services.Auth
 {
     public interface IAuthService
     {
-        public enum LoginStatus 
-        {
-            UnknownError,
-            Unreachable,
-            InvalidCredentials,
-            UnconfirmedEmail,
-            Success,
-        }
-
         Task<string> GetToken();
         Task RefreshToken();
         Task<bool> IsTokenValid();
