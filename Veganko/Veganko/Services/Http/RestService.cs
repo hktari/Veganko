@@ -20,8 +20,8 @@ namespace Veganko.Services.Http
         //public const string Endpoint = "https://www.veganko.online/api";
         public const string Endpoint = "http://10.0.2.2:5000/api";
 #else
-        public const string Endpoint = "https://www.veganko.online/api";
-        //public const string Endpoint = "https://localhost:5001/api";
+        //public const string Endpoint = "https://www.veganko.online/api";
+        public const string Endpoint = "http://localhost:5000/api";
 #endif
 #else
         public const string Endpoint = "https://www.veganko.online/api";

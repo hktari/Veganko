@@ -21,18 +21,6 @@ namespace Veganko.Views
         {
             InitializeComponent();
             vm = (ProfileViewModel)BindingContext;
-
-            if (Device.RuntimePlatform == Device.iOS)
-            {
-                Xamarin.Forms.NavigationPage.SetTitleIconImageSource(
-                    this.Parent,
-                    new FontImageSource { FontFamily = "Material Icons", Glyph = MaterialDesignIcons.AccountCircle });
-            }
-            else
-            {
-                //SetBinding(IconImageSourceProperty, new Binding("AvatarImage"));
-            }
-
             On<Xamarin.Forms.PlatformConfiguration.iOS>().SetUseSafeArea(false);
         }
 
@@ -40,8 +28,20 @@ namespace Veganko.Views
         {
             base.OnParentSet();
             Debug.Assert(Parent != null);
+
             // Icon has to be bound to the NavigationPage that is the parent of ProfilePage
-            Parent?.SetBinding(Xamarin.Forms.NavigationPage.IconImageSourceProperty, new Binding("AvatarImage", source: vm));
+            if (Device.RuntimePlatform == Device.iOS)
+            {
+                var parentNavPage = this.Parent as Xamarin.Forms.NavigationPage;
+                if (parentNavPage != null)
+                { 
+                    parentNavPage.IconImageSource = new FontImageSource { FontFamily = "Material Icons", Glyph = MaterialDesignIcons.AccountCircle };
+                }
+            }
+            else
+            {
+                Parent?.SetBinding(Xamarin.Forms.NavigationPage.IconImageSourceProperty, new Binding("AvatarImage", source: vm));
+            }
         }
 
         private void OnLogoutClicked(object sender, EventArgs e)
