@@ -1,11 +1,6 @@
-﻿using Autofac;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System;
 using Veganko.Common.Models.Products;
 using Veganko.Common.Models.Users;
-using Veganko.Services;
 using Veganko.ViewModels.Products.Partial;
 
 namespace Veganko.ViewModels.Products.ModRequests.Partial
@@ -33,10 +28,17 @@ namespace Veganko.ViewModels.Products.ModRequests.Partial
             set => SetProperty(ref state, value);
         }
 
+        private UserPublicInfo authorProfile;
+        public UserPublicInfo AuthorProfile
+        {
+            get => authorProfile;
+            set => SetProperty(ref authorProfile, value);
+        }
+
         public void Update(ProductModRequestDTO model)
         {
             Model = model ?? throw new ArgumentNullException(nameof(model));
-         
+
             // Update the product properties
             base.Update(model.UnapprovedProduct);
 
@@ -62,6 +64,7 @@ namespace Veganko.ViewModels.Products.ModRequests.Partial
             SetStateIndicatorImage(indState);
             Timestamp = model.Timestamp;
             State = model.State;
+            AuthorProfile = model.User;
         }
 
         /// <summary>

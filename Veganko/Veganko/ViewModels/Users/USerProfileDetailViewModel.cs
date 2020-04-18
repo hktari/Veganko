@@ -16,6 +16,10 @@ namespace Veganko.ViewModels.Users
     {
         private readonly string userId;
 
+        public UserProfileDetailViewModel(UserPublicInfo user) : this(new UserProfileViewModel(user))
+        {
+
+        }
         public UserProfileDetailViewModel(UserProfileViewModel user)
             : base(false)
         {

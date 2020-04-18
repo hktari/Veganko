@@ -3,6 +3,7 @@
     x:Class="Veganko.Views.Product.ModRequests.ProductModRequestDetailPage"
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:controls="clr-namespace:Veganko.Controls"
     xmlns:converters="clr-namespace:Veganko.Converters"
     xmlns:other="clr-namespace:Veganko.Other"
     xmlns:partials="clr-namespace:Veganko.Views.Product.Partial"
@@ -23,7 +24,7 @@
                     BackgroundColor="DarkGray"
                     HeightRequest="1"
                     VerticalOptions="Start" />
-                <Grid Padding="10,0,10,10">
+                <Grid Padding="10,0,10,10" RowSpacing="12.5">
                     <Grid.Resources>
                         <Style TargetType="ImageButton">
                             <Setter Property="BackgroundColor" Value="{StaticResource DarkBackgroundColor}" />
@@ -36,6 +37,7 @@
                         <ColumnDefinition Width="*" />
                     </Grid.ColumnDefinitions>
                     <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="Auto" />
@@ -72,29 +74,71 @@
                             </DataTrigger>
                         </Label.Triggers>
                     </Label>
+
                     <Label
                         Grid.Row="1"
+                        FontFamily="{StaticResource RalewayMediumFont}"
+                        FontSize="16"
+                        Text="Avtor: " />
+                    <Label
+                        Grid.Row="1"
+                        Grid.Column="1"
+                        Style="{StaticResource LinkLabelStyle}">
+                        <Label.FormattedText>
+                            <FormattedString>
+                                <Span Text="{Binding Product.AuthorProfile.Username}" TextDecorations="Underline">
+                                    <Span.GestureRecognizers>
+                                        <TapGestureRecognizer Command="{Binding NavigateToAuthorProfileCommand}" />
+                                    </Span.GestureRecognizers>
+                                </Span>
+                                <Span Text=" " />
+                                <Span
+                                    FontFamily="{StaticResource MaterialDesignFont}"
+                                    Text="{x:Static other:MaterialDesignIcons.Launch}"
+                                    TextColor="{StaticResource LightTextColor}" />
+                            </FormattedString>
+                        </Label.FormattedText>
+                    </Label>
+
+                    <Label
+                        Grid.Row="2"
                         FontFamily="{StaticResource RalewayMediumFont}"
                         FontSize="16"
                         Text="Obravnavali so: " />
                     <Label
-                        Grid.Row="1"
-                        Grid.Column="1"
-                        FontFamily="{StaticResource RalewayRegularFont}"
-                        Text="{Binding EvaluatorsText}" />
-                    <Label
                         Grid.Row="2"
+                        Grid.Column="1"
+                        IsVisible="{Binding AnyEvaluators}"
+                        Style="{StaticResource LinkLabelStyle}">
+                        <Label.FormattedText>
+                            <FormattedString>
+                                <Span Text="{Binding EvaluatorsText}" TextDecorations="Underline">
+                                    <Span.GestureRecognizers>
+                                        <TapGestureRecognizer Command="{Binding NavigateToEvaluatorProfileCommand}" />
+                                    </Span.GestureRecognizers>
+                                </Span>
+                                <Span Text=" " />
+                                <Span
+                                    FontFamily="{StaticResource MaterialDesignFont}"
+                                    Text="{x:Static other:MaterialDesignIcons.Launch}"
+                                    TextColor="{StaticResource LightTextColor}" />
+                            </FormattedString>
+                        </Label.FormattedText>
+                    </Label>
+
+                    <Label
+                        Grid.Row="3"
                         FontFamily="{StaticResource RalewayMediumFont}"
                         FontSize="16"
                         Text="Zadnja sprememba: " />
                     <Label
-                        Grid.Row="2"
+                        Grid.Row="3"
                         Grid.Column="1"
                         FontFamily="{StaticResource RalewayRegularFont}"
                         Text="{Binding Product.Timestamp, StringFormat='{}{0:dd.MM.yyyy}'}" />
 
                     <ImageButton
-                        Grid.Row="4"
+                        Grid.Row="5"
                         Grid.ColumnSpan="2"
                         Command="{Binding DeleteRequestCommand}"
                         HorizontalOptions="Start">
@@ -106,7 +150,7 @@
                         </ImageButton.Source>
                     </ImageButton>
                     <Button
-                        Grid.Row="3"
+                        Grid.Row="4"
                         Grid.ColumnSpan="2"
                         Padding="5,0,7,0"
                         Command="{Binding ApproveRequestCommand}"
@@ -123,7 +167,7 @@
                         </Button.ImageSource>
                     </Button>
                     <Button
-                        Grid.Row="4"
+                        Grid.Row="5"
                         Grid.ColumnSpan="2"
                         Padding="5,0,7,0"
                         Command="{Binding RejectRequestCommand}"

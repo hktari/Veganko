@@ -15,6 +15,7 @@ using Veganko.ViewModels.Products.ModRequests.Partial;
 using Veganko.ViewModels.Stores;
 using Veganko.Views;
 using Veganko.Views.Product;
+using Veganko.Views.Profile;
 using Veganko.Views.Stores;
 using Xamarin.Forms;
 
@@ -50,6 +51,16 @@ namespace Veganko.ViewModels.Products.ModRequests
         {
             get => canEditProduct;
             set => SetProperty(ref canEditProduct, value);
+        }
+
+        /// <summary>
+        /// Wheteher <see cref="EvaluatorsText"/> is empty.
+        /// </summary>
+        private bool anyEvaluators;
+        public bool AnyEvaluators
+        {
+            get => anyEvaluators;
+            set => SetProperty(ref anyEvaluators, value);
         }
 
         private IUserService UserService => App.IoC.Resolve<IUserService>();
@@ -174,11 +185,39 @@ namespace Veganko.ViewModels.Products.ModRequests
                            new EditProductPage(new EditProdModRequestViewModel(Product))));
                });
 
+        public Command NavigateToAuthorProfileCommand => new Command(
+            async () =>
+            {
+                if (Product.AuthorProfile != null)
+                {
+                    await App.Navigation.PushAsync(
+                        new UserProfileDetailPage(
+                            new Users.UserProfileDetailViewModel(Product.AuthorProfile)));
+                }
+            });
+
+        public Command NavigateToEvaluatorProfileCommand => new Command(
+            async () =>
+            {
+                if (Product.Model?.Evaluations?.FirstOrDefault()?.EvaluatorUserProfile is UserPublicInfo evaluator)
+                {
+                    await App.Navigation.PushAsync(
+                        new UserProfileDetailPage(
+                            new Users.UserProfileDetailViewModel(evaluator)));
+                }
+            });
+
         private string evaluatorsText;
         public string EvaluatorsText
         {
             get => evaluatorsText;
-            set => SetProperty(ref evaluatorsText, value);
+            set 
+            {
+                if (SetProperty(ref evaluatorsText, value))
+                {
+                    AnyEvaluators = !string.IsNullOrEmpty(value);
+                }
+            } 
         }
 
         public override async void OnPageAppearing()

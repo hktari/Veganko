@@ -3,6 +3,7 @@
     x:Class="Veganko.App"
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:controls="clr-namespace:Veganko.Controls"
     xmlns:converters="clr-namespace:Veganko.Converters">
     <Application.Resources>
         <ResourceDictionary>
@@ -12,7 +13,7 @@
             <Color x:Key="LightBackgroundColor">#FAFAFA</Color>
             <Color x:Key="DarkBackgroundColor">#8DDD</Color>
             <Color x:Key="MediumGrayTextColor">#4d4d4d</Color>
-            <Color x:Key="LightTextColor">#999999</Color>
+            <Color x:Key="LightTextColor">#737373</Color>
             <Color x:Key="TransparentErrorColor">#DDFF4438</Color>
 
             <OnPlatform
@@ -85,7 +86,6 @@
                 <Setter Property="TextColor" Value="#737373" />
             </Style>
 
-
             <!--  The referenced resources need to be defined before this. Otherwise app crashes on droid with "Optimize Code" enabled.  -->
             <Style x:Key="PositiveBtn" TargetType="Button">
                 <Setter Property="BackgroundColor" Value="{StaticResource PrimaryDark}" />
@@ -105,6 +105,11 @@
             <converters:FirstValidationErrorConverter x:Key="FirstValidationErrorConverter" />
             <converters:IntToStarConverter x:Key="IntToStarConverter" />
             <converters:UACConverter x:Key="UACConverter" />
+
+            <Style x:Key="LinkLabelStyle" TargetType="Label">
+                <Setter Property="FontFamily" Value="{StaticResource RalewayLightFont}" />
+                <Setter Property="TextColor" Value="#737373" />
+            </Style>
 
             <Style x:Key="LinkSpanStyle" TargetType="Span">
                 <Setter Property="FontFamily" Value="{StaticResource RalewayLightFont}" />
