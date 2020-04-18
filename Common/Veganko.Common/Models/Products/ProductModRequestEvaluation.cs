@@ -1,5 +1,7 @@
 ﻿using Newtonsoft.Json;
 using System;
+using System.ComponentModel.DataAnnotations.Schema;
+using Veganko.Common.Models.Users;
 
 namespace Veganko.Common.Models.Products
 {
@@ -7,6 +9,10 @@ namespace Veganko.Common.Models.Products
     {
         public string Id { get; set; }
         public string EvaluatorUserId { get; set; }
+        
+        [NotMapped]
+        public UserPublicInfo EvaluatorUserProfile { get; set; }
+
         public DateTime Timestamp { get; set; }
         public ProductModRequestState State { get; set; }
 

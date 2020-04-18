@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Veganko.Common.Models.Users;
 
 namespace Veganko.Common.Models.Products
 {
@@ -16,6 +17,9 @@ namespace Veganko.Common.Models.Products
         public string Id { get; set; }
 
         public string UserId { get; set; }
+
+        [NotMapped]
+        public UserPublicInfo User { get; set; }
 
         /// <summary>
         /// The reference to the product that has been created with this mod request (action NEW).

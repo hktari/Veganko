@@ -5,6 +5,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using Veganko.Common.Models.Products;
+using VegankoService.Data.Users;
 using VegankoService.Models;
 
 namespace VegankoService.Data.ProductModRequests
@@ -12,10 +13,12 @@ namespace VegankoService.Data.ProductModRequests
     public class ProductModRequestsRepository : IProductModRequestsRepository
     {
         private readonly VegankoContext context;
+        private readonly IUsersRepository usersRepository;
 
-        public ProductModRequestsRepository(VegankoContext context)
+        public ProductModRequestsRepository(VegankoContext context, IUsersRepository usersRepository)
         {
             this.context = context;
+            this.usersRepository = usersRepository;
         }
 
         public Task Create(ProductModRequest productModRequest)
@@ -30,12 +33,14 @@ namespace VegankoService.Data.ProductModRequests
             return context.SaveChangesAsync();
         }
 
-        public Task<ProductModRequest> Get(string id)
+        public async Task<ProductModRequest> Get(string id)
         {
-            return context.ProductModRequests
+            ProductModRequest prodModReq = await context.ProductModRequests
                 .Include(pmr => pmr.UnapprovedProduct)
                 .Include(pmr => pmr.Evaluations)
                 .FirstOrDefaultAsync(pmr => pmr.Id == id);
+
+            return prodModReq;
         }
 
         public PagedList<ProductModRequest> GetAll(ProductModReqQuery query)

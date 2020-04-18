@@ -1,6 +1,5 @@
 ﻿using Autofac;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Veganko.Common.Models.Products;
@@ -104,7 +103,7 @@ namespace Veganko.ViewModels.Products.ModRequests
             var productUpdate = await ProductModRequestService.GetAsync(Product.Model.Id);
             Product.Update(productUpdate);
             OnProductUpdated();
-            await LoadEvaluators();
+            LoadEvaluators();
         }
 
         public Command RejectRequestCommand => new Command(
@@ -185,29 +184,22 @@ namespace Veganko.ViewModels.Products.ModRequests
         public override async void OnPageAppearing()
         {
             base.OnPageAppearing();
-            await LoadEvaluators();
-        }
-
-        public async Task LoadEvaluators()
-        {
             try
             {
-                var evaluators = new List<UserPublicInfo>();
-                if (Product.Model.Evaluations != null)
-                {
-                    foreach (var evaluation in Product.Model.Evaluations)
-                    {
-                        evaluators.Add(
-                            await UserService.Get(evaluation.EvaluatorUserId));
-                    }
-                }
-
-                EvaluatorsText = string.Join(", ", evaluators.Select(eval => eval.Username));
+                await Refresh();
             }
-            catch (ServiceException ex)
+            catch (Exception ex)
             {
-                Logger.LogException(ex);
-                EvaluatorsText = "napaka pri nalaganju.";
+                Logger.LogException(new Exception("Failed to load detail data on appearing.", ex));
+            }
+        }
+
+        public void LoadEvaluators()
+        {
+            if (Product.Model.Evaluations != null)
+            {
+                EvaluatorsText = string.Join(", ", Product.Model.Evaluations.Select(
+                    eval => eval.EvaluatorUserProfile?.Username));
             }
         }
 

@@ -86,6 +86,7 @@ namespace VegankoService.Tests.IntegrationTests
             Assert.Equal(HttpStatusCode.OK, result.StatusCode);
             var pmr = JsonConvert.DeserializeObject<ProductModRequestDTO>(result.GetJson());
             Assert.NotNull(pmr.UnapprovedProduct);
+            Assert.NotNull(pmr.User);
         }
 
         [Fact]

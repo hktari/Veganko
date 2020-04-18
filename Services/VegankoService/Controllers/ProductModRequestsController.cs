@@ -78,14 +78,29 @@ namespace VegankoService.Controllers
                 return BadRequest(ModelState);
             }
 
-            var productModRequest = await productModReqRepository.Get(id);
+            var pmr = await productModReqRepository.Get(id);
 
-            if (productModRequest == null)
+            if (pmr == null)
             {
                 return NotFound();
             }
 
-            return Ok(productModRequest);
+            // Load user profile data
+            if (pmr != null)
+            {
+                pmr.User = usersRepository.GetProfile(pmr.UserId);
+            }
+
+            // Load evaluators profile data
+            if (pmr.Evaluations != null)
+            {
+                foreach (var eval in pmr.Evaluations)
+                {
+                    eval.EvaluatorUserProfile = usersRepository.GetProfile(eval.EvaluatorUserId); 
+                }
+            }
+
+            return Ok(pmr);
         }
 
         // PUT: api/ProductModRequests/5
