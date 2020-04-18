@@ -423,6 +423,7 @@ namespace VegankoService.Controllers
                 State = newState,
                 Timestamp = DateTime.Now,
             });
+            await context.SaveChangesAsync();
 
             productRequest.State = newState;
             await productModReqRepository.Update(productRequest);
@@ -455,8 +456,6 @@ namespace VegankoService.Controllers
                 return Unauthorized();
             }
 
-            productRequest.State = ProductModRequestState.Rejected;
-            await productModReqRepository.Update(productRequest);
             context.ProductModRequestEvaluations.Add(new ProductModRequestEvaluation
             {
                 EvaluatorUserId = user.Id,
@@ -464,6 +463,10 @@ namespace VegankoService.Controllers
                 State = ProductModRequestState.Rejected,
                 Timestamp = DateTime.Now,
             });
+            await context.SaveChangesAsync();
+
+            productRequest.State = ProductModRequestState.Rejected;
+            await productModReqRepository.Update(productRequest);
 
             return Ok(productRequest);
         }
