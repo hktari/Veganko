@@ -1,0 +1,684 @@
+{
+	"info": {
+		"_postman_id": "76ee55b6-884c-45dc-9354-c351f306dc2c",
+		"name": "Veganko",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Products",
+			"item": [
+				{
+					"name": "Get",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": ""
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get all",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": ""
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"name\": \"test\",\n\t\"imageData\": [255,0],\n\t\"productClassifiers\": \"1\",\n\t\"type\": \"food\"\n}"
+						},
+						"url": {
+							"raw": "https://localhost:44300/api/products/",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44300",
+							"path": [
+								"api",
+								"products",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Edit",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"id\":\"14bbbd61-2f8c-4dfe-b6c4-51291ad88667\",\"state\":0,\"name\":\"MS. 🐈\",\"brand\":\"ZALAS CUPS\",\"barcode\":null,\"imageName\":\"a5b1b2b9-2e40-4631-bb06-17619aa957b0.jpg\",\"description\":\"A relatively cute cup.\",\"productClassifiers\":128,\"type\":\"BEVERAGE\",\"rating\":0}"
+						},
+						"url": {
+							"raw": "https://{{endpoint}}/api/products/14bbbd61-2f8c-4dfe-b6c4-51291ad88667",
+							"protocol": "https",
+							"host": [
+								"{{endpoint}}"
+							],
+							"path": [
+								"api",
+								"products",
+								"14bbbd61-2f8c-4dfe-b6c4-51291ad88667"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Multipart",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"name\": \"test\",\n\t\"imageData\": [255,0],\n\t\"productClassifiers\": \"1\",\n\t\"type\": \"food\"\n}"
+						},
+						"url": {
+							"raw": "https://localhost:44300/api/products/",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44300",
+							"path": [
+								"api",
+								"products",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Add Image Multipart",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"name\": \"test\",\n\t\"imageData\": [255,0],\n\t\"productClassifiers\": \"1\",\n\t\"type\": \"food\"\n}"
+						},
+						"url": {
+							"raw": "https://localhost:44300/api/products/",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44300",
+							"path": [
+								"api",
+								"products",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": ""
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get product image",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": ""
+						}
+					},
+					"response": []
+				}
+			],
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "88ed55a5-4653-4af7-bf74-37aa99fa9480",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "b2b4010f-e8d8-4397-85aa-fbb53293660c",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Comments",
+			"item": [
+				{
+					"name": "GetAll",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": ""
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": ""
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": ""
+						}
+					},
+					"response": []
+				}
+			],
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "5ea14929-9372-4422-9055-5b96f6db7b09",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "2a02d444-0c4c-4f71-b5dc-2136cc187827",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Account",
+			"item": [
+				{
+					"name": "Register",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\t\"userName\": \"test\",\r\n    \"email\": \"test@gmail.com\",\r\n    \"description\": \"\",\r\n    \"label\": \"veganko\",\r\n    \"avatarId\": \"0\",\r\n    \"profileBackgroundId\": \"0\",\r\n    \"accessRights\": \"int.MaxValue\"\r\n}"
+						},
+						"url": {
+							"raw": "https://localhost:5001/api/account/register",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "5001",
+							"path": [
+								"api",
+								"account",
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Edit role",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"role\": \"manager\"\n}"
+						},
+						"url": {
+							"raw": "https://localhost:5001/api/account/fb62f857-c363-4b5b-b310-e33617fa9e78",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "5001",
+							"path": [
+								"api",
+								"account",
+								"fb62f857-c363-4b5b-b310-e33617fa9e78"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetAll",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\t\"userName\": \"test\",\r\n    \"email\": \"test@gmail.com\",\r\n    \"description\": \"\",\r\n    \"label\": \"veganko\",\r\n    \"avatarId\": \"0\",\r\n    \"profileBackgroundId\": \"0\",\r\n    \"accessRights\": \"int.MaxValue\"\r\n}"
+						},
+						"url": {
+							"raw": "https://localhost:5001/api/account/register",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "5001",
+							"path": [
+								"api",
+								"account",
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Login",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "eb38d6bb-d4a5-43c7-91d5-97368cab76e8",
+								"exec": [
+									"pm.globals.set(\"token\", pm.response.json().token.auth_token);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"email\": \"bkamnik1995@gmail.com\",\n\t\"password\": \"hello123\"\n}"
+						},
+						"url": {
+							"raw": "https://localhost:5001/api/auth/login",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "5001",
+							"path": [
+								"api",
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Admin login",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "8d8e3b21-75bd-4248-80e3-58f49967073e",
+								"exec": [
+									"pm.globals.set(\"token\", response[\"auth_token\"]);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"userName\": \"banbanthedestroyer\",\n\t\"password\": \"@veg5399_*\"\n}"
+						},
+						"url": {
+							"raw": "https://localhost:5001/api/auth/login",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "5001",
+							"path": [
+								"api",
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Clear token",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": ""
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "forgot password",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"email\": \"bkannik1995@gmail.com\"\n}"
+						},
+						"url": {
+							"raw": "https://localhost:5001/api/account/forgotpassword",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "5001",
+							"path": [
+								"api",
+								"account",
+								"forgotpassword"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "reset password",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"code\":\"CfDJ8BILm4oLMPJBkDVq+2cx7elqpyDCpdkjoLHSxZUdaAqS3WNSAh/AiXmKwrK6U+LxfuE1FNX8Ku4sYuYn0lUt3cNOCPK6uLtc3v1752n8IWvRLmMOWMm/ReeahKuCERMt7eM2BecmQlkwsoPIehnKg1xFMQK9Hj7Rku1OyHdo1yGrtTfLl7glqHokc5Mh8inypHKq1HtPvb/abtUD3wnJ8aNX+hhJcHn6AIUKzeXEFmKj\",\n\t\"email\":\"mujoinhaso19\",\n\t\"password\":\"salama123\",\n\t\"confirmpassword\":\"salama123\"\n}"
+						},
+						"url": {
+							"raw": ""
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Validate OTP",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"code\":\"CfDJ8BILm4oLMPJBkDVq+2cx7elqpyDCpdkjoLHSxZUdaAqS3WNSAh/AiXmKwrK6U+LxfuE1FNX8Ku4sYuYn0lUt3cNOCPK6uLtc3v1752n8IWvRLmMOWMm/ReeahKuCERMt7eM2BecmQlkwsoPIehnKg1xFMQK9Hj7Rku1OyHdo1yGrtTfLl7glqHokc5Mh8inypHKq1HtPvb/abtUD3wnJ8aNX+hhJcHn6AIUKzeXEFmKj\",\n\t\"email\":\"mujoinhaso19\",\n\t\"password\":\"salama123\",\n\t\"confirmpassword\":\"salama123\"\n}"
+						},
+						"url": {
+							"raw": ""
+						}
+					},
+					"response": []
+				}
+			],
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "6f4a02f8-c6e8-4441-b526-8fe4252a96eb",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "f258b0c3-8cb1-4ea5-bab6-e35e8e97bf50",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Stores",
+			"item": [
+				{
+					"name": "Create",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": ""
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Edit",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": ""
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get all",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": ""
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": ""
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "token",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": ""
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Confirm",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": ""
+				}
+			},
+			"response": []
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJiYW5iYW50aGVkZXN0cm95ZXJAZW1haWwuY29tIiwianRpIjoiMjJmMGQ1Y2YtYzYwOS00NGNkLTkwZTAtMWUyOWJjMDdiNTU1IiwiaWF0IjoxNTg2MDAwODA3LCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiYmFuYmFudGhlZGVzdHJveWVyQGVtYWlsLmNvbSIsImlkIjoiZWU5NTZiNzEtYzRmMy00YWZmLWFmMGEtNjBlNTI5M2M3NGJjIiwicm9sIjoiYXBpX2FjY2VzcyIsImh0dHA6Ly9zY2hlbWFzLm1pY3Jvc29mdC5jb20vd3MvMjAwOC8wNi9pZGVudGl0eS9jbGFpbXMvcm9sZSI6IkFkbWluIiwibmJmIjoxNTg2MDAwODA2LCJleHAiOjE1ODYwMDgwMDYsImlzcyI6IndlYkFwaSIsImF1ZCI6Imh0dHA6Ly9sb2NhbGhvc3Q6NTAwMC8ifQ.G-x0SNmOVDp7xGiRSzIjgWyHdJyxXTSWVs6HDw1mYCo",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"id": "d4294476-236a-4695-9a29-840e175f0235",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"id": "5d62cdf0-66f7-4f43-8444-db85ecb71387",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"id": "7a746f81-3c20-4515-8b2b-5dd34457e742",
+			"key": "baseUrl",
+			"value": "127.0.0.1:44300",
+			"type": "string"
+		}
+	],
+	"protocolProfileBehavior": {}
+}
