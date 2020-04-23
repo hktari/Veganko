@@ -95,14 +95,6 @@ namespace Veganko
             //#endif
             // UWP requirement
             MainPage = new NavigationPage(new Loginpage());
-            //MainPage = new MainPage();
-
-            // TODO: remove after certificates have been fixed
-            //HttpClientHandler handler = new HttpClientHandler();
-            //handler.ServerCertificateCustomValidationCallback = (message, cert, chain, errors) => true;
-            //HttpClient client = new HttpClient(handler);
-            //FFImageLoading.ImageService.Instance.Config.HttpClient = client;
-            //ServicePointManager.ServerCertificateValidationCallback += (sender, certificate, chain, sslPolicyErrors) => { return true; };
         }
 
         public static void SetCurrentTab(int tabIdx)

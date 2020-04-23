@@ -24,6 +24,14 @@ namespace Veganko.ViewModels.Stores
             logger = App.IoC.Resolve<ILogger>();
         }
 
+        // TODO: when store picked to upper the name
+        // TODO: allow editing of the name if string !IsNullOrWhiteSpace
+        // TODO: after submited, save to cache as "recently added"
+// TODO: disable naslov field
+
+        // TODO: compare name with list of verified (common) store names. If NO exact match and suggestions not empty SHOW
+        //          when picked replace name with picked item
+
         private Command submitCommand;
         public Command SubmitCommand => submitCommand ?? (submitCommand = new Command(
             async () =>

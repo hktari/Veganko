@@ -1,0 +1,8 @@
+logging into GENEXIS ROUTER: 192.168.1.254 -> admin ; admin
+
+DOTNET INSTALL
+	https://docs.microsoft.com/en-us/dotnet/core/install/runtime?pivots=os-linux#download-and-manually-install
+
+MARIADB INSTALL
+	https://downloads.mariadb.org/mariadb/repositories/#distro=Debian&distro_release=buster--buster&mirror=digitalocean-ams
+	https://websiteforstudents.com/mariadb-installed-without-password-prompts-for-root-on-ubuntu-17-10-18-04-beta/

@@ -24,6 +24,10 @@ namespace Veganko.ViewModels.Stores
         private GooglePlacesApiService _api;
         private ILogger logger;
 
+        // TODO: load recently "added" store addresses
+        // TODO: on apearing show recently added if any otherwise clear
+        // TODO: automatic focus keypad
+
         public PickStoreViewModel()
         {
             logger = App.IoC.Resolve<ILogger>();

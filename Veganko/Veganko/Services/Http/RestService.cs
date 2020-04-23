@@ -17,14 +17,14 @@ namespace Veganko.Services.Http
     {
 #if DEBUG
 #if __ANDROID__
-        //public const string Endpoint = "https://www.veganko.online/api";
+        //public const string Endpoint = "https://www.veganko.bid/api";
         public const string Endpoint = "http://10.0.2.2:5000/api";
 #else
-        //public const string Endpoint = "https://www.veganko.online/api";
-        public const string Endpoint = "http://localhost:5000/api";
+        public const string Endpoint = "https://www.veganko.bid/api";
+        //public const string Endpoint = "http://localhost:5000/api";
 #endif
 #else
-        public const string Endpoint = "https://www.veganko.online/api";
+        public const string Endpoint = "https://www.veganko.bid/api";
 #endif
 
 
@@ -35,7 +35,6 @@ namespace Veganko.Services.Http
         {
             client = new RestClient(Endpoint)
                 .UseSerializer(() => new JsonNetSerializer(logger));
-            client.RemoteCertificateValidationCallback = (p1, p2, p3, p4) => true;
             client.Timeout = 10000; // 10s
             this.logger = logger;
         }
