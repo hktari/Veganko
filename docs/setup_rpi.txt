@@ -6,3 +6,12 @@ DOTNET INSTALL
 MARIADB INSTALL
 	https://downloads.mariadb.org/mariadb/repositories/#distro=Debian&distro_release=buster--buster&mirror=digitalocean-ams
 	https://websiteforstudents.com/mariadb-installed-without-password-prompts-for-root-on-ubuntu-17-10-18-04-beta/
+	*IN CASE OF DB MIGRATION ERR: https://dba.stackexchange.com/questions/59407/how-to-make-mysql-table-name-case-insensitive-in-ubuntu 
+
+SSH
+	https://www.cyberciti.biz/faq/how-to-set-up-ssh-keys-on-linux-unix/ 
+	.ssh/config
+		Host rpi
+			Hostname 192.168.1.149
+			User pi
+			IdentityFile ~/.ssh/id_rpi
